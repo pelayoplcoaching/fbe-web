@@ -1,0 +1,286 @@
+[
+ {
+  "libro": {
+   "capitulo": "Desayunos",
+   "bloque": "Sin cocinar",
+   "codigo": "03.17",
+   "descripcion": "Sabe a tarta de manzana y son 30 g de proteína sin cocinar nada.",
+   "dificultad": "Fácil",
+   "batch": "No",
+   "objetivo": "Todos",
+   "nota": "Si lo dejas 10 minutos, la avena se ablanda y queda más cremoso.",
+   "medidas": [
+    "1 tarrina mediana",
+    "1 manzana",
+    "3 cucharadas",
+    "una pizca",
+    "2 nueces"
+   ]
+  },
+  "nombre": "Queso fresco batido con manzana, canela y avena",
+  "etiquetas": [
+   "vegetariana",
+   "rápida"
+  ],
+  "proteina_g": 30.0,
+  "kcal": 403,
+  "minutos": 4
+ },
+ {
+  "libro": {
+   "capitulo": "Desayunos",
+   "bloque": "Huevos y sartén",
+   "codigo": "03.50",
+   "descripcion": "El revuelto vegano: la cúrcuma le da el color y el tofu, 37 g de proteína.",
+   "dificultad": "Fácil",
+   "batch": "No",
+   "objetivo": "Todos",
+   "nota": "La levadura nutricional le da un punto a queso; si no tienes, no pasa nada.",
+   "medidas": [
+    "1 bloque pequeño",
+    "8 tomates cherry",
+    "un puñado",
+    "media cucharadita",
+    "1 cucharadita",
+    "2 rebanadas pequeñas",
+    "1 cucharada"
+   ]
+  },
+  "nombre": "Revuelto de tofu con cúrcuma y tomate",
+  "etiquetas": [
+   "vegetariana",
+   "vegana",
+   "sin lactosa",
+   "rápida"
+  ],
+  "proteina_g": 37.6,
+  "kcal": 497,
+  "minutos": 10
+ },
+ {
+  "libro": {
+   "capitulo": "Comidas principales",
+   "bloque": "Arroces y pastas",
+   "codigo": "04.29",
+   "descripcion": "Un plato de pasta con 45 g de proteína que sale en lo que tarda en cocer la pasta.",
+   "dificultad": "Fácil",
+   "batch": "No",
+   "objetivo": "Todos",
+   "medidas": [
+    "un puñado grueso",
+    "15 gambas peladas",
+    "3 dientes",
+    "1 guindilla",
+    "1 cucharada",
+    "un puñado",
+    "un chorrito"
+   ]
+  },
+  "nombre": "Espaguetis integrales con gambas al ajillo",
+  "etiquetas": [
+   "sin lactosa",
+   "rápida"
+  ],
+  "proteina_g": 43.5,
+  "kcal": 534,
+  "minutos": 15
+ },
+ {
+  "libro": {
+   "capitulo": "Comidas principales",
+   "bloque": "Legumbres y cuchara",
+   "codigo": "04.50",
+   "descripcion": "Nadie nota que no lleva carne, y trae más proteína que el original.",
+   "dificultad": "Fácil",
+   "batch": "Sí (4 días o congelado)",
+   "objetivo": "Todos",
+   "medidas": [
+    "2 vasos",
+    "1 bote grande escurrido",
+    "1 bote",
+    "1 cebolla",
+    "1 pimiento",
+    "1 lata pequeña",
+    "1 cucharadita",
+    "2 cucharadas",
+    "1 vaso y cuarto"
+   ]
+  },
+  "nombre": "Chili vegano de soja texturizada",
+  "etiquetas": [
+   "vegetariana",
+   "vegana",
+   "sin gluten",
+   "sin lactosa"
+  ],
+  "proteina_g": 35.6,
+  "kcal": 558,
+  "minutos": 35
+ },
+ {
+  "libro": {
+   "capitulo": "Comidas principales",
+   "bloque": "Boles y platos únicos",
+   "codigo": "04.a04",
+   "descripcion": "El poke del reparto a domicilio por un tercio del precio.",
+   "dificultad": "Fácil",
+   "batch": "No",
+   "objetivo": "Todos",
+   "nota": "Usa atún que haya estado congelado al menos 5 días.",
+   "medidas": [
+    "1 lomo",
+    "1 vasito",
+    "medio mango pequeño",
+    "un puñado",
+    "un tercio",
+    "1 cucharada",
+    "1 cucharadita",
+    "1 cucharadita"
+   ]
+  },
+  "nombre": "Poke de atún, mango y edamame",
+  "etiquetas": [
+   "sin lactosa",
+   "rápida"
+  ],
+  "proteina_g": 48.1,
+  "kcal": 570,
+  "minutos": 15
+ },
+ {
+  "libro": {
+   "capitulo": "Cenas",
+   "bloque": "Tortillas y huevos",
+   "codigo": "05.19",
+   "descripcion": "El revuelto se termina fuera del fuego: así queda jugoso.",
+   "dificultad": "Fácil",
+   "batch": "No",
+   "objetivo": "Todos",
+   "medidas": [
+    "2 huevos",
+    "1 manojo pequeño",
+    "8 gambas peladas",
+    "1 diente",
+    "1 cucharadita colmada",
+    "1 rebanada"
+   ]
+  },
+  "nombre": "Revuelto de espárragos trigueros y gambas",
+  "etiquetas": [
+   "sin lactosa",
+   "rápida"
+  ],
+  "proteina_g": 40.6,
+  "kcal": 448,
+  "minutos": 10
+ },
+ {
+  "libro": {
+   "capitulo": "Media mañana y meriendas",
+   "bloque": "Sin cocinar",
+   "codigo": "09.01",
+   "descripcion": "La merienda base: dos minutos y 27 g de proteína.",
+   "dificultad": "Fácil",
+   "batch": "No",
+   "objetivo": "Todos",
+   "medidas": [
+    "2 yogures",
+    "3 nueces",
+    "1 cucharadita"
+   ]
+  },
+  "nombre": "Yogur alto en proteínas con nueces y miel",
+  "etiquetas": [
+   "vegetariana",
+   "sin gluten",
+   "rápida"
+  ],
+  "proteina_g": 27.3,
+  "kcal": 276,
+  "minutos": 2
+ },
+ {
+  "libro": {
+   "capitulo": "Táper y varios días",
+   "bloque": "Bandejas de horno",
+   "codigo": "10.13",
+   "descripcion": "El meal prep más repetido del mundo, porque funciona.",
+   "dificultad": "Fácil",
+   "batch": "Sí (4 días en nevera)",
+   "objetivo": "Todos",
+   "encaje": "Cuatro táperes iguales: proteína, hidrato y verdura ya repartidos.",
+   "medidas": [
+    "8 contramuslos deshuesados",
+    "2 boniatos grandes",
+    "1 pieza grande",
+    "2 cucharadas",
+    "1 cucharada",
+    "3 dientes",
+    "al gusto"
+   ]
+  },
+  "nombre": "Bandeja de pollo, boniato y brócoli",
+  "etiquetas": [
+   "sin gluten",
+   "sin lactosa"
+  ],
+  "proteina_g": 45.4,
+  "kcal": 478,
+  "minutos": 40
+ },
+ {
+  "libro": {
+   "capitulo": "En 10 minutos, microondas y freidora de aire",
+   "bloque": "Microondas",
+   "codigo": "11.17",
+   "descripcion": "Dos minutos y medio: queda jugoso y la cocina no huele.",
+   "dificultad": "Fácil",
+   "batch": "No",
+   "objetivo": "Todos",
+   "medidas": [
+    "1 lomo",
+    "1 cucharada",
+    "una pizca",
+    "1 vasito",
+    "un puñado",
+    "una pizca"
+   ]
+  },
+  "nombre": "Salmón al microondas con soja y arroz",
+  "etiquetas": [
+   "sin lactosa",
+   "microondas",
+   "rápida"
+  ],
+  "proteina_g": 41.7,
+  "kcal": 585,
+  "minutos": 6
+ },
+ {
+  "libro": {
+   "capitulo": "Postres y dulces con proteína",
+   "bloque": "De cuchara y en vasito",
+   "codigo": "12.01",
+   "descripcion": "Espesa, intensa y con más proteína que un filete.",
+   "dificultad": "Fácil",
+   "batch": "Sí (3 días en nevera)",
+   "objetivo": "Todos",
+   "medidas": [
+    "1 tarrina grande",
+    "2 cucharadas",
+    "1 cazo",
+    "1 cucharada y media",
+    "un puñado"
+   ]
+  },
+  "nombre": "Mousse de chocolate con queso batido",
+  "etiquetas": [
+   "vegetariana",
+   "sin gluten",
+   "rápida"
+  ],
+  "proteina_g": 29.8,
+  "kcal": 199,
+  "minutos": 5
+ }
+]
