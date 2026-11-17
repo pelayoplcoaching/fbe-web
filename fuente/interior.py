@@ -50,7 +50,7 @@ pagina('quien-soy.html', 'Quién soy', 'Pelayo Fernández Cidón, médico intern
     </ol></div>
   <aside class="pegada sube"><h3>Formación</h3><ul class="marcas"><li>Especialista en Medicina Interna</li><li>Experto universitario en entrenamiento de fuerza</li><li>Máster en nutrición clínica</li><li>Más de 15 años entrenando fuerza</li></ul><a class="btn" href="{FORM}">Pedir plaza</a><div class="redes claras">{''.join(f'<a href="{u}" target="_blank" rel="noopener">{t}</a>' for t, u in REDES)}</div></aside>
 </div></section>
-<section class="lema-banda"><div class="in sube"><blockquote>Lo que no puedes sostener en tu día a día, no sirve.</blockquote><p>Pelayo Fernández Cidón</p></div></section>
+<section class="lema-banda">{ilus("web-frase", "lema-fondo")}<div class="in sube"><blockquote>Lo que no puedes sostener en tu día a día, no sirve.</blockquote><p>Pelayo Fernández Cidón</p></div></section>
 <section class="hoja"><div class="in"><div class="entrada sube"><h2>Cómo trabajo</h2></div>
   <div class="ciencia"><div class="rej">
     <article class="idea sube"><h3>Primero, tu contexto</h3><p>El plan se ajusta a tu historial médico, tu dolor si lo hay, tu horario, tu estrés, tu sueño y lo que ya hayas probado.</p></article>

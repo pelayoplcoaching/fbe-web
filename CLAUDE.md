@@ -18,6 +18,8 @@ rm sitio.py web-fbe-equipo.html sitio-inicio.html
 - `sitio.css` y `mini.js`: estilos y guion comunes de las interiores (se añaden por tandas al final).
 - `ext/`: el trazo del lobo (copiado de la app) y 10 recetas de muestra.
 - `web-img/`: ilustraciones opcionales. Si existe `web-<pagina>.webp` sustituye al lobo de la cabecera; si existe `guia-<nombre>.webp` sustituye al dibujo de la portada (nombres en `GIMG` de interior.py).
+- Otras ilustraciones de `web-img/`: `web-404.webp` (cabecera de la 404), `web-frase.webp` (fondo de la banda del lema en Quien soy) y `web-compartir.webp` (fondo de `og.png`). Los PNG de ChatGPT se recortan antes: cabeceras, el 64 % derecho; portadas de guias, el 72 % superior.
+- `og.mjs` necesita la letra Archivo. Si no hay acceso a Google Fonts: `npm i @fontsource-variable/archivo` y `FBE_FUENTE=<ruta>/files/archivo-latin-wdth-normal.woff2 node og.mjs`.
 - `ver3.mjs` importa `servir` de `/home/claude/app-atletas/test/servidor.mjs` (repo fbe-equipo); si no está, usar cualquier servidor estático.
 
 ## Reglas
