@@ -482,3 +482,6 @@ main a:not(.btn):not(.caja):not(.comp):not(.ancla) { text-decoration-color: var(
 .portada:has(.foto-g) { height: 10.5rem; background: linear-gradient(150deg, var(--noche-2), var(--noche)); }
 .guia.g2 .portada:has(.foto-g) { height: auto; }
 .lema-banda { overflow: hidden; } .lema-banda .lema-fondo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; -webkit-mask-image: linear-gradient(180deg, transparent, #000 18%, #000 82%, transparent); mask-image: linear-gradient(180deg, transparent, #000 18%, #000 82%, transparent); } .lema-banda .in { position: relative; }
+/* tanda 17/11 (3): ilustraciones en Quien soy y en los ultimos envios del boletin */
+.idea .foto-i, .caja .foto-c, .correo .foto-b { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 1rem; margin-bottom: 1.1rem; background: var(--noche); }
+.correo .foto-b { object-position: right center; }

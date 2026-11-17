@@ -39,6 +39,7 @@ SI = f'<span class="v si">{ico("si")}<b>Sí</b></span>'; NO = f'<span class="v n
 
 # ===== quién soy =====
 LDP = '<script type="application/ld+json">' + json.dumps({'@context': 'https://schema.org', '@type': 'Person', 'name': 'Pelayo Fernández Cidón', 'jobTitle': 'Médico especialista en Medicina Interna y entrenador', 'url': WEB + 'quien-soy.html', 'worksFor': {'@type': 'Organization', 'name': 'Fuerza Basada en Evidencia', 'url': WEB}, 'sameAs': [u for _, u in REDES]}, ensure_ascii=False) + '</script>'
+def caja_i(n, i): return ilus(n, 'foto-c') or f'<i class="ic">{ico(i)}</i>'
 pagina('quien-soy.html', 'Quién soy', 'Pelayo Fernández Cidón, médico internista y entrenador: cómo trabajo y con quién.', 'Médico de día. Entrenador el resto.', 'Soy Pelayo Fernández Cidón, especialista en medicina interna. Prescribo ejercicio de fuerza y nutrición a gente con poco tiempo que quiere un plan claro y con base científica.', f'''
 <section><div class="in dos">
   <div class="sube"><div class="entrada"><h2>Cómo empezó</h2></div>
@@ -53,16 +54,16 @@ pagina('quien-soy.html', 'Quién soy', 'Pelayo Fernández Cidón, médico intern
 <section class="lema-banda">{ilus("web-frase", "lema-fondo")}<div class="in sube"><blockquote>Lo que no puedes sostener en tu día a día, no sirve.</blockquote><p>Pelayo Fernández Cidón</p></div></section>
 <section class="hoja"><div class="in"><div class="entrada sube"><h2>Cómo trabajo</h2></div>
   <div class="ciencia"><div class="rej">
-    <article class="idea sube"><h3>Primero, tu contexto</h3><p>El plan se ajusta a tu historial médico, tu dolor si lo hay, tu horario, tu estrés, tu sueño y lo que ya hayas probado.</p></article>
-    <article class="idea sube"><h3>La fuerza, en el centro</h3><p>Con 45 a 60 minutos bien usados basta. Volumen, intensidad y progresión, decididos y por escrito.</p></article>
-    <article class="idea sube"><h3>Evidencia que cabe en tu vida</h3><p>Guías clínicas y consensos internacionales, aplicados a una semana que tiene guardias, niños o viajes.</p></article>
+    <article class="idea sube">{ilus("web-contexto", "foto-i")}<h3>Primero, tu contexto</h3><p>El plan se ajusta a tu historial médico, tu dolor si lo hay, tu horario, tu estrés, tu sueño y lo que ya hayas probado.</p></article>
+    <article class="idea sube">{ilus("web-fuerza-centro", "foto-i")}<h3>La fuerza, en el centro</h3><p>Con 45 a 60 minutos bien usados basta. Volumen, intensidad y progresión, decididos y por escrito.</p></article>
+    <article class="idea sube">{ilus("web-evidencia", "foto-i")}<h3>Evidencia que cabe en tu vida</h3><p>Guías clínicas y consensos internacionales, aplicados a una semana que tiene guardias, niños o viajes.</p></article>
   </div></div></div></section>
 <section><div class="in"><div class="entrada sube"><h2>Con quién trabajo</h2></div>
   <div class="bento">
-    <div class="caja sube"><i class="ic">{ico('reloj')}</i><h3>Profesionales con poco tiempo</h3><p>Jornadas largas, turnos rotatorios o guardias.</p></div>
-    <div class="caja sube"><i class="ic">{ico('cambio')}</i><h3>Dolor o lesiones previas</h3><p>Molestias musculoesqueléticas que condicionan cómo entrenar.</p></div>
-    <div class="caja sube"><i class="ic">{ico('candado')}</i><h3>Patología crónica controlada</h3><p>Quien quiere entrenar con seguridad y con alguien que entiende su tratamiento.</p></div>
-    <div class="caja sube"><i class="ic">{ico('grafica')}</i><h3>Hartos de rutinas genéricas</h3><p>Quien ya ha probado plantillas y quiere algo hecho para él.</p></div>
+    <div class="caja sube">{caja_i('web-poco-tiempo', 'reloj')}<h3>Profesionales con poco tiempo</h3><p>Jornadas largas, turnos rotatorios o guardias.</p></div>
+    <div class="caja sube">{caja_i('web-dolor', 'cambio')}<h3>Dolor o lesiones previas</h3><p>Molestias musculoesqueléticas que condicionan cómo entrenar.</p></div>
+    <div class="caja sube">{caja_i('web-cronica', 'candado')}<h3>Patología crónica controlada</h3><p>Quien quiere entrenar con seguridad y con alguien que entiende su tratamiento.</p></div>
+    <div class="caja sube">{caja_i('web-genericas', 'grafica')}<h3>Hartos de rutinas genéricas</h3><p>Quien ya ha probado plantillas y quiere algo hecho para él.</p></div>
   </div></div></section>
 {voz_banda(1)}
 <section class="hoja"><div class="in"><div class="entrada sube"><h2>Lo que publico</h2><p>Si todavía no quieres una asesoría, empieza por aquí.</p></div>
@@ -185,6 +186,7 @@ JS_G = '''<script>(function(){var D=document,g=D.getElementById('filtro'),n=D.ge
 pagina('guias.html', 'Guías', 'Guías prácticas y descargables sobre entrenamiento, fuerza y nutrición con respaldo científico.', 'Ciencia útil, lista para descargar.', 'Nueve guías prácticas sobre entrenamiento, fuerza y nutrición, con respaldo científico y pensadas para aplicarlas.', '<section><div class="in"><div class="empieza sube"><div><h2>¿Por cuál empiezo?</h2><p id="emp-t" role="status">Dime qué buscas y te señalo una.</p></div><div class="fases claras" id="emp" role="group" aria-label="Qué buscas"><button type="button" data-g="0">Tengo guardias o turnos</button><button type="button" data-g="1">Perder grasa</button><button type="button" data-g="4">Ganar músculo</button><button type="button" data-g="2">Tengo poco tiempo</button><button type="button" data-g="5">Cuidar mi salud</button></div></div><div class="barra-f sube"><div class="fases claras" id="filtro" role="group" aria-label="Filtrar por tema"><button type="button" data-t="" aria-pressed="true">Todas</button><button type="button" data-t="entreno" aria-pressed="false">Entrenamiento</button><button type="button" data-t="nutri" aria-pressed="false">Nutrición</button><button type="button" data-t="salud" aria-pressed="false">Salud</button></div><span id="cuantas" role="status">9 guías</span></div><div class="guias">' + ''.join(guia(i, g) for i, g in enumerate(G)) + f'</div><div class="calc sube" style="margin-top:3rem"><div><h3>Gratis: calculadora de proteína</h3><p>Tu rango diario según tu peso y tu fase, con reparto por comidas.</p></div><div><a class="btn claro" href="{CALC}">Abrir la calculadora</a></div></div></div></section>' + JS_G + LDG, datos(('9', 'guías'), ('5,99 €', 'la mayoría'), ('3', 'temas: entrenar, comer y salud')), ('¿Quieres que lo aplique contigo?', 'Las guías explican el porqué. En la asesoría lo llevo a tu semana.'))
 
 # ===== newsletter =====
+BIMG = ['boletin-habito', 'boletin-cafeina', 'boletin-pulsaciones']
 ENV = [('El hábito que movió mis marcadores', 'Lo que descubrí que les afectaba más que entrenar más duro.'), ('700 mg de cafeína sin darme cuenta', 'Cómo un médico llega ahí, y qué hice después.'), ('46 pulsaciones en reposo', 'Sin ser perfecto en nada. Qué hice y qué no.')]
 pagina('newsletter.html', 'Newsletter', 'El boletín semanal de Fuerza Basada en Evidencia: entrenamiento, nutrición y salud, sin mitos.', 'Lo que sí funciona. Cada semana, en tu correo.', 'Entrenamiento, nutrición y salud con base científica. Sin mitos y sin adornos, para entrenar mejor, comer con cabeza y vivir con energía.', f'''
 <section><div class="in dos alta">
@@ -193,7 +195,7 @@ pagina('newsletter.html', 'Newsletter', 'El boletín semanal de Fuerza Basada en
   <div class="sube"><h3 style="margin-bottom:1.2rem">Qué te llega</h3><ul class="marcas" style="font-size:1.08rem;gap:.9rem"><li><strong>Una idea por correo</strong>, para aplicarla esa semana.</li><li><strong>Lo que me pasa a mí</strong>: lo que pruebo, lo que mido y en qué me equivoco.</li><li><strong>La evidencia detrás</strong>, sin tecnicismos de más.</li></ul></div>
 </div></section>
 <section class="hoja"><div class="in"><div class="entrada sube"><h2>Lo último que he enviado</h2></div>
-  <div class="boletin">{''.join(f'<article class="correo sube"><p class="de"><span class="cara peq">PF</span><span><b>Pelayo, de FBE</b><small>Asunto</small></span></p><h3>{t}</h3><p>{d}</p></article>' for t, d in ENV)}</div>
+  <div class="boletin">{''.join(f'<article class="correo sube">{ilus(BIMG[ENV.index((t, d))], "foto-b")}<p class="de"><span class="cara peq">PF</span><span><b>Pelayo, de FBE</b><small>Asunto</small></span></p><h3>{t}</h3><p>{d}</p></article>' for t, d in ENV)}</div>
 </div></section>
 <script>(function(w,d,e,u,f,l,n){{w[f]=w[f]||function(){{(w[f].q=w[f].q||[]).push(arguments);}},l=d.createElement(e),l.async=1,l.src=u,n=d.getElementsByTagName(e)[0],n.parentNode.insertBefore(l,n);}})(window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');ml('account','1626427');</script>''', f'<div class="cta"><a class="btn claro" href="#alta">Suscribirme</a></div>')
 
