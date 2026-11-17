@@ -472,3 +472,7 @@ main a:not(.btn):not(.caja):not(.comp):not(.ancla) { text-decoration-color: var(
 @media (max-width: 980px) { .testi { grid-template-columns: 1fr; } .testi > .voz:first-child { grid-row: auto; } footer .in { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem 1.5rem; } footer .legal { grid-column: 1 / -1; } .pag-puesta-a-punto .dos > .pegada { order: -1; } .hero.mini .marca-agua { right: -3rem; } .hero.mini .ilus { max-width: 70%; opacity: .5; } }
 @media (max-width: 760px) { .aviso .btn { width: 100%; justify-content: center; box-sizing: border-box; text-align: center; } .compara.ancha tbody th { max-width: 8.5rem; font-size: .9rem; } footer .in { grid-template-columns: 1fr; } }
 @media (max-width: 600px) { .guias { grid-template-columns: 1fr; } .planes > .plan:last-child:nth-child(odd) { grid-column: auto; } }
+/* tanda 17/11: ilustraciones de cabecera sin pisar el texto */
+.hero.mini .ilus { max-width: 46%; object-position: center; -webkit-mask-image: linear-gradient(90deg, transparent, #000 60%); mask-image: linear-gradient(90deg, transparent, #000 60%); }
+@media (max-width: 1100px) { .hero.mini .ilus { max-width: 52%; opacity: .5; } }
+@media (max-width: 760px) { .hero.mini .ilus { max-width: 90%; opacity: .2; -webkit-mask-image: linear-gradient(90deg, transparent, #000 70%); mask-image: linear-gradient(90deg, transparent, #000 70%); } }

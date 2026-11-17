@@ -226,7 +226,7 @@ pagina('dudas.html', 'Dudas', 'Preguntas frecuentes sobre la asesoría de Fuerza
 open(f'{SAL}/favicon.svg', 'w', encoding='utf-8').write(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1254 1254"><rect width="1254" height="1254" rx="280" fill="#593EDE"/><g transform="translate(627 627) scale(.82) translate(-627 -628)"><path fill="#fff" fill-rule="evenodd" d="{LD}"/></g></svg>')
 open(f'{SAL}/404.html', 'w', encoding='utf-8').write(f'''{cabeza('404.html', 'Página no encontrada', 'Esta página no existe.', '<meta name="robots" content="noindex">')}
 {cabecera()}
-<header class="hero mini t-404" id="inicio">{ANILLOS}<div class="in"><div class="txt"><p class="num404" aria-hidden="true">404</p><h1>Aquí no hay nada.</h1><p class="sub">La página que buscas no existe o ha cambiado de sitio. Estas sí están:</p><div class="cta"><a class="btn claro" href="index.html">Ir al inicio</a><a class="enl" href="programas.html">Programas</a><a class="enl" href="guias.html">Guías</a><a class="enl" href="dudas.html">Dudas</a></div></div></div></header>
+<header class="hero mini t-404" id="inicio">{ANILLOS}{ilus("web-404")}<div class="in"><div class="txt"><p class="num404" aria-hidden="true">404</p><h1>Aquí no hay nada.</h1><p class="sub">La página que buscas no existe o ha cambiado de sitio. Estas sí están:</p><div class="cta"><a class="btn claro" href="index.html">Ir al inicio</a><a class="enl" href="programas.html">Programas</a><a class="enl" href="guias.html">Guías</a><a class="enl" href="dudas.html">Dudas</a></div></div></div></header>
 <main id="contenido"></main>
 {PIE}
 <script src="fbe.js"></script></body></html>''')
