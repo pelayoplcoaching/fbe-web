@@ -492,6 +492,9 @@ main a:not(.btn):not(.caja):not(.comp):not(.ancla) { text-decoration-color: var(
 /* tanda 17/11 (3): ilustraciones en Quien soy y en los ultimos envios del boletin */
 .idea .foto-i, .caja .foto-c, .correo .foto-b { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 1rem; margin-bottom: 1.1rem; background: var(--noche); }
 .correo .foto-b { object-position: right center; }
+/* tanda 17/11 (4): banner con foto en Puesta a punto */
+.banner { display: block; width: 100%; border-radius: clamp(1.2rem, 3vw, 2rem); box-shadow: var(--sombra-s); }
+@media (max-width: 760px) { .banner { aspect-ratio: 4 / 3; object-fit: cover; object-position: 78% center; } }
 </style>
 <script>document.documentElement.classList.add('js');</script>
 <a class="salto" href="#semana">Saltar al contenido</a>
@@ -666,7 +669,7 @@ main a:not(.btn):not(.caja):not(.comp):not(.ancla) { text-decoration-color: var(
 
 <section id="quien" class="sin-arriba"><div class="in">
   <div class="ficha sube">
-    <div class="retrato">PF<img loading="lazy" src="https://storage.mlcdn.com/account_image/1626427/9IMbm5EtFHhfSdYJ65FBb9koyf2wl2C5kufOmYtZ.png" alt="Pelayo Fernández Cidón" onerror="this.remove()"></div>
+    <div class="retrato">PF<img loading="lazy" src="img/foto-pelayo.webp" alt="Pelayo Fernández Cidón" onerror="this.remove()"></div>
     <div><h2>Pelayo Fernández Cidón</h2><p class="rol">Médico internista y entrenador</p>
       <p>Soy médico especialista en medicina interna en el Hospital Universitario La Paz (Madrid). Tengo un experto universitario en entrenamiento de fuerza y un máster en nutrición clínica. Llevo más de quince años entrenando y desde 2020 dirijo FBE, Fuerza Basada en Evidencia.</p>
       <p><a href="quien-soy.html">Mi historia, entera</a></p>

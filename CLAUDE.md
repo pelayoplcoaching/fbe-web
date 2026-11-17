@@ -20,6 +20,7 @@ rm sitio.py web-fbe-equipo.html sitio-inicio.html
 - `web-img/`: ilustraciones opcionales. Si existe `web-<pagina>.webp` sustituye al lobo de la cabecera; si existe `guia-<nombre>.webp` sustituye al dibujo de la portada (nombres en `GIMG` de interior.py).
 - Otras ilustraciones de `web-img/`: `web-404.webp` (cabecera de la 404), `web-frase.webp` (fondo de la banda del lema en Quien soy) y `web-compartir.webp` (fondo de `og.png`). Los PNG de ChatGPT se recortan antes: cabeceras, el 64 % derecho; portadas de guias, el 72 % superior.
 - Tambien en `web-img/`: `web-contexto`, `web-fuerza-centro`, `web-evidencia` (tarjetas de Como trabajo), `web-poco-tiempo`, `web-dolor`, `web-cronica`, `web-genericas` (Con quien trabajo; si falta, sale el icono) y `boletin-habito`, `boletin-cafeina`, `boletin-pulsaciones` (ultimos envios, lista `BIMG` en el mismo orden que `ENV`; cambiar cuando cambien los envios). Colocadas las 27 ilustraciones el 17/11/2026.
+- Fotos reales de Pelayo en `web-img/`: `foto-pelayo.webp` (retrato 4:5 de Quien soy y de la portada; sale de su foto redonda, con las esquinas rellenadas con el fondo morado; si falta, se usa la de MailerLite) y `foto-banner.webp` (banda en Puesta a punto, tras «Que incluye»).
 - `og.mjs` necesita la letra Archivo. Si no hay acceso a Google Fonts: `npm i @fontsource-variable/archivo` y `FBE_FUENTE=<ruta>/files/archivo-latin-wdth-normal.woff2 node og.mjs`.
 - `ver3.mjs` importa `servir` de `/home/claude/app-atletas/test/servidor.mjs` (repo fbe-equipo); si no está, usar cualquier servidor estático.
 

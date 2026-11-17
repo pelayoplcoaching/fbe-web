@@ -3,6 +3,8 @@ import json
 WEB = 'https://fuerzabasadaenevidencia.com/'
 ML = 'https://storage.mlcdn.com/account_image/1626427/'
 FOTO = ML + '9IMbm5EtFHhfSdYJ65FBb9koyf2wl2C5kufOmYtZ.png'
+if os.path.exists('web-img/foto-pelayo.webp'):
+    os.makedirs(f'{SAL}/img', exist_ok=True); shutil.copy('web-img/foto-pelayo.webp', f'{SAL}/img/foto-pelayo.webp'); FOTO = 'img/foto-pelayo.webp'
 # testimonios: se leen de la portada ya montada (h), para no repetirlos aqui
 VOCES = re.findall(r'<figure class="voz sube" style="margin:0">(.*?)</figure>', h, re.S)
 assert len(VOCES) == 4
@@ -120,6 +122,8 @@ FQ = [('¿Incluye seguimiento?', 'No. Es una consulta y un plan. Tienes una rond
 LDS = '<script type="application/ld+json">' + json.dumps([{'@context': 'https://schema.org', '@type': 'Service', 'name': 'Puesta a punto', 'provider': {'@type': 'Person', 'name': 'Pelayo Fernández Cidón'}, 'description': 'Consulta por videollamada, lectura de analítica y plan de entrenamiento y nutrición para 12 semanas.', 'offers': {'@type': 'Offer', 'price': '250', 'priceCurrency': 'EUR', 'url': STRIPE}}, {'@context': 'https://schema.org', '@type': 'FAQPage', 'mainEntity': [{'@type': 'Question', 'name': q, 'acceptedAnswer': {'@type': 'Answer', 'text': a}} for q, a in FQ]}], ensure_ascii=False) + '</script>'
 ANA = ['Hemograma', 'Ferritina', 'Glucosa o HbA1c', 'Perfil lipídico', 'TSH', 'Vitamina D', 'Creatinina', 'Transaminasas', 'B12 y folato']
 FIJO_P = f'<a class="arriba" id="arriba" href="#contenido" aria-label="Volver arriba">{ico("sube")}</a>\n<div class="fijo" id="fijo"><a class="sec" href="programas.html">Programas</a><a class="btn claro" href="{STRIPE}">Reservar por 250 €</a></div>'
+BANNER = ilus('foto-banner', 'banner sube').replace('alt=""', 'alt="Pelayo Fernández Cidón, médico internista"')
+if BANNER: BANNER = f'<section class="sin-arriba"><div class="in">{BANNER}</div></section>'
 pagina('puesta-a-punto.html', 'Puesta a punto', 'Una consulta, un plan de 12 semanas y la lectura de tu analítica por un médico internista. Sin seguimiento. 250 €.', 'Una consulta, un plan, sin seguimiento.', 'Un médico internista lee tu analítica y tu historial, hablamos 30 minutos por videollamada y en menos de 7 días tienes tu plan de entrenamiento y nutrición para 12 semanas.', f'''
 <section><div class="in dos">
   <div class="sube"><div class="entrada"><h2>Qué incluye</h2></div>
@@ -138,6 +142,7 @@ pagina('puesta-a-punto.html', 'Puesta a punto', 'Una consulta, un plan de 12 sem
   </div>
   <aside class="pegada sube"><p class="precio">250 € <small>pago único, IVA incluido</small></p><ul class="marcas"><li>Videollamada de 30 minutos</li><li>Plan entregado en menos de 7 días</li><li>Plan para 12 semanas</li><li>Se puede regalar</li></ul><a class="btn" href="{STRIPE}">Reservar mi plaza</a><small style="color:var(--tinta-2)">Pago con tarjeta por Stripe al reservar. Acepto una o dos consultas por semana.</small><a href="{ESCRIBE}">Tengo una duda antes</a></aside>
 </div></section>
+{BANNER}
 <section class="pasos">{ANILLOS}<div class="in"><div class="entrada sube"><h2>Cómo va</h2><p>De la reserva al plan, en cuatro pasos.</p></div>
   <ol class="cuatro">
     <li class="sube"><h3>Reservas</h3><p>Pagas con tarjeta y tu plaza queda guardada.</p></li>

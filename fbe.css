@@ -485,3 +485,6 @@ main a:not(.btn):not(.caja):not(.comp):not(.ancla) { text-decoration-color: var(
 /* tanda 17/11 (3): ilustraciones en Quien soy y en los ultimos envios del boletin */
 .idea .foto-i, .caja .foto-c, .correo .foto-b { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 1rem; margin-bottom: 1.1rem; background: var(--noche); }
 .correo .foto-b { object-position: right center; }
+/* tanda 17/11 (4): banner con foto en Puesta a punto */
+.banner { display: block; width: 100%; border-radius: clamp(1.2rem, 3vw, 2rem); box-shadow: var(--sombra-s); }
+@media (max-width: 760px) { .banner { aspect-ratio: 4 / 3; object-fit: cover; object-position: 78% center; } }
