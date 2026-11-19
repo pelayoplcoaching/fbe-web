@@ -281,3 +281,34 @@
 .fbe-lp .fbe-steps span strong{display:block}
 .fbe-lp .fbe-curve svg .cut{stroke-dasharray:7 7}
 @media (min-width:760px){.fbe-lp .fbe-steps--2{grid-template-columns:1fr 1fr}.fbe-lp .fbe-steps--2 li::after{display:none}}
+
+/* ---- tanda 3: otras 20 mejoras de aspecto, propias de esta landing (19/11/2026) ---- */
+.fbe-lp .fbe-shot::before{content:'';position:absolute;left:8%;top:8%;width:84%;aspect-ratio:1;border-radius:50%;border:2px dashed rgba(107,33,168,.38);box-shadow:0 0 0 22px rgba(255,255,255,.38)}
+.fbe-lp .fbe-hero{box-shadow:inset 0 0 0 1px rgba(255,255,255,.85),0 30px 60px -40px rgba(63,16,112,.6)}
+.fbe-lp .fbe-hero h1 em{display:inline-block;margin-top:.12em;padding:.02em .28em .1em;border-radius:.3em;background:#6B21A8;color:#fff;transform:rotate(-1.5deg);box-shadow:5px 6px 0 #131118;animation:none}
+.fbe-lp .fbe-hero .fbe-eyebrow{font-size:11px;letter-spacing:.09em;padding:7px 13px;border-radius:999px;background:#fff;box-shadow:0 8px 18px -12px rgba(63,16,112,.6)}
+.fbe-lp .fbe-checks{gap:8px}
+.fbe-lp .fbe-checks li{padding:10px 14px;border-radius:16px;background:rgba(255,255,255,.72);border:1px solid rgba(107,33,168,.14)}
+.fbe-lp .fbe-float::before{content:'';width:9px;height:9px;margin-right:8px;border-radius:50%;background:#6B21A8}
+.fbe-lp .fbe-float--a::before{background:#D8C5F1}
+.fbe-lp .fbe-arrow{background:linear-gradient(135deg,#7B2CC2,#4F1583);box-shadow:0 0 0 7px #ECE2F9}
+.fbe-lp .fbe-steps--2 b{background:linear-gradient(135deg,#7B2CC2,#4F1583)}
+.fbe-lp .fbe-steps--2 li:nth-child(even){background:#FAF7FD}
+.fbe-lp .fbe-stat--o{box-shadow:7px 8px 0 #131118}
+.fbe-lp .fbe-index li{border-left:5px solid #D8C5F1}
+.fbe-lp .fbe-index li:hover{border-left-color:#6B21A8}
+.fbe-lp .fbe-day__d{font-style:italic}
+.fbe-lp .fbe-day li{border-top-style:dashed}
+.fbe-lp .fbe-day li::before{border-radius:9px}
+.fbe-lp .fbe-specs b{background:linear-gradient(135deg,#7B2CC2,#4F1583);-webkit-background-clip:text;background-clip:text;color:transparent}
+.fbe-lp .fbe-use{position:relative}
+.fbe-lp .fbe-use::before{content:'';position:absolute;z-index:2;left:calc(50% - 22px);top:-13px;width:30px;height:30px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#B57BEA,#4F1583);box-shadow:0 6px 10px -4px rgba(19,17,24,.6)}
+.fbe-lp .fbe-fit--yes li::before{background:linear-gradient(135deg,#7B2CC2,#4F1583);color:#fff}
+.fbe-lp .fbe-warn{border:1px solid #D8C5F1;border-left:6px solid #6B21A8;background:#fff;box-shadow:0 18px 40px -30px rgba(63,16,112,.6)}
+.fbe-lp .fbe-quote{background:radial-gradient(rgba(255,255,255,.09) 1px,transparent 1.4px) 0 0/22px 22px,linear-gradient(135deg,#6B21A8,#3F1070)}
+.fbe-lp .fbe-quote span{font-size:96px}
+.fbe-lp .fbe-refs li em{padding:1px 8px;border-radius:999px;background:#F6F1FC;font-style:normal;font-weight:700;color:#4E1580}
+.fbe-lp .fbe-faq summary::after{background:linear-gradient(135deg,#7B2CC2,#4F1583);color:#fff}
+.fbe-lp .fbe-final .fbe-pic{box-shadow:10px 12px 0 #6B21A8,0 0 0 6px rgba(255,255,255,.12)}
+@media (hover:hover){.fbe-lp .fbe-refs li:hover{transform:translateY(-3px)}}
+@media (min-width:760px){.fbe-lp .fbe-use::before{left:calc(25% - 26px)}}
