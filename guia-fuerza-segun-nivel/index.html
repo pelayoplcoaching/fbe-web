@@ -201,6 +201,12 @@ img{height:auto}
 .fbe-cta .btn{display:block;text-align:center;padding:16px}
 .fbe-cta.off{opacity:0;transform:translateY(90px);pointer-events:none}
 }
+.fbe-form .cols{grid-template-columns:1fr 1fr}
+.fbe-form .guide{transform:none}
+.fbe-duo img{aspect-ratio:3/2;object-fit:cover}
+.fbe-wide{margin:0 0 40px;border:1px solid var(--ln);border-radius:16px;aspect-ratio:21/9;object-fit:cover;box-shadow:0 0 60px -14px rgba(168,85,247,.6)}
+.fbe-end{background:linear-gradient(90deg,rgba(13,10,20,.94) 0%,rgba(13,10,20,.8) 60%,rgba(13,10,20,.25) 100%),url(img/barra.webp) right center/cover no-repeat,#0D0A14}
+@media (max-width:820px){.fbe-form .cols{grid-template-columns:1fr}.fbe-form .guide{max-width:none}.fbe-wide{aspect-ratio:16/9;margin-bottom:28px}.fbe-end{background:linear-gradient(180deg,rgba(13,10,20,.82),rgba(13,10,20,.7)),url(img/barra.webp) 78% center/cover no-repeat,#0D0A14}}
 </style>
 </head>
 <body>
@@ -227,7 +233,7 @@ img{height:auto}
 </div></div></section>
 <div class="fbe-tick" aria-hidden="true"><div><span>PRENSIÓN DE MANO</span><i>//</i><span>SILLA · 5 LEVANTADAS</span><i>//</i><span>FLEXIONES</span><i>//</i><span>HOJA DE REGISTRO</span><i>//</i><span>PDF · 10 PÁGINAS</span><i>//</i><span>GRATIS</span><i>//</i><span>PRENSIÓN DE MANO</span><i>//</i><span>SILLA · 5 LEVANTADAS</span><i>//</i><span>FLEXIONES</span><i>//</i><span>HOJA DE REGISTRO</span><i>//</i><span>PDF · 10 PÁGINAS</span><i>//</i><span>GRATIS</span><i>//</i><span>PRENSIÓN DE MANO</span><i>//</i><span>SILLA · 5 LEVANTADAS</span><i>//</i><span>FLEXIONES</span><i>//</i><span>HOJA DE REGISTRO</span><i>//</i><span>PDF · 10 PÁGINAS</span><i>//</i><span>GRATIS</span><i>//</i><span>PRENSIÓN DE MANO</span><i>//</i><span>SILLA · 5 LEVANTADAS</span><i>//</i><span>FLEXIONES</span><i>//</i><span>HOJA DE REGISTRO</span><i>//</i><span>PDF · 10 PÁGINAS</span><i>//</i><span>GRATIS</span><i>//</i></div></div>
 <section class="fbe-form" id="guia"><div class="wrap"><div class="cols">
-<img class="fbe-img guide" src="img/guia-impresa.webp" width="640" height="800" alt="La guía impresa junto a un dinamómetro de mano">
+<img class="fbe-img guide" src="img/guia-impresa.webp" width="900" height="507" alt="Un cuaderno violeta, hojas con gráficos y un dinamómetro de mano">
 <div>
 <h2>Dime tu email y es tuya</h2>
 <p>La descargas al momento, en la página siguiente.</p>
@@ -264,7 +270,7 @@ img{height:auto}
 <section class="fbe-in"><div class="wrap">
 <span class="eyebrow">Qué hay dentro</span>
 <h2 class="title">Tres tablas para saber dónde estás y una hoja para ver hacia dónde vas</h2>
-<img class="fbe-img banner" src="img/objetos.webp" width="1200" height="600" alt="Un dinamómetro de mano, un cronómetro y una silla: las tres medidas de la guía">
+<img class="fbe-img banner" src="img/objetos.webp" width="1200" height="675" alt="Un dinamómetro de mano, un cronómetro y una silla: las tres medidas de la guía">
 <div class="grid">
 <div class="card"><div class="n">1</div><div><h3>La fuerza de la mano</h3><p>La tabla completa por edad y sexo, en franjas de cinco años, con percentil bajo, medio y alto. Y cómo medirla bien con un dinamómetro.</p></div><span class="eyebrow">Página 3 · en kilos</span></div>
 <div class="card"><div class="n">2</div><div><h3>La silla: cinco levantadas</h3><p>Cuántos segundos tarda la persona media de tu edad, cuántos el 20 % más rápido y los tres pasos para hacerla sin trampas.</p></div><span class="eyebrow">Página 4 · en segundos</span></div>
@@ -272,12 +278,13 @@ img{height:auto}
 <div class="card"><div class="n">4</div><div><h3>Tu hoja de registro</h3><p>Para apuntar las tres medidas cada dos o tres meses. Lo que importa es si tu línea sube o se mantiene, no el número suelto.</p></div><span class="eyebrow">Página 8 · para un año</span></div>
 </div>
 <div class="fbe-duo">
-<figure><img class="fbe-img" src="img/silla.webp" width="900" height="600" alt="Mujer levantándose de una silla con los brazos cruzados sobre el pecho"><figcaption>La silla: cinco levantadas, brazos cruzados, cronómetro en marcha.</figcaption></figure>
-<figure><img class="fbe-img" src="img/flexion.webp" width="900" height="600" alt="Hombre en la posición alta de una flexión"><figcaption>Flexiones seguidas, sin parar y con el pecho abajo en cada una.</figcaption></figure>
+<figure><img class="fbe-img" src="img/silla.webp" width="900" height="600" alt="Una silla de madera sin ruedas y un cronómetro en el suelo"><figcaption>La silla: cinco levantadas, brazos cruzados, cronómetro en marcha.</figcaption></figure>
+<figure><img class="fbe-img" src="img/flexion.webp" width="900" height="507" alt="Una esterilla con las dos marcas de las manos iluminadas"><figcaption>Flexiones seguidas, sin parar y con el pecho abajo en cada una.</figcaption></figure>
 </div>
 </div></section>
 <div class="fbe-rule" style="background-color:#FFFBF7" aria-hidden="true"></div>
 <section class="fbe-stats"><div class="wrap">
+<img class="fbe-img fbe-wide" src="img/dinamometro.webp" width="1200" height="675" alt="Un dinamómetro de mano con un halo de luz violeta" loading="lazy">
 <span class="eyebrow">De dónde salen los números</span>
 <h2 class="title">De gente normal de tu edad, no de usuarios de una app</h2>
 <div class="grid">
