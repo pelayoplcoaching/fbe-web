@@ -312,3 +312,7 @@
 .fbe-lp .fbe-final .fbe-pic{box-shadow:10px 12px 0 #6B21A8,0 0 0 6px rgba(255,255,255,.12)}
 @media (hover:hover){.fbe-lp .fbe-refs li:hover{transform:translateY(-3px)}}
 @media (min-width:760px){.fbe-lp .fbe-use::before{left:calc(25% - 26px)}}
+
+/* ---- ilustraciones de seccion (19/11/2026) ---- */
+.fbe-lp .fbe-ban{display:block;width:100%;max-width:820px;margin:0 auto 20px;aspect-ratio:3/2;object-fit:cover;border-radius:26px;box-shadow:0 0 0 1px #D8C5F1,0 26px 54px -30px rgba(63,16,112,.75)}
+@media (min-width:760px){.fbe-lp .fbe-ban{aspect-ratio:16/9}}
