@@ -317,3 +317,104 @@
 .fbe-lp .fbe-trust li::before{border-radius:5px}
 .fx .fbe-curve svg .ln:nth-of-type(4){transition-delay:.95s}
 @media (min-width:760px){.fbe-lp .fbe-wk{grid-template-columns:repeat(4,1fr)}.fbe-lp .fbe-steps--3{grid-template-columns:repeat(3,1fr);align-items:stretch}}
+
+/* ---- tanda futurista: 20 mejoras (19/11/2026). Luz de neon, cristal, letra de panel y rejilla. El movimiento se apaga con prefers-reduced-motion ---- */
+.fbe-lp{--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;--neon:0 0 0 1px rgba(181,123,234,.55),0 0 22px -2px rgba(123,44,194,.55)}
+::selection{background:#6B21A8;color:#fff}
+.fx-prog i{background:linear-gradient(90deg,#D8C5F1,#8B3FD0,#6B21A8);box-shadow:0 0 12px #8B3FD0}
+.fx-top{border-bottom:1px solid rgba(181,123,234,.6);box-shadow:0 0 24px -6px #8B3FD0}
+/* 1. cabecera holografica */
+.fbe-lp .fbe-hero{border:1px solid #D8C5F1;background:linear-gradient(rgba(107,33,168,.09) 1px,transparent 1px) 0 0/100% 24px,linear-gradient(90deg,rgba(107,33,168,.09) 1px,transparent 1px) 0 0/24px 100%,radial-gradient(700px 420px at 100% 0%,rgba(181,123,234,.45),transparent 62%),radial-gradient(560px 380px at 0% 100%,rgba(216,197,241,.8),transparent 62%),linear-gradient(135deg,#FFFFFF,#F4EEFC 55%,#E6D6F8);box-shadow:var(--neon),0 40px 80px -50px rgba(107,33,168,.9)}
+/* 2. esquinas de visor */
+.fbe-lp .fbe-hero::before{display:block;inset:10px;-webkit-mask-image:none;mask-image:none;background:linear-gradient(#6B21A8,#6B21A8) 0 0/28px 2px no-repeat,linear-gradient(#6B21A8,#6B21A8) 0 0/2px 28px no-repeat,linear-gradient(#6B21A8,#6B21A8) 100% 0/28px 2px no-repeat,linear-gradient(#6B21A8,#6B21A8) 100% 0/2px 28px no-repeat,linear-gradient(#6B21A8,#6B21A8) 0 100%/28px 2px no-repeat,linear-gradient(#6B21A8,#6B21A8) 0 100%/2px 28px no-repeat,linear-gradient(#6B21A8,#6B21A8) 100% 100%/28px 2px no-repeat,linear-gradient(#6B21A8,#6B21A8) 100% 100%/2px 28px no-repeat;pointer-events:none}
+/* 3. linea de escaneo */
+.fbe-lp .fbe-hero::after{left:0;right:0;top:0;width:auto;height:2px;border-radius:0;background:linear-gradient(90deg,transparent,#B57BEA 30%,#6B21A8 50%,#B57BEA 70%,transparent);box-shadow:0 0 16px 2px rgba(139,63,208,.6);opacity:.75;animation:fxscan 7s linear infinite}
+@keyframes fxscan{from{transform:translateY(0)}to{transform:translateY(1100px)}}
+/* 4. rotulos con letra de panel */
+.fbe-lp .fbe-eyebrow,.fbe-lp .fbe-pill,.fbe-lp .fbe-hero__note,.fbe-lp .fbe-stat__src,.fbe-lp .fbe-wk__k,.fbe-lp .fbe-index i,.fbe-lp .fbe-role,.fbe-lp .fbe-quote footer,.fx-top span span{font-family:var(--mono);letter-spacing:.06em}
+.fbe-lp .fbe-hero__top{border-bottom:1px solid #B57BEA}
+.fbe-lp .fbe-hero .fbe-pill{background:rgba(255,255,255,.6);color:#4E1580;border:1px solid #8B3FD0;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);box-shadow:0 0 14px -4px #8B3FD0}
+.fbe-lp .fbe-hero .fbe-pill::before{content:'';width:7px;height:7px;margin-right:8px;border-radius:50%;background:#6B21A8;box-shadow:0 0 8px 2px #B57BEA;animation:fxtw 1.6s ease-in-out infinite alternate}
+.fbe-lp .fbe-hero .fbe-eyebrow{background:rgba(255,255,255,.7);border:1px solid #D8C5F1}
+/* 5. titular con capsula de neon */
+.fbe-lp .fbe-hero h1 em{background:linear-gradient(135deg,#8B3FD0,#4F1583);box-shadow:0 0 0 1px #B57BEA,0 0 26px rgba(139,63,208,.75);transform:none;border-radius:.26em}
+/* 6. botones con resplandor */
+.fbe-lp .fbe-btn,.fbe-lp .fbe-hero .fbe-btn,.fbe-lp .fbe-ok .fbe-btn{border:1px solid #D8C5F1;background:linear-gradient(135deg,#8B3FD0,#4F1583);color:#fff;box-shadow:0 0 0 4px rgba(139,63,208,.16),0 0 28px rgba(139,63,208,.7);animation:fxpulse 2.8s ease-in-out infinite}
+.fbe-lp .fbe-final .fbe-btn{background:#fff;color:#6B21A8;box-shadow:0 0 0 4px rgba(255,255,255,.14),0 0 30px rgba(216,197,241,.8)}
+@keyframes fxpulse{0%,100%{box-shadow:0 0 0 4px rgba(139,63,208,.16),0 0 22px rgba(139,63,208,.55)}50%{box-shadow:0 0 0 7px rgba(139,63,208,.1),0 0 36px rgba(139,63,208,.9)}}
+.fx-cta{box-shadow:0 0 18px rgba(139,63,208,.7)}
+/* 7. marcas de cristal */
+.fbe-lp .fbe-checks li{background:rgba(255,255,255,.6);border:1px solid #D8C5F1;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.fbe-lp .fbe-checks li::before{box-shadow:0 0 12px rgba(139,63,208,.8)}
+/* 8. anillo holografico tras la portada */
+.fbe-lp .fbe-shot::before{content:'';position:absolute;left:3%;top:7%;width:94%;aspect-ratio:1;border-radius:50%;border:0;box-shadow:none;background:conic-gradient(#6B21A8,#D8C5F1,#fff,#B57BEA,#131118,#6B21A8);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 5px),#000 calc(100% - 4px));mask:radial-gradient(farthest-side,transparent calc(100% - 5px),#000 calc(100% - 4px));animation:fxspin 16s linear infinite}
+@keyframes fxspin{to{transform:rotate(360deg)}}
+.fbe-lp .fbe-shot img{box-shadow:0 0 0 1px #B57BEA,0 0 34px rgba(123,44,194,.55),0 30px 60px -20px rgba(63,16,112,.6)}
+/* 9. fichas flotantes de cristal */
+.fbe-lp .fbe-float{font-family:var(--mono);font-size:13px;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.fbe-lp .fbe-float--b{background:rgba(255,255,255,.82);border:1px solid #8B3FD0;box-shadow:0 0 18px -2px rgba(139,63,208,.7)}
+.fbe-lp .fbe-float--a{background:rgba(19,17,24,.88);border:1px solid #B57BEA;box-shadow:0 0 18px -2px rgba(139,63,208,.8)}
+/* 10. formulario con borde de luz que corre */
+.fbe-lp .fbe-form{background:linear-gradient(#fff,#fff) padding-box,linear-gradient(120deg,#6B21A8,#D8C5F1,#131118,#B57BEA,#6B21A8,#D8C5F1) border-box;background-size:auto,300% 100%;animation:fxflow 7s linear infinite;box-shadow:0 0 40px -10px rgba(139,63,208,.75)}
+@keyframes fxflow{from{background-position:0 0,0% 0}to{background-position:0 0,150% 0}}
+.fbe-lp .fbe-arrow{box-shadow:0 0 0 7px rgba(139,63,208,.14),0 0 24px rgba(139,63,208,.8)}
+.fbe-lp .fbe-formintro .fbe-eyebrow{border:1px solid #B57BEA}
+/* 11. raya de luz bajo los titulares */
+.fbe-lp .fbe-sec__head h2::after{width:120px;height:3px;background:linear-gradient(90deg,#6B21A8,#B57BEA 60%,transparent);box-shadow:0 0 12px rgba(139,63,208,.8)}
+/* 12. las tres reglas, en paneles */
+.fbe-lp .fbe-steps--3 li{position:relative;overflow:hidden;border:1px solid #D8C5F1;background:linear-gradient(180deg,#fff,#FAF7FD);box-shadow:var(--neon)}
+.fbe-lp .fbe-steps--3 li::before{content:'';position:absolute;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,#6B21A8,#B57BEA,transparent)}
+.fbe-lp .fbe-steps--3 b{font-family:var(--mono);border-radius:10px;box-shadow:0 0 18px rgba(139,63,208,.8)}
+/* 13. cifras con contorno de neon */
+.fbe-lp .fbe-stat--o,.fbe-lp .fbe-stat--l,.fbe-lp .fbe-stat--d{box-shadow:var(--neon)}
+.fbe-lp .fbe-stat__n{font-family:var(--mono);letter-spacing:-.06em}
+.fbe-lp .fbe-stat--o .fbe-stat__n,.fbe-lp .fbe-stat--d .fbe-stat__n{text-shadow:0 0 22px rgba(216,197,241,.8)}
+.fbe-lp .fbe-stat--d{background:linear-gradient(rgba(181,123,234,.1) 1px,transparent 1px) 0 0/100% 22px,#131118}
+/* 14. grafica con barras que brillan */
+.fbe-lp .fbe-curve{border:1px solid #6B21A8;box-shadow:var(--neon);background:linear-gradient(rgba(181,123,234,.1) 1px,transparent 1px) 0 0/100% 26px,linear-gradient(90deg,rgba(181,123,234,.1) 1px,transparent 1px) 0 0/26px 100%,radial-gradient(520px 320px at 100% 0%,rgba(107,33,168,.55),transparent 65%),linear-gradient(160deg,#1B1526,#0B090F)}
+.fbe-lp .fbe-curve::before{display:none}
+.fbe-lp .fbe-curve svg .ln{filter:drop-shadow(0 0 7px rgba(181,123,234,.85))}
+.fbe-lp .fbe-curve svg text{font-family:var(--mono)}
+/* 15. indice con numeros entre corchetes */
+.fbe-lp .fbe-index b{font-family:var(--mono);background:#131118;color:#D8C5F1;border:1px solid #8B3FD0;box-shadow:0 0 12px -2px rgba(139,63,208,.8)}
+.fbe-lp .fbe-index li{border-left:3px solid #8B3FD0}
+.fbe-lp .fbe-index li:hover{box-shadow:var(--neon)}
+/* 16. la sesion */
+.fbe-lp .fbe-day{border:1px solid #D8C5F1;box-shadow:var(--neon)}
+.fbe-lp .fbe-day__h{font-family:var(--mono);font-size:15px;letter-spacing:.1em;text-transform:uppercase;background-image:repeating-linear-gradient(0deg,rgba(255,255,255,.07) 0,rgba(255,255,255,.07) 1px,transparent 1px,transparent 4px)}
+.fbe-lp .fbe-day--b .fbe-day__h{background:repeating-linear-gradient(0deg,rgba(255,255,255,.08) 0,rgba(255,255,255,.08) 1px,transparent 1px,transparent 4px),linear-gradient(135deg,#6B21A8,#3F1070)}
+.fbe-lp .fbe-day li::before{font-family:var(--mono);background:#131118;color:#D8C5F1}
+.fbe-lp .fbe-specs span{border-color:#D8C5F1}
+.fbe-lp .fbe-specs b{font-family:var(--mono)}
+/* 17. las cuatro semanas con barra de avance */
+.fbe-lp .fbe-wk>li{border:1px solid #D8C5F1;border-top:1px solid #D8C5F1;box-shadow:var(--neon);background:linear-gradient(180deg,#fff,#FAF7FD)}
+.fbe-lp .fbe-wk>li::after{content:'';display:block;height:6px;margin-top:16px;border-radius:999px;background:linear-gradient(90deg,#6B21A8,#B57BEA) 0 0/var(--p) 100% no-repeat,#ECE2F9;box-shadow:0 0 10px -2px rgba(139,63,208,.7)}
+.fbe-lp .fbe-wk>li:nth-child(1){--p:25%}
+.fbe-lp .fbe-wk>li:nth-child(2){--p:50%}
+.fbe-lp .fbe-wk>li:nth-child(3){--p:75%}
+.fbe-lp .fbe-wk>li:nth-child(4){--p:100%}
+.fbe-lp .fbe-wk__k i{border-color:#6B21A8;box-shadow:0 0 12px rgba(139,63,208,.7)}
+.fbe-lp .fbe-wk b{font-family:var(--mono)}
+/* 18. foto y pasos */
+.fbe-lp .fbe-use .fbe-pic{transform:none;box-shadow:0 0 0 1px #B57BEA,0 0 0 6px rgba(139,63,208,.12),0 0 40px rgba(123,44,194,.55)}
+.fbe-lp .fbe-steps li{border-color:#D8C5F1}
+.fbe-lp .fbe-steps li:not(:last-child)::after{background:#8B3FD0;box-shadow:0 0 8px #8B3FD0}
+.fbe-lp .fbe-steps b{font-family:var(--mono);background:#131118;color:#D8C5F1;box-shadow:0 0 0 1px #8B3FD0,0 0 12px rgba(139,63,208,.7)}
+.fbe-lp .fbe-fit--yes{box-shadow:var(--neon)}
+.fbe-lp .fbe-warn{box-shadow:var(--neon)}
+/* 19. cita y cierre: rejilla con horizonte */
+.fbe-lp .fbe-quote,.fbe-lp .fbe-final{border:1px solid #6B21A8;box-shadow:var(--neon);background:linear-gradient(rgba(181,123,234,.13) 1px,transparent 1px) 0 0/100% 26px,linear-gradient(90deg,rgba(181,123,234,.13) 1px,transparent 1px) 0 0/26px 100%,radial-gradient(90% 70% at 50% 115%,rgba(139,63,208,.75),transparent 62%),linear-gradient(180deg,#0B090F,#1B1526)}
+.fbe-lp .fbe-quote::before,.fbe-lp .fbe-quote::after,.fbe-lp .fbe-final::after{display:none}
+.fbe-lp .fbe-quote p{text-shadow:0 0 24px rgba(181,123,234,.6)}
+.fbe-lp .fbe-final h2{text-shadow:0 0 26px rgba(181,123,234,.55)}
+.fbe-lp .fbe-final .fbe-pic{box-shadow:0 0 0 1px #B57BEA,0 0 0 8px rgba(139,63,208,.16),0 0 60px rgba(139,63,208,.8)}
+/* 20. autor, fuentes, preguntas y pagina de gracias */
+.fbe-lp .fbe-author,.fbe-lp .fbe-refs li,.fbe-lp .fbe-faq details{box-shadow:var(--neon)}
+.fbe-lp .fbe-refs li::before{font-family:var(--mono);background:#131118;color:#D8C5F1}
+.fbe-lp .fbe-refs a{font-family:var(--mono);font-weight:700}
+.fbe-lp .fbe-faq details[open]{border-color:#8B3FD0;box-shadow:0 0 0 1px #8B3FD0,0 0 30px -4px rgba(139,63,208,.7)}
+.fbe-lp .fbe-trust li{border-color:#D8C5F1;font-family:var(--mono);font-size:12px}
+.fbe-lp .fbe-ok{border:1px solid #D8C5F1;box-shadow:var(--neon),0 40px 80px -50px rgba(107,33,168,.9)}
+.fbe-lp .fbe-ok__check{box-shadow:0 0 0 6px rgba(139,63,208,.14),0 0 34px rgba(139,63,208,.85)}
+.fbe-lp .fbe-ok__steps li{border-color:#D8C5F1;box-shadow:var(--neon)}
+.fbe-lp .fbe-ok__steps b{font-family:var(--mono);background:#131118;color:#D8C5F1}
