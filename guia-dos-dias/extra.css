@@ -148,3 +148,17 @@
 .fx .fbe-curve svg .ar,.fx .fbe-curve svg .pt,.fx .fbe-curve svg text{opacity:1}
 .fbe-lp .fbe-btn::after{display:none}
 }
+
+/* imagenes nuevas (19/11/2026) */
+.fbe-lp .fx-img{width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;border-radius:24px;box-shadow:0 26px 50px -28px rgba(90,58,18,.7)}
+.fbe-lp .fbe-sec__head.fx-head{display:grid;gap:20px;max-width:none}
+.fbe-lp .fx-img--ancha{aspect-ratio:16/9;margin-bottom:14px}
+.fbe-lp .fx-img--ok{display:block;max-width:440px;margin:0 auto 26px;box-shadow:0 30px 60px -26px rgba(240,127,19,.6)}
+.fbe-lp .fbe-quote{background:linear-gradient(rgba(63,16,112,.28),rgba(63,16,112,.28)),url(img/fondo-cita.webp) center/cover no-repeat #3F1070}
+.fbe-lp .fbe-quote::before,.fbe-lp .fbe-quote::after{display:none}
+.fbe-lp .fbe-quote p{text-shadow:0 2px 18px rgba(31,8,56,.7)}
+@media (min-width:760px){
+.fbe-lp .fbe-sec__head.fx-head{grid-template-columns:1fr minmax(0,360px);align-items:center;gap:36px}
+.fbe-lp .fx-img--ancha{display:block;max-width:760px;margin:0 auto 20px}
+.fbe-lp .fbe-quote{padding:64px 120px 76px}
+}
