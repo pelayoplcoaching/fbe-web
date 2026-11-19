@@ -33,3 +33,8 @@ rm sitio.py web-fbe-equipo.html sitio-inicio.html
 - CSS nuevo: solo ASCII, colores por tokens (`--noche`, `--marca`, `--marca-clara`, `--oro`, `--sup`, `--fondo`, `--tinta`, `--lila`...) con versión oscura, movimiento respetando `prefers-reduced-motion`.
 - La clase `.tema` es el botón claro/oscuro: no reutilizarla. Fuera de un artifact hace falta `[hidden]{display:none!important}` e `img{height:auto}`.
 - Las fotos de personas reales (retrato, testimonios) deben ser fotos reales, nunca generadas.
+
+## Landings de guias (carpetas sueltas)
+- `guia-dos-dias/` (landing de la guia «Dos dias de gimnasio»): NO sale de `fuente/`. Es una carpeta autocontenida (index.html, gracias.html, img/ y el PDF) con su propia paleta de campana; se edita a mano y el generador no la toca.
+- Su formulario es el insertado de MailerLite «Guía · Dos días de gimnasio (web)» (`data-form="rE4kdS"`), grupo «Atletas PL coaching». Debe redirigir a `guia-dos-dias/gracias.html`.
+- Lleva `noindex` como el resto mientras la web este en pruebas; al pasar al dominio se quita de `index.html` y se deja en `gracias.html`.
