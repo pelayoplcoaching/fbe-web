@@ -37,4 +37,5 @@ rm sitio.py web-fbe-equipo.html sitio-inicio.html
 ## Landings de guias (carpetas sueltas)
 - `guia-dos-dias/` (landing de la guia «Dos dias de gimnasio»): NO sale de `fuente/`. Es una carpeta autocontenida (index.html, gracias.html, img/ y el PDF) con su propia paleta de campana; se edita a mano y el generador no la toca.
 - Su formulario es el insertado de MailerLite «Guía · Dos días de gimnasio (web)» (`data-form="rE4kdS"`), grupo «Atletas PL coaching». Debe redirigir a `guia-dos-dias/gracias.html`.
-- Lleva `noindex` como el resto mientras la web este en pruebas; al pasar al dominio se quita de `index.html` y se deja en `gracias.html`.
+- `guia-fuerza-segun-nivel/` (landing de la guia «Fuerza segun nivel», la de «¿Cuanta fuerza deberias tener a los 40, 50 y 60?»): igual que la anterior, carpeta autocontenida con su paleta salmon. Formulario insertado de MailerLite «Guía · Fuerza según nivel (web)» (`data-form="p6ityX"`), grupo «Atletas PL coaching». Debe redirigir a `guia-fuerza-segun-nivel/gracias.html`. No esta enlazada desde la pagina de Guias.
+- Llevan `noindex` como el resto mientras la web este en pruebas; al pasar al dominio se quita de `index.html` y se deja en `gracias.html`.
