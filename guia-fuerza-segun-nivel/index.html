@@ -28,10 +28,42 @@ img{height:auto}
 .fbe-legal a{color:#fff}
 .fbe-form2{padding-top:8px}
 .fbe-cover footer{gap:4px 12px;flex-wrap:wrap}
+.fbe ::selection{background:#E3CFF2;color:#1A1714}
+#guia{scroll-margin-top:64px}
+.fbe-top{position:sticky;top:0;z-index:20;background:rgba(252,237,224,.86);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.fbe-bar{position:fixed;top:0;left:0;height:3px;width:100%;background:#6B21A8;transform-origin:0 50%;transform:scaleX(0);z-index:30}
+@keyframes fbe-grow{to{transform:scaleX(1)}}
+@keyframes fbe-rise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+@supports (animation-timeline:scroll()){.fbe-bar{animation:fbe-grow linear both;animation-timeline:scroll(root)}}
+@supports (animation-timeline:view()){.fbe section>.wrap{animation:fbe-rise linear both;animation-timeline:view();animation-range:entry 0% entry 35%}}
+.fbe-hero .frame{background:radial-gradient(440px 340px at 80% 46%,rgba(107,33,168,.14),transparent 70%),rgba(252,237,224,.55)}
+.fbe-hero .chips li{background:rgba(255,255,255,.6)}
+.fbe .btn:active{transform:translate(6px,6px);box-shadow:0 0 0 var(--ink)}
+.fbe h2.title::after{content:"";display:block;width:56px;height:4px;margin-top:16px;border-radius:2px;background:var(--violet)}
+.fbe-in .n{width:54px;height:54px;border-radius:50%;background:var(--lilac);display:grid;place-items:center;font-size:28px}
+.fbe-in .fbe-img{border:6px solid #fff;transition:transform .3s}
+.fbe-duo figure:first-child img{transform:rotate(-1.2deg)}
+.fbe-duo figure:last-child img{transform:rotate(1.2deg)}
+.fbe-duo figure:hover img{transform:rotate(0) scale(1.02)}
+.fbe-form{background-image:radial-gradient(rgba(255,255,255,.09) 1px,transparent 1.5px),linear-gradient(180deg,#7C2EC2 0%,#6B21A8 100%);background-size:18px 18px,auto}
+.fbe-formbox{background-image:radial-gradient(rgba(255,255,255,.09) 1px,transparent 1.5px);background-size:18px 18px}
+.fbe-form2{background-image:radial-gradient(rgba(255,255,255,.09) 1px,transparent 1.5px),linear-gradient(180deg,#6B21A8 0%,#561789 100%);background-size:18px 18px,auto;padding-bottom:54px}
+.fbe-formcard{border-radius:18px;border:1px solid #E3CFF2;box-shadow:10px 10px 0 #3F1070}
+.fbe-form2 .ok{gap:10px}
+.fbe-form2 .ok li{background:rgba(255,255,255,.1);border:1px solid rgba(227,207,242,.35);border-radius:999px;padding:7px 16px 7px 8px}
+.fbe .pill span{white-space:nowrap}
+@media (max-width:420px){.fbe .pill{letter-spacing:1.2px;padding:9px 13px}}
+.fbe-stats .big{display:table;padding:0 6px 0 2px;background:linear-gradient(transparent 62%,var(--lilac) 62%)}
+.fbe-table .q{background:transparent;border:2px dashed #B78AD8;line-height:40px}
+.fbe-who .card{border-top:5px solid var(--violet)}
+.fbe-who .card.warn{border-top-color:var(--claret)}
+.fbe-me .ring{box-shadow:10px 10px 0 var(--lilac);background:#fff}
+.fbe-end blockquote::before{content:"\201C";display:block;height:46px;font-size:96px;line-height:1;color:var(--lilac)}
+.fbe-end small a{color:#C9B8AA}
 </style>
 </head>
 <body>
-<div class="fbe"><div class="fbe-top"><div class="wrap">
+<div class="fbe"><div class="fbe-bar" aria-hidden="true"></div><div class="fbe-top"><div class="wrap">
 <span class="eyebrow">Fuerza Basada en Evidencia</span>
 <span class="r"><em>Guía gratuita · PDF · 10 páginas</em><a class="mini" href="#guia">Quiero la guía</a></span>
 </div></div>
@@ -53,7 +85,7 @@ img{height:auto}
 </div></div>
 </div></div></section>
 <section class="fbe-form" id="guia"><div class="wrap"><div class="cols">
-<img class="fbe-img guide" src="img/guia-impresa.webp" width="560" height="700" alt="La guía impresa junto a un dinamómetro de mano">
+<img class="fbe-img guide" src="img/guia-impresa.webp" width="640" height="800" alt="La guía impresa junto a un dinamómetro de mano">
 <div>
 <h2>Dime tu email y es tuya</h2>
 <p>La descargas al momento, en la página siguiente.</p>
@@ -90,7 +122,7 @@ img{height:auto}
 <section class="fbe-in"><div class="wrap">
 <span class="eyebrow">Qué hay dentro</span>
 <h2 class="title">Tres tablas para saber dónde estás y una hoja para ver hacia dónde vas</h2>
-<img class="fbe-img banner" src="img/objetos.webp" width="1000" height="500" alt="Un dinamómetro de mano, un cronómetro y una silla: las tres medidas de la guía">
+<img class="fbe-img banner" src="img/objetos.webp" width="1200" height="600" alt="Un dinamómetro de mano, un cronómetro y una silla: las tres medidas de la guía">
 <div class="grid">
 <div class="card"><div class="n">1</div><div><h3>La fuerza de la mano</h3><p>La tabla completa por edad y sexo, en franjas de cinco años, con percentil bajo, medio y alto. Y cómo medirla bien con un dinamómetro.</p></div><span class="eyebrow">Página 3 · en kilos</span></div>
 <div class="card"><div class="n">2</div><div><h3>La silla: cinco levantadas</h3><p>Cuántos segundos tarda la persona media de tu edad, cuántos el 20 % más rápido y los tres pasos para hacerla sin trampas.</p></div><span class="eyebrow">Página 4 · en segundos</span></div>
@@ -98,8 +130,8 @@ img{height:auto}
 <div class="card"><div class="n">4</div><div><h3>Tu hoja de registro</h3><p>Para apuntar las tres medidas cada dos o tres meses. Lo que importa es si tu línea sube o se mantiene, no el número suelto.</p></div><span class="eyebrow">Página 8 · para un año</span></div>
 </div>
 <div class="fbe-duo">
-<figure><img class="fbe-img" src="img/silla.webp" width="760" height="507" alt="Mujer levantándose de una silla con los brazos cruzados sobre el pecho"><figcaption>La silla: cinco levantadas, brazos cruzados, cronómetro en marcha.</figcaption></figure>
-<figure><img class="fbe-img" src="img/flexion.webp" width="760" height="507" alt="Hombre en la posición alta de una flexión"><figcaption>Flexiones seguidas, sin parar y con el pecho abajo en cada una.</figcaption></figure>
+<figure><img class="fbe-img" src="img/silla.webp" width="900" height="600" alt="Mujer levantándose de una silla con los brazos cruzados sobre el pecho"><figcaption>La silla: cinco levantadas, brazos cruzados, cronómetro en marcha.</figcaption></figure>
+<figure><img class="fbe-img" src="img/flexion.webp" width="900" height="600" alt="Hombre en la posición alta de una flexión"><figcaption>Flexiones seguidas, sin parar y con el pecho abajo en cada una.</figcaption></figure>
 </div>
 </div></section>
 <div class="fbe-rule" style="background-color:#FFFBF7" aria-hidden="true"></div>
@@ -133,13 +165,13 @@ img{height:auto}
 </div>
 </div></section>
 <section class="fbe-me"><div class="wrap">
-<span class="ring"><img src="img/pelayo.webp" width="296" height="296" alt="Pelayo Fernández Cidón"></span>
+<span class="ring"><img src="img/pelayo.webp" width="320" height="320" alt="Pelayo Fernández Cidón"></span>
 <div><h3>Pelayo Fernández Cidón</h3><p>Médico internista y prescriptor de fuerza. Llevo quince años debajo de una barra y en Fuerza Basada en Evidencia cuento lo que dice la ciencia, con su letra pequeña.</p><ul class="chips"><li>Médico internista</li><li>Prescriptor de fuerza</li><li>15 años bajo la barra</li></ul></div>
 </div></section>
 <section class="fbe-end"><div class="wrap">
 <blockquote><span>Las tablas de internet te comparan con gente que compite.</span>La medida que de verdad cuenta te compara <b>contigo dentro de un año</b>.</blockquote>
 <a class="btn" href="#guia"><span class="ar up">↑</span>&nbsp;&nbsp;Quiero la guía</a>
-<small>Fuerza Basada en Evidencia · Esta guía es información general, no una prescripción individual.</small>
+<small>© 2026 Fuerza Basada en Evidencia · <a href="https://www.youtube.com/@fuerzabasadaenevidencia">YouTube</a> · <a href="https://fbe-politica_de_privacidad.mailerpage.io">Privacidad</a><br>Esta guía es información general, no una prescripción individual.</small>
 </div></section>
 </div>
 </body>
