@@ -191,13 +191,15 @@ JS_G = '''<script>(function(){var D=document,g=D.getElementById('filtro'),n=D.ge
 pagina('guias.html', 'Guías', 'Guías prácticas y descargables sobre entrenamiento, fuerza y nutrición con respaldo científico.', 'Ciencia útil, lista para descargar.', 'Nueve guías prácticas sobre entrenamiento, fuerza y nutrición, con respaldo científico y pensadas para aplicarlas.', '<section><div class="in"><div class="empieza sube"><div><h2>¿Por cuál empiezo?</h2><p id="emp-t" role="status">Dime qué buscas y te señalo una.</p></div><div class="fases claras" id="emp" role="group" aria-label="Qué buscas"><button type="button" data-g="0">Tengo guardias o turnos</button><button type="button" data-g="1">Perder grasa</button><button type="button" data-g="4">Ganar músculo</button><button type="button" data-g="2">Tengo poco tiempo</button><button type="button" data-g="5">Cuidar mi salud</button></div></div><div class="barra-f sube"><div class="fases claras" id="filtro" role="group" aria-label="Filtrar por tema"><button type="button" data-t="" aria-pressed="true">Todas</button><button type="button" data-t="entreno" aria-pressed="false">Entrenamiento</button><button type="button" data-t="nutri" aria-pressed="false">Nutrición</button><button type="button" data-t="salud" aria-pressed="false">Salud</button></div><span id="cuantas" role="status">9 guías</span></div><div class="guias">' + ''.join(guia(i, g) for i, g in enumerate(G)) + f'</div><div class="calc sube" style="margin-top:3rem"><div><h3>Gratis: calculadora de proteína</h3><p>Tu rango diario según tu peso y tu fase, con reparto por comidas.</p></div><div><a class="btn claro" href="{CALC}">Abrir la calculadora</a></div></div></div></section>' + JS_G + LDG, datos(('9', 'guías'), ('5,99 €', 'la mayoría'), ('3', 'temas: entrenar, comer y salud')), ('¿Quieres que lo aplique contigo?', 'Las guías explican el porqué. En la asesoría lo llevo a tu semana.'))
 
 # ===== newsletter =====
+PLAYA = ilus('foto-playa', 'foto-p').replace('alt=""', 'alt="Pelayo en la playa"')
+if PLAYA: PLAYA = f'<figure class="quien">{PLAYA}<figcaption><b>Quién te escribe</b>Pelayo, fuera del hospital y del gimnasio.</figcaption></figure>'
 BIMG = ['boletin-habito', 'boletin-cafeina', 'boletin-pulsaciones']
 ENV = [('El hábito que movió mis marcadores', 'Lo que descubrí que les afectaba más que entrenar más duro.'), ('700 mg de cafeína sin darme cuenta', 'Cómo un médico llega ahí, y qué hice después.'), ('46 pulsaciones en reposo', 'Sin ser perfecto en nada. Qué hice y qué no.')]
 pagina('newsletter.html', 'Newsletter', 'El boletín semanal de Fuerza Basada en Evidencia: entrenamiento, nutrición y salud, sin mitos.', 'Lo que sí funciona. Cada semana, en tu correo.', 'Entrenamiento, nutrición y salud con base científica. Sin mitos y sin adornos, para entrenar mejor, comer con cabeza y vivir con energía.', f'''
 <section><div class="in dos alta">
   <div class="sube" id="alta"><div class="entrada" style="margin-bottom:1.5rem"><h2>Apúntate</h2><p>Un correo a la semana. Te das de baja cuando quieras.</p></div>
     <div class="ml-caja"><div class="ml-embedded" data-form="9jHHlI"></div><noscript>Activa JavaScript para ver el formulario.</noscript><p style="margin-top:.8rem;font-size:.92rem;color:var(--tinta-2)">¿No ves el formulario? <a href="https://preview.mailerlite.io/forms/1626427/158927974439061023/share">Ábrelo en otra pestaña</a>.</p></div><p style="margin-top:1rem;font-size:.92rem;color:var(--tinta-2)">Uso tu correo solo para enviarte el boletín. <a href="{PRIV}">Política de privacidad</a>.</p></div>
-  <div class="sube"><h3 style="margin-bottom:1.2rem">Qué te llega</h3><ul class="marcas" style="font-size:1.08rem;gap:.9rem"><li><strong>Una idea por correo</strong>, para aplicarla esa semana.</li><li><strong>Lo que me pasa a mí</strong>: lo que pruebo, lo que mido y en qué me equivoco.</li><li><strong>La evidencia detrás</strong>, sin tecnicismos de más.</li></ul></div>
+  <div class="sube"><h3 style="margin-bottom:1.2rem">Qué te llega</h3><ul class="marcas" style="font-size:1.08rem;gap:.9rem"><li><strong>Una idea por correo</strong>, para aplicarla esa semana.</li><li><strong>Lo que me pasa a mí</strong>: lo que pruebo, lo que mido y en qué me equivoco.</li><li><strong>La evidencia detrás</strong>, sin tecnicismos de más.</li></ul>{PLAYA}</div>
 </div></section>
 <section class="hoja"><div class="in"><div class="entrada sube"><h2>Lo último que he enviado</h2></div>
   <div class="boletin">{''.join(f'<article class="correo sube">{ilus(BIMG[ENV.index((t, d))], "foto-b")}<p class="de"><span class="cara peq">PF</span><span><b>Pelayo, de FBE</b><small>Asunto</small></span></p><h3>{t}</h3><p>{d}</p></article>' for t, d in ENV)}</div>
@@ -237,7 +239,36 @@ open(f'{SAL}/404.html', 'w', encoding='utf-8').write(f'''{cabeza('404.html', 'P�
 <main id="contenido"></main>
 {PIE}
 <script src="fbe.js"></script></body></html>''')
-open(f'{SAL}/sitemap.xml', 'w', encoding='utf-8').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join(f'  <url><loc>{WEB}{u}</loc></url>\n' for u in [''] + [u for u, _ in PAGS]) + '</urlset>\n')
+# Politica de privacidad propia: texto de su pagina de MailerLite (sept. 2026), tal cual. Solo se genera si hay FBE_CORREO.
+if os.environ.get('FBE_CORREO'):
+    C = os.environ['FBE_CORREO']; CM = f'<a href="mailto:{C}">{C}</a>'
+    PRIV_TXT = f"""<section><div class="in"><div class="prosa">
+<p><strong>Responsable del tratamiento:</strong> Pelayo Fernández Cidón, médico especialista en Medicina Interna, NIF 71777712W, con domicilio a efectos de notificaciones en Fernández de los Ríos 63, 28015, Madrid. Contacto: {CM}.</p>
+<p>En Fuerza Basada en Evidencia nos tomamos muy en serio la protección de tus datos. Esta política explica qué información recogemos, con qué finalidad, durante cuánto tiempo la conservamos y qué derechos tienes sobre ella.</p>
+<h2>Qué datos tratamos</h2>
+<p>Según el servicio que contrates, podemos tratar:</p>
+<ul class="marcas"><li><strong>Datos identificativos y de contacto:</strong> nombre, email, teléfono.</li><li><strong>Datos de salud (categoría especial, art. 9 RGPD):</strong> análisis de sangre, historial médico, medicación, lesiones, objetivos de salud e imágenes que nos facilites voluntariamente.</li><li><strong>Datos de facturación y pago</strong>, gestionados a través de proveedores de pago seguros.</li></ul>
+<h2>Para qué los usamos</h2>
+<ul class="marcas"><li>Revisar tu analítica e historial médico y elaborar tu prescripción personalizada de entrenamiento y nutrición (servicio Puesta a punto).</li><li>Diseñar tu plan y realizar el seguimiento y los ajustes correspondientes (programa de seguimiento).</li><li>Comunicarnos contigo de forma directa en relación con el servicio contratado.</li><li>Procesar pagos y emitir facturas.</li><li>Enviarte comunicaciones por email únicamente si te has suscrito a nuestra lista; puedes darte de baja en cualquier momento desde el propio correo.</li></ul>
+<h2>Base legal</h2>
+<p>Tratamos tus datos de salud sobre la base de tu consentimiento explícito, que prestas al reservar el servicio marcando la casilla correspondiente. Puedes retirar este consentimiento en cualquier momento, sin que ello afecte a la licitud del tratamiento previo. El resto de datos se tratan para la ejecución del contrato de servicios y el cumplimiento de obligaciones legales (fiscales y sanitarias).</p>
+<h2>Cuánto tiempo los conservamos</h2>
+<p>Al tratarse de un servicio prestado por un médico, la documentación clínica (analíticas, historial y prescripción) se conserva durante un mínimo de 5 años desde la finalización del servicio, conforme a la Ley 41/2002 de autonomía del paciente. Los datos de facturación se conservan durante los plazos exigidos por la normativa fiscal. El resto de datos se eliminan cuando dejan de ser necesarios o cuando lo solicitas.</p>
+<h2>Con quién compartimos tus datos</h2>
+<p>No compartimos tus datos con terceros con fines comerciales. Trabajamos únicamente con proveedores tecnológicos que actúan como encargados del tratamiento y cumplen el RGPD (como MailerLite para email y web, Calendly para reservas y Stripe para pagos). Algunos de estos proveedores pueden alojar datos fuera del Espacio Económico Europeo; en esos casos, el tratamiento se ampara en garantías adecuadas como las cláusulas contractuales tipo aprobadas por la Comisión Europea.</p>
+<h2>Tus derechos</h2>
+<p>Puedes ejercer en cualquier momento tus derechos de acceso, rectificación, supresión, oposición, limitación del tratamiento y portabilidad, así como retirar tu consentimiento, escribiendo a {CM}. También tienes derecho a presentar una reclamación ante la Agencia Española de Protección de Datos (<a href="https://www.aepd.es">aepd.es</a>) si consideras que el tratamiento no se ajusta a la normativa.</p>
+<h2>Seguridad</h2>
+<p>Aplicamos medidas técnicas y organizativas para proteger tu información, incluido el almacenamiento de la documentación clínica en sistemas con acceso restringido.</p>
+<p><small>Última actualización: septiembre de 2026.</small></p>
+</div></div></section>"""
+    open(f'{SAL}/privacidad.html', 'w', encoding='utf-8').write(f"""{cabeza('privacidad.html', 'Política de privacidad', 'Qué datos trata Fuerza Basada en Evidencia, para qué, cuánto tiempo y cómo ejercer tus derechos.')}
+{cabecera()}
+<header class="hero mini t-privacidad" id="inicio">{ANILLOS}<div class="marca-agua">{LOBO}</div><div class="in"><div class="txt"><span class="miga"><a href="index.html">Inicio</a> / Privacidad</span><h1>Política de privacidad</h1><p class="sub">Qué datos trato, para qué, cuánto tiempo los guardo y cómo ejercer tus derechos.</p></div></div></header>
+<main id="contenido">{PRIV_TXT}</main>
+{PIE}
+<script src="fbe.js"></script></body></html>""")
+open(f'{SAL}/sitemap.xml', 'w', encoding='utf-8').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join(f'  <url><loc>{WEB}{u}</loc></url>\n' for u in [''] + [u for u, _ in PAGS] + (['privacidad.html'] if os.environ.get('FBE_CORREO') else [])) + '</urlset>\n')
 open(f'{SAL}/robots.txt', 'w', encoding='utf-8').write(f'User-agent: *\nAllow: /\nSitemap: {WEB}sitemap.xml\n')
 p = open(f'{SAL}/index.html', encoding='utf-8').read()
 import base64, hashlib
@@ -256,3 +287,12 @@ print('imagenes fuera:', len(vistos))
 p = p.replace('<meta charset="utf-8">', f'<meta charset="utf-8"><link rel="canonical" href="{WEB}"><meta name="theme-color" content="#140B3A"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="icono-180.png"><meta property="og:image" content="{WEB}og.png"><meta name="twitter:card" content="summary_large_image"><meta property="og:url" content="{WEB}"><meta property="og:type" content="website"><meta property="og:locale" content="es_ES">', 1)
 open(f'{SAL}/index.html', 'w', encoding='utf-8').write(p)
 print({f: os.path.getsize(f'{SAL}/{f}') // 1024 for f in sorted(os.listdir(SAL))})
+
+# Letra Archivo servida desde la propia web (sin Google Fonts)
+shutil.copy('ext/archivo.woff2', f'{SAL}/img/archivo.woff2')
+import glob, re as _re
+_FF = '<link rel="preload" href="img/archivo.woff2" as="font" type="font/woff2" crossorigin><style>@font-face{font-family:"Archivo";src:url(img/archivo.woff2) format("woff2");font-weight:400 800;font-stretch:75% 125%;font-display:swap}</style>'
+for _f in glob.glob(f'{SAL}/*.html'):
+    _t = open(_f, encoding='utf-8').read()
+    _n = _re.sub(r'(<link rel="preconnect" href="https://fonts\.gstatic\.com" crossorigin>)?<link rel="stylesheet" href="https://fonts\.googleapis\.com/css2\?family=Archivo[^"]*">', _FF, _t)
+    if _n != _t: open(_f, 'w', encoding='utf-8').write(_n)

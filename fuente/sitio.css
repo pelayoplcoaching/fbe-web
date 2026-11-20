@@ -173,3 +173,7 @@ main a:not(.btn):not(.caja):not(.comp):not(.ancla) { text-decoration-color: var(
 /* tanda 17/11 (4): banner con foto en Puesta a punto */
 .banner { display: block; width: 100%; border-radius: clamp(1.2rem, 3vw, 2rem); box-shadow: var(--sombra-s); }
 @media (max-width: 760px) { .banner { aspect-ratio: 4 / 3; object-fit: cover; object-position: 78% center; } }
+/* tanda 20/11: foto personal en Newsletter y pagina de privacidad */
+.quien { margin: 2rem 0 0; } .quien .foto-p { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; object-position: 55% 40%; border-radius: 1.4rem; box-shadow: var(--sombra-s); }
+.quien figcaption { margin-top: .8rem; color: var(--tinta-2); font-size: .98rem; } .quien figcaption b { display: block; color: var(--tinta); font-size: 1.05rem; }
+.prosa ul.marcas { margin: 0; }
