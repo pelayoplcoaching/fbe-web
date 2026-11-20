@@ -11,7 +11,7 @@
   var menu = $('.menu'); if (menu) menu.addEventListener('click', function (e) { if (e.target.tagName === 'A') menu.open = false; });
 })();
 
-(function () { var n = 0; [].forEach.call(document.querySelectorAll('.entrada'), function (e) { n++; e.setAttribute('data-n', (n < 10 ? '0' : '') + n); }); })();
+(function () { var n = 0; [].forEach.call(document.querySelectorAll('.entrada'), function (e) { if (e.closest('.cierre, .lema-banda')) return; n++; e.setAttribute('data-n', (n < 10 ? '0' : '') + n); }); })();
 (function () { if (!window.matchMedia || !matchMedia('(pointer: fine)').matches || matchMedia('(prefers-reduced-motion: reduce)').matches) return; document.addEventListener('pointermove', function (e) { var c = e.target && e.target.closest && e.target.closest('.plan, .guia, .idea, .correo, .voz, .pegada'); if (!c) return; var r = c.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top; c.style.setProperty('--lx', x + 'px'); c.style.setProperty('--ly', y + 'px'); if (c.classList.contains('guia') || c.classList.contains('plan')) { c.style.setProperty('--ry', ((x / r.width - 0.5) * 4).toFixed(2) + 'deg'); c.style.setProperty('--rx', ((0.5 - y / r.height) * 4).toFixed(2) + 'deg'); } }, { passive: true }); })();
 (function () {
   var D = document, quieto = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -38,3 +38,11 @@
     Object.keys(mapa).forEach(function (id) { io.observe(D.getElementById(id)); }); }
 })();
 (function () { var imgs = [].slice.call(document.querySelectorAll('.foto-i, .foto-c, .foto-b, .foto-g, .foto-p, .banner')); function lista(i) { i.classList.add('cargada'); } imgs.forEach(function (i) { if (i.complete && i.naturalWidth) { i.classList.add('cargada'); i.style.animation = 'none'; } else { i.addEventListener('load', function () { lista(i); }, { once: true }); i.addEventListener('error', function () { lista(i); }, { once: true }); } }); setTimeout(function () { imgs.forEach(lista); }, 6000); })();
+(function () {
+  var D = document, R = D.documentElement;
+  D.addEventListener('visibilitychange', function () { R.classList.toggle('pestana-oculta', D.hidden); });
+  if (!('IntersectionObserver' in window)) return;
+  var io = new IntersectionObserver(function (es) { es.forEach(function (e) { e.target.classList.toggle('quieta-z', !e.isIntersecting); }); }, { rootMargin: '120px 0px' });
+  function vigilar() { if (!D.getAnimations) return; var cajas = []; D.getAnimations().forEach(function (an) { var t = an.effect && an.effect.target; if (!t || !an.effect.getComputedTiming || an.effect.getComputedTiming().iterations !== Infinity) return; var c = t.closest('section, header, footer, .cinta, aside') || t; if (cajas.indexOf(c) < 0) cajas.push(c); }); cajas.forEach(function (c) { io.observe(c); }); }
+  if (D.readyState === 'complete') setTimeout(vigilar, 800); else addEventListener('load', function () { setTimeout(vigilar, 800); });
+})();

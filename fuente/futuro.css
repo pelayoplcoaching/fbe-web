@@ -871,3 +871,78 @@ img { color: transparent; font-size: 0; }
   .js .foto-i, .js .foto-c, .js .foto-b, .js .foto-g, .js .foto-p, .js .banner { opacity: 1; }
   .js .cargada, .hero.mini .ilus, .retrato.xl img, .cara img { animation: none; }
 }
+
+/* ---------- TANDA 11: limpieza (calmar y quitar lo que sobra) ---------- */
+
+/* 201. "Entrenar bien no es hacer mas": degradado fijo, sin movimiento */
+.lema em { animation: none; background-size: 100% 100%; }
+
+/* 202. Punto de "Una app viva": quieto (ya late el de la etiqueta de arriba) */
+.viva b::before { animation: none; box-shadow: 0 0 .5rem rgba(95,211,160,.7); }
+
+/* 203. Fuera la linea de escaneo de la banda de pasos */
+.pasos::before { content: none; animation: none; }
+
+/* 204. Puntos del ciclo semanal: brillo fijo en vez de chispazos */
+.ciclo li::after { animation: none; }
+
+/* 205. Borde del boletin: gira el doble de lento */
+.ml-caja { animation-duration: 16s; }
+
+/* 206. "Tu coach.": el brillo recorre el texto mas despacio */
+.hero h1 span:last-child { animation-duration: 14s; }
+
+/* 207. Todas las animaciones continuas (tambien las de la portada original) se paran cuando su seccion no esta a la vista (luz.js) */
+.quieta-z, .quieta-z *, .quieta-z *::before, .quieta-z *::after, .quieta-z::before, .quieta-z::after { animation-play-state: paused !important; }
+
+/* 208. Y se paran todas si cambias de pestana */
+.pestana-oculta *, .pestana-oculta *::before, .pestana-oculta *::after { animation-play-state: paused !important; }
+
+/* 209. Analitica de Puesta a punto: nombres tal cual (HbA1c, TSH, B12), sin mayusculas forzadas */
+.pag-puesta-a-punto .chips li { text-transform: none; font-family: inherit; font-size: .9rem; letter-spacing: 0; font-weight: 600; }
+
+/* 210. Papel tecnico del fondo: mas espaciado y mas tenue, para no competir con las rejillas de las secciones */
+body { background-image: repeating-linear-gradient(0deg, color-mix(in srgb, var(--marca) 3%, transparent) 0 1px, transparent 1px 88px), repeating-linear-gradient(90deg, color-mix(in srgb, var(--marca) 3%, transparent) 0 1px, transparent 1px 88px); }
+:root[data-theme="dark"] body { background-image: repeating-linear-gradient(0deg, rgba(164,156,255,.028) 0 1px, transparent 1px 88px), repeating-linear-gradient(90deg, rgba(164,156,255,.028) 0 1px, transparent 1px 88px); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) body { background-image: repeating-linear-gradient(0deg, rgba(164,156,255,.028) 0 1px, transparent 1px 88px), repeating-linear-gradient(90deg, rgba(164,156,255,.028) 0 1px, transparent 1px 88px); } }
+
+/* 211. Etiquetas pequenas: la misma esquina en toda la web */
+.chips li, .ritmo span, .plan .eti, .sellos li, .redes a, .temas-g span, .indice a span, .metas button, .fases.claras button, .sn span, .btn.hueco { border-radius: .4rem; }
+
+/* 212. Esquinas de visor mas discretas en reposo; se encienden al pasar */
+.idea::after, .plan::after, .guia::after, .correo::after, .voz::after, .caja::after, .pegada::after { opacity: .32; }
+
+/* 213. Sin decoracion doble: donde ya hay borde de degradado, sin esquinas de visor */
+.testi > .voz:not(:first-child)::after, .pegada::after, .caja-t::after { opacity: 0; }
+
+/* 214. En movil, nada se queda "levantado" despues de tocar una tarjeta */
+@media (hover: none) {
+  .plan:hover, .guia:hover, .idea:hover, .correo:hover, .rc:hover, .cuatro > li:hover, .tres li:hover, .linea li:hover, .testi > .voz:hover,
+  .js .sube.ya.guia:hover, .js .sube.ya.plan:hover, .js .sube.ya.idea:hover, .js .sube.ya.correo:hover { transform: none; }
+  .plan:hover::before, .guia:hover::before, .idea:hover::before, .correo:hover::before, .voz:hover::before, .pegada:hover::before { opacity: 0; }
+}
+
+/* 215. Rejillas de las bandas oscuras mas suaves en pantallas pequenas */
+@media (max-width: 760px) { :root { --rejilla-c: rgba(164,156,255,.07); } }
+
+/* 216. Quien pide mas contraste en su sistema: sin rejillas ni textos en degradado */
+@media (prefers-contrast: more) {
+  body, .hero::after, .pasos::after, .cifras ul::after, .cierre::after, .aprende, .priv, .franja, footer { background-image: none !important; }
+  .hero h1 span:last-child, .precio, .elige-r #elige-t, .lema em, .cifras li b, .num404 { background: none !important; color: inherit !important; -webkit-text-fill-color: currentColor; }
+  .idea::after, .plan::after, .guia::after, .correo::after, .voz::after, .caja::after { display: none; }
+}
+
+/* 217. Modo de alto contraste de Windows: los textos en degradado se ven con el color del sistema */
+@media (forced-colors: active) {
+  .hero h1 span:last-child, .precio, .elige-r #elige-t, .lema em, .cifras li b, .num404, .portada b { background: none !important; color: CanvasText !important; -webkit-text-fill-color: CanvasText; forced-color-adjust: none; }
+  .entrada h2::after { background: CanvasText; }
+}
+
+/* 218. Elite Plus: un solo efecto (filo dorado), sin el anillo violeta encima */
+.plan.oro::before { background: radial-gradient(18rem 18rem at var(--lx, 50%) var(--ly, 0%), rgba(240,198,116,.16), transparent 70%); }
+
+/* 219. Cierre "Sigues dudando?": sin numero de seccion, es un remate, no un capitulo */
+.cierre .entrada::before, .lema-banda .entrada::before { content: none; }
+
+/* 220. Fin de la capa: nada nuevo se anima si el sistema pide movimiento reducido */
+@media (prefers-reduced-motion: reduce) { .quieta-z *, .pestana-oculta * { animation: none !important; } }

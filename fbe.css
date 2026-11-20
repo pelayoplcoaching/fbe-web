@@ -872,3 +872,36 @@ img { color: transparent; font-size: 0; }
   .js .foto-i, .js .foto-c, .js .foto-b, .js .foto-g, .js .foto-p, .js .banner { opacity: 1; }
   .js .cargada, .hero.mini .ilus, .retrato.xl img, .cara img { animation: none; }
 }
+.lema em { animation: none; background-size: 100% 100%; }
+.viva b::before { animation: none; box-shadow: 0 0 .5rem rgba(95,211,160,.7); }
+.pasos::before { content: none; animation: none; }
+.ciclo li::after { animation: none; }
+.ml-caja { animation-duration: 16s; }
+.hero h1 span:last-child { animation-duration: 14s; }
+.quieta-z, .quieta-z *, .quieta-z *::before, .quieta-z *::after, .quieta-z::before, .quieta-z::after { animation-play-state: paused !important; }
+.pestana-oculta *, .pestana-oculta *::before, .pestana-oculta *::after { animation-play-state: paused !important; }
+.pag-puesta-a-punto .chips li { text-transform: none; font-family: inherit; font-size: .9rem; letter-spacing: 0; font-weight: 600; }
+body { background-image: repeating-linear-gradient(0deg, color-mix(in srgb, var(--marca) 3%, transparent) 0 1px, transparent 1px 88px), repeating-linear-gradient(90deg, color-mix(in srgb, var(--marca) 3%, transparent) 0 1px, transparent 1px 88px); }
+:root[data-theme="dark"] body { background-image: repeating-linear-gradient(0deg, rgba(164,156,255,.028) 0 1px, transparent 1px 88px), repeating-linear-gradient(90deg, rgba(164,156,255,.028) 0 1px, transparent 1px 88px); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) body { background-image: repeating-linear-gradient(0deg, rgba(164,156,255,.028) 0 1px, transparent 1px 88px), repeating-linear-gradient(90deg, rgba(164,156,255,.028) 0 1px, transparent 1px 88px); } }
+.chips li, .ritmo span, .plan .eti, .sellos li, .redes a, .temas-g span, .indice a span, .metas button, .fases.claras button, .sn span, .btn.hueco { border-radius: .4rem; }
+.idea::after, .plan::after, .guia::after, .correo::after, .voz::after, .caja::after, .pegada::after { opacity: .32; }
+.testi > .voz:not(:first-child)::after, .pegada::after, .caja-t::after { opacity: 0; }
+@media (hover: none) {
+  .plan:hover, .guia:hover, .idea:hover, .correo:hover, .rc:hover, .cuatro > li:hover, .tres li:hover, .linea li:hover, .testi > .voz:hover,
+  .js .sube.ya.guia:hover, .js .sube.ya.plan:hover, .js .sube.ya.idea:hover, .js .sube.ya.correo:hover { transform: none; }
+  .plan:hover::before, .guia:hover::before, .idea:hover::before, .correo:hover::before, .voz:hover::before, .pegada:hover::before { opacity: 0; }
+}
+@media (max-width: 760px) { :root { --rejilla-c: rgba(164,156,255,.07); } }
+@media (prefers-contrast: more) {
+  body, .hero::after, .pasos::after, .cifras ul::after, .cierre::after, .aprende, .priv, .franja, footer { background-image: none !important; }
+  .hero h1 span:last-child, .precio, .elige-r #elige-t, .lema em, .cifras li b, .num404 { background: none !important; color: inherit !important; -webkit-text-fill-color: currentColor; }
+  .idea::after, .plan::after, .guia::after, .correo::after, .voz::after, .caja::after { display: none; }
+}
+@media (forced-colors: active) {
+  .hero h1 span:last-child, .precio, .elige-r #elige-t, .lema em, .cifras li b, .num404, .portada b { background: none !important; color: CanvasText !important; -webkit-text-fill-color: CanvasText; forced-color-adjust: none; }
+  .entrada h2::after { background: CanvasText; }
+}
+.plan.oro::before { background: radial-gradient(18rem 18rem at var(--lx, 50%) var(--ly, 0%), rgba(240,198,116,.16), transparent 70%); }
+.cierre .entrada::before, .lema-banda .entrada::before { content: none; }
+@media (prefers-reduced-motion: reduce) { .quieta-z *, .pestana-oculta * { animation: none !important; } }
