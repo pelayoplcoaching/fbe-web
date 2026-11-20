@@ -106,7 +106,7 @@ h1 { font-stretch:120%; font-weight:760; line-height:1.02; letter-spacing:-.02em
 
 /* 14. Tarjetas: borde fino, sombra suave y esquinas de visor */
 .wrap { position:relative; z-index:2; max-width:70rem; margin:-2.4rem auto 0; padding:0 max(16px, env(safe-area-inset-right, 0px)) 3rem max(16px, env(safe-area-inset-left, 0px)); display:grid; gap:1rem; }
-.pasos-c, .lado { display:grid; gap:1rem; min-width:0; align-content:start; }
+.cols, .pasos-c, .lado { display:grid; gap:1rem; min-width:0; align-content:start; }
 .tarjeta { position:relative; background:var(--sup); border:1px solid var(--linea); border-radius:1.4rem; padding:clamp(1.2rem, 3vw, 1.6rem); box-shadow:var(--sombra-s); transition:border-color .25s, box-shadow .25s; }
 .tarjeta::after { content:""; position:absolute; inset:-6px; pointer-events:none; opacity:.55; transition:opacity .25s, inset .25s;
   --e:color-mix(in srgb, var(--marca-clara) 85%, transparent);
@@ -232,10 +232,11 @@ body { -webkit-tap-highlight-color:transparent; }
 /* 39. Tres columnas en pantallas anchas, una en movil, con aire entre opciones (reglas de .fases y .situ) */
 
 /* 40. En ordenador: dos columnas y el resultado fijo a la derecha mientras cambias los pasos */
+/* El panel fijo vive dentro de .cols: asi no puede bajar mas alla de los pasos ni pisar los enlaces */
 @media (min-width:980px) {
-  .wrap { grid-template-columns:minmax(0, 1fr) minmax(0, 25rem); gap:1.5rem; align-items:start; }
+  .wrap { gap:1.5rem; }
+  .cols { grid-template-columns:minmax(0, 1fr) minmax(0, 25rem); gap:1.5rem; align-items:start; }
   .lado { position:sticky; top:5rem; }
-  .enlaces { grid-column:1 / -1; }
 }
 
 /* ---------- TANDA 3: el resultado y el cierre ---------- */
@@ -398,6 +399,7 @@ footer .fuentes::before { content:""; display:block; width:4.6rem; height:2px; m
 </section>
 
 <main class="wrap" id="calc">
+  <div class="cols">
   <div class="pasos-c">
     <details class="paso0 tarjeta" data-n="00">
       <summary><span class="paso">Paso 0</span><span class="tit">¿Qué peso uso?</span> <span class="mini">Solo si tienes bastante sobrepeso o estás ya muy magro — toca aquí para desplegarlo; si no es tu caso, salta al paso 1</span></summary>
@@ -499,6 +501,7 @@ footer .fuentes::before { content:""; display:block; width:4.6rem; height:2px; m
       consulta, con tu analítica delante. Primero se mide, después se decide.</p>
     </div>
   </aside>
+  </div>
 
   <div class="enlaces">
     <a class="btn btn-yt" href="https://www.youtube.com/@FuerzaBasadaEnEvidencia" target="_blank" rel="noopener">
