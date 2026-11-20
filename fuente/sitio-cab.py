@@ -66,9 +66,9 @@ h += '''<script>(function(){var D=document,p=D.getElementById('peso'),A=1.6,B=2.
 [].forEach.call(D.querySelectorAll('.fases button'),function(b){b.addEventListener('click',function(){[].forEach.call(D.querySelectorAll('.fases button'),function(x){x.setAttribute('aria-pressed',x===b)});A=+b.dataset.a;B=+b.dataset.b;pinta()})});p.addEventListener('input',pinta);pinta()})();</script>'''
 cam('<div class="retrato" aria-hidden="true">PF</div>', '<div class="retrato">PF<img loading="lazy" src="' + ('img/foto-pelayo.webp' if os.path.exists('web-img/foto-pelayo.webp') else 'https://storage.mlcdn.com/account_image/1626427/9IMbm5EtFHhfSdYJ65FBb9koyf2wl2C5kufOmYtZ.png') + '" alt="Pelayo Fernández Cidón" onerror="this.remove()"></div>')
 cam('<title>Web FBE Equipo</title>', '<title>Sitio FBE</title>')
-cam('</style>\n<script>document.documentElement', open('sitio.css', encoding='utf-8').read() + '</style>\n<script>document.documentElement')
+cam('</style>\n<script>document.documentElement', open('sitio.css', encoding='utf-8').read() + open('futuro.css', encoding='utf-8').read() + '</style>\n<script>document.documentElement')
 open('sitio-inicio.html', 'w', encoding='utf-8').write(h)
-CSS = css + open('sitio.css', encoding='utf-8').read()
+CSS = css + open('sitio.css', encoding='utf-8').read() + open('futuro.css', encoding='utf-8').read()
 os.makedirs(SAL, exist_ok=True)
 open(f'{SAL}/fbe.css', 'w', encoding='utf-8').write(CSS); shutil.copy('mini.js', f'{SAL}/fbe.js')
 open(f'{SAL}/index.html', 'w', encoding='utf-8').write('<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">' + h.replace('<title>Sitio FBE</title>', '<title>FBE · Tu plan, tu comida, tu coach</title>').replace('<style>', '</head><body style="margin:0"><style>', 1) + '</body></html>')

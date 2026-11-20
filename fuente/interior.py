@@ -192,7 +192,7 @@ pagina('guias.html', 'Guías', 'Guías prácticas y descargables sobre entrenami
 
 # ===== newsletter =====
 PLAYA = ilus('foto-playa', 'foto-p').replace('alt=""', 'alt="Pelayo en la playa"')
-if PLAYA: PLAYA = f'<figure class="quien">{PLAYA}<figcaption><b>Quién te escribe</b>Pelayo, fuera del hospital y del gimnasio.</figcaption></figure>'
+if PLAYA: PLAYA = f'<figure class="autor-foto">{PLAYA}<figcaption><b>Quién te escribe</b>Pelayo, fuera del hospital y del gimnasio.</figcaption></figure>'
 BIMG = ['boletin-habito', 'boletin-cafeina', 'boletin-pulsaciones']
 ENV = [('El hábito que movió mis marcadores', 'Lo que descubrí que les afectaba más que entrenar más duro.'), ('700 mg de cafeína sin darme cuenta', 'Cómo un médico llega ahí, y qué hice después.'), ('46 pulsaciones en reposo', 'Sin ser perfecto en nada. Qué hice y qué no.')]
 pagina('newsletter.html', 'Newsletter', 'El boletín semanal de Fuerza Basada en Evidencia: entrenamiento, nutrición y salud, sin mitos.', 'Lo que sí funciona. Cada semana, en tu correo.', 'Entrenamiento, nutrición y salud con base científica. Sin mitos y sin adornos, para entrenar mejor, comer con cabeza y vivir con energía.', f'''
@@ -239,7 +239,7 @@ open(f'{SAL}/404.html', 'w', encoding='utf-8').write(f'''{cabeza('404.html', 'P�
 <main id="contenido"></main>
 {PIE}
 <script src="fbe.js"></script></body></html>''')
-# Politica de privacidad propia: texto de su pagina de MailerLite (sept. 2026), tal cual. Solo se genera si hay FBE_CORREO.
+# Politica de privacidad propia: texto de su pagina de MailerLite (sept. 2026); el 20/11/2026 Pelayo pidio cambiar el alojamiento de la web a GitHub. Solo se genera si hay FBE_CORREO.
 if os.environ.get('FBE_CORREO'):
     C = os.environ['FBE_CORREO']; CM = f'<a href="mailto:{C}">{C}</a>'
     PRIV_TXT = f"""<section><div class="in"><div class="prosa">
@@ -255,12 +255,12 @@ if os.environ.get('FBE_CORREO'):
 <h2>Cuánto tiempo los conservamos</h2>
 <p>Al tratarse de un servicio prestado por un médico, la documentación clínica (analíticas, historial y prescripción) se conserva durante un mínimo de 5 años desde la finalización del servicio, conforme a la Ley 41/2002 de autonomía del paciente. Los datos de facturación se conservan durante los plazos exigidos por la normativa fiscal. El resto de datos se eliminan cuando dejan de ser necesarios o cuando lo solicitas.</p>
 <h2>Con quién compartimos tus datos</h2>
-<p>No compartimos tus datos con terceros con fines comerciales. Trabajamos únicamente con proveedores tecnológicos que actúan como encargados del tratamiento y cumplen el RGPD (como MailerLite para email y web, Calendly para reservas y Stripe para pagos). Algunos de estos proveedores pueden alojar datos fuera del Espacio Económico Europeo; en esos casos, el tratamiento se ampara en garantías adecuadas como las cláusulas contractuales tipo aprobadas por la Comisión Europea.</p>
+<p>No compartimos tus datos con terceros con fines comerciales. Trabajamos únicamente con proveedores tecnológicos que actúan como encargados del tratamiento y cumplen el RGPD (como MailerLite para email, GitHub para alojar esta web, Calendly para reservas y Stripe para pagos). Algunos de estos proveedores pueden alojar datos fuera del Espacio Económico Europeo; en esos casos, el tratamiento se ampara en garantías adecuadas como las cláusulas contractuales tipo aprobadas por la Comisión Europea.</p>
 <h2>Tus derechos</h2>
 <p>Puedes ejercer en cualquier momento tus derechos de acceso, rectificación, supresión, oposición, limitación del tratamiento y portabilidad, así como retirar tu consentimiento, escribiendo a {CM}. También tienes derecho a presentar una reclamación ante la Agencia Española de Protección de Datos (<a href="https://www.aepd.es">aepd.es</a>) si consideras que el tratamiento no se ajusta a la normativa.</p>
 <h2>Seguridad</h2>
 <p>Aplicamos medidas técnicas y organizativas para proteger tu información, incluido el almacenamiento de la documentación clínica en sistemas con acceso restringido.</p>
-<p><small>Última actualización: septiembre de 2026.</small></p>
+<p><small>Última actualización: noviembre de 2026.</small></p>
 </div></div></section>"""
     open(f'{SAL}/privacidad.html', 'w', encoding='utf-8').write(f"""{cabeza('privacidad.html', 'Política de privacidad', 'Qué datos trata Fuerza Basada en Evidencia, para qué, cuánto tiempo y cómo ejercer tus derechos.')}
 {cabecera()}

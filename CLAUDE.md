@@ -24,6 +24,7 @@ rm sitio.py web-fbe-equipo.html sitio-inicio.html
 - `foto-playa.webp` (foto real de Pelayo en la playa): bloque «Quien te escribe» bajo «Que te llega» en Newsletter.
 - La letra Archivo se sirve desde la propia web (`fuente/ext/archivo.woff2` -> `img/archivo.woff2`); el final de interior.py sustituye el enlace de Google Fonts en todas las paginas generadas. Las landings de guias siguen cargando sus letras de Google.
 - `privacidad.html`: texto de su politica de MailerLite (sept. 2026) tal cual. Solo se genera, y el pie solo enlaza a ella, si hay `FBE_CORREO` (el correo de contacto sale de ahi). Sin la variable, el pie sigue enlazando a la de MailerLite.
+- `futuro.css`: capa de estilo tecnologico y futurista (desde 20/11/2026), en tandas. Se anade despues de `sitio.css` tanto en `fbe.css` como en la portada (sitio-cab.py). Usa `--mono` (letra de sistema monoespaciada, sin Google), `--rejilla` y `--hilo`.
 - `og.mjs` necesita la letra Archivo. Si no hay acceso a Google Fonts: `npm i @fontsource-variable/archivo` y `FBE_FUENTE=<ruta>/files/archivo-latin-wdth-normal.woff2 node og.mjs`.
 - `ver3.mjs` importa `servir` de `/home/claude/app-atletas/test/servidor.mjs` (repo fbe-equipo); si no está, usar cualquier servidor estático.
 
