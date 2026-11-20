@@ -290,6 +290,7 @@ open(f'{SAL}/gracias-boletin.html', 'w', encoding='utf-8').write(f"""{cabeza('gr
 # Formulario propio «Pedir plaza» (20/11/2026): mismas preguntas que el de NoteForms y mismas opciones que las columnas de la base
 # de Notion «Leads – Nuevos contactos». Se envia a PLAZA_ENVIO (funcion de Netlify, fuente/formularios/) como formulario normal;
 # la funcion vuelve a gracias-plaza.html o a pedir-plaza.html?error=1|2. Las dos paginas, noindex y fuera del sitemap.
+AGUA = f'<div class="marca-agua">{LOBO}</div>'  # cabecera sin ilustracion: el lobo de fondo
 OBJ_P = ['Hipertrofia', 'Fuerza', 'Pérdida de grasa corporal', 'Recomposición Corporal', 'Salud general', 'Prevención de lesiones/Rehabilitación']
 CON_P = ['Instagram', 'Referido', 'Web', 'Otro']
 def chip_p(nombre, tipo, v): return f'<label><input type="{tipo}" name="{nombre}" value="{v}">{v}</label>'
@@ -335,7 +336,7 @@ window.addEventListener('pageshow', function(e){ if (e.persisted) { bt.disabled 
 _correo_vis = os.environ.get('FBE_CORREO', '')
 open(f'{SAL}/pedir-plaza.html', 'w', encoding='utf-8').write(f"""{cabeza('pedir-plaza.html', 'Pedir plaza', 'Formulario de contacto inicial de FBE Coaching Online: cuéntame tu caso y te respondo yo.', '<meta name="robots" content="noindex">')}
 {cabecera()}
-<header class="hero mini t-pedir-plaza" id="inicio">{ANILLOS}<div class="marca-agua">{LOBO}</div><div class="in"><div class="txt"><span class="miga"><a href="index.html">Inicio</a> / Pedir plaza</span><h1>Pedir plaza</h1><p class="sub">Formulario de contacto inicial de FBE Coaching Online. Cuéntame tu caso. Te respondo yo.</p></div></div></header>
+<header class="hero mini t-pedir-plaza" id="inicio">{ANILLOS}{ilus("web-pedir-plaza") or AGUA}<div class="in"><div class="txt"><span class="miga"><a href="index.html">Inicio</a> / Pedir plaza</span><h1>Pedir plaza</h1><p class="sub">Formulario de contacto inicial de FBE Coaching Online. Cuéntame tu caso. Te respondo yo.</p></div></div></header>
 <main id="contenido">
 <section><div class="in"><div class="plaza-rejilla">
 {FORM_P.replace('<form class="formu sube" id="plaza"', '<form class="formu sube" id="plaza" data-correo="' + _ent(_correo_vis) + '"' if _correo_vis else '<form class="formu sube" id="plaza"')}
@@ -347,7 +348,7 @@ open(f'{SAL}/pedir-plaza.html', 'w', encoding='utf-8').write(f"""{cabeza('pedir-
 {JS_P}</body></html>""")
 open(f'{SAL}/gracias-plaza.html', 'w', encoding='utf-8').write(f"""{cabeza('gracias-plaza.html', 'Recibido', 'Solicitud recibida en FBE Coaching Online.', '<meta name="robots" content="noindex">')}
 {cabecera()}
-<header class="hero mini t-pedir-plaza" id="inicio">{ANILLOS}<div class="marca-agua">{LOBO}</div><div class="in"><div class="txt"><span class="miga"><a href="index.html">Inicio</a> / Pedir plaza / Recibido</span><h1>Recibido.</h1><p class="sub">Gracias por contarme tu caso. Te respondo yo.</p></div></div></header>
+<header class="hero mini t-pedir-plaza" id="inicio">{ANILLOS}{ilus("web-recibido") or AGUA}<div class="in"><div class="txt"><span class="miga"><a href="index.html">Inicio</a> / Pedir plaza / Recibido</span><h1>Recibido.</h1><p class="sub">Gracias por contarme tu caso. Te respondo yo.</p></div></div></header>
 <main id="contenido">
 <section class="hoja"><div class="in"><div class="entrada sube"><h2>Mientras tanto</h2></div>
   <div class="cta sube" style="display:flex;flex-wrap:wrap;gap:.8rem"><a class="btn" href="programas.html">Ver los programas</a><a class="btn hueco" href="guias.html">Guías</a><a class="btn hueco" href="{CALC}">Calculadora de proteína</a></div>
@@ -381,7 +382,7 @@ if os.environ.get('FBE_CORREO'):
 </div></div></section>"""
     open(f'{SAL}/privacidad.html', 'w', encoding='utf-8').write(f"""{cabeza('privacidad.html', 'Política de privacidad', 'Qué datos trata Fuerza Basada en Evidencia, para qué, cuánto tiempo y cómo ejercer tus derechos.')}
 {cabecera()}
-<header class="hero mini t-privacidad" id="inicio">{ANILLOS}<div class="marca-agua">{LOBO}</div><div class="in"><div class="txt"><span class="miga"><a href="index.html">Inicio</a> / Privacidad</span><h1>Política de privacidad</h1><p class="sub">Qué datos trato, para qué, cuánto tiempo los guardo y cómo ejercer tus derechos.</p></div></div></header>
+<header class="hero mini t-privacidad" id="inicio">{ANILLOS}{ilus("web-privacidad") or AGUA}<div class="in"><div class="txt"><span class="miga"><a href="index.html">Inicio</a> / Privacidad</span><h1>Política de privacidad</h1><p class="sub">Qué datos trato, para qué, cuánto tiempo los guardo y cómo ejercer tus derechos.</p></div></div></header>
 <main id="contenido">{PRIV_TXT}</main>
 {PIE}
 <script src="fbe.js"></script></body></html>""")

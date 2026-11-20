@@ -101,6 +101,11 @@ h1 { font-stretch:120%; font-weight:760; line-height:1.02; letter-spacing:-.02em
 .ruta a b { color:var(--oro); font-weight:600; }
 .ruta a:hover { color:#fff; border-color:var(--marca-clara); background:rgba(164,156,255,.1); }
 
+/* 9b. Ilustracion de cabecera (si existe calc-cabecera.webp; si no, el lobo de agua): a la derecha, fundida hacia el texto */
+.hero .ilus { position:absolute; right:0; bottom:0; height:100%; width:auto; max-width:52%; object-fit:cover; object-position:center; pointer-events:none; -webkit-mask-image:linear-gradient(90deg, transparent, #000 55%); mask-image:linear-gradient(90deg, transparent, #000 55%); }
+@media (max-width:1100px) { .hero .ilus { opacity:.55; } }
+@media (max-width:760px) { .hero .ilus { max-width:95%; opacity:.22; -webkit-mask-image:linear-gradient(90deg, transparent, #000 70%); mask-image:linear-gradient(90deg, transparent, #000 70%); } }
+
 /* 13. Esquinas inferiores redondeadas, como las cabeceras interiores */
 .hero { border-radius:0 0 clamp(1.4rem, 4vw, 3rem) clamp(1.4rem, 4vw, 3rem); }
 
@@ -395,7 +400,7 @@ footer .fuentes::before { content:""; display:block; width:4.6rem; height:2px; m
     </ol>
   </div>
   <svg class="anillos" viewBox="0 0 600 600" aria-hidden="true"><circle cx="300" cy="300" r="60"/><circle cx="300" cy="300" r="110"/><circle cx="300" cy="300" r="165"/><circle cx="300" cy="300" r="225"/><circle cx="300" cy="300" r="290"/><circle class="punto" cx="465" cy="300" r="7"/><circle class="punto p2" cx="300" cy="75" r="5"/></svg>
-  <svg class="agua" aria-hidden="true"><use href="#lobo"/></svg>
+  __CALC_ILUS__
 </section>
 
 <main class="wrap" id="calc">
