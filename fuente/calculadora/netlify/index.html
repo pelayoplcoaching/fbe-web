@@ -581,7 +581,7 @@ footer .fuentes::before { content:""; display:block; width:4.6rem; height:2px; m
     if (situ === 'sobrepeso'){
       objetivo = Math.round(25 * h * h);
       if (objetivo >= pr){ objetivo = Math.round(pr); }
-      msg = 'Tu IMC actual es <b>' + imc.toFixed(1) + '</b>. Peso de referencia: <b>' + objetivo +
+      msg = 'Tu IMC actual es <b>' + imc.toFixed(1).replace('.', ',') + '</b>. Peso de referencia: <b>' + objetivo +
             ' kg</b> (&#8776; tu peso a un IMC de 25 — una referencia razonable para calcular, no una meta obligatoria).';
     } else if (situ === 'magro'){
       objetivo = Math.round(pr);
