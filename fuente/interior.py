@@ -247,9 +247,9 @@ open(f'{SAL}/404.html', 'w', encoding='utf-8').write(f'''{cabeza('404.html', 'P�
 <script src="fbe.js"></script></body></html>''')
 # Tandas 12-14 (20/11/2026): sello de las paginas de gracias, tarjetas de «Mientras tanto» y pasos de «Cómo sigue»
 SELLO = '<span class="sello" aria-hidden="true"><svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="23"/><path d="M15.5 27.5l7 7 14-15"/></svg></span>'
-def sigue(href, img, titulo):
-    _i = ilus(img, 'sigue-img') or f'<span class="sigue-img vacia">{LOBO}</span>'
-    return f'<a class="sigue" href="{href}">{_i}<span class="sigue-t"><b>{titulo}</b></span></a>'
+def tarj_sigue(href, img, titulo):
+    _i = ilus(img, 'tarj-img') or f'<span class="tarj-img vacia">{LOBO}</span>'
+    return f'<a class="tarj-s" href="{href}">{_i}<span class="tarj-t"><b>{titulo}</b></span></a>'
 PASITOS = '<ol class="pasitos{x}"><li>Me cuentas tu caso en este formulario.</li><li>Te respondo yo.</li><li>Antes de empezar hacemos una videollamada gratuita.</li></ol>'
 # Gracias de la Puesta a punto: a /gracias vuelve Stripe tras el pago (copiada de su web vieja el 20/11/2026; su Gmail cambiado por el correo publico). Siempre noindex.
 _TALLY = 'https://tally.so/r/J94Voz'; _CAL = 'https://calendly.com/pelayoplcoaching/puesta-a-punto-videollamada'
@@ -288,7 +288,7 @@ open(f'{SAL}/gracias-boletin.html', 'w', encoding='utf-8').write(f"""{cabeza('gr
   </ol>
 </div></section>
 <section class="hoja"><div class="in"><div class="entrada sube"><h2>Mientras tanto</h2></div>
-  <div class="sigue-g sube">{sigue("guias.html", "web-guias", "Ver las guías")}{sigue(CALC, "web-calculadora", "Calculadora de proteína")}{sigue("quien-soy.html", "foto-pelayo", "Quién soy")}</div>
+  <div class="tarj-g sube">{tarj_sigue("guias.html", "web-guias", "Ver las guías")}{tarj_sigue(CALC, "web-calculadora", "Calculadora de proteína")}{tarj_sigue("quien-soy.html", "foto-pelayo", "Quién soy")}</div>
 </div></section>
 </main>
 {PIE}
@@ -323,7 +323,7 @@ FORM_P = f"""<form class="formu sube" id="plaza" action="{PLAZA_ENVIO}" method="
 </form>"""
 LADO_P = f"""<aside class="plaza-lado sube">
   <div class="tarjeta-p"><img class="foto-p" src="{FOTO}" alt="Pelayo Fernández Cidón" width="160" height="200" loading="lazy"><p><b>Te respondo yo.</b> Cuéntame tu caso en el formulario.</p></div>
-  <div class="tarjeta-p sigue-p"><p class="etq-p">Cómo sigue</p>{PASITOS.format(x="")}</div>
+  <div class="tarjeta-p como-sigue"><p class="etq-p">Cómo sigue</p>{PASITOS.format(x="")}</div>
   <div class="tarjeta-p"><p><b>¿Dudas antes de pedir plaza?</b></p><p><a href="programas.html">Ver los programas</a> · <a href="dudas.html">Preguntas frecuentes</a>{f' · <a href="mailto:{CORREO_P}">Escribirme</a>' if CORREO_P else ''}</p></div>
 </aside>"""
 JS_P = """<script>(function(){
@@ -372,9 +372,9 @@ open(f'{SAL}/gracias-plaza.html', 'w', encoding='utf-8').write(f"""{cabeza('grac
 {cabecera()}
 <header class="hero mini t-pedir-plaza" id="inicio">{ANILLOS}{ilus("web-recibido") or AGUA}<div class="in"><div class="txt"><span class="miga"><a href="index.html">Inicio</a> / Pedir plaza / Recibido</span>{SELLO}<h1>Recibido.</h1><p class="sub">Gracias por contarme tu caso. Te respondo yo.</p></div></div></header>
 <main id="contenido">
-<section><div class="in"><div class="entrada sube"><h2>Cómo sigue</h2></div><div class="sigue-caja sube">{PASITOS.format(x=" hecho1")}</div></div></section>
+<section><div class="in"><div class="entrada sube"><h2>Cómo sigue</h2></div><div class="caja-s sube">{PASITOS.format(x=" hecho1")}</div></div></section>
 <section class="hoja"><div class="in"><div class="entrada sube"><h2>Mientras tanto</h2></div>
-  <div class="sigue-g sube">{sigue("programas.html", "web-programas", "Ver los programas")}{sigue("guias.html", "web-guias", "Guías")}{sigue(CALC, "web-calculadora", "Calculadora de proteína")}</div>
+  <div class="tarj-g sube">{tarj_sigue("programas.html", "web-programas", "Ver los programas")}{tarj_sigue("guias.html", "web-guias", "Guías")}{tarj_sigue(CALC, "web-calculadora", "Calculadora de proteína")}</div>
 </div></section>
 </main>
 {PIE}
