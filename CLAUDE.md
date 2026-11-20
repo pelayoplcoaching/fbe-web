@@ -53,7 +53,8 @@ rm sitio.py web-fbe-equipo.html sitio-inicio.html
 - `pedir-plaza.html` y `gracias-plaza.html` (interior.py; noindex y fuera del sitemap). Mismas preguntas que el NoteForms y mismas opciones que la base de Notion «Leads – Nuevos contactos» (database a5c4e10c-7a3f-4155-9384-ab91a3a0b12a).
 - Se envía como formulario normal a `PLAZA_ENVIO` (sitio-cab.py) = función de Netlify `fuente/formularios/funciones/plaza.mjs`, proyecto de Netlify `fbe-formularios` (id bfa7cb8d-f56e-4d0e-a01d-d97845ae9573, creado sin protección de acceso). La función crea la fila en Notion con «Estado del Lead» = «🆕 Nuevo (formulario enviado)» y redirige a gracias-plaza.html, o a pedir-plaza.html?error=1 (datos) / ?error=2 (fallo técnico; la página recupera lo escrito). Trampas para robots: campo oculto `web` y envío en menos de 3 s.
 - Necesita en Netlify la variable `NOTION_TOKEN` (integración interna de Notion «Web FBE» con acceso a esa base; la pone Pelayo, nunca en el código) y el proyecto enlazado al repo con base directory `fuente/formularios`.
-- Mientras no se haya probado de verdad, los botones «Pedir plaza» (`FORM` en sitio-cab.py) siguen yendo a NoteForms. Al probarlo: cambiar `FORM = 'pedir-plaza.html'`.
+- Probado de verdad el 20/11/2026 (fila de prueba creada en Notion y borrada). Desde entonces `FORM = 'pedir-plaza.html'`: todos los «Pedir plaza» de la web van al formulario propio. Las filas nuevas entran con «Estado del Lead» = «🆕 Nuevo»; las de NoteForms entraban vacías.
+- NoteForms sigue vivo hasta pasar al dominio: lo usan la web vieja de MailerLite y el botón «Asesoría conmigo» de la calculadora. Tras el dominio, cambiar ese botón a https://fuerzabasadaenevidencia.com/pedir-plaza.html y entonces se puede apagar NoteForms.
 - Ojo: su resumen diario de correo detecta los leads por el aviso de nuevo formulario en Gmail; si ese aviso lo mandaba NoteForms, hay que sustituirlo.
 
 ## Landings de guias (carpetas sueltas)

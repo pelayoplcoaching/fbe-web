@@ -3,7 +3,7 @@ src = open('landing5.py', encoding='utf-8').read()
 src = src[:src.rindex("open('web-fbe-equipo.html'")]
 exec(src)
 SAL = os.environ.get('FBE_SAL', '..')
-FORM = 'https://noteforms.com/forms/formulario-inicial-fbe-coaching-online-snl8tn'
+FORM = 'pedir-plaza.html'  # antes NoteForms (formulario-inicial-fbe-coaching-online-snl8tn); cambiado el 20/11/2026 tras probar el formulario propio
 # Formulario propio «Pedir plaza» (pedir-plaza.html): lo recibe la funcion de Netlify del proyecto fbe-formularios y lo guarda en Notion.
 PLAZA_ENVIO = 'https://fbe-formularios.netlify.app/.netlify/functions/plaza'
 STRIPE = 'https://buy.stripe.com/9B6bJ0ccQ4exeMxcsKbV601'
