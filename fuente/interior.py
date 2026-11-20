@@ -245,6 +245,30 @@ open(f'{SAL}/404.html', 'w', encoding='utf-8').write(f'''{cabeza('404.html', 'P�
 <main id="contenido"></main>
 {PIE}
 <script src="fbe.js"></script></body></html>''')
+# Gracias de la Puesta a punto: a /gracias vuelve Stripe tras el pago (copiada de su web vieja el 20/11/2026; su Gmail cambiado por el correo publico). Siempre noindex.
+_TALLY = 'https://tally.so/r/J94Voz'; _CAL = 'https://calendly.com/pelayoplcoaching/puesta-a-punto-videollamada'
+_CC = _ent(os.environ.get('FBE_CORREO', '')); _CCM = f'<a href="mailto:{_CC}">{_CC}</a>' if _CC else 'el formulario de contacto'
+open(f'{SAL}/gracias.html', 'w', encoding='utf-8').write(f"""{cabeza('gracias.html', 'Gracias · Puesta a punto', 'Pago recibido: los dos pasos que quedan para tu Puesta a punto.', '<meta name="robots" content="noindex">')}
+{cabecera()}
+<header class="hero mini t-puesta-a-punto" id="inicio">{ANILLOS}{ilus("web-puesta-a-punto")}<div class="in"><div class="txt"><span class="miga"><a href="index.html">Inicio</a> / <a href="puesta-a-punto.html">Puesta a punto</a> / Gracias</span><h1>Pago recibido.</h1><p class="sub">Tu Puesta a punto ya está en marcha. En unos minutos te llega el recibo de Stripe por email.</p></div></div></header>
+<main id="contenido">
+<section><div class="in"><div class="entrada sube"><h2>Quedan dos pasos, y el orden importa</h2><p>Para que yo pueda revisar tu caso antes de que hablemos: primero el cuestionario, después la cita. Reserva la cita solo cuando hayas enviado el cuestionario con tu analítica. Si reservas antes, no podré preparar la consulta.</p></div>
+  <ol class="pasos-g dos-pasos sube">
+    <li><b>Rellena el cuestionario y sube tu analítica</b><span>Historial médico, cómo entrenas, cómo comes y tu analítica de los últimos 12 meses en PDF. Es largo a propósito: es lo que me permite darte un plan que no sea genérico. Hazlo de una vez, con calma.</span><small>20–30 min · canal seguro</small><a class="btn" href="{_TALLY}">Abrir el cuestionario</a></li>
+    <li><b>Reserva tu videollamada de 30 minutos</b><span>Elige el hueco que mejor te venga. La agenda solo deja reservar con al menos 5 días de antelación: es el tiempo que necesito para leer tu analítica y tu historial antes de vernos.</span><small>30 min · Google Meet</small><a class="btn hueco" href="{_CAL}">Reservar la cita</a></li>
+  </ol>
+</div></section>
+<section class="hoja"><div class="in dos">
+  <div class="sube"><h3 style="margin-bottom:.8rem">¿Todavía no tienes analítica?</h3><p>Rellena igualmente el cuestionario (puedes dejar el archivo sin subir) y pide a tu médico o a un laboratorio:</p><ul class="chips analitica" style="margin:1rem 0"><li>Hemograma</li><li>Ferritina</li><li>Glucosa y HbA1c</li><li>Perfil lipídico</li><li>TSH</li><li>Vitamina D</li><li>Creatinina</li><li>Transaminasas</li><li>B12 y fólico</li></ul><p>Cuando tengas los resultados, me los mandas por email y reservas la cita.</p></div>
+  <div class="sube"><h3 style="margin-bottom:.8rem">Qué pasa después</h3><ul class="marcas"><li>Antes de la cita reviso tu analítica y tu historial. La llamada la dedicamos a lo que los datos no cuentan.</li><li>En menos de 7 días desde la consulta recibes tu plan de 12 semanas de entrenamiento y nutrición en PDF.</li><li>Tienes 7 días desde la entrega para mandarme un único correo con todas tus dudas. Respondo en 48–72 h.</li><li>La videollamada se transcribe para redactar tu plan con precisión; te lo confirmo al empezar la llamada.</li></ul>
+  <p style="margin-top:1.2rem;color:var(--tinta-2)">Si necesitas cambiar la cita, hazlo desde el enlace del email de confirmación de Calendly. Para cualquier otra cosa, escríbeme a {_CCM}. Tus datos se tratan según la <a href="{PRIV}">política de privacidad</a>.</p></div>
+</div></section>
+</main>
+{PIE}
+<script src="fbe.js"></script></body></html>""")
+# Direcciones de la web vieja de MailerLite que cambian de nombre: paginas que redirigen al momento (/programas y /puesta-a-punto ya coinciden)
+for _vieja, _nueva in [('faq', 'dudas.html'), ('newsletter-semanal', 'newsletter.html'), ('programas-copy', 'guias.html'), ('quien_soy', 'quien-soy.html')]:
+    open(f'{SAL}/{_vieja}.html', 'w', encoding='utf-8').write(f'<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="robots" content="noindex"><title>Fuerza Basada en Evidencia</title><link rel="canonical" href="{WEB}{_nueva}"><meta http-equiv="refresh" content="0; url={_nueva}"><script>location.replace("{_nueva}" + location.search + location.hash)</script></head><body><p><a href="{_nueva}">Esta página ha cambiado de sitio. Sigue aquí.</a></p></body></html>')
 # Gracias del boletin: a esta pagina redirige el formulario de MailerLite «Boletín · Newsletter (web)». Siempre noindex y fuera del sitemap.
 open(f'{SAL}/gracias-boletin.html', 'w', encoding='utf-8').write(f"""{cabeza('gracias-boletin.html', 'Ya estás dentro', 'Gracias por apuntarte al boletín de Fuerza Basada en Evidencia.', '<meta name="robots" content="noindex">')}
 {cabecera()}

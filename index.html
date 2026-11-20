@@ -1400,7 +1400,7 @@ img { color: transparent; font-size: 0; }
 .pestana-oculta *, .pestana-oculta *::before, .pestana-oculta *::after { animation-play-state: paused !important; }
 
 /* 209. Analitica de Puesta a punto: nombres tal cual (HbA1c, TSH, B12), sin mayusculas forzadas */
-.pag-puesta-a-punto .chips li { text-transform: none; font-family: inherit; font-size: .9rem; letter-spacing: 0; font-weight: 600; }
+.pag-puesta-a-punto .chips li, .chips.analitica li { text-transform: none; font-family: inherit; font-size: .9rem; letter-spacing: 0; font-weight: 600; }
 
 /* 210. Papel tecnico del fondo: mas espaciado y mas tenue, para no competir con las rejillas de las secciones */
 body { background-image: repeating-linear-gradient(0deg, color-mix(in srgb, var(--marca) 3%, transparent) 0 1px, transparent 1px 88px), repeating-linear-gradient(90deg, color-mix(in srgb, var(--marca) 3%, transparent) 0 1px, transparent 1px 88px); }
@@ -1458,6 +1458,13 @@ body { background-image: repeating-linear-gradient(0deg, color-mix(in srgb, var(
 .pasos-g li::before { content: counter(pg, decimal-leading-zero); position: absolute; left: 1.3rem; top: 1.3rem; font: 600 .8rem/1 var(--mono); letter-spacing: .1em; color: var(--acento); }
 .pasos-g b { display: block; margin-bottom: .35rem; font-size: 1.08rem; }
 .pasos-g span { color: var(--tinta-2); }
+
+/* Gracias de la Puesta a punto: dos pasos con su boton */
+.dos-pasos { grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); }
+.dos-pasos li { display: flex; flex-direction: column; gap: .5rem; padding-bottom: 1.6rem; }
+.dos-pasos small { font-family: var(--mono); font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--acento); margin-top: .3rem; }
+.dos-pasos .btn { align-self: flex-start; margin-top: .6rem; }
+.dos-pasos li:first-child { border-color: color-mix(in srgb, var(--marca-clara) 60%, var(--linea)); box-shadow: inset 0 3px 0 var(--marca), var(--sombra-s); }
 </style>
 <script>document.documentElement.classList.add('js');</script>
 <a class="salto" href="#semana">Saltar al contenido</a>
