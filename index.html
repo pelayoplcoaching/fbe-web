@@ -1030,8 +1030,8 @@ figure:hover > .m { box-shadow: var(--sombra), 0 0 2.6rem -.8rem rgba(124,106,25
 /* 111. Boton claro/oscuro con anillo de luz */
 .tema:hover { border-color: var(--marca-clara); box-shadow: 0 0 1.2rem -.2rem rgba(164,156,255,.8); color: #fff; }
 
-/* 112. Menu de movil: cristal con rejilla y barra de luz en el enlace */
-.menu div { background: var(--rejilla), rgba(36,22,101,.94); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-color: rgba(164,156,255,.3); }
+/* 112. Menu de movil: fondo opaco con rejilla y barra de luz en el enlace */
+.menu div { background: var(--rejilla), var(--noche-2); border-color: rgba(164,156,255,.3); }
 .menu div a:hover, .menu div a[aria-current="page"] { box-shadow: inset 3px 0 0 var(--marca-clara); }
 
 /* 113. Barra fija de movil: hilo de luz arriba */
@@ -1231,6 +1231,90 @@ main a:focus-visible, main button:focus-visible, main summary:focus-visible, mai
 /* 160. Transicion suave al cambiar de claro a oscuro */
 body, .plan, .guia, .idea, .correo, .caja, .faq details, .pegada, footer { transition: background-color .35s ease, color .35s ease, border-color .35s ease; }
 @media (prefers-reduced-motion: reduce) { body, .plan, .guia, .idea, .correo, .caja, .faq details, .pegada, footer { transition: none; } }
+
+/* ---------- TANDA 9: satisfaccion al usar ---------- */
+
+/* 161. Al pulsar en el movil: sin destello gris del navegador, con respuesta propia */
+a, button, summary, label { -webkit-tap-highlight-color: transparent; }
+@media (hover: none) { .btn:active, .metas button:active, .fases button:active, .chips li:active, .indice a:active { transform: scale(.97); } }
+
+/* 162. Guias: al filtrar, las tarjetas entran escalonadas */
+.guia.entra { animation: entra-g .45s cubic-bezier(.2,.7,.2,1) both; animation-delay: calc(var(--i, 0) * 45ms); }
+@keyframes entra-g { from { opacity: 0; transform: translateY(14px) scale(.98); } to { opacity: 1; transform: none; } }
+
+/* 163. Guia senalada por "Por cual empiezo?": un pulso de luz al llegar */
+.guia.senal { animation: senal 1.6s ease-out 2; }
+@keyframes senal { 0% { box-shadow: 0 0 0 3px var(--marca-clara), var(--sombra); } 50% { box-shadow: 0 0 0 7px color-mix(in srgb, var(--marca-clara) 35%, transparent), 0 0 3rem -.4rem var(--marca), var(--sombra); } 100% { box-shadow: 0 0 0 3px var(--marca-clara), var(--sombra); } }
+
+/* 164. Test de Programas: la recomendacion parpadea suave al cambiar */
+#elige-t.cambia { animation: cambia .5s ease both; }
+@keyframes cambia { from { opacity: .2; transform: translateY(4px); filter: blur(2px); } to { opacity: 1; transform: none; filter: none; } }
+
+/* 165. Programa recomendado: subraya su llegada cuando cambia */
+.plan.top.llega { animation: llega .7s cubic-bezier(.2,.7,.2,1) both, respira 3.6s ease-in-out .7s infinite; }
+@keyframes llega { 0% { transform: scale(.98); } 60% { transform: scale(1.015); } 100% { transform: none; } }
+
+/* 166. Copiar la lista de la analitica: el boton confirma con un check verde */
+#copia.hecho { border-color: var(--verde); color: var(--verde); box-shadow: 0 0 1.2rem -.4rem color-mix(in srgb, var(--verde) 70%, transparent); }
+#copia.hecho::after { content: " \2713"; }
+#copia-ok:not(:empty) { animation: cambia .4s ease both; }
+
+/* 167. Buscador de Dudas: resaltado en lavanda y dorado, con brillo al aparecer */
+mark { background: linear-gradient(transparent 55%, color-mix(in srgb, var(--oro) 55%, transparent) 55%); box-shadow: none; padding: 0 .05em; border-radius: 0; }
+
+/* 168. Llegar a una pregunta por enlace: se ilumina un momento */
+.faq details:target { animation: senal 1.6s ease-out 1; }
+
+/* 169. Volver arriba: un anillo muestra cuanto has leido */
+.arriba { background: conic-gradient(var(--marca-clara) calc(var(--p, 0) * 1turn), transparent 0) border-box, var(--sup) padding-box; border: 2px solid transparent; }
+.arriba svg { position: relative; }
+
+/* 170. Calculadora: la cifra de proteina da un pequeno salto al cambiar */
+#prot.salta, #toma.salta { animation: salta .35s cubic-bezier(.2,.7,.2,1) both; display: inline-block; }
+@keyframes salta { 0% { transform: scale(1); } 40% { transform: scale(1.12); color: #fff; text-shadow: 0 0 1rem var(--marca-clara); } 100% { transform: scale(1); } }
+
+/* 171. Botones de eleccion: el marcado se confirma con un pequeno rebote */
+.fases button[aria-pressed="true"], .metas button[aria-pressed="true"], #filtro button[aria-pressed="true"] { animation: elige .3s cubic-bezier(.2,.7,.2,1); }
+@keyframes elige { 0% { transform: scale(.94); } 70% { transform: scale(1.03); } 100% { transform: none; } }
+
+/* 172. Preguntas: la flecha gira con suavidad y el resumen cambia de color al abrir */
+.faq summary::after { transition: transform .3s cubic-bezier(.2,.7,.2,1); }
+.faq details[open] summary { color: var(--acento); }
+
+/* 173. Menu de movil: se despliega con suavidad */
+.menu[open] div { animation: menu-a .25s cubic-bezier(.2,.7,.2,1) both; transform-origin: top right; }
+@keyframes menu-a { from { opacity: 0; transform: translateY(-6px) scale(.97); } to { opacity: 1; transform: none; } }
+
+/* 174. Icono del menu: las tres rayas se convierten en una X al abrir */
+.menu summary span, .menu summary span::before, .menu summary span::after { transition: transform .25s, background-color .25s; }
+.menu[open] summary span { background-color: transparent; }
+.menu[open] summary span::before { transform: translateY(6px) rotate(45deg); }
+.menu[open] summary span::after { transform: translateY(-6px) rotate(-45deg); }
+
+/* 175. Enlaces del pie: una flecha aparece al pasar */
+footer nav a, footer .in > div a:not(.redes a) { transition: color .2s, padding-left .2s; }
+@media (hover: hover) { footer .in > div:not(:first-child) a:hover { padding-left: .35rem; color: #fff; } }
+
+/* 176. Tarjetas de guia: toda la tarjeta indica que se puede pulsar */
+.guia .portada { cursor: default; }
+.guia .btn { position: relative; }
+
+/* 177. Indice de Dudas: el apartado en el que estas queda marcado */
+.indice a.aqui { background: var(--lila); box-shadow: inset 3px 0 0 var(--marca); color: var(--acento); }
+
+/* 178. Prueba de la serie: marcar una serie da un pequeno chispazo */
+.prueba input[type=checkbox]:checked, .serie input:checked { animation: elige .3s cubic-bezier(.2,.7,.2,1); }
+
+/* 179. Formularios: campos que responden al pasar y al escribir */
+input[type=text], input[type=email], input[type=search], input[type=number] { transition: border-color .2s, box-shadow .2s; }
+input[type=text]:hover, input[type=email]:hover, input[type=search]:hover, input[type=number]:hover { border-color: color-mix(in srgb, var(--marca-clara) 60%, var(--linea)); }
+
+/* 180. Movimiento reducido: todas las respuestas de esta tanda, sin animar */
+@media (prefers-reduced-motion: reduce) {
+  .guia.entra, .guia.senal, #elige-t.cambia, .plan.top.llega, #copia-ok:not(:empty), .faq details:target, #prot.salta, #toma.salta,
+  .fases button[aria-pressed="true"], .metas button[aria-pressed="true"], #filtro button[aria-pressed="true"], .menu[open] div, .prueba input:checked, .serie input:checked { animation: none; }
+  .menu summary span, .menu summary span::before, .menu summary span::after, footer .in > div a { transition: none; }
+}
 </style>
 <script>document.documentElement.classList.add('js');</script>
 <a class="salto" href="#semana">Saltar al contenido</a>
@@ -1540,4 +1624,28 @@ body, .plan, .guia, .idea, .correo, .caja, .faq details, .pegada, footer { trans
 <script>(function(){var D=document,p=D.getElementById('peso'),A=1.6,B=2.2;if(!p)return;function r(v){return Math.round(v/5)*5}function pinta(){var k=+p.value,a=r(k*A),b=r(k*B);D.getElementById('peso-o').textContent=k+' kg';D.getElementById('prot').textContent=a+'–'+b+' g';D.getElementById('toma').textContent=r(a/4)+'–'+r(b/4)+' g'}
 [].forEach.call(D.querySelectorAll('.fases button'),function(b){b.addEventListener('click',function(){[].forEach.call(D.querySelectorAll('.fases button'),function(x){x.setAttribute('aria-pressed',x===b)});A=+b.dataset.a;B=+b.dataset.b;pinta()})});p.addEventListener('input',pinta);pinta()})();</script><script>(function () { var n = 0; [].forEach.call(document.querySelectorAll('.entrada'), function (e) { n++; e.setAttribute('data-n', (n < 10 ? '0' : '') + n); }); })();
 (function () { if (!window.matchMedia || !matchMedia('(pointer: fine)').matches || matchMedia('(prefers-reduced-motion: reduce)').matches) return; document.addEventListener('pointermove', function (e) { var c = e.target && e.target.closest && e.target.closest('.plan, .guia, .idea, .correo, .voz, .pegada'); if (!c) return; var r = c.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top; c.style.setProperty('--lx', x + 'px'); c.style.setProperty('--ly', y + 'px'); if (c.classList.contains('guia') || c.classList.contains('plan')) { c.style.setProperty('--ry', ((x / r.width - 0.5) * 4).toFixed(2) + 'deg'); c.style.setProperty('--rx', ((0.5 - y / r.height) * 4).toFixed(2) + 'deg'); } }, { passive: true }); })();
+(function () {
+  var D = document, quieto = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function $(s) { return D.querySelector(s); } function $$(s) { return [].slice.call(D.querySelectorAll(s)); }
+  function vuelve(el, c) { if (!el || quieto) return; el.classList.remove(c); void el.offsetWidth; el.classList.add(c); }
+  function vigila(el, fn) { if (el && 'MutationObserver' in window) new MutationObserver(fn).observe(el, { childList: true, characterData: true, subtree: true }); }
+  /* menu: Escape y clic fuera lo cierran */
+  var menu = $('.menu');
+  if (menu) { D.addEventListener('keydown', function (e) { if (e.key === 'Escape' && menu.open) { menu.open = false; var s = menu.querySelector('summary'); if (s) s.focus(); } }); D.addEventListener('click', function (e) { if (menu.open && !menu.contains(e.target)) menu.open = false; }); }
+  /* volver arriba: anillo de lectura */
+  var arr = $('#arriba'); if (arr) { var mueve = function () { var h = D.documentElement.scrollHeight - innerHeight; arr.style.setProperty('--p', h > 0 ? Math.min(1, (window.scrollY || 0) / h).toFixed(3) : 0); }; addEventListener('scroll', mueve, { passive: true }); mueve(); }
+  /* guias: entrada escalonada al filtrar */
+  var fil = $('#filtro'); if (fil) fil.addEventListener('click', function (e) { if (!e.target.closest('button')) return; setTimeout(function () { var i = 0; $$('.guia').forEach(function (g) { if (!g.hidden) { g.style.setProperty('--i', i++); vuelve(g, 'entra'); } }); }, 0); });
+  /* programas: la recomendacion y el plan recomendado avisan al cambiar */
+  var et = $('#elige-t'); vigila(et, function () { vuelve(et, 'cambia'); var t = $('.plan.top'); vuelve(t, 'llega'); });
+  /* copiar la analitica */
+  var ok = $('#copia-ok'), cp = $('#copia'); vigila(ok, function () { if (cp) cp.classList.toggle('hecho', /Copiada/.test(ok.textContent)); });
+  /* calculadora: salto de la cifra */
+  ['#prot', '#toma'].forEach(function (s) { var el = $(s); vigila(el, function () { vuelve(el, 'salta'); }); });
+  /* dudas: marcar el apartado visible del indice */
+  var idx = $$('.indice a[href^="#"]');
+  if (idx.length && 'IntersectionObserver' in window) { var mapa = {}; idx.forEach(function (a) { var t = D.getElementById(a.getAttribute('href').slice(1)); if (t) mapa[t.id] = a; });
+    var io = new IntersectionObserver(function (es) { es.forEach(function (en) { if (en.isIntersecting && mapa[en.target.id]) { idx.forEach(function (a) { a.classList.remove('aqui'); }); mapa[en.target.id].classList.add('aqui'); } }); }, { rootMargin: '-30% 0px -60% 0px' });
+    Object.keys(mapa).forEach(function (id) { io.observe(D.getElementById(id)); }); }
+})();
 </script></body></html>
