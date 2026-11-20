@@ -13,7 +13,13 @@ def ilus(nombre, clase='ilus'):
     f = f'web-img/{nombre}.webp'
     if not os.path.exists(f): return ''
     os.makedirs(f'{SAL}/img', exist_ok=True); shutil.copy(f, f'{SAL}/img/{nombre}.webp')
-    return f'<img class="{clase}" src="img/{nombre}.webp" alt="" loading="lazy" decoding="async">'
+    try:
+        from PIL import Image as _I
+        _w, _h = _I.open(f).size; _wh = f' width="{_w}" height="{_h}"'
+    except Exception: _wh = ''
+    _arriba = clase == 'ilus'
+    _carga = 'loading="eager" fetchpriority="high"' if _arriba else 'loading="lazy"'
+    return f'<img class="{clase}" src="img/{nombre}.webp" alt=""{_wh} {_carga} decoding="async">'
 def datos(*xs): return '<ul class="datos">' + ''.join(f'<li><b>{a}</b>{b}</li>' for a, b in xs) + '</ul>'
 def sigue(arch):
     i = [u for u, _ in PAGS].index(arch); a = PAGS[i - 1] if i else ('index.html', 'Inicio'); b = PAGS[i + 1] if i + 1 < len(PAGS) else ('index.html', 'Inicio')
@@ -74,7 +80,7 @@ pagina('quien-soy.html', 'Quién soy', 'Pelayo Fernández Cidón, médico intern
     <a class="caja sube" href="newsletter.html"><i class="ic">{ico('chat')}</i><h3>Newsletter</h3><p>Un correo a la semana.</p></a>
     <a class="caja sube" href="{CALC}"><i class="ic">{ico('plato')}</i><h3>Calculadora de proteína</h3><p>Gratis, con reparto por comidas.</p></a>
     <a class="caja sube" href="{dict(REDES)['YouTube']}" target="_blank" rel="noopener"><i class="ic">{ico('video')}</i><h3>YouTube</h3><p>Vídeos sobre fuerza, nutrición y salud.</p></a>
-  </div></div></section>''', BTN + datos(('15+', 'años entrenando fuerza'), ('2020', 'el año en que nace FBE')), extra=LDP, lado=f'<div class="retrato xl">PF<img src="{FOTO}" alt="Pelayo Fernández Cidón" onerror="this.remove()"></div>')
+  </div></div></section>''', BTN + datos(('15+', 'años entrenando fuerza'), ('2020', 'el año en que nace FBE')), extra=LDP, lado=f'<div class="retrato xl">PF<img src="{FOTO}" alt="Pelayo Fernández Cidón" width="720" height="900" fetchpriority="high" decoding="async" onerror="this.remove()"></div>')
 
 # ===== programas =====
 P = [('essential', 'Entrenamiento', 'Essential', 'Mensual', 'Correo', ['Revisión del plan cada 4 semanas', 'Seguimiento semanal por correo', 'Programación basada en evidencia', 'Adaptada a tu energía, tu horario y tu estrés']),
@@ -296,3 +302,15 @@ for _f in glob.glob(f'{SAL}/*.html'):
     _t = open(_f, encoding='utf-8').read()
     _n = _re.sub(r'(<link rel="preconnect" href="https://fonts\.gstatic\.com" crossorigin>)?<link rel="stylesheet" href="https://fonts\.googleapis\.com/css2\?family=Archivo[^"]*">', _FF, _t)
     if _n != _t: open(_f, 'w', encoding='utf-8').write(_n)
+
+# Conexion anticipada a MailerLite (caras de testimonios y formulario) y navegacion instantanea al pasar por un enlace
+_PRE = '<link rel="preconnect" href="https://storage.mlcdn.com" crossorigin><script type="speculationrules">{"prefetch":[{"where":{"href_matches":"/*"},"eagerness":"moderate"}]}</script>'
+for _f in glob.glob(f'{SAL}/*.html'):
+    _t = open(_f, encoding='utf-8').read()
+    if 'speculationrules' not in _t and '</head>' in _t:
+        open(_f, 'w', encoding='utf-8').write(_t.replace('</head>', _PRE + '</head>', 1))
+# CSS sin comentarios (mas ligero)
+_c = open(f'{SAL}/fbe.css', encoding='utf-8').read()
+_c2 = _re.sub(r'/\*.*?\*/', '', _c, flags=_re.S)
+_c2 = _re.sub(r'\n\s*\n+', '\n', _c2)
+open(f'{SAL}/fbe.css', 'w', encoding='utf-8').write(_c2)

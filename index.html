@@ -5,7 +5,7 @@
 <meta property="og:description" content="Asesoría online de fuerza y nutrición basada en evidencia, con revisión cada semana.">
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "¿Necesito ir a un gimnasio?", "acceptedAnswer": {"@type": "Answer", "text": "No es obligatorio. Programo para gimnasio, para casa con poco material o para una mezcla de los dos, y la app te propone alternativas si un día no tienes lo que toca."}}, {"@type": "Question", "name": "¿Cuánto tiempo necesito a la semana?", "acceptedAnswer": {"@type": "Answer", "text": "El que tengas. El plan se monta sobre tus días y tus minutos reales, no al revés; y si un día vas justo, la sesión se recorta por lo menos importante."}}, {"@type": "Question", "name": "¿Puedo apuntarme solo a la nutrición, o solo al entrenamiento?", "acceptedAnswer": {"@type": "Answer", "text": "El entrenamiento se puede contratar solo. La nutrición por separado es poco habitual: casi siempre va junto al entrenamiento, que es donde más rinde."}}, {"@type": "Question", "name": "Nunca he entrenado fuerza. ¿Es para mí?", "acceptedAnswer": {"@type": "Answer", "text": "Sí. Cada ejercicio lleva su vídeo y su explicación, empezamos con cargas que puedas controlar y me puedes mandar vídeo de tu técnica para que te la corrija."}}, {"@type": "Question", "name": "¿Tengo que descargar algo?", "acceptedAnswer": {"@type": "Answer", "text": "No hace falta ir a ninguna tienda de aplicaciones. La app se abre desde el navegador del móvil y se añade a la pantalla de inicio en dos toques; funciona en iPhone y en Android."}}, {"@type": "Question", "name": "Tomo medicación o tengo una lesión. ¿Puedo entrenar?", "acceptedAnswer": {"@type": "Answer", "text": "En la mayoría de los casos sí, y adaptarlo es parte del trabajo. Lo vemos en la valoración inicial. La asesoría no sustituye a tu médico ni a tu tratamiento."}}, {"@type": "Question", "name": "¿Qué pasa con mis fotos y mis datos de salud?", "acceptedAnswer": {"@type": "Answer", "text": "Solo se guardan con tu permiso, solo los vemos tú y yo, y puedes descargar todo lo tuyo desde la propia app."}}, {"@type": "Question", "name": "¿Cuánto cuesta?", "acceptedAnswer": {"@type": "Answer", "text": "Depende de si quieres entrenamiento, nutrición o las dos cosas. Te lo detallo al responder a tu formulario, sin compromiso."}}]}, {"@type": "Person", "name": "Pelayo Fernández Cidón", "jobTitle": "Médico internista y entrenador", "worksFor": {"@type": "Organization", "name": "FBE · Fuerza Basada en Evidencia"}}]}</script>
 <link rel="preload" href="img/archivo.woff2" as="font" type="font/woff2" crossorigin><style>@font-face{font-family:"Archivo";src:url(img/archivo.woff2) format("woff2");font-weight:400 800;font-stretch:75% 125%;font-display:swap}</style>
-</head><body style="margin:0"><style>:root { --noche:#140B3A; --noche-2:#241665; --noche-3:#2f2470; --marca:#593EDE; --marca-h:#462ABF; --marca-clara:#A49CFF; --sobre:#FFFFFF; --lavanda:#D4D0F5; --oro:#F0C674; --oro-t:#7A5410; --oro-s:#FBF1DA;
+<link rel="preconnect" href="https://storage.mlcdn.com" crossorigin><script type="speculationrules">{"prefetch":[{"where":{"href_matches":"/*"},"eagerness":"moderate"}]}</script></head><body style="margin:0"><style>:root { --noche:#140B3A; --noche-2:#241665; --noche-3:#2f2470; --marca:#593EDE; --marca-h:#462ABF; --marca-clara:#A49CFF; --sobre:#FFFFFF; --lavanda:#D4D0F5; --oro:#F0C674; --oro-t:#7A5410; --oro-s:#FBF1DA;
   --fondo:#F6F6F9; --sup:#FFFFFF; --lila:#EEECFF; --tinta:#151423; --tinta-2:#55546A; --linea:#DDDCE6; --acento:#593EDE; --verde:#1F8A5B; --rojo:#B4233C; --ambar:#9A6A12;
   --sombra: 0 1.2rem 3rem rgba(36,22,101,.16); --sombra-s: 0 .3rem 1rem rgba(36,22,101,.08); color-scheme: light; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --fondo:#0E0D15; --sup:#181626; --lila:#211F32; --tinta:#EEECFF; --tinta-2:#A9A7BD; --linea:#343249; --acento:#A49CFF; --verde:#5FD3A0; --rojo:#FF8FA3; --ambar:#F0C674; --oro-t:#F0C674; --oro-s:#2E2718; --sombra: 0 1.2rem 3rem rgba(0,0,0,.5); --sombra-s: 0 .3rem 1rem rgba(0,0,0,.35); color-scheme: dark; } }
@@ -1315,6 +1315,63 @@ input[type=text]:hover, input[type=email]:hover, input[type=search]:hover, input
   .fases button[aria-pressed="true"], .metas button[aria-pressed="true"], #filtro button[aria-pressed="true"], .menu[open] div, .prueba input:checked, .serie input:checked { animation: none; }
   .menu summary span, .menu summary span::before, .menu summary span::after, footer .in > div a { transition: none; }
 }
+
+/* ---------- TANDA 10: imagenes y carga ---------- */
+
+/* 181-183 (en interior.py): ilustraciones de cabecera y retrato cargan primero; todas las imagenes llevan sus medidas reservadas */
+/* 184. Hueco con tono violeta mientras llega cada imagen */
+.foto-i, .foto-c, .foto-b, .foto-g, .foto-p, .banner, .correo img, .retrato img { background-color: color-mix(in srgb, var(--marca-clara) 16%, var(--noche)); }
+
+/* 185. Las imagenes aparecen con un fundido al cargar, no de golpe */
+.js .foto-i:not(.cargada), .js .foto-c:not(.cargada), .js .foto-b:not(.cargada), .js .foto-g:not(.cargada), .js .foto-p:not(.cargada), .js .banner:not(.cargada) { opacity: 0; }
+.js .foto-i.cargada, .js .foto-c.cargada, .js .foto-b.cargada, .js .foto-g.cargada, .js .foto-p.cargada, .js .banner.cargada { animation: img-in .6s ease both; }
+@keyframes img-in { from { opacity: 0; filter: blur(6px) saturate(.6); } to { opacity: 1; filter: none; } }
+
+/* 186. Ilustraciones de cabecera: entran deslizandose desde la derecha la primera vez */
+.hero.mini .ilus { animation: ilus-in 1s cubic-bezier(.2,.7,.2,1) both; }
+@keyframes ilus-in { from { opacity: 0; transform: translateX(2rem); } to { opacity: 1; transform: none; } }
+@supports (animation-timeline: scroll()) { .hero.mini .ilus { animation: ilus-in 1s cubic-bezier(.2,.7,.2,1) both, deriva linear both; animation-timeline: auto, scroll(root); animation-range: normal, 0 70vh; } }
+
+/* 187. Retrato: aparece con un barrido de luz al cargar la pagina */
+.retrato.xl img { animation: retrato-in 1.1s cubic-bezier(.2,.7,.2,1) .15s both; }
+@keyframes retrato-in { from { opacity: 0; transform: scale(1.04); filter: saturate(.4) brightness(1.2); } to { opacity: 1; transform: none; filter: none; } }
+
+/* 188 (en ext/): la letra pesa un tercio menos (solo los caracteres que usa la web) */
+/* 189 (en interior.py): la hoja de estilos se publica sin comentarios */
+/* 190 (en interior.py): conexion anticipada con MailerLite para las caras de los testimonios */
+/* 191 (en interior.py): al pasar por un enlace interno, la pagina siguiente se prepara antes del clic */
+
+/* 192. Imagenes que no ocupan mas de lo que se ve */
+img { max-width: 100%; height: auto; }
+
+/* 193. El texto alternativo de una imagen rota no se ve como un borron */
+img { color: transparent; font-size: 0; }
+.retrato img { font-size: 0; }
+
+/* 194. Caras de los testimonios: un borde de luz y fundido propio */
+.cara img { animation: img-in .5s ease both; }
+
+/* 195. Formulario del boletin: hueco reservado para que la pagina no salte cuando carga */
+.ml-caja { min-height: 15rem; }
+.ml-caja .ml-embedded:empty::before { content: "Cargando el formulario..."; display: block; padding: 2rem; font-family: var(--mono); font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--tinta-2); text-align: center; }
+
+/* 196. El lobo del logo, nitido en pantallas de alta densidad */
+.lobo, .logo svg, footer .marca svg { shape-rendering: geometricPrecision; }
+
+/* 197. Pantallas de la app: hueco con la forma del movil mientras cargan */
+.m img, .tel img { background: linear-gradient(160deg, color-mix(in srgb, var(--lila) 80%, transparent), transparent); }
+
+/* 198. Al imprimir no se imprimen las ilustraciones decorativas */
+@media print { .foto-i, .foto-c, .foto-b, .foto-g, .banner, .cinta, .lema-banda .lema-fondo { display: none !important; } }
+
+/* 199. Movil con datos ahorrados: sin animaciones de entrada de imagenes */
+@media (prefers-reduced-data: reduce) { .js .cargada, .hero.mini .ilus, .retrato.xl img { animation: none; } }
+
+/* 200. Movimiento reducido: imagenes directamente visibles */
+@media (prefers-reduced-motion: reduce) {
+  .js .foto-i, .js .foto-c, .js .foto-b, .js .foto-g, .js .foto-p, .js .banner { opacity: 1; }
+  .js .cargada, .hero.mini .ilus, .retrato.xl img, .cara img { animation: none; }
+}
 </style>
 <script>document.documentElement.classList.add('js');</script>
 <a class="salto" href="#semana">Saltar al contenido</a>
@@ -1648,4 +1705,5 @@ input[type=text]:hover, input[type=email]:hover, input[type=search]:hover, input
     var io = new IntersectionObserver(function (es) { es.forEach(function (en) { if (en.isIntersecting && mapa[en.target.id]) { idx.forEach(function (a) { a.classList.remove('aqui'); }); mapa[en.target.id].classList.add('aqui'); } }); }, { rootMargin: '-30% 0px -60% 0px' });
     Object.keys(mapa).forEach(function (id) { io.observe(D.getElementById(id)); }); }
 })();
+(function () { var imgs = [].slice.call(document.querySelectorAll('.foto-i, .foto-c, .foto-b, .foto-g, .foto-p, .banner')); function lista(i) { i.classList.add('cargada'); } imgs.forEach(function (i) { if (i.complete && i.naturalWidth) { i.classList.add('cargada'); i.style.animation = 'none'; } else { i.addEventListener('load', function () { lista(i); }, { once: true }); i.addEventListener('error', function () { lista(i); }, { once: true }); } }); setTimeout(function () { imgs.forEach(lista); }, 6000); })();
 </script></body></html>
