@@ -1,0 +1,6 @@
+# Proyecto de Netlify «fbe-formularios»: recibe el formulario «Pedir plaza» de la web y lo guarda en Notion.
+# En Netlify: base directory = fuente/formularios (el resto lo lee de aqui).
+[build]
+  publish = "publico"
+  functions = "funciones"
+  command = ""

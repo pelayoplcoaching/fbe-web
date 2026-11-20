@@ -49,6 +49,13 @@ rm sitio.py web-fbe-equipo.html sitio-inicio.html
 - Cálculos y textos sin cambiar (comprobado contra la versión anterior en 42 combinaciones y 6 casos del paso 0). Arreglado el fallo de la anterior: salía «NaN – NaN» al cargar y tras usar el paso 0 (cogía también los botones del paso 0 como fases).
 - Publicar solo con el visto bueno de Pelayo.
 
+## Formulario propio «Pedir plaza» (sustituye a NoteForms; 20/11/2026)
+- `pedir-plaza.html` y `gracias-plaza.html` (interior.py; noindex y fuera del sitemap). Mismas preguntas que el NoteForms y mismas opciones que la base de Notion «Leads – Nuevos contactos» (database a5c4e10c-7a3f-4155-9384-ab91a3a0b12a).
+- Se envía como formulario normal a `PLAZA_ENVIO` (sitio-cab.py) = función de Netlify `fuente/formularios/funciones/plaza.mjs`, proyecto de Netlify `fbe-formularios` (id bfa7cb8d-f56e-4d0e-a01d-d97845ae9573, creado sin protección de acceso). La función crea la fila en Notion con «Estado del Lead» = «🆕 Nuevo (formulario enviado)» y redirige a gracias-plaza.html, o a pedir-plaza.html?error=1 (datos) / ?error=2 (fallo técnico; la página recupera lo escrito). Trampas para robots: campo oculto `web` y envío en menos de 3 s.
+- Necesita en Netlify la variable `NOTION_TOKEN` (integración interna de Notion «Web FBE» con acceso a esa base; la pone Pelayo, nunca en el código) y el proyecto enlazado al repo con base directory `fuente/formularios`.
+- Mientras no se haya probado de verdad, los botones «Pedir plaza» (`FORM` en sitio-cab.py) siguen yendo a NoteForms. Al probarlo: cambiar `FORM = 'pedir-plaza.html'`.
+- Ojo: su resumen diario de correo detecta los leads por el aviso de nuevo formulario en Gmail; si ese aviso lo mandaba NoteForms, hay que sustituirlo.
+
 ## Landings de guias (carpetas sueltas)
 - `guia-dos-dias/` (landing de la guia «Dos dias de gimnasio»): NO sale de `fuente/`. Es una carpeta autocontenida (index.html, gracias.html, img/ y el PDF) con su propia paleta de campana; se edita a mano y el generador no la toca.
 - Su formulario es el insertado de MailerLite «Guía · Dos días de gimnasio (web)» (`data-form="rE4kdS"`), grupo «Atletas PL coaching». Debe redirigir a `guia-dos-dias/gracias.html`.

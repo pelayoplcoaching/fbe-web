@@ -287,6 +287,75 @@ open(f'{SAL}/gracias-boletin.html', 'w', encoding='utf-8').write(f"""{cabeza('gr
 </main>
 {PIE}
 <script src="fbe.js"></script></body></html>""")
+# Formulario propio «Pedir plaza» (20/11/2026): mismas preguntas que el de NoteForms y mismas opciones que las columnas de la base
+# de Notion «Leads – Nuevos contactos». Se envia a PLAZA_ENVIO (funcion de Netlify, fuente/formularios/) como formulario normal;
+# la funcion vuelve a gracias-plaza.html o a pedir-plaza.html?error=1|2. Las dos paginas, noindex y fuera del sitemap.
+OBJ_P = ['Hipertrofia', 'Fuerza', 'Pérdida de grasa corporal', 'Recomposición Corporal', 'Salud general', 'Prevención de lesiones/Rehabilitación']
+CON_P = ['Instagram', 'Referido', 'Web', 'Otro']
+def chip_p(nombre, tipo, v): return f'<label><input type="{tipo}" name="{nombre}" value="{v}">{v}</label>'
+CORREO_P = (_ent(os.environ['FBE_CORREO'])) if os.environ.get('FBE_CORREO') else ''
+FORM_P = f"""<form class="formu sube" id="plaza" action="{PLAZA_ENVIO}" method="post" accept-charset="utf-8">
+  <div class="aviso-f" id="aviso" role="alert" hidden></div>
+  <div class="campo"><label for="f-nombre">Nombre y apellidos<span class="oblig" aria-hidden="true">*</span></label><input type="text" id="f-nombre" name="nombre" autocomplete="name" maxlength="200" required></div>
+  <div class="fila-f">
+    <div class="campo"><label for="f-correo">Correo electrónico<span class="oblig" aria-hidden="true">*</span></label><input type="email" id="f-correo" name="correo" autocomplete="email" maxlength="200" required></div>
+    <div class="campo"><label for="f-tel">Teléfono de contacto<span class="oblig" aria-hidden="true">*</span></label><input type="tel" id="f-tel" name="telefono" autocomplete="tel" inputmode="tel" maxlength="40" pattern="[+()0-9 .\-]{{6,}}" required></div>
+  </div>
+  <fieldset class="campo"><legend>Objetivos<small>puedes marcar varios</small></legend><div class="chips-f">{"".join(chip_p("objetivos", "checkbox", o) for o in OBJ_P)}</div></fieldset>
+  <fieldset class="campo"><legend>¿Cómo me has conocido?</legend><div class="chips-f uno">{"".join(chip_p("conocido", "radio", o) for o in CON_P)}</div></fieldset>
+  <div class="campo"><label for="f-nota">¡Muchas gracias por llegar hasta el final! ¿Algo que añadir o algo más que tenga que saber?</label><textarea id="f-nota" name="nota" rows="4" maxlength="1900"></textarea></div>
+  <div class="trampa" aria-hidden="true"><label>No rellenes este campo<input type="text" name="web" tabindex="-1" autocomplete="off"></label></div>
+  <input type="hidden" name="t0" id="f-t0" value="">
+  <label class="acepta"><input type="checkbox" name="privacidad" value="si" required><span>He leído la <a href="privacidad.html">política de privacidad</a> y acepto que uses estos datos para responder a mi solicitud.<span class="oblig" aria-hidden="true">*</span></span></label>
+  <div class="envio-f"><button class="btn" type="submit" id="f-enviar">Enviar</button><small><span class="oblig" aria-hidden="true">*</span> Obligatorio</small></div>
+</form>"""
+LADO_P = f"""<aside class="plaza-lado sube">
+  <div class="tarjeta-p"><img class="foto-p" src="{FOTO}" alt="Pelayo Fernández Cidón" width="160" height="200" loading="lazy"><p><b>Te respondo yo.</b> Cuéntame tu caso en el formulario.</p></div>
+  <div class="tarjeta-p"><p><b>¿Dudas antes de pedir plaza?</b></p><p><a href="programas.html">Ver los programas</a> · <a href="dudas.html">Preguntas frecuentes</a>{f' · <a href="mailto:{CORREO_P}">Escribirme</a>' if CORREO_P else ''}</p></div>
+</aside>"""
+JS_P = """<script>(function(){
+var f = document.getElementById('plaza'); if (!f) return;
+var t0 = document.getElementById('f-t0'), av = document.getElementById('aviso'), bt = document.getElementById('f-enviar'), K = 'fbe-plaza';
+t0.value = Date.now();
+var err = (location.search.match(/error=(\\d)/) || [])[1];
+function caja(){ try { return window.sessionStorage; } catch (e) { return null; } }
+if (err) {
+  var c = caja(), d = null; try { d = JSON.parse(c && c.getItem(K) || 'null'); } catch (e) {}
+  if (d) [].forEach.call(f.elements, function(el){ if (!el.name || el.name === 't0' || el.name === 'web') return; if (el.type === 'checkbox' || el.type === 'radio') el.checked = (d[el.name] || []).indexOf(el.value) > -1; else if (d[el.name]) el.value = d[el.name][0]; });
+  av.textContent = err === '2' ? 'No he podido guardar tu solicitud por un fallo técnico. Prueba otra vez en un momento' + (f.dataset.correo ? ' o escríbeme a ' + f.dataset.correo + '.' : '.') : 'Revisa el formulario: falta algún dato obligatorio o hay uno que no cuadra.';
+  av.hidden = false; av.scrollIntoView({ block: 'center' });
+}
+f.addEventListener('submit', function(){
+  var d = {}; [].forEach.call(f.elements, function(el){ if (!el.name || el.name === 't0' || el.name === 'web' || el.name === 'privacidad') return; if ((el.type === 'checkbox' || el.type === 'radio') && !el.checked) return; (d[el.name] = d[el.name] || []).push(el.value); });
+  var c = caja(); try { c && c.setItem(K, JSON.stringify(d)); } catch (e) {}
+  bt.disabled = true; bt.textContent = 'Enviando…';
+});
+window.addEventListener('pageshow', function(e){ if (e.persisted) { bt.disabled = false; bt.textContent = 'Enviar'; t0.value = Date.now() - 5000; } });
+})();</script>"""
+_correo_vis = os.environ.get('FBE_CORREO', '')
+open(f'{SAL}/pedir-plaza.html', 'w', encoding='utf-8').write(f"""{cabeza('pedir-plaza.html', 'Pedir plaza', 'Formulario de contacto inicial de FBE Coaching Online: cuéntame tu caso y te respondo yo.', '<meta name="robots" content="noindex">')}
+{cabecera()}
+<header class="hero mini t-pedir-plaza" id="inicio">{ANILLOS}<div class="marca-agua">{LOBO}</div><div class="in"><div class="txt"><span class="miga"><a href="index.html">Inicio</a> / Pedir plaza</span><h1>Pedir plaza</h1><p class="sub">Formulario de contacto inicial de FBE Coaching Online. Cuéntame tu caso. Te respondo yo.</p></div></div></header>
+<main id="contenido">
+<section><div class="in"><div class="plaza-rejilla">
+{FORM_P.replace('<form class="formu sube" id="plaza"', '<form class="formu sube" id="plaza" data-correo="' + _ent(_correo_vis) + '"' if _correo_vis else '<form class="formu sube" id="plaza"')}
+{LADO_P}
+</div></div></section>
+</main>
+{PIE}
+<script src="fbe.js"></script>
+{JS_P}</body></html>""")
+open(f'{SAL}/gracias-plaza.html', 'w', encoding='utf-8').write(f"""{cabeza('gracias-plaza.html', 'Recibido', 'Solicitud recibida en FBE Coaching Online.', '<meta name="robots" content="noindex">')}
+{cabecera()}
+<header class="hero mini t-pedir-plaza" id="inicio">{ANILLOS}<div class="marca-agua">{LOBO}</div><div class="in"><div class="txt"><span class="miga"><a href="index.html">Inicio</a> / Pedir plaza / Recibido</span><h1>Recibido.</h1><p class="sub">Gracias por contarme tu caso. Te respondo yo.</p></div></div></header>
+<main id="contenido">
+<section class="hoja"><div class="in"><div class="entrada sube"><h2>Mientras tanto</h2></div>
+  <div class="cta sube" style="display:flex;flex-wrap:wrap;gap:.8rem"><a class="btn" href="programas.html">Ver los programas</a><a class="btn hueco" href="guias.html">Guías</a><a class="btn hueco" href="{CALC}">Calculadora de proteína</a></div>
+</div></section>
+</main>
+{PIE}
+<script src="fbe.js"></script>
+<script>try {{ sessionStorage.removeItem('fbe-plaza'); }} catch (e) {{}}</script></body></html>""")
 # Politica de privacidad propia: texto de su pagina de MailerLite (sept. 2026); el 20/11/2026 Pelayo pidio cambiar el alojamiento de la web a GitHub. Solo se genera si hay FBE_CORREO.
 if os.environ.get('FBE_CORREO'):
     C = _ent(os.environ['FBE_CORREO']); CM = f'<a href="mailto:{C}">{C}</a>'
@@ -303,7 +372,7 @@ if os.environ.get('FBE_CORREO'):
 <h2>Cuánto tiempo los conservamos</h2>
 <p>Al tratarse de un servicio prestado por un médico, la documentación clínica (analíticas, historial y prescripción) se conserva durante un mínimo de 5 años desde la finalización del servicio, conforme a la Ley 41/2002 de autonomía del paciente. Los datos de facturación se conservan durante los plazos exigidos por la normativa fiscal. El resto de datos se eliminan cuando dejan de ser necesarios o cuando lo solicitas.</p>
 <h2>Con quién compartimos tus datos</h2>
-<p>No compartimos tus datos con terceros con fines comerciales. Trabajamos únicamente con proveedores tecnológicos que actúan como encargados del tratamiento y cumplen el RGPD (como MailerLite para email, GitHub para alojar esta web, Calendly para reservas y Stripe para pagos). Algunos de estos proveedores pueden alojar datos fuera del Espacio Económico Europeo; en esos casos, el tratamiento se ampara en garantías adecuadas como las cláusulas contractuales tipo aprobadas por la Comisión Europea.</p>
+<p>No compartimos tus datos con terceros con fines comerciales. Trabajamos únicamente con proveedores tecnológicos que actúan como encargados del tratamiento y cumplen el RGPD (como MailerLite para email, GitHub para alojar esta web, Netlify para recibir el formulario de contacto, Notion para gestionar las solicitudes, Calendly para reservas y Stripe para pagos). Algunos de estos proveedores pueden alojar datos fuera del Espacio Económico Europeo; en esos casos, el tratamiento se ampara en garantías adecuadas como las cláusulas contractuales tipo aprobadas por la Comisión Europea.</p>
 <h2>Tus derechos</h2>
 <p>Puedes ejercer en cualquier momento tus derechos de acceso, rectificación, supresión, oposición, limitación del tratamiento y portabilidad, así como retirar tu consentimiento, escribiendo a {CM}. También tienes derecho a presentar una reclamación ante la Agencia Española de Protección de Datos (<a href="https://www.aepd.es">aepd.es</a>) si consideras que el tratamiento no se ajusta a la normativa.</p>
 <h2>Seguridad</h2>

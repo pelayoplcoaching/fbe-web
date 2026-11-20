@@ -1465,6 +1465,46 @@ body { background-image: repeating-linear-gradient(0deg, color-mix(in srgb, var(
 .dos-pasos small { font-family: var(--mono); font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--acento); margin-top: .3rem; }
 .dos-pasos .btn { align-self: flex-start; margin-top: .6rem; }
 .dos-pasos li:first-child { border-color: color-mix(in srgb, var(--marca-clara) 60%, var(--linea)); box-shadow: inset 0 3px 0 var(--marca), var(--sombra-s); }
+
+/* ---------- Formulario propio Pedir plaza (20/11/2026; no cuenta en las tandas) ---------- */
+.plaza-rejilla { display: grid; gap: 1.6rem; align-items: start; }
+@media (min-width: 980px) { .plaza-rejilla { grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr); gap: 2.6rem; } .plaza-lado { position: sticky; top: 6rem; } }
+.formu { position: relative; display: grid; gap: 1.5rem; padding: clamp(1.3rem, 3.5vw, 2.2rem); background: var(--sup); border: 1px solid var(--linea); border-radius: 1.6rem; box-shadow: var(--sombra-s); }
+.formu .campo { display: grid; gap: .5rem; min-width: 0; margin: 0; padding: 0; border: 0; }
+.formu label, .formu legend { padding: 0; font-weight: 650; font-size: .98rem; line-height: 1.35; color: var(--tinta); }
+.formu legend { margin-bottom: .5rem; }
+.formu legend small { margin-left: .5rem; font-family: var(--mono); font-size: .7rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--tinta-2); }
+.formu .oblig { margin-left: .15rem; color: var(--acento); }
+.fila-f { display: grid; gap: 1.5rem; }
+@media (min-width: 640px) { .fila-f { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+.formu input[type="text"], .formu input[type="email"], .formu input[type="tel"], .formu textarea { box-sizing: border-box; width: 100%; min-height: 3.1rem; padding: .85rem 1rem; font: inherit; font-size: 1rem; color: var(--tinta); background: var(--fondo); border: 1.5px solid var(--linea); border-radius: .9rem; transition: border-color .2s, box-shadow .2s, background .2s; }
+.formu textarea { min-height: 7.5rem; line-height: 1.5; resize: vertical; }
+.formu input:focus, .formu textarea:focus { outline: none; border-color: var(--marca); background: var(--sup); box-shadow: 0 0 0 4px color-mix(in srgb, var(--marca) 18%, transparent); }
+.formu input:user-invalid, .formu textarea:user-invalid { border-color: var(--rojo); }
+.chips-f { display: flex; flex-wrap: wrap; gap: .55rem; }
+.chips-f label { position: relative; display: inline-flex; align-items: center; gap: .55rem; min-height: 2.75rem; padding: .5rem 1rem; font-weight: 500; font-size: .95rem; background: var(--sup); border: 1.5px solid var(--linea); border-radius: 99px; cursor: pointer; transition: border-color .2s, background .2s, box-shadow .2s, transform .12s; }
+.chips-f label:hover { border-color: color-mix(in srgb, var(--marca) 55%, var(--linea)); }
+.chips-f label:active { transform: scale(.98); }
+.chips-f input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
+.chips-f label::before { content: ""; flex: none; width: 1.05rem; height: 1.05rem; border: 1.5px solid var(--linea); border-radius: .32rem; background: var(--sup); transition: background .2s, border-color .2s; }
+.chips-f.uno label::before { border-radius: 50%; }
+.chips-f label:has(input:checked) { border-color: var(--marca); background: var(--lila); box-shadow: 0 .5rem 1.2rem -.7rem rgba(89,62,222,.55); }
+.chips-f label:has(input:checked)::before { border-color: var(--marca); background: var(--marca) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.4l2.6 2.6L12 5.6' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 85% no-repeat; }
+.chips-f label:has(input:focus-visible) { outline: 3px solid var(--marca-clara); outline-offset: 2px; }
+.trampa { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.formu .acepta { display: grid; grid-template-columns: auto 1fr; gap: .75rem; align-items: start; font-weight: 400; font-size: .92rem; color: var(--tinta-2); cursor: pointer; }
+.formu .acepta input { width: 1.25rem; height: 1.25rem; margin: .1rem 0 0; accent-color: var(--marca); cursor: pointer; }
+.formu .acepta a { color: var(--acento); }
+.envio-f { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.4rem; }
+.envio-f small { font-size: .85rem; color: var(--tinta-2); }
+.formu button.btn { border: 0; font: inherit; font-weight: 680; cursor: pointer; }
+.formu button.btn[disabled] { opacity: .7; cursor: wait; transform: none; }
+.aviso-f { padding: 1rem 1.1rem; font-size: .95rem; color: var(--tinta); background: color-mix(in srgb, var(--rojo) 8%, var(--sup)); border: 1px solid color-mix(in srgb, var(--rojo) 35%, transparent); border-left: 4px solid var(--rojo); border-radius: 1rem; }
+.plaza-lado { display: grid; gap: 1rem; }
+.tarjeta-p { display: grid; gap: .5rem; padding: 1.3rem; background: var(--sup); border: 1px solid var(--linea); border-radius: 1.4rem; box-shadow: var(--sombra-s); }
+.tarjeta-p:first-child { grid-template-columns: auto 1fr; gap: 1rem; align-items: center; }
+.foto-p { width: 5rem; height: 5rem; object-fit: cover; object-position: 50% 20%; border-radius: 50%; box-shadow: 0 0 0 3px var(--sup), 0 0 0 5px color-mix(in srgb, var(--marca-clara) 60%, transparent); }
+.tarjeta-p a { color: var(--acento); }
 </style>
 <script>document.documentElement.classList.add('js');</script>
 <a class="salto" href="#semana">Saltar al contenido</a>
