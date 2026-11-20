@@ -245,23 +245,29 @@ open(f'{SAL}/404.html', 'w', encoding='utf-8').write(f'''{cabeza('404.html', 'P�
 <main id="contenido"></main>
 {PIE}
 <script src="fbe.js"></script></body></html>''')
+# Tandas 12-14 (20/11/2026): sello de las paginas de gracias, tarjetas de «Mientras tanto» y pasos de «Cómo sigue»
+SELLO = '<span class="sello" aria-hidden="true"><svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="23"/><path d="M15.5 27.5l7 7 14-15"/></svg></span>'
+def sigue(href, img, titulo):
+    _i = ilus(img, 'sigue-img') or f'<span class="sigue-img vacia">{LOBO}</span>'
+    return f'<a class="sigue" href="{href}">{_i}<span class="sigue-t"><b>{titulo}</b></span></a>'
+PASITOS = '<ol class="pasitos{x}"><li>Me cuentas tu caso en este formulario.</li><li>Te respondo yo.</li><li>Antes de empezar hacemos una videollamada gratuita.</li></ol>'
 # Gracias de la Puesta a punto: a /gracias vuelve Stripe tras el pago (copiada de su web vieja el 20/11/2026; su Gmail cambiado por el correo publico). Siempre noindex.
 _TALLY = 'https://tally.so/r/J94Voz'; _CAL = 'https://calendly.com/pelayoplcoaching/puesta-a-punto-videollamada'
 _CC = _ent(os.environ.get('FBE_CORREO', '')); _CCM = f'<a href="mailto:{_CC}">{_CC}</a>' if _CC else 'el formulario de contacto'
 open(f'{SAL}/gracias.html', 'w', encoding='utf-8').write(f"""{cabeza('gracias.html', 'Gracias · Puesta a punto', 'Pago recibido: los dos pasos que quedan para tu Puesta a punto.', '<meta name="robots" content="noindex">')}
 {cabecera()}
-<header class="hero mini t-puesta-a-punto" id="inicio">{ANILLOS}{ilus("web-puesta-a-punto")}<div class="in"><div class="txt"><span class="miga"><a href="index.html">Inicio</a> / <a href="puesta-a-punto.html">Puesta a punto</a> / Gracias</span><h1>Pago recibido.</h1><p class="sub">Tu Puesta a punto ya está en marcha. En unos minutos te llega el recibo de Stripe por email.</p></div></div></header>
+<header class="hero mini t-puesta-a-punto" id="inicio">{ANILLOS}{ilus("web-puesta-a-punto")}<div class="in"><div class="txt"><span class="miga"><a href="index.html">Inicio</a> / <a href="puesta-a-punto.html">Puesta a punto</a> / Gracias</span>{SELLO}<h1>Pago recibido.</h1><p class="sub">Tu Puesta a punto ya está en marcha. En unos minutos te llega el recibo de Stripe por email.</p></div></div></header>
 <main id="contenido">
 <section><div class="in"><div class="entrada sube"><h2>Quedan dos pasos, y el orden importa</h2><p>Para que yo pueda revisar tu caso antes de que hablemos: primero el cuestionario, después la cita. Reserva la cita solo cuando hayas enviado el cuestionario con tu analítica. Si reservas antes, no podré preparar la consulta.</p></div>
-  <ol class="pasos-g dos-pasos sube">
-    <li><b>Rellena el cuestionario y sube tu analítica</b><span>Historial médico, cómo entrenas, cómo comes y tu analítica de los últimos 12 meses en PDF. Es largo a propósito: es lo que me permite darte un plan que no sea genérico. Hazlo de una vez, con calma.</span><small>20–30 min · canal seguro</small><a class="btn" href="{_TALLY}">Abrir el cuestionario</a></li>
-    <li><b>Reserva tu videollamada de 30 minutos</b><span>Elige el hueco que mejor te venga. La agenda solo deja reservar con al menos 5 días de antelación: es el tiempo que necesito para leer tu analítica y tu historial antes de vernos.</span><small>30 min · Google Meet</small><a class="btn hueco" href="{_CAL}">Reservar la cita</a></li>
+  <ol class="pasos-g dos-pasos con-iconos sube">
+    <li><em class="orden">Primero</em><b>Rellena el cuestionario y sube tu analítica</b><span>Historial médico, cómo entrenas, cómo comes y tu analítica de los últimos 12 meses en PDF. Es largo a propósito: es lo que me permite darte un plan que no sea genérico. Hazlo de una vez, con calma.</span><small>20–30 min · canal seguro</small><a class="btn" href="{_TALLY}">Abrir el cuestionario</a></li>
+    <li><em class="orden">Después</em><b>Reserva tu videollamada de 30 minutos</b><span>Elige el hueco que mejor te venga. La agenda solo deja reservar con al menos 5 días de antelación: es el tiempo que necesito para leer tu analítica y tu historial antes de vernos.</span><small>30 min · Google Meet</small><a class="btn hueco" href="{_CAL}">Reservar la cita</a></li>
   </ol>
 </div></section>
 <section class="hoja"><div class="in dos">
   <div class="sube"><h3 style="margin-bottom:.8rem">¿Todavía no tienes analítica?</h3><p>Rellena igualmente el cuestionario (puedes dejar el archivo sin subir) y pide a tu médico o a un laboratorio:</p><ul class="chips analitica" style="margin:1rem 0"><li>Hemograma</li><li>Ferritina</li><li>Glucosa y HbA1c</li><li>Perfil lipídico</li><li>TSH</li><li>Vitamina D</li><li>Creatinina</li><li>Transaminasas</li><li>B12 y fólico</li></ul><p>Cuando tengas los resultados, me los mandas por email y reservas la cita.</p></div>
-  <div class="sube"><h3 style="margin-bottom:.8rem">Qué pasa después</h3><ul class="marcas"><li>Antes de la cita reviso tu analítica y tu historial. La llamada la dedicamos a lo que los datos no cuentan.</li><li>En menos de 7 días desde la consulta recibes tu plan de 12 semanas de entrenamiento y nutrición en PDF.</li><li>Tienes 7 días desde la entrega para mandarme un único correo con todas tus dudas. Respondo en 48–72 h.</li><li>La videollamada se transcribe para redactar tu plan con precisión; te lo confirmo al empezar la llamada.</li></ul>
-  <p style="margin-top:1.2rem;color:var(--tinta-2)">Si necesitas cambiar la cita, hazlo desde el enlace del email de confirmación de Calendly. Para cualquier otra cosa, escríbeme a {_CCM}. Tus datos se tratan según la <a href="{PRIV}">política de privacidad</a>.</p></div>
+  <div class="sube"><h3 style="margin-bottom:.8rem">Qué pasa después</h3><ul class="marcas linea-t"><li>Antes de la cita reviso tu analítica y tu historial. La llamada la dedicamos a lo que los datos no cuentan.</li><li>En menos de 7 días desde la consulta recibes tu plan de 12 semanas de entrenamiento y nutrición en PDF.</li><li>Tienes 7 días desde la entrega para mandarme un único correo con todas tus dudas. Respondo en 48–72 h.</li><li>La videollamada se transcribe para redactar tu plan con precisión; te lo confirmo al empezar la llamada.</li></ul>
+  <p class="nota-g">Si necesitas cambiar la cita, hazlo desde el enlace del email de confirmación de Calendly. Para cualquier otra cosa, escríbeme a {_CCM}. Tus datos se tratan según la <a href="{PRIV}">política de privacidad</a>.</p></div>
 </div></section>
 </main>
 {PIE}
@@ -272,17 +278,17 @@ for _vieja, _nueva in [('faq', 'dudas.html'), ('newsletter-semanal', 'newsletter
 # Gracias del boletin: a esta pagina redirige el formulario de MailerLite «Boletín · Newsletter (web)». Siempre noindex y fuera del sitemap.
 open(f'{SAL}/gracias-boletin.html', 'w', encoding='utf-8').write(f"""{cabeza('gracias-boletin.html', 'Ya estás dentro', 'Gracias por apuntarte al boletín de Fuerza Basada en Evidencia.', '<meta name="robots" content="noindex">')}
 {cabecera()}
-<header class="hero mini t-newsletter" id="inicio">{ANILLOS}{ilus("web-newsletter")}<div class="in"><div class="txt"><span class="miga"><a href="index.html">Inicio</a> / <a href="newsletter.html">Newsletter</a> / Gracias</span><h1>Ya estás dentro.</h1><p class="sub">Gracias por apuntarte. En unos minutos te llega mi correo de bienvenida.</p></div></div></header>
+<header class="hero mini t-newsletter" id="inicio">{ANILLOS}{ilus("web-newsletter")}<div class="in"><div class="txt"><span class="miga"><a href="index.html">Inicio</a> / <a href="newsletter.html">Newsletter</a> / Gracias</span>{SELLO}<h1>Ya estás dentro.</h1><p class="sub">Gracias por apuntarte. En unos minutos te llega mi correo de bienvenida.</p></div></div></header>
 <main id="contenido">
 <section><div class="in"><div class="entrada sube"><h2>Para que no se pierda</h2></div>
-  <ol class="pasos-g sube">
+  <ol class="pasos-g en-linea sube">
     <li><b>Mira tu bandeja de entrada</b><span>Si no está, busca en Promociones o en Spam y márcalo como «No es spam».</span></li>
     <li><b>Guárdame en tus contactos</b><span>Así los siguientes correos llegan siempre a la bandeja principal.</span></li>
     <li><b>Contesta si quieres</b><span>Leo las respuestas. Si hay un tema que te interesa, cuéntamelo.</span></li>
   </ol>
 </div></section>
 <section class="hoja"><div class="in"><div class="entrada sube"><h2>Mientras tanto</h2></div>
-  <div class="cta sube" style="display:flex;flex-wrap:wrap;gap:.8rem"><a class="btn" href="guias.html">Ver las guías</a><a class="btn hueco" href="{CALC}">Calculadora de proteína</a><a class="btn hueco" href="quien-soy.html">Quién soy</a></div>
+  <div class="sigue-g sube">{sigue("guias.html", "web-guias", "Ver las guías")}{sigue(CALC, "web-calculadora", "Calculadora de proteína")}{sigue("quien-soy.html", "foto-pelayo", "Quién soy")}</div>
 </div></section>
 </main>
 {PIE}
@@ -293,25 +299,31 @@ open(f'{SAL}/gracias-boletin.html', 'w', encoding='utf-8').write(f"""{cabeza('gr
 AGUA = f'<div class="marca-agua">{LOBO}</div>'  # cabecera sin ilustracion: el lobo de fondo
 OBJ_P = ['Hipertrofia', 'Fuerza', 'Pérdida de grasa corporal', 'Recomposición Corporal', 'Salud general', 'Prevención de lesiones/Rehabilitación']
 CON_P = ['Instagram', 'Referido', 'Web', 'Otro']
-def chip_p(nombre, tipo, v): return f'<label><input type="{tipo}" name="{nombre}" value="{v}">{v}</label>'
+ICO_P = {'Hipertrofia': 'sube', 'Fuerza': 'pesa', 'Pérdida de grasa corporal': 'llama', 'Recomposición Corporal': 'balanza', 'Salud general': 'corazon', 'Prevención de lesiones/Rehabilitación': 'escudo', 'Instagram': 'camara', 'Referido': 'persona', 'Web': 'globo', 'Otro': 'puntos'}
+def chip_p(nombre, tipo, v): return f'<label data-i="{ICO_P.get(v, "")}"><input type="{tipo}" name="{nombre}" value="{v}"><span>{v.replace("/", "/<wbr>")}</span></label>'
 CORREO_P = (_ent(os.environ['FBE_CORREO'])) if os.environ.get('FBE_CORREO') else ''
 FORM_P = f"""<form class="formu sube" id="plaza" action="{PLAZA_ENVIO}" method="post" accept-charset="utf-8">
   <div class="aviso-f" id="aviso" role="alert" hidden></div>
-  <div class="campo"><label for="f-nombre">Nombre y apellidos<span class="oblig" aria-hidden="true">*</span></label><input type="text" id="f-nombre" name="nombre" autocomplete="name" maxlength="200" required></div>
+  <div class="progreso-f" aria-hidden="true"><span class="progreso-barra"><i id="f-barra"></i></span><span class="progreso-txt"><b id="f-listos">0</b> de 4 listos</span></div>
+  <p class="bloque-f"><b>/01</b> Tus datos</p>
+  <div class="campo"><label for="f-nombre">Nombre y apellidos<span class="oblig" aria-hidden="true">*</span></label><input class="ic ic-nombre" type="text" id="f-nombre" name="nombre" autocomplete="name" autocapitalize="words" enterkeyhint="next" maxlength="200" required><small class="ayuda-f">Escribe tu nombre y apellidos.</small></div>
   <div class="fila-f">
-    <div class="campo"><label for="f-correo">Correo electrónico<span class="oblig" aria-hidden="true">*</span></label><input type="email" id="f-correo" name="correo" autocomplete="email" maxlength="200" required></div>
-    <div class="campo"><label for="f-tel">Teléfono de contacto<span class="oblig" aria-hidden="true">*</span></label><input type="tel" id="f-tel" name="telefono" autocomplete="tel" inputmode="tel" maxlength="40" pattern="[+()0-9 .\-]{{6,}}" required></div>
+    <div class="campo"><label for="f-correo">Correo electrónico<span class="oblig" aria-hidden="true">*</span></label><input class="ic ic-correo" type="email" id="f-correo" name="correo" autocomplete="email" enterkeyhint="next" placeholder="tu@correo.com" maxlength="200" required><small class="ayuda-f">Revisa el correo: parece que falta algo.</small></div>
+    <div class="campo"><label for="f-tel">Teléfono de contacto<span class="oblig" aria-hidden="true">*</span></label><input class="ic ic-tel" type="tel" id="f-tel" name="telefono" autocomplete="tel" inputmode="tel" enterkeyhint="next" placeholder="+34 600 000 000" maxlength="40" pattern="[+\\(\\)0-9 .\\-]{{6,}}" required><small class="ayuda-f">Revisa el teléfono: al menos 6 cifras.</small></div>
   </div>
-  <fieldset class="campo"><legend>Objetivos<small>puedes marcar varios</small></legend><div class="chips-f">{"".join(chip_p("objetivos", "checkbox", o) for o in OBJ_P)}</div></fieldset>
+  <p class="bloque-f"><b>/02</b> Qué buscas</p>
+  <fieldset class="campo"><legend>Objetivos<small>puedes marcar varios</small></legend><div class="chips-f tarj">{"".join(chip_p("objetivos", "checkbox", o) for o in OBJ_P)}</div></fieldset>
   <fieldset class="campo"><legend>¿Cómo me has conocido?</legend><div class="chips-f uno">{"".join(chip_p("conocido", "radio", o) for o in CON_P)}</div></fieldset>
-  <div class="campo"><label for="f-nota">¡Muchas gracias por llegar hasta el final! ¿Algo que añadir o algo más que tenga que saber?</label><textarea id="f-nota" name="nota" rows="4" maxlength="1900"></textarea></div>
+  <p class="bloque-f"><b>/03</b> Algo más</p>
+  <div class="campo"><label for="f-nota">¡Muchas gracias por llegar hasta el final! ¿Algo que añadir o algo más que tenga que saber?</label><textarea id="f-nota" name="nota" rows="4" maxlength="1900"></textarea><small class="cuenta-f"><span id="f-cuenta">0</span> / 1900</small></div>
   <div class="trampa" aria-hidden="true"><label>No rellenes este campo<input type="text" name="web" tabindex="-1" autocomplete="off"></label></div>
   <input type="hidden" name="t0" id="f-t0" value="">
   <label class="acepta"><input type="checkbox" name="privacidad" value="si" required><span>He leído la <a href="privacidad.html">política de privacidad</a> y acepto que uses estos datos para responder a mi solicitud.<span class="oblig" aria-hidden="true">*</span></span></label>
-  <div class="envio-f"><button class="btn" type="submit" id="f-enviar">Enviar</button><small><span class="oblig" aria-hidden="true">*</span> Obligatorio</small></div>
+  <div class="envio-f"><button class="btn grande" type="submit" id="f-enviar">Enviar</button><small><span class="oblig" aria-hidden="true">*</span> Obligatorio</small></div>
 </form>"""
 LADO_P = f"""<aside class="plaza-lado sube">
   <div class="tarjeta-p"><img class="foto-p" src="{FOTO}" alt="Pelayo Fernández Cidón" width="160" height="200" loading="lazy"><p><b>Te respondo yo.</b> Cuéntame tu caso en el formulario.</p></div>
+  <div class="tarjeta-p sigue-p"><p class="etq-p">Cómo sigue</p>{PASITOS.format(x="")}</div>
   <div class="tarjeta-p"><p><b>¿Dudas antes de pedir plaza?</b></p><p><a href="programas.html">Ver los programas</a> · <a href="dudas.html">Preguntas frecuentes</a>{f' · <a href="mailto:{CORREO_P}">Escribirme</a>' if CORREO_P else ''}</p></div>
 </aside>"""
 JS_P = """<script>(function(){
@@ -333,6 +345,16 @@ f.addEventListener('submit', function(){
 });
 window.addEventListener('pageshow', function(e){ if (e.persisted) { bt.disabled = false; bt.textContent = 'Enviar'; t0.value = Date.now() - 5000; } });
 })();</script>"""
+JS_P2 = """<script>(function(){
+var f = document.getElementById('plaza'); if (!f) return;
+var req = [f.nombre, f.correo, f.telefono, f.privacidad], barra = document.getElementById('f-barra'), listos = document.getElementById('f-listos');
+function prog(){ var n = 0; req.forEach(function(el){ if (el.type === 'checkbox' ? el.checked : (el.value.trim() && el.checkValidity())) n++; }); listos.textContent = n; barra.style.width = (n * 25) + '%'; f.classList.toggle('completo', n === 4); }
+var nota = f.nota, cuenta = document.getElementById('f-cuenta');
+function crece(){ cuenta.textContent = nota.value.length; nota.style.height = 'auto'; nota.style.height = Math.min(nota.scrollHeight + 2, 420) + 'px'; }
+f.addEventListener('input', prog); f.addEventListener('change', prog); nota.addEventListener('input', crece);
+prog(); crece();
+if (/error=1/.test(location.search)) { for (var i = 0; i < req.length; i++) { if (!(req[i].type === 'checkbox' ? req[i].checked : (req[i].value.trim() && req[i].checkValidity()))) { req[i].focus({ preventScroll: true }); break; } } }
+})();</script>"""
 _correo_vis = os.environ.get('FBE_CORREO', '')
 open(f'{SAL}/pedir-plaza.html', 'w', encoding='utf-8').write(f"""{cabeza('pedir-plaza.html', 'Pedir plaza', 'Formulario de contacto inicial de FBE Coaching Online: cuéntame tu caso y te respondo yo.', '<meta name="robots" content="noindex">')}
 {cabecera()}
@@ -345,13 +367,14 @@ open(f'{SAL}/pedir-plaza.html', 'w', encoding='utf-8').write(f"""{cabeza('pedir-
 </main>
 {PIE}
 <script src="fbe.js"></script>
-{JS_P}</body></html>""")
+{JS_P}{JS_P2}</body></html>""")
 open(f'{SAL}/gracias-plaza.html', 'w', encoding='utf-8').write(f"""{cabeza('gracias-plaza.html', 'Recibido', 'Solicitud recibida en FBE Coaching Online.', '<meta name="robots" content="noindex">')}
 {cabecera()}
-<header class="hero mini t-pedir-plaza" id="inicio">{ANILLOS}{ilus("web-recibido") or AGUA}<div class="in"><div class="txt"><span class="miga"><a href="index.html">Inicio</a> / Pedir plaza / Recibido</span><h1>Recibido.</h1><p class="sub">Gracias por contarme tu caso. Te respondo yo.</p></div></div></header>
+<header class="hero mini t-pedir-plaza" id="inicio">{ANILLOS}{ilus("web-recibido") or AGUA}<div class="in"><div class="txt"><span class="miga"><a href="index.html">Inicio</a> / Pedir plaza / Recibido</span>{SELLO}<h1>Recibido.</h1><p class="sub">Gracias por contarme tu caso. Te respondo yo.</p></div></div></header>
 <main id="contenido">
+<section><div class="in"><div class="entrada sube"><h2>Cómo sigue</h2></div><div class="sigue-caja sube">{PASITOS.format(x=" hecho1")}</div></div></section>
 <section class="hoja"><div class="in"><div class="entrada sube"><h2>Mientras tanto</h2></div>
-  <div class="cta sube" style="display:flex;flex-wrap:wrap;gap:.8rem"><a class="btn" href="programas.html">Ver los programas</a><a class="btn hueco" href="guias.html">Guías</a><a class="btn hueco" href="{CALC}">Calculadora de proteína</a></div>
+  <div class="sigue-g sube">{sigue("programas.html", "web-programas", "Ver los programas")}{sigue("guias.html", "web-guias", "Guías")}{sigue(CALC, "web-calculadora", "Calculadora de proteína")}</div>
 </div></section>
 </main>
 {PIE}
@@ -380,12 +403,30 @@ if os.environ.get('FBE_CORREO'):
 <p>Aplicamos medidas técnicas y organizativas para proteger tu información, incluido el almacenamiento de la documentación clínica en sistemas con acceso restringido.</p>
 <p><small>Última actualización: noviembre de 2026.</small></p>
 </div></div></section>"""
+    import re as _rp, unicodedata as _ud
+    def _slug(t): return _rp.sub(r'[^a-z0-9]+', '-', _ud.normalize('NFD', t).encode('ascii', 'ignore').decode().lower()).strip('-')
+    _tits = _rp.findall(r'<h2>([^<]+)</h2>', PRIV_TXT)
+    for _t in _tits: PRIV_TXT = PRIV_TXT.replace(f'<h2>{_t}</h2>', f'<h2 id="{_slug(_t)}">{_t}<a class="ancla" href="#{_slug(_t)}" aria-label="Enlace a este apartado">#</a></h2>', 1)
+    _IND = '<nav class="indice-p" aria-label="En esta página"><p>En esta página</p><ol>' + ''.join(f'<li><a href="#{_slug(_t)}">{_t}</a></li>' for _t in _tits) + '</ol></nav>'
+    PRIV_TXT = PRIV_TXT.replace('<section><div class="in"><div class="prosa">', '<section><div class="in priv-rejilla">' + _IND + '<div class="prosa prosa-priv">', 1)
+    PRIV_TXT = PRIV_TXT.replace('<p><strong>Responsable del tratamiento:</strong>', '<p class="ficha-resp"><strong>Responsable del tratamiento:</strong>', 1)
+    PRIV_TXT = PRIV_TXT.replace(f'Contacto: {CM}.</p>', f'Contacto: {CM}. <button type="button" class="copiar-c" data-c="{C}">Copiar</button></p>', 1)
+    PRIV_TXT = PRIV_TXT.replace('<li><strong>Datos de salud', '<li class="ambar"><strong>Datos de salud', 1)
+    PRIV_TXT = PRIV_TXT.replace('<p><small>Última actualización', '<p class="act"><small>Última actualización', 1)
+    PRIV_TXT = PRIV_TXT.replace('<a href="https://www.aepd.es">', '<a class="fuera" href="https://www.aepd.es" rel="noopener">', 1)
+    _JS_PRIV = """<script>(function(){
+var b = document.querySelector('.copiar-c'); if (b) b.addEventListener('click', function(){ var t = b.getAttribute('data-c'); (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function(){ b.textContent = 'Copiado'; b.classList.add('hecho'); setTimeout(function(){ b.textContent = 'Copiar'; b.classList.remove('hecho'); }, 1800); }).catch(function(){}); });
+var links = document.querySelectorAll('.indice-p a'); if (!links.length || !('IntersectionObserver' in window)) return;
+var mapa = {}; links.forEach(function(a){ mapa[a.getAttribute('href').slice(1)] = a; });
+var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting) { links.forEach(function(a){ a.classList.remove('aqui'); a.removeAttribute('aria-current'); }); var a = mapa[e.target.id]; if (a) { a.classList.add('aqui'); a.setAttribute('aria-current', 'true'); } } }); }, { rootMargin: '-20% 0px -70% 0px' });
+document.querySelectorAll('.prosa-priv h2[id]').forEach(function(h){ io.observe(h); });
+})();</script>"""
     open(f'{SAL}/privacidad.html', 'w', encoding='utf-8').write(f"""{cabeza('privacidad.html', 'Política de privacidad', 'Qué datos trata Fuerza Basada en Evidencia, para qué, cuánto tiempo y cómo ejercer tus derechos.')}
 {cabecera()}
 <header class="hero mini t-privacidad" id="inicio">{ANILLOS}{ilus("web-privacidad") or AGUA}<div class="in"><div class="txt"><span class="miga"><a href="index.html">Inicio</a> / Privacidad</span><h1>Política de privacidad</h1><p class="sub">Qué datos trato, para qué, cuánto tiempo los guardo y cómo ejercer tus derechos.</p></div></div></header>
 <main id="contenido">{PRIV_TXT}</main>
 {PIE}
-<script src="fbe.js"></script></body></html>""")
+<script src="fbe.js"></script>{_JS_PRIV}</body></html>""")
 open(f'{SAL}/sitemap.xml', 'w', encoding='utf-8').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join(f'  <url><loc>{WEB}{u}</loc></url>\n' for u in [''] + [u for u, _ in PAGS] + (['privacidad.html'] if os.environ.get('FBE_CORREO') else [])) + '</urlset>\n')
 open(f'{SAL}/robots.txt', 'w', encoding='utf-8').write(f'User-agent: *\nAllow: /\nSitemap: {WEB}sitemap.xml\n')
 p = open(f'{SAL}/index.html', encoding='utf-8').read()
@@ -421,6 +462,13 @@ for _f in glob.glob(f'{SAL}/*.html'):
     _t = open(_f, encoding='utf-8').read()
     if 'speculationrules' not in _t and '</head>' in _t:
         open(_f, 'w', encoding='utf-8').write(_t.replace('</head>', _PRE + '</head>', 1))
+# Enlace a la propia pagina marcado como actual (pie y menu), para que se vea donde estas
+for _f in glob.glob(f'{SAL}/*.html'):
+    _b = os.path.basename(_f)
+    if _b == 'index.html': continue
+    _t = open(_f, encoding='utf-8').read()
+    _n = _re.sub(r'<a href="' + _re.escape(_b) + r'"(?![^>]*aria-current)', f'<a href="{_b}" aria-current="page"', _t)
+    if _n != _t: open(_f, 'w', encoding='utf-8').write(_n)
 # CSS sin comentarios (mas ligero)
 _c = open(f'{SAL}/fbe.css', encoding='utf-8').read()
 _c2 = _re.sub(r'/\*.*?\*/', '', _c, flags=_re.S)

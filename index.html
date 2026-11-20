@@ -1477,9 +1477,9 @@ body { background-image: repeating-linear-gradient(0deg, color-mix(in srgb, var(
 .formu .oblig { margin-left: .15rem; color: var(--acento); }
 .fila-f { display: grid; gap: 1.5rem; }
 @media (min-width: 640px) { .fila-f { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
-.formu input[type="text"], .formu input[type="email"], .formu input[type="tel"], .formu textarea { box-sizing: border-box; width: 100%; min-height: 3.1rem; padding: .85rem 1rem; font: inherit; font-size: 1rem; color: var(--tinta); background: var(--fondo); border: 1.5px solid var(--linea); border-radius: .9rem; transition: border-color .2s, box-shadow .2s, background .2s; }
+.formu input[type="text"], .formu input[type="email"], .formu input[type="tel"], .formu textarea { box-sizing: border-box; width: 100%; min-height: 3.1rem; padding: .85rem 1rem; font: inherit; font-size: 1rem; color: var(--tinta); background-color: var(--fondo); border: 1.5px solid var(--linea); border-radius: .9rem; transition: border-color .2s, box-shadow .2s, background-color .2s; }
 .formu textarea { min-height: 7.5rem; line-height: 1.5; resize: vertical; }
-.formu input:focus, .formu textarea:focus { outline: none; border-color: var(--marca); background: var(--sup); box-shadow: 0 0 0 4px color-mix(in srgb, var(--marca) 18%, transparent); }
+.formu input:focus, .formu textarea:focus { outline: none; border-color: var(--marca); background-color: var(--sup); box-shadow: 0 0 0 4px color-mix(in srgb, var(--marca) 18%, transparent); }
 .formu input:user-invalid, .formu textarea:user-invalid { border-color: var(--rojo); }
 .chips-f { display: flex; flex-wrap: wrap; gap: .55rem; }
 .chips-f label { position: relative; display: inline-flex; align-items: center; gap: .55rem; min-height: 2.75rem; padding: .5rem 1rem; font-weight: 500; font-size: .95rem; background: var(--sup); border: 1.5px solid var(--linea); border-radius: 99px; cursor: pointer; transition: border-color .2s, background .2s, box-shadow .2s, transform .12s; }
@@ -1505,6 +1505,215 @@ body { background-image: repeating-linear-gradient(0deg, color-mix(in srgb, var(
 .tarjeta-p:first-child { grid-template-columns: auto 1fr; gap: 1rem; align-items: center; }
 .foto-p { width: 5rem; height: 5rem; object-fit: cover; object-position: 50% 20%; border-radius: 50%; box-shadow: 0 0 0 3px var(--sup), 0 0 0 5px color-mix(in srgb, var(--marca-clara) 60%, transparent); }
 .tarjeta-p a { color: var(--acento); }
+
+
+/* ============================================================
+   TANDAS 12-14 (221-280, 20/11/2026): belleza de lo hecho esta tarde
+   (formulario Pedir plaza, paginas de gracias y privacidad). Sin animaciones continuas nuevas.
+   ============================================================ */
+
+/* ---------- TANDA 12: formulario Pedir plaza ---------- */
+/* 221. Bloques numerados del formulario */
+.bloque-f { display: flex; align-items: center; gap: .6rem; margin: .4rem 0 -.5rem; font-family: var(--mono); font-size: .72rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--acento); }
+.bloque-f b { color: var(--tinta-2); font-weight: 600; }
+.bloque-f::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, var(--linea), transparent); }
+/* 222. Barra de progreso fija arriba del formulario mientras lo rellenas */
+.formu { --pf: clamp(1.3rem, 3.5vw, 2.2rem); }
+.progreso-f { position: sticky; top: 3.3rem; z-index: 3; display: flex; align-items: center; gap: .9rem; margin: -.4rem calc(var(--pf) * -1) -.2rem; padding: .7rem var(--pf); background: var(--sup); border-bottom: 1px solid transparent; transition: border-color .2s; }
+.formu:focus-within .progreso-f { border-bottom-color: var(--linea); }
+.progreso-barra { flex: 1; height: 6px; overflow: hidden; border-radius: 99px; background: var(--lila); }
+.progreso-barra i { display: block; width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--marca), var(--marca-clara)); transition: width .35s ease; }
+.formu.completo .progreso-barra i { background: linear-gradient(90deg, var(--marca), var(--marca-clara) 60%, var(--oro)); }
+.progreso-txt { white-space: nowrap; font-family: var(--mono); font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: var(--tinta-2); }
+.progreso-txt b { color: var(--acento); }
+/* 223. Iconos dentro de los campos */
+.formu input.ic { padding-left: 2.85rem; background-repeat: no-repeat, no-repeat; background-position: .95rem 50%, right .95rem center; background-size: 1.15rem, 1.1rem; }
+.formu input.ic-nombre { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237C6AFD' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='8' r='4'/%3E%3Cpath d='M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7'/%3E%3C/svg%3E"); }
+.formu input.ic-correo { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237C6AFD' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='5' width='18' height='14' rx='2'/%3E%3Cpath d='M3 7l9 6 9-6'/%3E%3C/svg%3E"); }
+.formu input.ic-tel { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237C6AFD' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2'/%3E%3C/svg%3E"); }
+/* 224. Marca de bien cuando el dato ya cuadra */
+.formu input.ic:user-valid { padding-right: 2.6rem; }
+.formu input.ic-nombre:user-valid { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237C6AFD' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='8' r='4'/%3E%3Cpath d='M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23593EDE' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E"); }
+.formu input.ic-correo:user-valid { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237C6AFD' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='5' width='18' height='14' rx='2'/%3E%3Cpath d='M3 7l9 6 9-6'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23593EDE' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E"); }
+.formu input.ic-tel:user-valid { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237C6AFD' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23593EDE' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E"); }
+/* 225. Ayuda bajo el campo en cuanto algo no cuadra */
+.formu .ayuda-f { display: none; margin-top: -.15rem; font-size: .85rem; color: var(--rojo); }
+.formu input:user-invalid + .ayuda-f { display: block; }
+/* 226-227. Ejemplos en gris claro y teclado adecuado en el movil (en el HTML) */
+.formu input::placeholder, .formu textarea::placeholder { color: color-mix(in srgb, var(--tinta-2) 55%, transparent); }
+/* 228-229. Objetivos como tarjetas con icono */
+.chips-f.tarj { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .6rem; }
+@media (min-width: 640px) { .chips-f.tarj { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.chips-f.tarj label { display: grid; grid-template-columns: 1fr; align-content: start; justify-items: start; gap: .5rem; min-height: 4.6rem; padding: .85rem .9rem; border-radius: 1rem; line-height: 1.25; font-size: .92rem; }
+.chips-f.tarj label::before { position: absolute; top: .55rem; right: .55rem; width: .95rem; height: .95rem; }
+.chips-f label[data-i]::after { content: ""; flex: none; width: 1.35rem; height: 1.35rem; background: var(--acento); -webkit-mask: var(--ico) center / contain no-repeat; mask: var(--ico) center / contain no-repeat; }
+.chips-f.tarj label::after { grid-row: 1; grid-column: 1; width: 1.45rem; height: 1.45rem; background-color: var(--acento); }
+.chips-f.tarj label span { grid-row: 2; grid-column: 1; min-width: 0; hyphens: auto; }
+.chips-f.tarj label:has(input:checked)::after { background-color: var(--marca); }
+.chips-f label[data-i="sube"] { --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 20h16M6 16l4-4 3 3 5-6M14 9h4v4'/%3E%3C/svg%3E"); }
+.chips-f label[data-i="pesa"] { --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6.5 7v10M17.5 7v10M3.5 9.5v5M20.5 9.5v5M6.5 12h11'/%3E%3C/svg%3E"); }
+.chips-f label[data-i="llama"] { --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3c1 4 5 5.5 5 10a5 5 0 0 1-10 0c0-2.5 1.5-4 2.5-5 .3 1.6 1.2 2.6 2.5 3 0-3-1-5.5 0-8z'/%3E%3C/svg%3E"); }
+.chips-f label[data-i="balanza"] { --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 4v16M8 20h8M5 8h14M5 8l-3 6h6zM19 8l-3 6h6z'/%3E%3C/svg%3E"); }
+.chips-f label[data-i="corazon"] { --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.6-7 10-7 10z'/%3E%3C/svg%3E"); }
+.chips-f label[data-i="escudo"] { --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6z'/%3E%3Cpath d='M9 12l2 2 4-4'/%3E%3C/svg%3E"); }
+/* 230. Como me has conocido: pildoras con icono */
+.chips-f.uno label::before { order: -1; }
+.chips-f.uno label::after { order: 0; width: 1.05rem; height: 1.05rem; opacity: .85; }
+.chips-f.uno label span { order: 1; }
+.chips-f label { box-sizing: border-box; }
+.chips-f.uno label { min-height: 2.75rem; padding-top: .4rem; padding-bottom: .4rem; }
+.chips-f label[data-i="camara"] { --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 8h3l2-3h6l2 3h3v11H4z'/%3E%3Ccircle cx='12' cy='13' r='3.5'/%3E%3C/svg%3E"); }
+.chips-f label[data-i="persona"] { --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='9' cy='8' r='3'/%3E%3Cpath d='M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6'/%3E%3Ccircle cx='17' cy='9' r='2.5'/%3E%3Cpath d='M16 14c2.8 0 5 2 5 5'/%3E%3C/svg%3E"); }
+.chips-f label[data-i="globo"] { --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18'/%3E%3C/svg%3E"); }
+.chips-f label[data-i="puntos"] { --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='6' cy='12' r='1.2'/%3E%3Ccircle cx='12' cy='12' r='1.2'/%3E%3Ccircle cx='18' cy='12' r='1.2'/%3E%3C/svg%3E"); }
+/* 231-232. Contador de caracteres y cuadro que crece al escribir */
+.formu .cuenta-f { justify-self: end; margin-top: -.1rem; font-family: var(--mono); font-size: .7rem; letter-spacing: .06em; color: var(--tinta-2); }
+.formu textarea { overflow-y: hidden; }
+/* 233. Tarjeta del formulario con esquinas de visor y brillo al rellenarla */
+.formu::after { content: ""; position: absolute; inset: -7px; pointer-events: none; opacity: .5; transition: opacity .25s, inset .25s;
+  --e: color-mix(in srgb, var(--marca-clara) 85%, transparent);
+  background: linear-gradient(var(--e), var(--e)) top left / 18px 2px no-repeat, linear-gradient(var(--e), var(--e)) top left / 2px 18px no-repeat, linear-gradient(var(--e), var(--e)) bottom right / 18px 2px no-repeat, linear-gradient(var(--e), var(--e)) bottom right / 2px 18px no-repeat; }
+.formu:focus-within { border-color: color-mix(in srgb, var(--marca) 40%, var(--linea)); box-shadow: 0 0 0 4px color-mix(in srgb, var(--marca) 7%, transparent), var(--sombra-s); }
+.formu:focus-within::after { opacity: 1; inset: -9px; }
+/* 234. Casilla de privacidad con candado */
+.formu .acepta > span::before { content: ""; display: inline-block; width: .95rem; height: .95rem; margin: 0 .35rem -.12rem 0; background: var(--acento); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='5' y='11' width='14' height='10' rx='2'/%3E%3Cpath d='M8 11V8a4 4 0 0 1 8 0v3'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='5' y='11' width='14' height='10' rx='2'/%3E%3Cpath d='M8 11V8a4 4 0 0 1 8 0v3'/%3E%3C/svg%3E") center / contain no-repeat; }
+/* 235. Boton Enviar mas grande; a todo lo ancho en el movil */
+.formu button.btn.grande { padding: 1.05rem 1.9rem; font-size: 1.06rem; }
+@media (max-width: 640px) { .envio-f { flex-direction: column; align-items: stretch; } .formu button.btn.grande { width: 100%; justify-content: center; } .envio-f small { text-align: center; } }
+/* 236. Estado Enviando con un brillo que recorre el boton (tres pasadas, no continuo) */
+@keyframes enviando { from { background-position: 150% 0; } to { background-position: -50% 0; } }
+.formu button.btn[disabled] { background-image: linear-gradient(100deg, transparent 30%, rgba(255,255,255,.28) 50%, transparent 70%); background-size: 200% 100%; animation: enviando 1.1s ease-in-out 3; }
+/* 237. Aviso de error con icono */
+.aviso-f { display: grid; grid-template-columns: auto 1fr; gap: .7rem; align-items: start; }
+.aviso-f::before { content: ""; width: 1.3rem; height: 1.3rem; margin-top: .1rem; background: var(--rojo); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3l9 16H3z'/%3E%3Cpath d='M12 10v4M12 17.2v.1'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3l9 16H3z'/%3E%3Cpath d='M12 10v4M12 17.2v.1'/%3E%3C/svg%3E") center / contain no-repeat; }
+/* 238. Columna lateral: como sigue, en tres pasos */
+.etq-p { margin-bottom: .5rem; font-family: var(--mono); font-size: .7rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--acento); }
+.pasitos { list-style: none; margin: .2rem 0 0; padding: 0; counter-reset: ps; display: grid; }
+.pasitos li { position: relative; counter-increment: ps; padding: 0 0 1rem 2.4rem; font-size: .96rem; line-height: 1.45; color: var(--tinta); }
+.pasitos li:last-child { padding-bottom: 0; }
+.pasitos li::before { content: counter(ps); position: absolute; left: 0; top: -.05rem; width: 1.6rem; height: 1.6rem; display: grid; place-items: center; border-radius: 50%; font: 600 .72rem/1 var(--mono); color: #fff; background: linear-gradient(140deg, var(--marca), #7C6AFD); box-shadow: 0 0 0 3px var(--sup); }
+.pasitos li:not(:last-child)::after { content: ""; position: absolute; left: .78rem; top: 1.7rem; bottom: .15rem; width: 2px; border-radius: 2px; background: linear-gradient(var(--marca-clara), color-mix(in srgb, var(--marca-clara) 15%, transparent)); }
+.pasitos.hecho1 li:first-child { color: var(--tinta-2); }
+.pasitos.hecho1 li:first-child::before { content: ""; background: var(--marca) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center / 70% no-repeat; }
+/* 239. Foto de la columna con anillo degradado */
+.foto-p { padding: 3px; background: linear-gradient(140deg, var(--marca), var(--marca-clara) 55%, var(--oro)); box-shadow: 0 .5rem 1.2rem -.6rem rgba(89,62,222,.6); }
+/* 240. Modo oscuro del formulario */
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .chips-f.tarj label { background: color-mix(in srgb, var(--sup) 80%, var(--noche)); } }
+:root[data-theme="dark"] .chips-f.tarj label { background: color-mix(in srgb, var(--sup) 80%, var(--noche)); }
+
+/* ---------- TANDA 13: paginas de gracias (Recibido, Ya estas dentro, Pago recibido) ---------- */
+/* 241-242. Sello que se dibuja una sola vez, con halo */
+.sello { display: grid; place-items: center; width: 3.3rem; height: 3.3rem; margin-bottom: 1rem; border-radius: 50%; background: radial-gradient(circle, rgba(164,156,255,.3), transparent 70%); }
+.sello svg { width: 3.3rem; height: 3.3rem; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.sello circle { stroke: rgba(212,208,245,.6); stroke-dasharray: 150; stroke-dashoffset: 150; animation: sello-trazo .7s ease-out .15s forwards; }
+.sello path { stroke: var(--oro); stroke-dasharray: 40; stroke-dashoffset: 40; animation: sello-trazo .45s ease-out .8s forwards; }
+@keyframes sello-trazo { to { stroke-dashoffset: 0; } }
+/* 243-245. Mientras tanto: tarjetas con ilustracion, flecha que avanza y zoom suave */
+.sigue-g { display: grid; gap: 1rem; grid-template-columns: 1fr; }
+@media (min-width: 700px) { .sigue-g { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.sigue { position: relative; display: grid; grid-template-columns: 6.5rem 1fr; align-items: center; overflow: hidden; min-height: 6.2rem; color: var(--tinta); text-decoration: none; background: var(--sup); border: 1px solid var(--linea); border-radius: 1.3rem; box-shadow: var(--sombra-s); transition: transform .2s, box-shadow .2s, border-color .2s; }
+.sigue-img { width: 100%; height: 100%; aspect-ratio: 1 / 1; object-fit: cover; object-position: 72% 50%; background: var(--noche); transition: transform .45s ease; }
+.sigue img[src*="foto-pelayo"] { object-position: 50% 22%; }
+.sigue-img.vacia { display: grid; place-items: center; } .sigue-img.vacia svg { width: 50%; fill: var(--marca-clara); opacity: .4; }
+.sigue-t { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem 1.2rem; font-size: 1.02rem; }
+.sigue-t::after { content: ""; flex: none; width: .55rem; height: .55rem; border-top: 2px solid var(--acento); border-right: 2px solid var(--acento); transform: rotate(45deg); transition: transform .2s; }
+.sigue:hover { transform: translateY(-3px); border-color: color-mix(in srgb, var(--marca) 45%, var(--linea)); box-shadow: var(--sombra); }
+.sigue:hover .sigue-img { transform: scale(1.05); }
+.sigue:hover .sigue-t::after { transform: translateX(4px) rotate(45deg); }
+@media (min-width: 700px) { .sigue { grid-template-columns: 1fr; align-items: stretch; } .sigue-img { aspect-ratio: 16 / 10; height: auto; } }
+/* 246-247. Pasos unidos por una linea en pantallas anchas y numero en circulo */
+@media (min-width: 900px) {
+  .pasos-g.en-linea, .pasos-g.con-iconos { position: relative; }
+  .pasos-g.en-linea::before, .pasos-g.con-iconos::before { content: ""; position: absolute; left: 6%; right: 6%; top: 2.05rem; height: 2px; background: linear-gradient(90deg, var(--marca), var(--marca-clara), var(--oro)); opacity: .55; }
+  .pasos-g.en-linea li, .pasos-g.con-iconos li { z-index: 1; }
+}
+.pasos-g.en-linea li::before, .pasos-g.con-iconos li::before { width: 1.9rem; height: 1.9rem; top: 1.1rem; left: 1.05rem; display: grid; place-items: center; border-radius: 50%; color: #fff; background: linear-gradient(140deg, var(--marca), #7C6AFD); box-shadow: 0 0 0 4px var(--sup); font-size: .72rem; }
+/* 248-250. Pago recibido: icono en cada paso y orden (Primero / Despues) */
+.pasos-g .orden { align-self: flex-start; padding: .25rem .6rem; border-radius: 99px; font-style: normal; font-family: var(--mono); font-size: .66rem; letter-spacing: .12em; text-transform: uppercase; color: var(--acento); background: var(--lila); }
+.pasos-g.con-iconos b { display: flex; align-items: center; gap: .55rem; }
+.pasos-g.con-iconos b::before { content: ""; flex: none; width: 1.3rem; height: 1.3rem; background: var(--acento); -webkit-mask: var(--ico) center / contain no-repeat; mask: var(--ico) center / contain no-repeat; }
+.pasos-g.con-iconos li:nth-child(1) { --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='5' y='4' width='14' height='17' rx='2'/%3E%3Cpath d='M9 3h6v3H9zM8.5 11h7M8.5 15h5'/%3E%3C/svg%3E"); }
+.pasos-g.con-iconos li:nth-child(2) { --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='5' width='18' height='16' rx='2'/%3E%3Cpath d='M3 10h18M8 3v4M16 3v4'/%3E%3C/svg%3E"); }
+/* 251. Analitica: cada prueba con su punto */
+.chips.analitica li::before { content: ""; display: inline-block; width: .4rem; height: .4rem; margin-right: .45rem; border-radius: 50%; vertical-align: middle; background: var(--marca-clara); }
+/* 252. Que pasa despues como linea de tiempo */
+.marcas.linea-t li:not(:last-child) { background: linear-gradient(color-mix(in srgb, var(--marca-clara) 55%, transparent), transparent) no-repeat .52rem 1.55em / 1px calc(100% - .9em); }
+.marcas.linea-t { gap: .9rem; }
+/* 253. Cambios de cita y contacto en una caja suave */
+.nota-g { margin-top: 1.3rem; padding: 1rem 1.15rem; border-radius: 1rem; background: var(--lila); color: var(--tinta-2); font-size: .94rem; line-height: 1.6; }
+/* 254. Recibido: como sigue, con el primer paso ya hecho */
+.sigue-caja { max-width: 38rem; padding: 1.4rem 1.5rem; background: var(--sup); border: 1px solid var(--linea); border-radius: 1.4rem; box-shadow: var(--sombra-s); }
+/* 255. Hueco comodo entre secciones de las paginas de gracias */
+.sigue-caja + *, .sigue-g { margin-top: .2rem; }
+/* 256. Entrada escalonada de las tarjetas (una vez) */
+.sigue-g.sube > * { transition-delay: calc(var(--i, 0) * 70ms); }
+.sigue-g > :nth-child(2) { --i: 1; } .sigue-g > :nth-child(3) { --i: 2; }
+/* 257. Foco de teclado visible en las tarjetas */
+.sigue:focus-visible { outline: 3px solid var(--marca-clara); outline-offset: 3px; }
+/* 258. Movil: tarjetas compactas con la imagen a la izquierda (regla base de .sigue) */
+/* 259. Modo oscuro de las tarjetas */
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .nota-g { background: color-mix(in srgb, var(--lila) 80%, var(--noche)); } }
+:root[data-theme="dark"] .nota-g { background: color-mix(in srgb, var(--lila) 80%, var(--noche)); }
+/* 260. Pago recibido para imprimir: sin botones ni adornos */
+@media print { .pasos-g .btn, .sello, .sigue-g { display: none !important; } .pasos-g li { box-shadow: none; break-inside: avoid; } }
+
+/* ---------- TANDA 14: privacidad y pulido comun ---------- */
+/* 261. Indice de la politica: pildoras en el movil, columna fija en ordenador */
+.priv-rejilla { display: grid; gap: 1.8rem; }
+@media (min-width: 1100px) { .priv-rejilla { grid-template-columns: 15rem minmax(0, 1fr); gap: 3.5rem; align-items: start; } .indice-p { position: sticky; top: 6rem; } }
+.indice-p > p { margin: 0 0 .7rem; font-family: var(--mono); font-size: .7rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--acento); }
+.indice-p ol { list-style: none; margin: 0; padding: 0; counter-reset: ip; display: flex; flex-wrap: wrap; gap: .45rem; }
+.indice-p a { counter-increment: ip; display: inline-flex; align-items: center; gap: .45rem; min-height: 2.4rem; padding: .35rem .85rem; font-size: .88rem; color: var(--tinta); text-decoration: none; background: var(--sup); border: 1px solid var(--linea); border-radius: 99px; transition: background .2s, border-color .2s, color .2s; }
+.indice-p a::before { content: counter(ip, decimal-leading-zero); font-family: var(--mono); font-size: .68rem; color: var(--acento); }
+.indice-p a:hover { border-color: var(--marca); }
+/* 263. El apartado que lees se marca en el indice */
+.indice-p a.aqui { border-color: var(--marca); background: var(--lila); color: var(--tinta); }
+@media (min-width: 1100px) {
+  .indice-p ol { flex-direction: column; flex-wrap: nowrap; gap: .1rem; border-left: 1px solid var(--linea); }
+  .indice-p a { min-height: 0; margin-left: -1px; padding: .5rem .8rem; border: 0; border-left: 2px solid transparent; border-radius: 0 .6rem .6rem 0; background: none; }
+  .indice-p a.aqui { border-left-color: var(--marca); background: var(--lila); color: var(--acento); }
+}
+/* 262. Titulos numerados en letra de terminal */
+.prosa-priv { counter-reset: hp; }
+.prosa-priv h2 { counter-increment: hp; scroll-margin-top: 6rem; padding-top: 1.6rem; border-top: 1px solid var(--linea); }
+.prosa-priv h2::before { content: counter(hp, decimal-leading-zero); font-size: .8rem; }
+/* 264. Responsable del tratamiento en ficha destacada */
+.ficha-resp { padding: 1.1rem 1.25rem; border-radius: 1.1rem; background: var(--lila); border: 1px solid color-mix(in srgb, var(--marca) 20%, transparent); border-left: 3px solid var(--marca); }
+/* 271. Boton para copiar el correo */
+.copiar-c { margin-left: .3rem; padding: .25rem .7rem; font: 600 .68rem/1.4 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--acento); background: var(--sup); border: 1px solid color-mix(in srgb, var(--marca) 35%, var(--linea)); border-radius: 99px; cursor: pointer; transition: background .2s, color .2s; vertical-align: middle; }
+.copiar-c:hover { background: var(--marca); color: #fff; }
+.copiar-c.hecho { background: var(--marca); color: #fff; }
+/* 265. Datos de salud (categoria especial) marcados en ambar */
+.marcas li.ambar::before { background: linear-gradient(135deg, var(--oro), color-mix(in srgb, var(--oro) 60%, var(--marca-clara))); box-shadow: 0 0 .6rem color-mix(in srgb, var(--oro) 70%, transparent); }
+/* 266. Lectura comoda: letra algo mayor y mas interlineado */
+.prosa-priv p, .prosa-priv li { font-size: 1.03rem; line-height: 1.75; }
+/* 267. Enlaces con subrayado fino que se engorda al pasar */
+.prosa-priv a { text-decoration-thickness: 1px; text-underline-offset: 3px; transition: text-decoration-thickness .15s; }
+.prosa-priv a:hover { text-decoration-thickness: 2px; }
+/* 268. Separadores finos entre apartados (en 262) */
+/* 269. Ultima actualizacion como etiqueta */
+.prosa-priv .act small { display: inline-block; padding: .3rem .75rem; border-radius: 99px; font-family: var(--mono); font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; color: var(--tinta-2); border: 1px solid var(--linea); }
+/* 272. Enlace a la Agencia con su flecha de enlace externo */
+.prosa-priv a.fuera::after { content: ""; display: inline-block; width: .8em; height: .8em; margin-left: .2em; vertical-align: -.05em; background: currentColor; -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 5h5v5M19 5l-8 8M18 14v5H5V6h5'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 5h5v5M19 5l-8 8M18 14v5H5V6h5'/%3E%3C/svg%3E") center / contain no-repeat; }
+/* 274-275. Salto suave con margen para la barra y almohadilla para enlazar un apartado */
+.prosa-priv h2 .ancla { margin-left: .45rem; font-family: var(--mono); font-size: .85em; color: var(--marca-clara); text-decoration: none; opacity: 0; transition: opacity .2s; }
+.prosa-priv h2:hover .ancla, .prosa-priv h2 .ancla:focus-visible { opacity: 1; }
+/* 273. Version para imprimir de la politica */
+@media print { .indice-p, .ancla, .copiar-c { display: none !important; } .priv-rejilla { display: block; } .ficha-resp { background: none; } }
+/* 276. Cabecera de privacidad algo mas baja: el texto es lo importante */
+.t-privacidad .in { padding-bottom: clamp(2.6rem, 6vw, 4rem); }
+/* 277-278. La pagina en la que estas, marcada en el pie */
+footer a[aria-current="page"] { color: #fff; text-decoration: underline; text-decoration-color: var(--marca-clara); text-underline-offset: 4px; }
+/* 279. Modo oscuro del texto legal: contraste un punto mas alto */
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .prosa-priv p, :root:not([data-theme="light"]) .prosa-priv li { color: color-mix(in srgb, var(--tinta) 82%, var(--tinta-2)); } }
+:root[data-theme="dark"] .prosa-priv p, :root[data-theme="dark"] .prosa-priv li { color: color-mix(in srgb, var(--tinta) 82%, var(--tinta-2)); }
+/* 280. Movimiento reducido: el sello aparece ya dibujado y nada se mueve */
+@media (prefers-reduced-motion: reduce) {
+  .sello circle, .sello path { stroke-dashoffset: 0; animation: none; }
+  .formu button.btn[disabled] { animation: none; }
+  .sigue, .sigue-img, .sigue-t::after, .progreso-barra i { transition: none; }
+  .sigue:hover, .sigue:hover .sigue-img { transform: none; }
+}
 </style>
 <script>document.documentElement.classList.add('js');</script>
 <a class="salto" href="#semana">Saltar al contenido</a>
