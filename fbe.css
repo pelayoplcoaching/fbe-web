@@ -784,3 +784,98 @@ figure:hover > .m { box-shadow: var(--sombra), 0 0 2.6rem -.8rem rgba(124,106,25
   .rc, .m { transition: none; }
   figure:hover > .m, .rc:hover { transform: none; }
 }
+
+/* ---------- TANDA 4: secciones claras de la portada ---------- */
+
+/* 61. "Entrenar bien no es hacer mas": la parte destacada con degradado y una regla de luz */
+.lema .in > p, .lema .in > div:first-child { position: relative; }
+.lema em { background: linear-gradient(90deg, var(--marca), var(--marca-clara) 60%, var(--marca)); background-size: 200% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: barrido 10s linear infinite; }
+@media (min-width: 981px) { .lema .in { border-left: 2px solid transparent; border-image: linear-gradient(var(--marca-clara), transparent) 1; padding-left: 2rem; } }
+
+/* 62. "Si vas con prisa": ventana de terminal */
+.rapido { position: relative; border: 1px solid transparent; background: linear-gradient(var(--sup), var(--sup)) padding-box, linear-gradient(160deg, color-mix(in srgb, var(--marca-clara) 70%, transparent), var(--linea) 60%) border-box; }
+.rapido::before { content: ""; display: block; height: .7rem; margin-bottom: 1rem; background: radial-gradient(circle at 5px 50%, #FF8FA3 3.5px, transparent 4px), radial-gradient(circle at 19px 50%, var(--oro) 3.5px, transparent 4px), radial-gradient(circle at 33px 50%, #5FD3A0 3.5px, transparent 4px); }
+.rapido b { font-family: var(--mono); font-stretch: normal; font-size: .76rem; letter-spacing: .14em; text-transform: uppercase; color: var(--acento); }
+
+/* 63. Franja de credenciales: rejilla y segunda linea de terminal */
+.franja { background: var(--rejilla), var(--noche); }
+.franja li { border-left: 2px solid transparent; border-image: linear-gradient(var(--oro), var(--marca)) 1; }
+.franja span { font-family: var(--mono); font-size: .74rem; letter-spacing: .06em; color: var(--lavanda); opacity: .9; }
+
+/* 64. Recorrido: puntos de avance con luz y movil con halo */
+.tour-puntos i.on { box-shadow: 0 0 10px var(--marca-clara); }
+.tour-tel .tel { filter: drop-shadow(0 1.6rem 3rem color-mix(in srgb, var(--marca) 35%, transparent)); }
+
+/* 65. Paneles de pantallas: rejilla y luz */
+.pant { background-image: var(--rejilla), radial-gradient(28rem 20rem at 70% 0%, color-mix(in srgb, var(--marca-clara) 30%, transparent), transparent 70%), linear-gradient(160deg, var(--lila), color-mix(in srgb, var(--lila) 40%, var(--fondo))); border: 1px solid color-mix(in srgb, var(--marca-clara) 30%, var(--linea)); }
+
+/* 66. Rotulo de cada bloque (Entrenamiento, Nutricion) */
+.num { font-family: var(--mono); font-stretch: normal; font-size: .76rem; letter-spacing: .14em; text-transform: uppercase; }
+.num i { box-shadow: 0 0 1.4rem -.2rem color-mix(in srgb, var(--marca) 80%, transparent); }
+
+/* 67. Llamadas "Te ves usandola?": acento de luz a la izquierda */
+.llama { position: relative; overflow: hidden; border: 1px solid transparent; background: linear-gradient(120deg, var(--lila), var(--sup)) padding-box, linear-gradient(90deg, var(--marca-clara), var(--linea) 40%) border-box; box-shadow: inset 4px 0 0 var(--marca); }
+
+/* 68. Vista del coach: marcadores y leyenda con luz */
+.pin { box-shadow: 0 0 1rem var(--marca-clara); }
+.leyenda b { box-shadow: 0 0 .8rem -.1rem var(--marca-clara); font-family: var(--mono); }
+
+/* 69. Conversacion: quien habla, en letra de terminal */
+.hilo .b small { font-family: var(--mono); font-size: .66rem; letter-spacing: .12em; text-transform: uppercase; }
+
+/* 70. Tres ventajas bajo la vista del coach: hilo de luz y elevacion */
+.tres li { position: relative; padding-top: 1.1rem; border-top: 1px solid transparent; border-image: linear-gradient(90deg, var(--marca-clara), transparent) 1; transition: transform .25s; }
+.tres li:hover { transform: translateY(-3px); }
+.tres li:hover i { box-shadow: 0 0 1.6rem -.2rem color-mix(in srgb, var(--marca) 85%, transparent); }
+
+/* 71. Bento: cronometro y record con halo */
+.caja.oscura { background: radial-gradient(16rem 12rem at 100% 0%, rgba(124,106,253,.45), transparent 70%), var(--rejilla), var(--noche); }
+.crono svg { filter: drop-shadow(0 0 8px rgba(255,143,163,.55)); }
+.caja.dorada { box-shadow: 0 0 0 1px rgba(240,198,116,.4), 0 1rem 2.4rem -1.2rem rgba(240,198,116,.6); }
+
+/* 72. Contador de proteina del recetario */
+.hoy-p { border: 1px solid rgba(164,156,255,.3); background: var(--rejilla), var(--noche); box-shadow: 0 0 2rem -.8rem rgba(124,106,253,.8); }
+.hoy-p b { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+/* 73. Carril de recetas: bordes que se desvanecen */
+.recetas { -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent); mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent); scrollbar-color: color-mix(in srgb, var(--marca) 60%, transparent) transparent; }
+
+/* 74. Citas de los estudios: referencia de terminal con flecha */
+.idea a { font-family: var(--mono); font-size: .74rem; letter-spacing: .02em; }
+.idea a::after { content: " \2197"; color: var(--acento); }
+
+/* 75. "No solo te digo que hacer": temas como etiquetas */
+.aprende { background: var(--rejilla), var(--sup); }
+.aprende .chips li::before { content: "#"; color: var(--acento); margin-right: .25rem; }
+.aprende .chips li { transition: transform .2s, border-color .2s, box-shadow .2s; }
+.aprende .chips li:hover { transform: translateY(-2px); border-color: var(--marca-clara); box-shadow: 0 0 1.2rem -.4rem color-mix(in srgb, var(--marca) 70%, transparent); }
+
+/* 76. "Que puedes esperar": linea de tiempo de luz */
+.espera li::before { background: linear-gradient(90deg, var(--marca-clara), var(--linea)); }
+.espera li::after { box-shadow: 0 0 0 5px var(--lila), 0 0 1.2rem var(--marca-clara); }
+.espera li:last-child::after { background: var(--oro); box-shadow: 0 0 0 5px var(--oro-s), 0 0 1.2rem var(--oro); }
+.espera li > small, .espera li > span:first-child { font-family: var(--mono); letter-spacing: .12em; text-transform: uppercase; }
+
+/* 77. Ficha de Pelayo: borde de degradado y sellos de terminal */
+.ficha { border: 1px solid transparent; background: radial-gradient(24rem 16rem at 100% 0%, color-mix(in srgb, var(--marca-clara) 16%, transparent), transparent 70%) padding-box, linear-gradient(var(--sup), var(--sup)) padding-box, linear-gradient(150deg, var(--marca-clara), var(--linea) 45%, var(--oro)) border-box; }
+.sellos li { border-radius: .4rem; font-family: var(--mono); font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; }
+
+/* 78. "Es para ti si / No es lo que buscas": senales de color */
+.encaje > div:first-child { box-shadow: inset 0 3px 0 var(--verde); }
+.encaje > .no { box-shadow: inset 0 3px 0 color-mix(in srgb, var(--rojo) 70%, transparent); }
+.encaje > div:first-child li::marker { color: var(--verde); }
+.encaje > .no li::marker { color: var(--rojo); }
+
+/* 79. Privacidad: panel con rejilla y borde de luz */
+.priv { border: 1px dashed color-mix(in srgb, var(--marca-clara) 55%, var(--linea)); background: var(--rejilla), var(--sup); }
+
+/* 80. "Y despues, cada semana": la linea se enciende por tramos */
+.ciclo li::before { background: linear-gradient(90deg, var(--marca-clara), rgba(164,156,255,.2)); }
+.ciclo li::after { box-shadow: 0 0 .9rem var(--marca-clara); animation: chispa 4s ease-in-out infinite; }
+.ciclo li:nth-child(2)::after { animation-delay: 1s; } .ciclo li:nth-child(3)::after { animation-delay: 2s; } .ciclo li:nth-child(4)::after { animation-delay: 3s; }
+@keyframes chispa { 0%, 70%, 100% { transform: scale(1); } 10% { transform: scale(1.5); box-shadow: 0 0 1.6rem var(--marca-clara); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .lema em, .ciclo li::after { animation: none; }
+  .tres li, .aprende .chips li { transition: none; }
+}
