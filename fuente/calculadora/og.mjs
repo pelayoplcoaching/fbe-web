@@ -5,6 +5,9 @@ const aqui = path.dirname(url.fileURLToPath(import.meta.url));
 const lt = fs.readFileSync(path.join(aqui, '..', 'ext', 'lobo-trazo.js'), 'utf8');
 const caja = lt.match(/LOBO_CAJA = '([^']+)'/)[1], d = lt.match(/LOBO_D = '([^']+)'/)[1];
 const fuente = fs.readFileSync(path.join(aqui, '..', 'ext', 'archivo.woff2')).toString('base64');
+// Fondo: calc-compartir.webp (platos de proteina a la derecha) si existe; si no, anillos y lobo de agua
+const fondoF = path.join(aqui, 'calc-compartir.webp');
+const fondo = fs.existsSync(fondoF) ? 'data:image/webp;base64,' + fs.readFileSync(fondoF).toString('base64') : '';
 const lobo = (c) => `<svg class="${c}" viewBox="${caja}"><path fill-rule="evenodd" d="${d}"/></svg>`;
 const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><style>
 @font-face{font-family:A;src:url(data:font/woff2;base64,${fuente}) format("woff2");font-weight:400 800;font-stretch:75% 125%}
@@ -20,9 +23,10 @@ body{margin:0;width:1200px;height:630px;overflow:hidden;font-family:A;color:#fff
 .e{margin-top:70px;font-family:monospace;font-size:22px;letter-spacing:.14em;text-transform:uppercase;color:#D4D0F5}.e b{color:#F0C674;font-weight:400}
 h1{margin:18px 0 22px;font-size:96px;line-height:1;font-stretch:120%;font-weight:760;letter-spacing:-.02em}
 p{margin:0;font-size:30px;line-height:1.35;color:#D4D0F5;max-width:640px}
+.fondo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:right center}
 .h{position:absolute;left:0;right:0;bottom:0;height:3px;background:linear-gradient(90deg,transparent,#A49CFF 30%,#F0C674 70%,transparent)}
 </style></head><body><div class="r"></div>
-<svg class="an" viewBox="0 0 600 600">${[60,110,165,225,290].map(r=>`<circle cx="300" cy="300" r="${r}"/>`).join('')}<circle class="p" cx="465" cy="300" r="7"/></svg>${lobo('agua')}
+${fondo ? `<img class="fondo" src="${fondo}">` : `<svg class="an" viewBox="0 0 600 600">${[60,110,165,225,290].map(r=>`<circle cx="300" cy="300" r="${r}"/>`).join('')}<circle class="p" cx="465" cy="300" r="7"/></svg>${lobo('agua')}`}
 <div class="c"><div class="m"><i>${lobo('')}</i>Fuerza Basada en Evidencia</div>
 <div class="e"><b>&gt;</b> Calculadora / Proteína</div><h1>Tu número de proteína</h1>
 <p>Tu rango diario y su reparto por comidas, desde metaanálisis revisados.</p></div><div class="h"></div></body></html>`;
