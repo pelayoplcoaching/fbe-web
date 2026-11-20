@@ -8,13 +8,14 @@ FORM = 'pedir-plaza.html'  # antes NoteForms (formulario-inicial-fbe-coaching-on
 PLAZA_ENVIO = 'https://fbe-formularios.netlify.app/.netlify/functions/plaza'
 STRIPE = 'https://buy.stripe.com/9B6bJ0ccQ4exeMxcsKbV601'
 CALC = 'https://calculadoradeproteina.fuerzabasadaenevidencia.com/'
+PA = 'https://medicacionyejercicio.fuerzabasadaenevidencia.com/'  # Pauta Activa (otro repo: medicacion-y-ejercicio)
 # Correo publico aprobado por Pelayo el 20/11/2026 (buzon de IONOS). Se puede cambiar con la variable FBE_CORREO.
 os.environ.setdefault('FBE_CORREO', 'pelayofbe@fuerzabasadaenevidencia.com')
 def _ent(t): return ''.join('&#%d;' % ord(ch) if ch in '@.' else ch for ch in t)
 PRIV = 'privacidad.html' if os.environ.get('FBE_CORREO') else 'https://fbe-politica_de_privacidad.mailerpage.io'
 TERM = 'https://storage.googleapis.com/mailerlite-uploads-prod/1626427/HiBsw8Jed1HGMWBAioHtfU42FmBM9BSXBGOiafMN.pdf'
 REDES = [('Instagram', 'https://www.instagram.com/fuerzabasadaenevidencia/'), ('YouTube', 'https://www.youtube.com/@FuerzaBasadaEnEvidencia'), ('X', 'https://x.com/PelayoPLcoach'), ('Threads', 'https://www.threads.com/@fuerzabasadaenevidencia')]
-PAGS = [('quien-soy.html', 'Quién soy'), ('programas.html', 'Programas'), ('puesta-a-punto.html', 'Puesta a punto'), ('guias.html', 'Guías'), ('newsletter.html', 'Newsletter'), ('dudas.html', 'Dudas')]
+PAGS = [('quien-soy.html', 'Quién soy'), ('programas.html', 'Programas'), ('puesta-a-punto.html', 'Puesta a punto'), ('guias.html', 'Guías'), ('newsletter.html', 'Newsletter'), ('herramientas.html', 'Herramientas'), ('dudas.html', 'Dudas')]
 def nav(act=''): return ''.join(f'<a href="{u}"{" class=\"aqui\" aria-current=\"page\"" if u == act else ""}>{t}</a>' for u, t in PAGS)
 def cabecera(act=''):
     return f'''<a class="salto" href="#contenido">Saltar al contenido</a>
@@ -30,7 +31,7 @@ ESCRIBE = ('mailto:' + _ent(os.environ['FBE_CORREO'])) if os.environ.get('FBE_CO
 PIE = f'''<footer><div class="in">
   <div><div class="marca"><i>{LOBO}</i>Fuerza Basada en Evidencia</div><p>Asesoría online de fuerza y nutrición, por Pelayo Fernández Cidón. La asesoría no sustituye a tu médico ni a un tratamiento.</p><div class="redes">{''.join(f'<a href="{u}" target="_blank" rel="noopener">{t}</a>' for t, u in REDES)}</div></div>
   <div><b>El sitio</b><a href="index.html">Inicio</a>{''.join(f'<a href="{u}">{t}</a>' for u, t in PAGS[:3])}</div>
-  <div><b>Recursos</b><a href="guias.html">Guías</a><a href="newsletter.html">Newsletter</a><a href="{CALC}">Calculadora de proteína</a><a href="dudas.html">Dudas</a></div>
+  <div><b>Recursos</b><a href="guias.html">Guías</a><a href="newsletter.html">Newsletter</a><a href="herramientas.html">Herramientas</a><a href="dudas.html">Dudas</a></div>
   <div><b>¿Ya eres atleta?</b><a href="{APP}">Entrar en la app</a><a href="{FORM}">Pedir plaza</a><a href="{ESCRIBE}">Escribirme</a></div>
   <div class="legal"><span>© 2026 Fuerza Basada en Evidencia, por Pelayo Fernández Cidón</span><span><a href="{PRIV}" style="display:inline">Privacidad</a> · <a href="{TERM}" style="display:inline">Términos y condiciones</a></span></div>
 </div></footer>'''

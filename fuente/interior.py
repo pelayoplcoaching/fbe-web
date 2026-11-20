@@ -21,8 +21,9 @@ def ilus(nombre, clase='ilus'):
     _carga = 'loading="eager" fetchpriority="high"' if _arriba else 'loading="lazy"'
     return f'<img class="{clase}" src="img/{nombre}.webp" alt=""{_wh} {_carga} decoding="async">'
 def datos(*xs): return '<ul class="datos">' + ''.join(f'<li><b>{a}</b>{b}</li>' for a, b in xs) + '</ul>'
-def sigue(arch):
-    i = [u for u, _ in PAGS].index(arch); a = PAGS[i - 1] if i else ('index.html', 'Inicio'); b = PAGS[i + 1] if i + 1 < len(PAGS) else ('index.html', 'Inicio')
+def sigue(arch, padre=None):
+    L = [u for u, _ in PAGS]; i = L.index(padre[0] if padre else arch)
+    a = padre if padre else (PAGS[i - 1] if i else ('index.html', 'Inicio')); b = PAGS[i + 1] if i + 1 < len(PAGS) else ('index.html', 'Inicio')
     return f'<nav class="sigue" aria-label="Seguir leyendo"><div class="in"><a href="{a[0]}"><small>Anterior</small><b>{a[1]}</b></a><a class="der" href="{b[0]}"><small>Siguiente</small><b>{b[1]}</b></a></div></nav>'
 def cabeza(arch, titulo, desc, extra=''):
     return f'''<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -31,12 +32,12 @@ def cabeza(arch, titulo, desc, extra=''):
 <meta property="og:image" content="{WEB}og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image">
 <meta property="og:type" content="website"><meta property="og:locale" content="es_ES"><meta property="og:site_name" content="Fuerza Basada en Evidencia"><meta property="og:title" content="{titulo} · Fuerza Basada en Evidencia"><meta property="og:description" content="{desc}"><meta property="og:url" content="{WEB}{arch}">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..800&display=swap"><link rel="stylesheet" href="fbe.css">{extra}</head><body class="pag-{arch[:-5]}" style="margin:0">'''
-def pagina(arch, titulo, desc, h1, sub, cuerpo, cta='', cierre_t=None, fijo=None, extra='', lado=''):
+def pagina(arch, titulo, desc, h1, sub, cuerpo, cta='', cierre_t=None, fijo=None, extra='', lado='', padre=None):
     doc = f'''{cabeza(arch, titulo, desc, extra)}
-{cabecera(arch)}
-<header class="hero mini t-{arch[:-5]}{" foto" if lado else ""}" id="inicio">{ANILLOS}{"" if lado else (ilus("web-" + arch[:-5]) or f"<div class=\"marca-agua\">{LOBO}</div>")}<div class="in"><div class="txt"><span class="miga"><a href="index.html">Inicio</a> / {titulo}</span><h1>{h1}</h1><p class="sub">{sub}</p>{cta}</div>{lado}</div></header>
+{cabecera(padre[0] if padre else arch)}
+<header class="hero mini t-{arch[:-5]}{" foto" if lado else ""}" id="inicio">{ANILLOS}{"" if lado else (ilus("web-" + arch[:-5]) or f"<div class=\"marca-agua\">{LOBO}</div>")}<div class="in"><div class="txt"><span class="miga"><a href="index.html">Inicio</a> / {f"<a href=\"{padre[0]}\">{padre[1]}</a> / " if padre else ""}{titulo}</span><h1>{h1}</h1><p class="sub">{sub}</p>{cta}</div>{lado}</div></header>
 <main id="contenido">{cuerpo}</main>
-{sigue(arch)}
+{sigue(arch, padre)}
 {cierre(*(cierre_t or ()))}
 {PIE}
 {fijo or FIJO}
@@ -427,7 +428,65 @@ document.querySelectorAll('.prosa-priv h2[id]').forEach(function(h){ io.observe(
 <main id="contenido">{PRIV_TXT}</main>
 {PIE}
 <script src="fbe.js"></script>{_JS_PRIV}</body></html>""")
-open(f'{SAL}/sitemap.xml', 'w', encoding='utf-8').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join(f'  <url><loc>{WEB}{u}</loc></url>\n' for u in [''] + [u for u, _ in PAGS] + (['privacidad.html'] if os.environ.get('FBE_CORREO') else [])) + '</urlset>\n')
+# ===== herramientas: calculadora de proteina y Pauta Activa (app de otro repo, medicacion-y-ejercicio) =====
+# Textos de Pauta Activa: de su presentacion (app/presentacion.html), pasados a tu. Las capturas (web-img/pa-*.webp) son reales de la app.
+def _alt(html, t): return html.replace('alt=""', f'alt="{t}"', 1)
+PA_LOGO = ilus('pa-logo', 'pa-logo')
+PA_TEL = lambda n, t: f'<figure class="pa-tel">{_alt(ilus("pa-" + n, "pa-cap"), t)}</figure>'
+def herr(clase, img, etiqueta, titulo, texto, chips, botones):
+    return f'<article class="herr {clase} sube"><div class="herr-img">{img}</div><div class="herr-txt"><p class="herr-et">{etiqueta}</p><h2>{titulo}</h2><p>{texto}</p><ul class="herr-chips">{"".join(f"<li>{c}</li>" for c in chips)}</ul><div class="herr-bot">{botones}</div></div></article>'
+CTA_PP = '<section><div class="in"><div class="calc sube"><div><h3>¿Y si además quieres un plan hecho por un médico?</h3><p>La Puesta a punto es una consulta y un plan de 12 semanas, con lectura de tu analítica. Sin lista de espera.</p></div><div><a class="btn claro" href="puesta-a-punto.html">Ver la Puesta a punto</a></div></div></div></section>'
+pagina('herramientas.html', 'Herramientas', 'Herramientas gratuitas de Fuerza Basada en Evidencia: Pauta Activa (medicación y ejercicio) y la calculadora de proteína.', 'Herramientas gratuitas', 'Dos aplicaciones para resolver dudas concretas: qué tener en cuenta al entrenar si tomas medicación y cuánta proteína necesitas.', f'''
+<section><div class="in herr-lista">
+  {herr("pa", _alt(ilus("pa-consulta", "herr-cap"), "Pauta Activa en el ordenador: la medicación a la izquierda y el informe a la derecha"), f"{PA_LOGO}App web · Medicación y Ejercicio", "Pauta Activa", "Lee tu medicación habitual y tu situación clínica y te dice qué tener en cuenta al entrenar: aeróbico, fuerza y equilibrio, interacciones relevantes e informes para ti, tu médico y tu entrenador.", ["392 principios activos", "Sin cuentas", "Funciona sin conexión", "5 idiomas"], f'<a class="btn" href="pauta-activa.html">Ver qué es</a><a class="enl-h" href="{PA}" rel="noopener">Abrir la app</a>')}
+  {herr("calc-h", ilus("web-calculadora", "herr-cap") or f'<span class="herr-vacia">{LOBO}</span>', "Calculadora", "Calculadora de proteína", "Calcula tu objetivo diario de proteína y su reparto por comidas, con rangos construidos desde metaanálisis revisados.", ["Objetivo diario", "Reparto por comidas", "La guía completa, en tu correo"], f'<a class="btn" href="{CALC}" rel="noopener">Abrir la calculadora</a>')}
+  <p class="herr-nota sube">Son herramientas informativas: no diagnostican ni sustituyen a tu médico.</p>
+</div></section>
+{CTA_PP}''')
+
+PA_LD = '<script type="application/ld+json">' + json.dumps({'@context': 'https://schema.org', '@type': 'WebApplication', 'name': 'Pauta Activa', 'alternateName': 'Medicación y Ejercicio', 'url': PA, 'applicationCategory': 'HealthApplication', 'operatingSystem': 'Web', 'inLanguage': ['es', 'en', 'fr', 'pt', 'it'], 'isAccessibleForFree': True, 'offers': {'@type': 'Offer', 'price': '0', 'priceCurrency': 'EUR'}, 'author': {'@type': 'Person', 'name': 'Pelayo Fernández Cidón'}, 'license': 'https://opensource.org/licenses/MIT', 'sameAs': ['https://doi.org/10.5281/zenodo.23423114', 'https://github.com/pelayoplcoaching/medicacion-y-ejercicio']}, ensure_ascii=False) + '</script>'
+PA_CIF = [('392', 'principios activos'), ('112', 'grupos terapéuticos'), ('714', 'reglas con fuente y evidencia'), ('209', 'interacciones revisadas'), ('25', 'casos clínicos de validación'), ('5', 'idiomas de interfaz')]
+PA_PARA = [('P', 'Pacientes y familias', 'Personas mayores o polimedicadas que quieren moverse con seguridad y saber qué preguntar a su médico.', ['Añades la medicación buscando, con una foto de la hoja o de la caja, o dictándola.', '«Lo esencial» en cinco puntos, tu plan semanal y una sesión guiada con dibujos y cronómetro.', 'PDF de cuatro caras, tarjeta para la nevera y avisos los días de ejercicio.']),
+ ('M', 'Médicos, enfermería y farmacia', 'Para prescribir ejercicio en la consulta con la medicación delante, en menos de cinco minutos.', ['Cribado ACSM, zona de intensidad individual (Karvonen o RPE), SPPB guiado, plantillas por perfil y varios pacientes por sesión.', 'Informe clínico, texto para la historia, exportación FHIR e informe de evolución para la reevaluación.', 'Estadísticas y CSV anonimizado de la consulta para la memoria del servicio.']),
+ ('E', 'Entrenadores y fisioterapeutas', 'Para adaptar la sesión sin conocer el diagnóstico: solo los efectos que importan durante el entrenamiento.', ['Ficha del entrenador con lo que puede pasar en la sesión y cómo actuar.', 'Enlace de solo lectura del plan, compartido por el propio paciente.', 'Señales de alarma y prueba del habla cuando el pulso no sirve de guía.'])]
+PA_HACE = [('camara', 'Medicación en segundos', 'Buscador sobre el nomenclátor de la AEMPS (11 000 presentaciones), lectura de hojas de medicación y cajas con la cámara, PDF, texto pegado, dictado y código de barras.'),
+ ('check', 'Veredicto y lo esencial', 'Una frase clara, cinco puntos accionables y el detalle por tipo de ejercicio, con el nivel de evidencia y la fuente de cada regla a la vista.'),
+ ('pesa', 'Un plan que se puede seguir', 'Semana tipo según la medicación y la forma física, sesión guiada con ejercicios ilustrados y cronómetro, diario con constantes y tendencia semanal.'),
+ ('ojo', 'Pantalla de consulta', 'En escritorio o tablet, dos columnas sin pestañas: la medicación y los datos a la izquierda, el informe completo a la derecha, con el paciente delante.'),
+ ('libro', 'Informes para cada persona', 'PDF para el paciente (cuatro caras, lo básico en la primera), resumen clínico, ficha del entrenador, tarjeta de nevera, texto para la historia, FHIR y versión en texto accesible.'),
+ ('candado', 'Tus datos, solo en tu dispositivo', 'Sin cuentas ni servidores. Copia de seguridad cifrada con tu contraseña y paso de un dispositivo a otro por código QR. Las listas que se comparten nunca llevan nombre.')]
+PA_NO = [('No es un producto sanitario ni sustituye a tu médico.', 'Organiza información pública (fichas técnicas de la AEMPS, guías ACSM/OMS/ESC/ADA, criterios Beers y STOPP/START) para preparar una conversación con el profesional que te atiende. Las decisiones sobre tratamiento e intensidad son siempre suyas.'),
+ ('No diagnostica ni ajusta dosis.', 'Señala precauciones e interacciones conocidas; no sabe lo que no está en tu lista ni lo que tu médico sí sabe de ti.'),
+ ('No recoge datos.', 'Precisamente por eso no puede recordarte nada si cambias de dispositivo sin hacer copia, ni avisarte fuera de la aplicación salvo las notificaciones locales que tú actives.')]
+PA_PASOS = [('Abre la aplicación', 'En el móvil o el ordenador. Si quieres, instálala desde el menú «Más» para usarla sin conexión y recibir avisos.'), ('Añade tu medicación', 'Y, si los sabes, tu edad, tu situación clínica y tu pulso en reposo. Un minuto.'), ('Llévalo a consulta', 'Lee «Lo esencial», descarga tu PDF y llévalo a la próxima consulta. El profesional puede marcar la prescripción y reevaluarla en seis semanas.')]
+PA_ENL = [('https://github.com/pelayoplcoaching/medicacion-y-ejercicio', 'Código y base (GitHub)'), ('https://doi.org/10.5281/zenodo.23423114', 'DOI 10.5281/zenodo.23423114'), (PA + 'novedades.html', 'Novedades'), ('https://tally.so/r/5XK9YM', 'Sugerencias'), (PA + 'legal.html', 'Aviso legal y privacidad')]
+_FOTO_A = ilus('foto-pelayo', 'pa-autor-foto').replace('alt=""', 'alt="Pelayo Fernández Cidón"')
+FIJO_PA = f'<a class="arriba" id="arriba" href="#contenido" aria-label="Volver arriba">{ico("sube")}</a>\n<div class="fijo" id="fijo"><a class="sec" href="herramientas.html">Herramientas</a><a class="btn claro" href="{PA}" rel="noopener">Abrir Pauta Activa</a></div>'
+pagina('pauta-activa.html', 'Pauta Activa', 'Pauta Activa · Medicación y Ejercicio: de tu lista de medicación a un plan de ejercicio seguro. Gratuita, sin cuentas y sin enviar datos a ningún servidor.', 'De tu lista de medicación a un plan de ejercicio seguro', 'Pauta Activa lee tu medicación habitual, y tu situación clínica, y te dice qué tener en cuenta al entrenar: aeróbico, fuerza y equilibrio, con horario según las tomas, interacciones relevantes e informes para ti, tu médico y tu entrenador. Gratuita, sin cuentas y sin enviar ningún dato a ningún servidor.', f'''
+<section class="cifras pa-cifras"><div class="in"><ul>{"".join(f"<li><b>{a}</b><span>{b}</span></li>" for a, b in PA_CIF)}</ul></div></section>
+<section><div class="in"><div class="entrada sube"><h2>Para quién</h2><p>Dos modos en la misma herramienta: el del paciente, en lenguaje llano y letra grande, y el profesional, con los datos clínicos que cambian la prescripción.</p></div>
+  <div class="ciencia"><div class="rej">{"".join(f'<article class="idea pa-para sube"><span class="n" aria-hidden="true">{l}</span><h3>{t}</h3><p>{d}</p><ul class="marcas">{"".join(f"<li>{x}</li>" for x in xs)}</ul></article>' for l, t, d, xs in PA_PARA)}</div></div>
+</div></section>
+<section class="hoja" id="que-hace"><div class="in"><div class="entrada sube"><h2>Qué hace</h2><p>Todo ocurre en el navegador. La base de conocimiento se descarga una vez y la aplicación funciona sin conexión e instalada en el móvil.</p></div>
+  <figure class="pa-pantalla sube"><div class="pa-barra" aria-hidden="true"><i></i><i></i><i></i><span>medicacionyejercicio.fuerzabasadaenevidencia.com</span></div>{_alt(ilus("pa-consulta", "pa-cap"), "Pantalla de consulta de Pauta Activa: datos y medicación a la izquierda, «Qué tener en cuenta» a la derecha")}</figure>
+  <div class="pa-hace">{"".join(f'<div class="caja sube"><i class="ic">{ico(i)}</i><h3>{t}</h3><p>{d}</p></div>' for i, t, d in PA_HACE)}</div>
+</div></section>
+<section class="pa-movil-s"><div class="in">
+  <div class="pa-moviles sube">{PA_TEL("vistazo", "Pauta Activa en el móvil: de un vistazo, qué puedes hacer, con cuidado y qué evitar")}{PA_TEL("sesion", "Pauta Activa en el móvil: sesión guiada con ejercicios y nivel de dificultad")}</div>
+  <div class="sube"><div class="entrada"><h2>En el móvil, como una app</h2><p>Lo esencial en cinco puntos, la semana tipo y una sesión guiada con ejercicios ilustrados y cronómetro.</p></div>
+  <p><a class="btn" href="{PA}" rel="noopener">Abrir Pauta Activa</a></p><p class="pa-guia"><a href="{PA}guia.html" rel="noopener">Guía rápida en seis pasos</a></p></div>
+</div></section>
+<section class="hoja"><div class="in"><div class="entrada sube"><h2>Lo que no es</h2></div>
+  <ul class="pa-no sube">{"".join(f"<li><b>{a}</b> {b}</li>" for a, b in PA_NO)}</ul>
+  <p class="pa-rev sube">El contenido clínico lo mantiene un médico con un muestreo de revisión continuo; cada actualización de la base avisa dentro de la aplicación de lo que cambia. Si encuentras un error, el formulario de sugerencias llega directamente al autor. Más detalle en <a href="{PA}legal.html#metodologia" rel="noopener">Metodología y limitaciones</a> y <a href="{PA}legal.html#regulatorio" rel="noopener">Posicionamiento regulatorio</a>.</p>
+</div></section>
+<section class="pasos">{ANILLOS}<div class="in"><div class="entrada sube"><h2>Cómo empezar</h2></div>
+  <ol>{"".join(f'<li class="sube"><h3>{t}</h3><p>{d}</p></li>' for t, d in PA_PASOS)}</ol>
+  <p class="pa-pasos-bot sube"><a class="btn claro" href="{PA}" rel="noopener">Abrir Pauta Activa</a></p></div></section>
+<section><div class="in"><div class="pa-autor sube">{_FOTO_A}<div><p class="herr-et">{PA_LOGO}Quién la hace</p><p class="pa-autor-t">Pelayo Fernández Cidón, médico especialista en Medicina Interna y prescriptor de ejercicio físico.</p><p>Código abierto (MIT) y base de conocimiento publicada (CC BY-NC-SA 4.0): cualquier profesional puede revisar cada regla, proponer cambios y citar la base.</p>
+  <ul class="herr-chips enl">{"".join(f'<li><a href="{u}" rel="noopener">{t}</a></li>' for u, t in PA_ENL)}</ul></div></div></div></section>
+{CTA_PP}''', f'<div class="cta"><a class="btn claro" href="{PA}" rel="noopener">Abrir Pauta Activa</a><a class="enl" href="#que-hace">Qué hace</a></div>', fijo=FIJO_PA, extra=PA_LD, lado=f'<div class="pa-hero">{PA_TEL("vistazo", "Pauta Activa en el móvil")}</div>', padre=('herramientas.html', 'Herramientas'))
+open(f'{SAL}/sitemap.xml', 'w', encoding='utf-8').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join(f'  <url><loc>{WEB}{u}</loc></url>\n' for u in [''] + [u for u, _ in PAGS] + ['pauta-activa.html'] + (['privacidad.html'] if os.environ.get('FBE_CORREO') else [])) + '</urlset>\n')
 open(f'{SAL}/robots.txt', 'w', encoding='utf-8').write(f'User-agent: *\nAllow: /\nSitemap: {WEB}sitemap.xml\n')
 p = open(f'{SAL}/index.html', encoding='utf-8').read()
 import base64, hashlib
