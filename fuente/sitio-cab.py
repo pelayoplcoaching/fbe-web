@@ -6,6 +6,9 @@ SAL = os.environ.get('FBE_SAL', '..')
 FORM = 'https://noteforms.com/forms/formulario-inicial-fbe-coaching-online-snl8tn'
 STRIPE = 'https://buy.stripe.com/9B6bJ0ccQ4exeMxcsKbV601'
 CALC = 'https://calculadoradeproteina.fuerzabasadaenevidencia.com/'
+# Correo publico aprobado por Pelayo el 20/11/2026 (buzon de IONOS). Se puede cambiar con la variable FBE_CORREO.
+os.environ.setdefault('FBE_CORREO', 'pelayofbe@fuerzabasadaenevidencia.com')
+def _ent(t): return ''.join('&#%d;' % ord(ch) if ch in '@.' else ch for ch in t)
 PRIV = 'privacidad.html' if os.environ.get('FBE_CORREO') else 'https://fbe-politica_de_privacidad.mailerpage.io'
 TERM = 'https://storage.googleapis.com/mailerlite-uploads-prod/1626427/HiBsw8Jed1HGMWBAioHtfU42FmBM9BSXBGOiafMN.pdf'
 REDES = [('Instagram', 'https://www.instagram.com/fuerzabasadaenevidencia/'), ('YouTube', 'https://www.youtube.com/@FuerzaBasadaEnEvidencia'), ('X', 'https://x.com/PelayoPLcoach'), ('Threads', 'https://www.threads.com/@fuerzabasadaenevidencia')]
@@ -21,7 +24,7 @@ def cabecera(act=''):
   <a class="btn peq claro" href="{FORM}">Pedir plaza</a>
   <details class="menu"><summary aria-label="Abrir el menú"><span></span></summary><div><a href="index.html">Inicio</a>{nav(act)}<a class="app" href="{APP}">Ya soy atleta: entrar</a></div></details>
 </div></div>'''
-ESCRIBE = ('mailto:' + os.environ['FBE_CORREO']) if os.environ.get('FBE_CORREO') else FORM
+ESCRIBE = ('mailto:' + _ent(os.environ['FBE_CORREO'])) if os.environ.get('FBE_CORREO') else FORM
 PIE = f'''<footer><div class="in">
   <div><div class="marca"><i>{LOBO}</i>Fuerza Basada en Evidencia</div><p>Asesoría online de fuerza y nutrición, por Pelayo Fernández Cidón. La asesoría no sustituye a tu médico ni a un tratamiento.</p><div class="redes">{''.join(f'<a href="{u}" target="_blank" rel="noopener">{t}</a>' for t, u in REDES)}</div></div>
   <div><b>El sitio</b><a href="index.html">Inicio</a>{''.join(f'<a href="{u}">{t}</a>' for u, t in PAGS[:3])}</div>

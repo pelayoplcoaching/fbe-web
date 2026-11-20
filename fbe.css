@@ -905,3 +905,5 @@ body { background-image: repeating-linear-gradient(0deg, color-mix(in srgb, var(
 .plan.oro::before { background: radial-gradient(18rem 18rem at var(--lx, 50%) var(--ly, 0%), rgba(240,198,116,.16), transparent 70%); }
 .cierre .entrada::before, .lema-banda .entrada::before { content: none; }
 @media (prefers-reduced-motion: reduce) { .quieta-z *, .pestana-oculta * { animation: none !important; } }
+.prosa h2 { font-size: clamp(1.3rem, 2.2vw, 1.6rem); line-height: 1.15; margin: 2.4rem 0 .8rem; }
+.prosa h2::before { font-size: .8rem; }

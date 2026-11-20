@@ -946,3 +946,7 @@ body { background-image: repeating-linear-gradient(0deg, color-mix(in srgb, var(
 
 /* 220. Fin de la capa: nada nuevo se anima si el sistema pide movimiento reducido */
 @media (prefers-reduced-motion: reduce) { .quieta-z *, .pestana-oculta * { animation: none !important; } }
+
+/* Ajuste 20/11: titulos de la politica de privacidad a tamano de texto legal */
+.prosa h2 { font-size: clamp(1.3rem, 2.2vw, 1.6rem); line-height: 1.15; margin: 2.4rem 0 .8rem; }
+.prosa h2::before { font-size: .8rem; }

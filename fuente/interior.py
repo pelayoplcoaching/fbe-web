@@ -247,7 +247,7 @@ open(f'{SAL}/404.html', 'w', encoding='utf-8').write(f'''{cabeza('404.html', 'P�
 <script src="fbe.js"></script></body></html>''')
 # Politica de privacidad propia: texto de su pagina de MailerLite (sept. 2026); el 20/11/2026 Pelayo pidio cambiar el alojamiento de la web a GitHub. Solo se genera si hay FBE_CORREO.
 if os.environ.get('FBE_CORREO'):
-    C = os.environ['FBE_CORREO']; CM = f'<a href="mailto:{C}">{C}</a>'
+    C = _ent(os.environ['FBE_CORREO']); CM = f'<a href="mailto:{C}">{C}</a>'
     PRIV_TXT = f"""<section><div class="in"><div class="prosa">
 <p><strong>Responsable del tratamiento:</strong> Pelayo Fernández Cidón, médico especialista en Medicina Interna, NIF 71777712W, con domicilio a efectos de notificaciones en Fernández de los Ríos 63, 28015, Madrid. Contacto: {CM}.</p>
 <p>En Fuerza Basada en Evidencia nos tomamos muy en serio la protección de tus datos. Esta política explica qué información recogemos, con qué finalidad, durante cuánto tiempo la conservamos y qué derechos tienes sobre ella.</p>
