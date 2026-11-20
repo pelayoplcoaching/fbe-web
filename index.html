@@ -977,6 +977,101 @@ figure:hover > .m { box-shadow: var(--sombra), 0 0 2.6rem -.8rem rgba(124,106,25
   .num404 { animation: none; }
   .linea li { transition: none; } .linea li:hover { transform: none; }
 }
+
+/* ---------- TANDA 6: movimiento y detalles ---------- */
+
+/* 101. Barra superior compacta al bajar: mas opaca y con sombra de luz */
+.cab.fina { background: var(--hilo) bottom / 100% 1px no-repeat, rgba(14,8,44,.92); box-shadow: 0 .8rem 2rem -1.2rem rgba(124,106,253,.7); }
+
+/* 102. Menu: la linea crece al pasar */
+.cab nav a { background: linear-gradient(var(--marca-clara), var(--marca-clara)) left bottom / 0 2px no-repeat; transition: color .2s, background-size .25s; }
+.cab nav a:hover { background-size: 100% 2px; border-bottom-color: transparent; }
+
+/* 103. Botones: se hunden un poco al pulsar */
+.btn:active { transform: translateY(1px) scale(.985); }
+
+/* 104. El subrayado de cada titulo se dibuja al aparecer */
+.entrada h2::after { transform-origin: left center; transition: transform .9s cubic-bezier(.2,.7,.2,1) .25s; }
+.entrada.centro h2::after { transform-origin: center; }
+.js .sube:not(.ya) .entrada h2::after, .js .entrada.sube:not(.ya) h2::after { transform: scaleX(0); }
+
+/* 105. El indice "/01" entra con el espaciado cerrandose */
+.entrada::before { transition: letter-spacing .9s cubic-bezier(.2,.7,.2,1), opacity .9s; }
+.js .sube:not(.ya) .entrada::before, .js .entrada.sube:not(.ya)::before { letter-spacing: .6em; opacity: 0; }
+
+/* 106. Inclinacion 3D sutil en guias y programas (la calcula luz.js) */
+.guia:hover, .plan:hover, .js .sube.ya.guia:hover, .js .sube.ya.plan:hover { transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(-4px); }
+/* el aparecer al hacer scroll fijaba transform: none y anulaba el levantar al pasar */
+.js .sube.ya.idea:hover, .js .sube.ya.correo:hover, .testi > .js .sube.ya.voz:not(:first-child):hover, .js .testi > .sube.ya.voz:not(:first-child):hover { transform: translateY(-4px); }
+.js .cuatro > .sube.ya:hover { transform: translateY(-3px); }
+
+/* 107. Ilustracion de las cabeceras: deriva suave al bajar (navegadores que lo permiten) */
+@supports (animation-timeline: scroll()) {
+  .hero.mini .ilus { animation: deriva linear both; animation-timeline: scroll(root); animation-range: 0 70vh; }
+  @keyframes deriva { to { transform: translateY(2.5rem) scale(1.04); } }
+}
+
+/* 108. Banda oscura de pasos: una linea de escaneo que baja despacio */
+.pasos::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; z-index: 0; pointer-events: none; background: linear-gradient(90deg, transparent, rgba(164,156,255,.6), transparent); box-shadow: 0 0 12px rgba(164,156,255,.5); animation: escaneo 9s linear infinite; }
+@keyframes escaneo { 0% { top: 0; opacity: 0; } 8% { opacity: 1; } 92% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
+
+/* 109. Tablas anchas en movil: la primera columna se queda fija */
+@media (max-width: 760px) {
+  .compara.ancha th:first-child, .compara.ancha td:first-child { position: sticky; left: 0; z-index: 1; background: var(--sup); box-shadow: 6px 0 10px -8px rgba(0,0,0,.35); }
+}
+
+/* 110. Respuestas que aparecen con suavidad al abrir */
+.faq details[open] > :not(summary) { animation: aparece .35s ease both; }
+@keyframes aparece { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+
+/* 111. Boton claro/oscuro con anillo de luz */
+.tema:hover { border-color: var(--marca-clara); box-shadow: 0 0 1.2rem -.2rem rgba(164,156,255,.8); color: #fff; }
+
+/* 112. Menu de movil: cristal con rejilla y barra de luz en el enlace */
+.menu div { background: var(--rejilla), rgba(36,22,101,.94); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-color: rgba(164,156,255,.3); }
+.menu div a:hover, .menu div a[aria-current="page"] { box-shadow: inset 3px 0 0 var(--marca-clara); }
+
+/* 113. Barra fija de movil: hilo de luz arriba */
+.fijo { background: var(--hilo) top / 100% 1px no-repeat, rgba(20,11,58,.9); }
+
+/* 114. Enlace "Saltar al contenido": visible y con luz al usar el teclado */
+.salto:focus { box-shadow: 0 0 0 3px var(--marca-clara), 0 0 2rem rgba(124,106,253,.7); }
+
+/* 115. Cinta de temas: hilos de luz arriba y abajo */
+.cinta { border-top: 0; background: var(--hilo) top / 100% 1px no-repeat, var(--hilo) bottom / 100% 1px no-repeat, var(--rejilla), var(--noche); }
+
+/* 116. Boton principal de la portada: un destello de vez en cuando */
+.hero .cta .btn.claro::before { animation: destello 7s ease-in-out 2.5s infinite; }
+@keyframes destello { 0% { transform: translateX(-120%); } 14% { transform: translateX(120%); } 100% { transform: translateX(120%); } }
+
+/* 117. Pie: icono del lobo con halo y linea legal separada por un hilo */
+footer .logo i, footer .marca i { box-shadow: 0 0 1.4rem -.2rem rgba(124,106,253,.8); }
+footer .legal { border-top: 0; background: var(--hilo) top / 100% 1px no-repeat; }
+
+/* 118. Cifras doradas de las cabeceras con un leve brillo */
+.datos b { text-shadow: 0 0 1.4rem color-mix(in srgb, var(--oro) 35%, transparent); }
+
+/* 119. Impresion (por ejemplo, la privacidad): limpia y sin adornos */
+@media print {
+  .cab, .fijo, .arriba, .avance, .cinta, .sigue, .cierre, footer .redes, .anillos, .marca-agua { display: none !important; }
+  body { background: #fff !important; color: #000; }
+  .hero, .hero.mini { background: #fff !important; color: #000; border-radius: 0; margin-top: 0; padding-top: 1rem; }
+  .hero::after, .hero::before { display: none; }
+  .hero h1, .hero .sub, .miga { color: #000 !important; text-shadow: none; }
+  .ilus { display: none; }
+  a { color: #000; }
+}
+
+/* 120. Movimiento reducido: todo lo nuevo, quieto */
+@media (prefers-reduced-motion: reduce) {
+  .pasos::before { display: none; }
+  .hero .cta .btn.claro::before, .faq details[open] > :not(summary), .hero.mini .ilus { animation: none; }
+  .entrada h2::after, .entrada::before { transition: none; }
+  .js .sube:not(.ya) .entrada h2::after, .js .entrada.sube:not(.ya) h2::after { transform: none; }
+  .js .sube:not(.ya) .entrada::before, .js .entrada.sube:not(.ya)::before { letter-spacing: .14em; opacity: .9; }
+  .guia:hover, .plan:hover, .js .sube.ya.guia:hover, .js .sube.ya.plan:hover { transform: translateY(-4px); }
+  .cab nav a { transition: none; }
+}
 </style>
 <script>document.documentElement.classList.add('js');</script>
 <a class="salto" href="#semana">Saltar al contenido</a>
@@ -1285,5 +1380,5 @@ figure:hover > .m { box-shadow: var(--sombra), 0 0 2.6rem -.8rem rgba(124,106,25
 </script>
 <script>(function(){var D=document,p=D.getElementById('peso'),A=1.6,B=2.2;if(!p)return;function r(v){return Math.round(v/5)*5}function pinta(){var k=+p.value,a=r(k*A),b=r(k*B);D.getElementById('peso-o').textContent=k+' kg';D.getElementById('prot').textContent=a+'–'+b+' g';D.getElementById('toma').textContent=r(a/4)+'–'+r(b/4)+' g'}
 [].forEach.call(D.querySelectorAll('.fases button'),function(b){b.addEventListener('click',function(){[].forEach.call(D.querySelectorAll('.fases button'),function(x){x.setAttribute('aria-pressed',x===b)});A=+b.dataset.a;B=+b.dataset.b;pinta()})});p.addEventListener('input',pinta);pinta()})();</script><script>(function () { var n = 0; [].forEach.call(document.querySelectorAll('.entrada'), function (e) { n++; e.setAttribute('data-n', (n < 10 ? '0' : '') + n); }); })();
-(function () { if (!window.matchMedia || !matchMedia('(pointer: fine)').matches || matchMedia('(prefers-reduced-motion: reduce)').matches) return; document.addEventListener('pointermove', function (e) { var c = e.target && e.target.closest && e.target.closest('.plan, .guia, .idea, .correo, .voz, .pegada'); if (!c) return; var r = c.getBoundingClientRect(); c.style.setProperty('--lx', (e.clientX - r.left) + 'px'); c.style.setProperty('--ly', (e.clientY - r.top) + 'px'); }, { passive: true }); })();
+(function () { if (!window.matchMedia || !matchMedia('(pointer: fine)').matches || matchMedia('(prefers-reduced-motion: reduce)').matches) return; document.addEventListener('pointermove', function (e) { var c = e.target && e.target.closest && e.target.closest('.plan, .guia, .idea, .correo, .voz, .pegada'); if (!c) return; var r = c.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top; c.style.setProperty('--lx', x + 'px'); c.style.setProperty('--ly', y + 'px'); if (c.classList.contains('guia') || c.classList.contains('plan')) { c.style.setProperty('--ry', ((x / r.width - 0.5) * 4).toFixed(2) + 'deg'); c.style.setProperty('--rx', ((0.5 - y / r.height) * 4).toFixed(2) + 'deg'); } }, { passive: true }); })();
 </script></body></html>
