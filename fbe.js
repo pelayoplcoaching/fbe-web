@@ -11,4 +11,5 @@
   var menu = $('.menu'); if (menu) menu.addEventListener('click', function (e) { if (e.target.tagName === 'A') menu.open = false; });
 })();
 
+(function () { var n = 0; [].forEach.call(document.querySelectorAll('.entrada'), function (e) { n++; e.setAttribute('data-n', (n < 10 ? '0' : '') + n); }); })();
 (function () { if (!window.matchMedia || !matchMedia('(pointer: fine)').matches || matchMedia('(prefers-reduced-motion: reduce)').matches) return; document.addEventListener('pointermove', function (e) { var c = e.target && e.target.closest && e.target.closest('.plan, .guia, .idea, .correo, .voz, .pegada'); if (!c) return; var r = c.getBoundingClientRect(); c.style.setProperty('--lx', (e.clientX - r.left) + 'px'); c.style.setProperty('--ly', (e.clientY - r.top) + 'px'); }, { passive: true }); })();

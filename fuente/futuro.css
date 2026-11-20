@@ -29,8 +29,8 @@
 .miga::before { content: "> "; color: var(--oro); }
 
 /* 5. Numeracion de secciones, como un indice tecnico */
-body { counter-reset: sec; }
-.entrada::before { counter-increment: sec; content: "/" counter(sec, decimal-leading-zero); font-family: var(--mono); font-size: .78rem; font-weight: 600; letter-spacing: .14em; color: var(--acento); opacity: .9; }
+.entrada:not([data-n])::before { content: none; }
+.entrada::before { content: "/" attr(data-n); font-family: var(--mono); font-size: .78rem; font-weight: 600; letter-spacing: .14em; color: var(--acento); opacity: .9; }
 .pasos .entrada::before, .lema-banda .entrada::before { color: var(--marca-clara); }
 .entrada.centro::before { justify-self: center; }
 
@@ -205,4 +205,88 @@ body { background-image: repeating-linear-gradient(0deg, color-mix(in srgb, var(
 @media (prefers-reduced-motion: reduce) {
   .hero h1 span:last-child, .plan.top, .ml-caja, .viva b::before { animation: none; }
   .cuatro > li, .testi > .voz, .indice a { transition: none; }
+}
+
+/* ---------- TANDA 3: pulido y coherencia ---------- */
+
+/* 41. Etiqueta de la portada en una sola linea en movil */
+@media (max-width: 520px) { .hero .sobre { font-size: .66rem; letter-spacing: .05em; } }
+
+/* 42. Recorrido "Una semana con la app": dia en letra de terminal y paso activo con luz */
+.tour-lista small { font-family: var(--mono); font-stretch: normal; font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; }
+.tour-lista button[aria-selected="true"] { box-shadow: inset 3px 0 0 var(--marca), var(--sombra-s); }
+.tour-lista button[aria-selected="true"] small { color: var(--acento); }
+
+/* 43. "Pruebalo aqui mismo": rejilla y campos con foco de neon */
+.prueba::before { content: ""; position: absolute; inset: 0; pointer-events: none; background-image: var(--rejilla); -webkit-mask-image: radial-gradient(70% 90% at 80% 50%, #000, transparent 80%); mask-image: radial-gradient(70% 90% at 80% 50%, #000, transparent 80%); }
+.prueba input:focus-visible { outline: 2px solid var(--marca-clara); box-shadow: 0 0 0 6px rgba(164,156,255,.25); }
+
+/* 44. Recetas: macros en cifras de terminal */
+.mc b { font-family: var(--mono); font-stretch: normal; letter-spacing: -.02em; }
+.rc { transition: transform .25s, box-shadow .25s, border-color .25s; } .rc:hover { transform: translateY(-3px); border-color: color-mix(in srgb, var(--marca-clara) 60%, var(--linea)); box-shadow: 0 0 2rem -.8rem color-mix(in srgb, var(--marca) 70%, transparent); }
+
+/* 45. "Basada en evidencia": numeros con contorno de degradado */
+.idea .n { -webkit-text-stroke: 1.5px var(--acento); filter: drop-shadow(0 0 .7rem color-mix(in srgb, var(--marca-clara) 45%, transparent)); }
+
+/* 46. Calculadora de proteina: rejilla, deslizador de neon y cifras de terminal */
+.calc { position: relative; overflow: hidden; background-image: var(--rejilla); background-color: var(--noche); }
+.calc > * { position: relative; }
+input[type=range] { accent-color: #A49CFF; filter: drop-shadow(0 0 6px rgba(164,156,255,.55)); }
+#prot, #toma { font-variant-numeric: tabular-nums; }
+
+/* 47. Vista del coach: marco de ventana con luz */
+.nav-marco { border-color: color-mix(in srgb, var(--marca-clara) 40%, var(--linea)); box-shadow: var(--sombra), 0 0 3.5rem -1.2rem color-mix(in srgb, var(--marca) 70%, transparent); }
+.nav-barra span { font-family: var(--mono); font-size: .72rem; letter-spacing: .06em; }
+
+/* 48. Test "Encaja contigo?": botones Si/No tecnicos */
+.sn span { border-radius: .5rem; font-family: var(--mono); font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; }
+.sn input:checked + span { box-shadow: 0 0 1.4rem -.3rem color-mix(in srgb, var(--marca) 80%, transparent); }
+.caja-t { border: 1px solid transparent; background: linear-gradient(var(--sup), var(--sup)) padding-box, linear-gradient(160deg, color-mix(in srgb, var(--marca-clara) 70%, transparent), var(--linea) 60%) border-box; }
+
+/* 49. Carrusel de pantallas: marco de movil con luz al pasar */
+.m { transition: box-shadow .3s, transform .3s; }
+figure:hover > .m { box-shadow: var(--sombra), 0 0 2.6rem -.8rem rgba(124,106,253,.75); transform: translateY(-4px); }
+
+/* 50. Redes del pie: etiquetas cuadradas de terminal */
+.redes a { border-radius: .45rem; font-family: var(--mono); font-size: .74rem; letter-spacing: .08em; text-transform: uppercase; }
+.redes a:hover { box-shadow: 0 0 1.2rem -.3rem rgba(164,156,255,.8); }
+
+/* 51. Logo: halo suave en el icono del lobo */
+.logo i { box-shadow: inset 0 0 0 1px rgba(255,255,255,.18), 0 0 1.2rem -.2rem rgba(124,106,253,.8); }
+
+/* 52. Menu: subrayado que crece con luz */
+.cab nav a { position: relative; }
+.cab nav a:hover { border-bottom-color: color-mix(in srgb, var(--marca-clara) 70%, transparent); }
+
+/* 53. Papel tecnico tambien en modo oscuro */
+:root[data-theme="dark"] body { background-image: repeating-linear-gradient(0deg, rgba(164,156,255,.035) 0 1px, transparent 1px 64px), repeating-linear-gradient(90deg, rgba(164,156,255,.035) 0 1px, transparent 1px 64px); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) body { background-image: repeating-linear-gradient(0deg, rgba(164,156,255,.035) 0 1px, transparent 1px 64px), repeating-linear-gradient(90deg, rgba(164,156,255,.035) 0 1px, transparent 1px 64px); } }
+
+/* 54. Sello "Te encaja": dorado con luz */
+.plan .eti { background: var(--oro); color: #2A1E05; box-shadow: 0 0 1.2rem -.2rem rgba(240,198,116,.8); }
+
+/* 55. "Comparar con los demas" y enlaces menores en letra de terminal */
+.comp, .todas, .faq + p a { font-family: var(--mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; }
+
+/* 56. Cabeceras interiores: titulo con un leve halo */
+.hero.mini h1 { text-shadow: 0 0 2.6rem rgba(124,106,253,.35); }
+
+/* 57. Banda de la frase (Quien soy): comillas de luz */
+.lema-banda blockquote, .lema-banda p:first-of-type { text-shadow: 0 0 2rem rgba(124,106,253,.35); }
+
+/* 58. Rendimiento en movil: sin desenfoques costosos fuera de la barra */
+@media (max-width: 760px) {
+  .cuatro > li, .luego li, .metas button, .flota { backdrop-filter: none; -webkit-backdrop-filter: none; }
+  .idea:hover::after, .plan:hover::after, .guia:hover::after, .correo:hover::after, .voz:hover::after, .caja:hover::after { inset: -1px; }
+}
+
+/* 59. Tablas: columna destacada con brillo */
+.compara .yo, .compara td.yo, .compara th.yo { box-shadow: inset 0 0 1.6rem -.8rem color-mix(in srgb, var(--marca) 60%, transparent); }
+
+/* 60. Etiquetas de tema de las guias en letra de terminal */
+.temas-g span { font-family: var(--mono); font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; border-radius: .35rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  .rc, .m { transition: none; }
+  figure:hover > .m, .rc:hover { transform: none; }
 }
