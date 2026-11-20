@@ -245,6 +245,24 @@ open(f'{SAL}/404.html', 'w', encoding='utf-8').write(f'''{cabeza('404.html', 'P�
 <main id="contenido"></main>
 {PIE}
 <script src="fbe.js"></script></body></html>''')
+# Gracias del boletin: a esta pagina redirige el formulario de MailerLite «Boletín · Newsletter (web)». Siempre noindex y fuera del sitemap.
+open(f'{SAL}/gracias-boletin.html', 'w', encoding='utf-8').write(f"""{cabeza('gracias-boletin.html', 'Ya estás dentro', 'Gracias por apuntarte al boletín de Fuerza Basada en Evidencia.', '<meta name="robots" content="noindex">')}
+{cabecera()}
+<header class="hero mini t-newsletter" id="inicio">{ANILLOS}{ilus("web-newsletter")}<div class="in"><div class="txt"><span class="miga"><a href="index.html">Inicio</a> / <a href="newsletter.html">Newsletter</a> / Gracias</span><h1>Ya estás dentro.</h1><p class="sub">Gracias por apuntarte. En unos minutos te llega mi correo de bienvenida.</p></div></div></header>
+<main id="contenido">
+<section><div class="in"><div class="entrada sube"><h2>Para que no se pierda</h2></div>
+  <ol class="pasos-g sube">
+    <li><b>Mira tu bandeja de entrada</b><span>Si no está, busca en Promociones o en Spam y márcalo como «No es spam».</span></li>
+    <li><b>Guárdame en tus contactos</b><span>Así los siguientes correos llegan siempre a la bandeja principal.</span></li>
+    <li><b>Contesta si quieres</b><span>Leo las respuestas. Si hay un tema que te interesa, cuéntamelo.</span></li>
+  </ol>
+</div></section>
+<section class="hoja"><div class="in"><div class="entrada sube"><h2>Mientras tanto</h2></div>
+  <div class="cta sube" style="display:flex;flex-wrap:wrap;gap:.8rem"><a class="btn" href="guias.html">Ver las guías</a><a class="btn hueco" href="{CALC}">Calculadora de proteína</a><a class="btn hueco" href="quien-soy.html">Quién soy</a></div>
+</div></section>
+</main>
+{PIE}
+<script src="fbe.js"></script></body></html>""")
 # Politica de privacidad propia: texto de su pagina de MailerLite (sept. 2026); el 20/11/2026 Pelayo pidio cambiar el alojamiento de la web a GitHub. Solo se genera si hay FBE_CORREO.
 if os.environ.get('FBE_CORREO'):
     C = _ent(os.environ['FBE_CORREO']); CM = f'<a href="mailto:{C}">{C}</a>'

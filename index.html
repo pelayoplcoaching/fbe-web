@@ -1451,6 +1451,13 @@ body { background-image: repeating-linear-gradient(0deg, color-mix(in srgb, var(
 /* Ajuste 20/11: titulos de la politica de privacidad a tamano de texto legal */
 .prosa h2 { font-size: clamp(1.3rem, 2.2vw, 1.6rem); line-height: 1.15; margin: 2.4rem 0 .8rem; }
 .prosa h2::before { font-size: .8rem; }
+
+/* Pagina de gracias del boletin: tres pasos numerados */
+.pasos-g { list-style: none; padding: 0; margin: 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); counter-reset: pg; }
+.pasos-g li { counter-increment: pg; position: relative; padding: 1.4rem 1.4rem 1.4rem 4rem; border: 1px solid var(--linea-v, var(--linea)); border-radius: 1.2rem; background: var(--sup); box-shadow: var(--sombra-s); }
+.pasos-g li::before { content: counter(pg, decimal-leading-zero); position: absolute; left: 1.3rem; top: 1.3rem; font: 600 .8rem/1 var(--mono); letter-spacing: .1em; color: var(--acento); }
+.pasos-g b { display: block; margin-bottom: .35rem; font-size: 1.08rem; }
+.pasos-g span { color: var(--tinta-2); }
 </style>
 <script>document.documentElement.classList.add('js');</script>
 <a class="salto" href="#semana">Saltar al contenido</a>
