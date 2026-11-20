@@ -385,3 +385,94 @@ figure:hover > .m { box-shadow: var(--sombra), 0 0 2.6rem -.8rem rgba(124,106,25
   .lema em, .ciclo li::after { animation: none; }
   .tres li, .aprende .chips li { transition: none; }
 }
+
+/* ---------- TANDA 5: paginas interiores ---------- */
+
+/* 81. Quien soy, "Como empezo": linea de vida con luz y anos en terminal */
+.linea { border-left: 2px solid transparent; border-image: linear-gradient(var(--marca-clara), var(--marca) 60%, var(--oro)) 1; }
+.linea li::before { box-shadow: 0 0 0 .35rem var(--fondo), 0 0 1rem var(--marca-clara); }
+.linea li:last-child::before { background: var(--oro); box-shadow: 0 0 0 .35rem var(--fondo), 0 0 1rem var(--oro); }
+.linea li { transition: transform .25s; } .linea li:hover { transform: translateX(4px); }
+
+/* 82. Quien soy, tarjeta de formacion: rotulo de terminal */
+.pag-quien-soy .pegada > b:first-child, .pag-quien-soy .pegada h3:first-child { font-family: var(--mono); font-stretch: normal; font-size: .76rem; letter-spacing: .14em; text-transform: uppercase; color: var(--acento); }
+
+/* 83. Marcas de lista: rombos de luz en vez de circulos */
+.marcas li::before { border-radius: .2rem; transform: rotate(45deg) scale(.62); background: linear-gradient(135deg, var(--marca), var(--marca-clara)); box-shadow: 0 0 .6rem color-mix(in srgb, var(--marca-clara) 70%, transparent); }
+
+/* 84. Banda de la frase: anillos y comillas con mas presencia */
+.lema-banda { position: relative; overflow: hidden; }
+.lema-banda::after { content: ""; position: absolute; inset: 0; pointer-events: none; background-image: var(--rejilla); -webkit-mask-image: radial-gradient(60% 70% at 50% 50%, #000, transparent 80%); mask-image: radial-gradient(60% 70% at 50% 50%, #000, transparent 80%); }
+.lema-banda .in { position: relative; z-index: 1; }
+
+/* 85. Testimonio ancho: tarjeta con rejilla y borde de luz */
+.voz.ancha { border: 1px solid transparent; background: var(--rejilla) padding-box, linear-gradient(120deg, var(--lila), color-mix(in srgb, var(--lila) 50%, var(--sup))) padding-box, linear-gradient(120deg, var(--marca-clara), var(--linea) 50%, var(--oro)) border-box; }
+
+/* 86. Programas: titulos de grupo con prefijo de terminal */
+.grupo-t { display: flex; align-items: center; gap: .8rem; }
+.grupo-t::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, color-mix(in srgb, var(--marca-clara) 60%, transparent), transparent); }
+
+/* 87. Programas: selector "Cual te encaja?" con borde de luz */
+.elige { border: 1px solid transparent; background: linear-gradient(135deg, var(--sup) 40%, var(--lila)) padding-box, linear-gradient(135deg, var(--marca-clara), var(--linea) 40%, var(--oro)) border-box; }
+.elige-r { font-family: inherit; }
+.elige-r #elige-t { background: linear-gradient(90deg, var(--tinta), var(--acento)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+/* 88. Botones de eleccion (fases): cristal en claro, con luz al marcar */
+.fases.claras button { border-radius: .55rem; transition: box-shadow .2s, background .2s; }
+.fases.claras button[aria-pressed="true"] { box-shadow: 0 0 1.2rem -.3rem color-mix(in srgb, var(--marca) 80%, transparent); }
+
+/* 89. Planes: las ventajas se avivan al pasar */
+.plan h3 { letter-spacing: -.01em; }
+.plan ul li { transition: color .2s; } .plan:hover ul li { color: var(--tinta); }
+
+/* 90. Aviso de grupo pequeno: borde dorado con luz */
+.aviso { box-shadow: inset 4px 0 0 var(--oro), 0 0 2rem -1.2rem rgba(240,198,116,.8); }
+
+/* 91. Tabla ancha: indicacion de desplazamiento en terminal */
+.desliza { font-family: var(--mono); font-size: .74rem; letter-spacing: .08em; text-transform: uppercase; }
+.desliza::before { content: "<-> "; color: var(--acento); }
+
+/* 92. Puesta a punto: chips de la analitica con prefijo */
+.pag-puesta-a-punto .chips li::before { content: "+"; color: var(--acento); margin-right: .35rem; font-weight: 700; }
+.btn.hueco { font-family: var(--mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; border-radius: .55rem; }
+
+/* 93. Banner con foto: marco de luz */
+.banner { box-shadow: var(--sombra), 0 0 3rem -1.4rem color-mix(in srgb, var(--marca) 80%, transparent); }
+
+/* 94. Guias: barra "Por cual empiezo?" con borde de luz */
+.empieza { border: 1px solid transparent; background: linear-gradient(120deg, var(--lila), var(--oro-s)) padding-box, linear-gradient(120deg, var(--marca-clara), var(--linea) 45%, var(--oro)) border-box; }
+#cuantas { font-family: var(--mono); font-size: .76rem; letter-spacing: .1em; text-transform: uppercase; }
+#emp-t { font-family: inherit; }
+
+/* 95. Guias: "Que hay dentro" como lista tecnica */
+.dentro summary { font-family: var(--mono); font-size: .76rem; letter-spacing: .08em; text-transform: uppercase; }
+.dentro ul { list-style: none; padding-left: 0; } .dentro li { padding-left: 1.2rem; position: relative; } .dentro li::before { content: ">"; position: absolute; left: 0; font-family: var(--mono); color: var(--acento); }
+.para b { font-family: var(--mono); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; }
+
+/* 96. Dudas: buscador con luz y lupa de neon */
+.busca label { font-family: var(--mono); font-size: .76rem; letter-spacing: .12em; text-transform: uppercase; color: var(--acento); }
+.busca input { border: 1px solid transparent; background: linear-gradient(var(--sup), var(--sup)) padding-box, linear-gradient(90deg, var(--marca-clara), var(--linea) 50%) border-box; }
+.busca input:focus { outline: none; box-shadow: 0 0 0 4px color-mix(in srgb, var(--marca-clara) 25%, transparent), 0 0 2rem -.6rem color-mix(in srgb, var(--marca) 80%, transparent); }
+#halla { font-family: var(--mono); font-size: .76rem; letter-spacing: .06em; }
+
+/* 97. Dudas: titulos de grupo con hilo de luz */
+.grupo-d h2 { display: flex; align-items: center; gap: .9rem; }
+.grupo-d h2::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, color-mix(in srgb, var(--marca-clara) 60%, transparent), transparent); }
+.mas-d a { font-family: var(--mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; }
+
+/* 98. Newsletter: correos recientes como bandeja tecnica */
+.correo .de small { font-family: var(--mono); font-size: .66rem; letter-spacing: .12em; text-transform: uppercase; }
+.correo h3::before { box-shadow: 0 0 .6rem var(--marca-clara); }
+.autor-foto figcaption b { font-family: var(--mono); font-size: .74rem; letter-spacing: .14em; text-transform: uppercase; color: var(--acento); }
+
+/* 99. Privacidad: titulos con indice y texto mas legible */
+.prosa h2 { display: flex; align-items: baseline; gap: .8rem; }
+.prosa h2::before { content: "//"; font-family: var(--mono); font-size: .9rem; color: var(--acento); }
+
+/* 100. 404: cruz de encuadre y numero con barrido */
+.num404 { background: linear-gradient(90deg, var(--marca-clara), #fff 40%, var(--marca-clara) 60%, var(--oro)); background-size: 220% 100%; -webkit-background-clip: text; background-clip: text; -webkit-text-stroke: 0; color: transparent; animation: barrido 8s linear infinite; opacity: .9; }
+
+@media (prefers-reduced-motion: reduce) {
+  .num404 { animation: none; }
+  .linea li { transition: none; } .linea li:hover { transform: none; }
+}
