@@ -1150,6 +1150,87 @@ blockquote { hanging-punctuation: first; }
 
 /* 140. Al imprimir: sin lineas sueltas al principio o final de pagina */
 @media print { p, li { orphans: 3; widows: 3; } h2, h3 { break-after: avoid; } }
+
+/* ---------- TANDA 8: color, contraste y modo oscuro ---------- */
+
+/* 141. Migas de pan legibles sobre las cabeceras */
+.miga { color: #D9D5FF; } .miga a { color: #EEECFF; }
+
+/* 142. "Que buscas?" y la nota del grupo pequeno: lavanda mas clara */
+.metas > span, .nota-cta { color: #C2BCFF; }
+
+/* 143. Recorrido: los pasos no activos se leen (antes casi desaparecian) */
+@media (min-width: 981px) { .tour-lista button { opacity: .72; } .tour-lista button[aria-selected="true"], .tour-lista button:hover { opacity: 1; } }
+
+/* 144. Etiqueta "Nutricion" con verde suficiente en modo claro */
+.guia .temas-g .tm-nutri, .tm-nutri { color: #16694A; }
+:root[data-theme="dark"] .guia .temas-g .tm-nutri, :root[data-theme="dark"] .tm-nutri { color: var(--verde); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .guia .temas-g .tm-nutri, :root:not([data-theme="light"]) .tm-nutri { color: var(--verde); } }
+
+/* 145. Precio dentro del boton de las guias: fondo mas oscuro, cifra clara */
+.guia .btn span { background: rgba(20,11,58,.32); }
+
+/* 146. Iniciales de los testimonios sobre un violeta mas profundo */
+.cara { background: linear-gradient(150deg, #5A44E6, #241665); }
+
+/* 147. "No" de las tablas: rojo legible sin gritar */
+.no { opacity: 1; }
+
+/* 147b. "Tu" en la burbuja de la conversacion: blanco suficiente sobre violeta */
+.hilo .b.tu small { color: rgba(255,255,255,.9); opacity: 1; }
+
+/* 148. Textos de las cabeceras violeta (Programas): un punto mas claros */
+.hero .sub, .hero .datos li { color: #E2DFFA; }
+
+/* 149. Formularios y barras del navegador con el tema correcto */
+:root { color-scheme: light; }
+:root[data-theme="dark"] { color-scheme: dark; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { color-scheme: dark; } }
+
+/* 150. Anillo de foco que se ve tambien sobre fondo blanco */
+main a:focus-visible, main button:focus-visible, main summary:focus-visible, main input:focus-visible { outline-color: var(--acento); }
+.hero a:focus-visible, .hero button:focus-visible, .pasos a:focus-visible, .cierre a:focus-visible { outline-color: var(--marca-clara); }
+
+/* 151. Seleccion de texto en modo oscuro: lavanda sobre noche */
+:root[data-theme="dark"] ::selection { background: var(--marca-clara); color: var(--noche); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) ::selection { background: var(--marca-clara); color: var(--noche); } }
+
+/* 152. Modo oscuro: tarjetas con un filo de luz arriba para separarse del fondo */
+:root[data-theme="dark"] .plan, :root[data-theme="dark"] .guia, :root[data-theme="dark"] .idea, :root[data-theme="dark"] .correo, :root[data-theme="dark"] .caja:not(.oscura), :root[data-theme="dark"] .faq details { box-shadow: inset 0 1px 0 rgba(255,255,255,.06), var(--sombra-s); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .plan, :root:not([data-theme="light"]) .guia, :root:not([data-theme="light"]) .idea, :root:not([data-theme="light"]) .correo, :root:not([data-theme="light"]) .caja:not(.oscura), :root:not([data-theme="light"]) .faq details { box-shadow: inset 0 1px 0 rgba(255,255,255,.06), var(--sombra-s); } }
+
+/* 153. Modo oscuro: el papel tecnico de las secciones claras un pelo mas visible */
+:root[data-theme="dark"] .hoja { background-image: var(--rejilla); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .hoja { background-image: var(--rejilla); } }
+
+/* 154. Oro coherente: siempre el mismo dorado para "destacado" y el oscuro para texto sobre claro */
+.plan.oro .eti, .caja.dorada b { color: var(--oro-t); }
+:root[data-theme="dark"] .caja.dorada b { color: var(--oro); }
+
+/* 155. Enlaces dentro de texto: color de acento con subrayado suave */
+.prosa a, .faq details a, .entrada p a, .para a { color: var(--acento); text-decoration-color: color-mix(in srgb, var(--acento) 45%, transparent); }
+.prosa a:hover, .faq details a:hover, .entrada p a:hover { text-decoration-color: var(--acento); }
+
+/* 156. Lineas divisorias con un tinte violeta en vez de gris plano */
+:root { --linea-v: color-mix(in srgb, var(--marca-clara) 22%, var(--linea)); }
+.faq details, .compara td, .rc, .tour-lista button[aria-selected="true"] { border-color: var(--linea-v); }
+
+/* 157. Mensaje "sin resultados" del buscador con tono amable */
+#vacio, .vacio { color: var(--tinta-2); border: 1px dashed var(--linea-v); border-radius: 1rem; padding: 1.2rem 1.4rem; background: var(--rejilla), var(--sup); }
+
+/* 158. Iconos de las tarjetas: se encienden al pasar por la tarjeta */
+.caja .ic, .tres i { transition: box-shadow .25s, transform .25s; }
+.caja:hover .ic { box-shadow: 0 0 1.4rem -.2rem color-mix(in srgb, var(--marca) 85%, transparent); transform: translateY(-2px); }
+@media (prefers-reduced-motion: reduce) { .caja .ic, .tres i { transition: none; } .caja:hover .ic { transform: none; } }
+
+/* 159. Sombras con un tinte violeta en lugar de gris neutro */
+:root { --sombra-s: 0 1px 2px rgba(36,22,101,.06), 0 .6rem 1.6rem -.8rem rgba(36,22,101,.22); }
+:root[data-theme="dark"] { --sombra-s: 0 1px 2px rgba(0,0,0,.4), 0 .6rem 1.6rem -.8rem rgba(0,0,0,.7); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --sombra-s: 0 1px 2px rgba(0,0,0,.4), 0 .6rem 1.6rem -.8rem rgba(0,0,0,.7); } }
+
+/* 160. Transicion suave al cambiar de claro a oscuro */
+body, .plan, .guia, .idea, .correo, .caja, .faq details, .pegada, footer { transition: background-color .35s ease, color .35s ease, border-color .35s ease; }
+@media (prefers-reduced-motion: reduce) { body, .plan, .guia, .idea, .correo, .caja, .faq details, .pegada, footer { transition: none; } }
 </style>
 <script>document.documentElement.classList.add('js');</script>
 <a class="salto" href="#semana">Saltar al contenido</a>
