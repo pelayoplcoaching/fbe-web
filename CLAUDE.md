@@ -43,6 +43,12 @@ rm sitio.py web-fbe-equipo.html sitio-inicio.html
 - La clase `.tema` es el botón claro/oscuro: no reutilizarla. Fuera de un artifact hace falta `[hidden]{display:none!important}` e `img{height:auto}`.
 - Las fotos de personas reales (retrato, testimonios) deben ser fotos reales, nunca generadas.
 
+## Calculadora de proteína (subdominio calculadoradeproteina., en Netlify)
+- No la publica GitHub Pages: va en Netlify (proyecto `calculadoraproteinafbe`, id e38619c9-9c99-4e59-890e-8e6a99f13f40), subida a mano arrastrando carpeta. No tocar su DNS.
+- Fuente en `fuente/calculadora/`: `plantilla.html` (estilo de la web en 3 tandas de 20 mejoras, 20/11/2026) -> `python3 hacer.py` escribe `netlify/` (index.html con el lobo, archivo.woff2, favicon.svg, icono-180.png) y `node og.mjs` hace `netlify/og.jpg`. `original-netlify.html` es la versión anterior (con el PNG del logo quitado).
+- Cálculos y textos sin cambiar (comprobado contra la versión anterior en 42 combinaciones y 6 casos del paso 0). Arreglado el fallo de la anterior: salía «NaN – NaN» al cargar y tras usar el paso 0 (cogía también los botones del paso 0 como fases).
+- Publicar solo con el visto bueno de Pelayo.
+
 ## Landings de guias (carpetas sueltas)
 - `guia-dos-dias/` (landing de la guia «Dos dias de gimnasio»): NO sale de `fuente/`. Es una carpeta autocontenida (index.html, gracias.html, img/ y el PDF) con su propia paleta de campana; se edita a mano y el generador no la toca.
 - Su formulario es el insertado de MailerLite «Guía · Dos días de gimnasio (web)» (`data-form="rE4kdS"`), grupo «Atletas PL coaching». Debe redirigir a `guia-dos-dias/gracias.html`.

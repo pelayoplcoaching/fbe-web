@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Tu número de proteína — Calculadora FBE</title>
+<meta name="description" content="Calcula tu objetivo diario de proteína y su reparto por comidas, con rangos construidos desde metaanálisis revisados. Fuerza Basada en Evidencia.">
+<link rel="canonical" href="https://calculadoradeproteina.fuerzabasadaenevidencia.com/">
+<meta name="theme-color" content="#140B3A">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icono-180.png">
+<meta property="og:title" content="Tu número de proteína — Calculadora FBE">
+<meta property="og:description" content="Tu objetivo diario de proteína y su reparto por comidas, con rangos construidos desde metaanálisis revisados.">
+<meta property="og:url" content="https://calculadoradeproteina.fuerzabasadaenevidencia.com/">
+<meta property="og:image" content="https://calculadoradeproteina.fuerzabasadaenevidencia.com/og.jpg">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_ES">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="archivo.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+/* ============================================================
+   Calculadora de proteina FBE - mismo estilo que la web (20/11/2026)
+   Solo ASCII. Colores por tokens con version oscura.
+   ============================================================ */
+
+/* ---------- TANDA 1: la base y la cabecera ---------- */
+
+/* 1. Colores de la web, con su version oscura */
+:root {
+  --noche:#140B3A; --noche-2:#241665; --noche-3:#2f2470; --marca:#593EDE; --marca-h:#462ABF; --marca-clara:#A49CFF; --lavanda:#D4D0F5;
+  --oro:#F0C674; --oro-t:#7A5410; --oro-s:#FBF1DA;
+  --fondo:#F6F6F9; --sup:#FFFFFF; --lila:#EEECFF; --tinta:#151423; --tinta-2:#55546A; --linea:#DDDCE6; --acento:#593EDE; --rojo:#B4233C; --rojo-s:#FBEAED;
+  --sombra:0 1.2rem 3rem rgba(36,22,101,.16); --sombra-s:0 .3rem 1rem rgba(36,22,101,.08);
+  --mono:ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  --rejilla-c:rgba(164,156,255,.10);
+  --rejilla:repeating-linear-gradient(0deg, var(--rejilla-c) 0 1px, transparent 1px 44px), repeating-linear-gradient(90deg, var(--rejilla-c) 0 1px, transparent 1px 44px);
+  --hilo:linear-gradient(90deg, transparent, color-mix(in srgb, var(--marca-clara) 70%, transparent) 30%, color-mix(in srgb, var(--oro) 60%, transparent) 70%, transparent);
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --fondo:#0E0D15; --sup:#181626; --lila:#211F32; --tinta:#EEECFF; --tinta-2:#A9A7BD; --linea:#343249; --acento:#A49CFF; --rojo:#FF8FA3; --rojo-s:#2E1A22; --oro-t:#F0C674; --oro-s:#2E2718;
+    --sombra:0 1.2rem 3rem rgba(0,0,0,.5); --sombra-s:0 .3rem 1rem rgba(0,0,0,.35); color-scheme:dark; }
+}
+
+/* 2. La letra Archivo, servida desde la propia calculadora */
+@font-face { font-family:"Archivo"; src:url(archivo.woff2) format("woff2"); font-weight:400 800; font-stretch:75% 125%; font-display:swap; }
+*, *::before, *::after { box-sizing:border-box; }
+html { -webkit-text-size-adjust:100%; scroll-behavior:smooth; scroll-padding-top:5rem; }
+body { margin:0; background:var(--fondo); color:var(--tinta); font:400 1.0625rem/1.6 Archivo, system-ui, sans-serif; -webkit-font-smoothing:antialiased; }
+h1, h2, h3, p { margin:0; }
+img { height:auto; }
+[hidden] { display:none !important; }
+.oculto { display:none !important; }
+.sr { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
+a { color:inherit; }
+
+/* 3. Letra de terminal para etiquetas y cifras */
+.miga, .paso, .ruta, .etq, .volver, .escala, .fuentes, .flota-e { font-family:var(--mono); text-transform:uppercase; letter-spacing:.13em; }
+
+/* 4. Barra superior de cristal con un hilo de luz debajo */
+.in { max-width:70rem; margin:0 auto; padding-left:max(20px, env(safe-area-inset-left, 0px)); padding-right:max(20px, env(safe-area-inset-right, 0px)); }
+.cab { position:sticky; top:0; z-index:20; color:#fff; padding-top:env(safe-area-inset-top, 0px); background:var(--hilo) bottom / 100% 1px no-repeat, rgba(20,11,58,.86); backdrop-filter:blur(18px) saturate(1.3); -webkit-backdrop-filter:blur(18px) saturate(1.3); }
+.cab .in { display:flex; align-items:center; gap:1rem; height:3.75rem; }
+
+/* 5. El lobo vectorial en lugar del PNG de 98 KB */
+.logo { display:flex; align-items:center; gap:.6rem; margin-right:auto; min-width:0; color:#fff; text-decoration:none; font-weight:780; font-stretch:122%; letter-spacing:-.01em; line-height:1.1; }
+.logo i { flex:none; width:2rem; height:2rem; border-radius:.6rem; display:grid; place-items:center; background:linear-gradient(140deg, #7C6AFD, #462ABF); box-shadow:inset 0 0 0 1px rgba(255,255,255,.16), 0 .4rem 1rem rgba(89,62,222,.45); }
+.logo i svg { width:1.35rem; height:1.35rem; fill:#fff; }
+.logo span { overflow:hidden; text-overflow:ellipsis; }
+.volver { flex:none; display:inline-flex; align-items:center; gap:.45rem; min-height:2.6rem; padding:0 .95rem; border-radius:99px; border:1px solid rgba(164,156,255,.35); color:var(--lavanda); text-decoration:none; font-size:.72rem; transition:color .2s, border-color .2s, background .2s; }
+.volver::after { content:""; width:.4rem; height:.4rem; border-top:2px solid; border-right:2px solid; transform:rotate(45deg); }
+.volver:hover { color:#fff; border-color:var(--marca-clara); background:rgba(164,156,255,.1); }
+
+/* 6. Cabecera oscura con los degradados de la web */
+.hero { position:relative; overflow:hidden; color:#fff; margin-top:calc(-3.75rem - env(safe-area-inset-top, 0px)); padding-top:calc(3.75rem + env(safe-area-inset-top, 0px));
+  background:radial-gradient(52rem 32rem at 82% 30%, #3b2ba6 0%, transparent 62%), radial-gradient(40rem 24rem at 0% 100%, #2a1b78 0%, transparent 60%), var(--noche); }
+
+/* 7. Rejilla tecnica que se desvanece */
+.hero::before { content:""; position:absolute; inset:0; background-image:var(--rejilla); pointer-events:none; -webkit-mask-image:radial-gradient(75% 95% at 72% 40%, #000, transparent 78%); mask-image:radial-gradient(75% 95% at 72% 40%, #000, transparent 78%); }
+.hero .in { position:relative; z-index:1; padding-top:clamp(2.4rem, 7vw, 4.4rem); padding-bottom:clamp(4.2rem, 9vw, 6rem); }
+
+/* 8. Anillos con dos puntos de luz */
+.anillos { position:absolute; right:-10rem; top:46%; width:34rem; transform:translateY(-50%); fill:none; stroke:rgba(164,156,255,.2); stroke-width:1; pointer-events:none; }
+.anillos .punto { fill:var(--oro); stroke:none; }
+.anillos .p2 { fill:var(--marca-clara); }
+
+/* 9. Marca de agua del lobo */
+.hero .agua { position:absolute; right:5%; bottom:-3.2rem; width:clamp(9rem, 22vw, 16rem); fill:color-mix(in srgb, var(--marca-clara) 11%, transparent); pointer-events:none; }
+
+/* 10. Miga en letra de terminal */
+.miga { font-size:.74rem; color:var(--lavanda); }
+.miga::before { content:"> "; color:var(--oro); }
+
+/* 11. Titulo con la anchura y el peso de la web */
+h1 { font-stretch:120%; font-weight:760; line-height:1.02; letter-spacing:-.02em; font-size:clamp(2.35rem, 7vw, 4.2rem); margin:.9rem 0 1rem; max-width:14ch; text-wrap:balance; }
+.sub { color:var(--lavanda); max-width:36rem; font-size:clamp(1rem, 1.7vw, 1.15rem); text-wrap:pretty; }
+
+/* 12. Ruta de los cuatro pasos bajo el titulo */
+.ruta { list-style:none; display:flex; flex-wrap:wrap; gap:.4rem; margin:1.8rem 0 0; padding:0; font-size:.66rem; letter-spacing:.08em; }
+.ruta a { display:inline-flex; align-items:center; gap:.4rem; min-height:2.2rem; padding:0 .62rem; border-radius:99px; border:1px solid rgba(164,156,255,.3); background:rgba(255,255,255,.04); color:var(--lavanda); text-decoration:none; transition:border-color .2s, color .2s, background .2s; }
+.ruta a b { color:var(--oro); font-weight:600; }
+.ruta a:hover { color:#fff; border-color:var(--marca-clara); background:rgba(164,156,255,.1); }
+
+/* 13. Esquinas inferiores redondeadas, como las cabeceras interiores */
+.hero { border-radius:0 0 clamp(1.4rem, 4vw, 3rem) clamp(1.4rem, 4vw, 3rem); }
+
+/* 14. Tarjetas: borde fino, sombra suave y esquinas de visor */
+.wrap { position:relative; z-index:2; max-width:70rem; margin:-2.4rem auto 0; padding:0 max(16px, env(safe-area-inset-right, 0px)) 3rem max(16px, env(safe-area-inset-left, 0px)); display:grid; gap:1rem; }
+.pasos-c, .lado { display:grid; gap:1rem; min-width:0; align-content:start; }
+.tarjeta { position:relative; background:var(--sup); border:1px solid var(--linea); border-radius:1.4rem; padding:clamp(1.2rem, 3vw, 1.6rem); box-shadow:var(--sombra-s); transition:border-color .25s, box-shadow .25s; }
+.tarjeta::after { content:""; position:absolute; inset:-6px; pointer-events:none; opacity:.55; transition:opacity .25s, inset .25s;
+  --e:color-mix(in srgb, var(--marca-clara) 85%, transparent);
+  background:linear-gradient(var(--e), var(--e)) top left / 16px 2px no-repeat, linear-gradient(var(--e), var(--e)) top left / 2px 16px no-repeat, linear-gradient(var(--e), var(--e)) bottom right / 16px 2px no-repeat, linear-gradient(var(--e), var(--e)) bottom right / 2px 16px no-repeat; }
+.tarjeta:hover::after, .tarjeta:focus-within::after { opacity:1; inset:-8px; }
+
+/* 15. Numeracion de los pasos, como un indice tecnico */
+.tarjeta[data-n]::before { content:"/" attr(data-n); position:absolute; top:clamp(1.2rem, 3vw, 1.6rem); right:clamp(1.2rem, 3vw, 1.6rem); font-family:var(--mono); font-size:.72rem; font-weight:600; letter-spacing:.14em; color:var(--tinta-2); opacity:.7; }
+details.tarjeta[data-n]::before { right:4.6rem; }
+
+/* 16. Encabezado de cada paso: etiqueta de terminal y titulo */
+.paso { display:block; font-size:.72rem; font-weight:600; color:var(--acento); margin-bottom:.35rem; }
+.tarjeta h2, .tit { display:block; font-stretch:115%; font-weight:740; font-size:clamp(1.3rem, 2.4vw, 1.5rem); letter-spacing:-.015em; line-height:1.15; color:var(--tinta); }
+
+/* 17-18. Icono del lobo, color de la barra del navegador y vista al compartir: en el head */
+
+/* 19. Saltar a la calculadora con el teclado */
+.salta { position:absolute; left:1rem; top:-4rem; z-index:50; background:var(--sup); color:var(--tinta); padding:.7rem 1rem; border-radius:.8rem; box-shadow:var(--sombra); transition:top .2s; }
+.salta:focus { top:calc(.75rem + env(safe-area-inset-top, 0px)); }
+
+/* 20. Margenes seguros en moviles con muesca (padding con env() arriba) y titulo de dos lineas si no cabe */
+@media (max-width:480px) { .logo { font-size:.95rem; } .logo span { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; white-space:normal; } }
+
+/* ---------- TANDA 2: los controles ---------- */
+
+/* 21. Deslizador propio: pista con relleno degradado hasta tu peso */
+.peso-row { display:flex; align-items:center; gap:.7rem; margin-top:1rem; }
+input[type=range] { -webkit-appearance:none; appearance:none; flex:1; min-width:0; height:2.75rem; margin:0; background:transparent; cursor:pointer; --p:36.36%; }
+input[type=range]::-webkit-slider-runnable-track { height:.5rem; border-radius:99px; background:linear-gradient(90deg, var(--marca), var(--marca-clara)) 0 0 / var(--p) 100% no-repeat, var(--lila); box-shadow:inset 0 0 0 1px var(--linea); }
+input[type=range]::-moz-range-track { height:.5rem; border-radius:99px; background:var(--lila); box-shadow:inset 0 0 0 1px var(--linea); }
+input[type=range]::-moz-range-progress { height:.5rem; border-radius:99px; background:linear-gradient(90deg, var(--marca), var(--marca-clara)); }
+
+/* 22. Tirador con halo */
+input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; width:1.75rem; height:1.75rem; margin-top:-.625rem; border-radius:50%; background:#fff; border:3px solid var(--marca); box-shadow:0 0 0 6px color-mix(in srgb, var(--marca) 18%, transparent), 0 .3rem .8rem rgba(36,22,101,.3); transition:box-shadow .2s, transform .2s; }
+input[type=range]::-moz-range-thumb { width:1.3rem; height:1.3rem; border-radius:50%; background:#fff; border:3px solid var(--marca); box-shadow:0 0 0 6px color-mix(in srgb, var(--marca) 18%, transparent), 0 .3rem .8rem rgba(36,22,101,.3); transition:box-shadow .2s, transform .2s; }
+input[type=range]:active::-webkit-slider-thumb { transform:scale(1.1); box-shadow:0 0 0 10px color-mix(in srgb, var(--marca) 22%, transparent), 0 .3rem .8rem rgba(36,22,101,.3); }
+input[type=range]:active::-moz-range-thumb { transform:scale(1.1); }
+input[type=range]:focus-visible { outline:none; }
+input[type=range]:focus-visible::-webkit-slider-thumb { outline:3px solid var(--marca-clara); outline-offset:3px; }
+
+/* 23. La cifra del peso, grande y en Archivo ancho */
+.cab-paso { display:flex; align-items:flex-end; justify-content:space-between; gap:1rem; }
+.peso-val { flex:none; font-stretch:118%; font-weight:780; font-size:clamp(2rem, 6vw, 2.6rem); line-height:1; letter-spacing:-.03em; color:var(--tinta); font-variant-numeric:tabular-nums; margin-top:1.2rem; }
+.peso-val small { font-family:var(--mono); font-size:.8rem; font-weight:600; letter-spacing:.1em; color:var(--acento); margin-left:.25rem; }
+
+/* 24. Botones de menos y mas para ajustar kilo a kilo */
+.paso-btn { flex:none; width:2.75rem; height:2.75rem; border-radius:50%; border:1.5px solid var(--linea); background:var(--sup); color:var(--tinta); font:500 1.4rem/1 var(--mono); cursor:pointer; display:grid; place-items:center; transition:border-color .2s, background .2s, transform .12s; }
+.paso-btn:hover { border-color:var(--marca); background:var(--lila); }
+.paso-btn:active { transform:scale(.92); }
+
+/* 25. Marcas de los extremos bajo el deslizador */
+.escala { display:flex; justify-content:space-between; padding:0 3.45rem; font-size:.66rem; color:var(--tinta-2); margin-top:-.2rem; }
+
+/* 26-27. Fases como botones reales; la elegida con borde degradado, brillo y marca */
+.fases { display:grid; grid-template-columns:1fr; gap:.6rem; margin-top:1rem; }
+@media (min-width:520px) { #fases.fases, .situ { grid-template-columns:repeat(3, minmax(0, 1fr)); } }
+.fase { -webkit-appearance:none; appearance:none; font:inherit; color:inherit; text-align:left; cursor:pointer; position:relative; display:grid; align-content:center; gap:.1rem; min-height:3.6rem; padding:.85rem 1rem .85rem 2.9rem; border-radius:1rem; border:1.5px solid var(--linea); background:var(--sup); transition:border-color .2s, background .2s, box-shadow .2s, transform .12s; }
+.fase::before { content:""; position:absolute; left:1rem; top:50%; width:1.15rem; height:1.15rem; margin-top:-.575rem; border-radius:50%; border:1.5px solid var(--linea); background:var(--sup); transition:background .2s, border-color .2s, box-shadow .2s; }
+.fase:hover { border-color:color-mix(in srgb, var(--marca) 55%, var(--linea)); }
+.fase:active { transform:scale(.985); }
+.fase.sel { border-color:transparent; background:linear-gradient(var(--lila), var(--lila)) padding-box, linear-gradient(120deg, var(--marca), var(--marca-clara) 60%, var(--oro)) border-box; box-shadow:0 .7rem 1.5rem -.8rem rgba(89,62,222,.55); }
+.fase.sel::before { border-color:var(--marca); box-shadow:0 0 0 4px color-mix(in srgb, var(--marca) 18%, transparent);
+  background:var(--marca) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.4l2.6 2.6L12 5.6' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 85% no-repeat; }
+.fase b { display:block; font-weight:700; color:var(--tinta); line-height:1.25; }
+.fase span { font-size:.84rem; color:var(--tinta-2); line-height:1.35; }
+
+/* 28. El rango de cada fase en letra de terminal */
+#fases .fase span { font-family:var(--mono); font-size:.76rem; letter-spacing:.03em; }
+
+/* 29. Interruptor de los 40+ con el color de marca */
+.toggle-row { display:flex; align-items:center; gap:1rem; margin:1rem 0 0; padding:.9rem 1rem; cursor:pointer; font-weight:400; border:1.5px solid var(--linea); border-radius:1rem; transition:border-color .2s, background .2s; }
+.toggle-row:has(input:checked) { border-color:color-mix(in srgb, var(--marca) 60%, var(--linea)); background:var(--lila); }
+.switch { position:relative; flex:none; width:3.25rem; height:1.9rem; }
+.switch input { position:absolute; inset:0; margin:0; opacity:0; cursor:pointer; }
+.slider { position:absolute; inset:0; border-radius:99px; background:var(--linea); transition:background .2s, box-shadow .2s; pointer-events:none; }
+.slider::before { content:""; position:absolute; left:.25rem; top:.25rem; width:1.4rem; height:1.4rem; border-radius:50%; background:#fff; box-shadow:0 .15rem .4rem rgba(0,0,0,.25); transition:transform .25s cubic-bezier(.3, 1.4, .5, 1); }
+.switch input:checked + .slider { background:linear-gradient(90deg, var(--marca), #7C6AFD); box-shadow:0 0 0 4px color-mix(in srgb, var(--marca) 18%, transparent); }
+.switch input:checked + .slider::before { transform:translateX(1.35rem); }
+.switch input:focus-visible + .slider { outline:3px solid var(--marca-clara); outline-offset:3px; }
+
+/* 30. Casillas de peso y altura con cifras de terminal y foco morado */
+label { display:block; font-weight:650; font-size:.92rem; margin-bottom:.45rem; }
+.fila2 { display:grid; grid-template-columns:1fr 1fr; gap:.75rem; margin-bottom:1rem; }
+.fila2 input { width:100%; min-height:3rem; padding:.7rem .5rem; font:600 1.15rem/1 var(--mono); text-align:center; color:var(--tinta); background:var(--fondo); border:1.5px solid var(--linea); border-radius:.9rem; transition:border-color .2s, box-shadow .2s; }
+.fila2 input:focus { outline:none; border-color:var(--marca); box-shadow:0 0 0 4px color-mix(in srgb, var(--marca) 18%, transparent); }
+
+/* 31. Paso 0 desplegable: borde discontinuo mientras esta cerrado y flecha en circulo */
+details.paso0 { padding:0; }
+details.paso0:not([open]) { border-style:dashed; border-color:color-mix(in srgb, var(--marca) 35%, var(--linea)); }
+details.paso0 summary { display:block; position:relative; list-style:none; cursor:pointer; padding:clamp(1.2rem, 3vw, 1.6rem); padding-right:4.4rem; border-radius:1.4rem; }
+details.paso0 summary::-webkit-details-marker { display:none; }
+details.paso0 summary::before { content:""; position:absolute; right:1.1rem; top:1.15rem; width:2.4rem; height:2.4rem; border-radius:50%; border:1px solid var(--linea); background:var(--fondo); transition:background .2s, border-color .2s; }
+details.paso0 summary::after { content:""; position:absolute; right:2.08rem; top:1.95rem; width:.5rem; height:.5rem; border-right:2px solid var(--acento); border-bottom:2px solid var(--acento); transform:rotate(45deg); transition:transform .25s, top .25s; }
+details.paso0[open] summary::after { transform:rotate(225deg); top:2.15rem; }
+details.paso0 summary:hover::before { border-color:var(--marca); background:var(--lila); }
+details.paso0 .mini { display:block; font-size:.88rem; color:var(--tinta-2); margin-top:.4rem; line-height:1.45; }
+details.paso0 .inner { padding:0 clamp(1.2rem, 3vw, 1.6rem) clamp(1.2rem, 3vw, 1.6rem); }
+
+/* 32. Situaciones del paso 0 con el mismo aspecto que las fases */
+.situ { display:grid; grid-template-columns:1fr; gap:.6rem; }
+
+/* 33. Resultado del paso 0 en ficha lila con filo morado */
+.p0res { margin-top:1rem; padding:.9rem 1rem; font-size:.95rem; background:var(--lila); border:1px solid color-mix(in srgb, var(--marca) 22%, transparent); border-left:3px solid var(--marca); border-radius:.9rem; }
+.p0res:empty { display:none; }
+.p0res b { color:var(--acento); }
+
+/* 34. Aviso en el paso 1 cuando el paso 0 te rellena el peso */
+.tarjeta.avisa { border-color:var(--marca); box-shadow:0 0 0 4px color-mix(in srgb, var(--marca) 16%, transparent), var(--sombra-s); }
+
+/* 35-36. Estados al pasar y al pulsar; contorno de foco visible para teclado */
+:focus-visible { outline:3px solid var(--marca-clara); outline-offset:3px; border-radius:6px; }
+.fase:focus-visible, .paso-btn:focus-visible { outline-offset:2px; border-radius:1rem; }
+.paso-btn:focus-visible { border-radius:50%; }
+
+/* 37. Sin destello gris al tocar en el movil */
+body { -webkit-tap-highlight-color:transparent; }
+
+/* 38. Pista del paso 1 con su icono */
+.hint { position:relative; margin-top:1rem; padding-left:1.8rem; font-size:.88rem; color:var(--tinta-2); line-height:1.5; }
+.hint::before { content:"i"; position:absolute; left:0; top:.1rem; width:1.2rem; height:1.2rem; border-radius:50%; display:grid; place-items:center; font:700 .72rem/1 var(--mono); color:var(--acento); border:1.5px solid currentColor; }
+.hint b { color:var(--tinta); }
+
+/* 39. Tres columnas en pantallas anchas, una en movil, con aire entre opciones (reglas de .fases y .situ) */
+
+/* 40. En ordenador: dos columnas y el resultado fijo a la derecha mientras cambias los pasos */
+@media (min-width:980px) {
+  .wrap { grid-template-columns:minmax(0, 1fr) minmax(0, 25rem); gap:1.5rem; align-items:start; }
+  .lado { position:sticky; top:5rem; }
+  .enlaces { grid-column:1 / -1; }
+}
+
+/* ---------- TANDA 3: el resultado y el cierre ---------- */
+
+/* 41. Panel del resultado oscuro, con rejilla y el lobo */
+.resultado { position:relative; overflow:hidden; color:#fff; border-radius:1.6rem; padding:clamp(1.4rem, 3vw, 1.8rem); border:1px solid rgba(164,156,255,.2); box-shadow:var(--sombra);
+  background:radial-gradient(30rem 18rem at 100% 0%, color-mix(in srgb, var(--marca) 55%, transparent), transparent 70%), var(--noche); }
+.resultado::before { content:""; position:absolute; inset:0; background-image:var(--rejilla); pointer-events:none; -webkit-mask-image:linear-gradient(160deg, #000, transparent 70%); mask-image:linear-gradient(160deg, #000, transparent 70%); }
+.resultado > * { position:relative; z-index:1; }
+.resultado > .agua { position:absolute; z-index:0; right:-2.5rem; bottom:-2.5rem; width:12rem; fill:rgba(164,156,255,.07); pointer-events:none; }
+.etq { display:flex; align-items:center; gap:.5rem; font-size:.7rem; font-weight:600; color:var(--marca-clara); }
+.etq::before { content:""; width:.45rem; height:.45rem; border-radius:50%; background:var(--oro); box-shadow:0 0 10px var(--oro); }
+
+/* 42. La cifra, grande, con degradado blanco y lavanda */
+.resultado .num { margin:.35rem 0 .15rem; font-stretch:115%; font-weight:780; font-size:clamp(2.6rem, 9.5vw, 3.3rem); line-height:1.05; letter-spacing:-.03em; white-space:nowrap; font-variant-numeric:tabular-nums; color:#fff; background:linear-gradient(180deg, #fff 35%, var(--lavanda)); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+.resultado .unidad { color:var(--lavanda); font-size:1rem; }
+
+/* 43. La fase elegida en letra de terminal */
+.resultado .fase-txt { margin-top:1rem; font-family:var(--mono); font-size:.78rem; letter-spacing:.03em; color:var(--lavanda); }
+
+/* 44. Regla de g/kg con tu tramo marcado (y la parte baja que dejas si tienes 40+) */
+.regla { margin-top:1.1rem; }
+.regla-pista { position:relative; height:.55rem; border-radius:99px; background:rgba(255,255,255,.08); box-shadow:inset 0 0 0 1px rgba(164,156,255,.18); }
+.regla-pista i { position:absolute; top:0; bottom:0; border-radius:99px; transition:left .35s ease, width .35s ease; }
+.regla-tramo { background:linear-gradient(90deg, var(--marca-clara), var(--oro)); box-shadow:0 0 14px color-mix(in srgb, var(--marca-clara) 60%, transparent); }
+.regla-baja { background:repeating-linear-gradient(135deg, rgba(212,208,245,.45) 0 3px, transparent 3px 6px); }
+.regla-marcas { position:relative; height:1.2rem; margin-top:.35rem; font-family:var(--mono); font-size:.62rem; color:var(--lavanda); opacity:.85; }
+.regla-marcas span { position:absolute; top:0; transform:translateX(-50%); }
+.regla-marcas span::before { content:""; position:absolute; left:50%; top:-.5rem; width:1px; height:.3rem; background:rgba(212,208,245,.5); }
+.regla-pie { display:flex; justify-content:flex-end; font-family:var(--mono); font-size:.62rem; letter-spacing:.08em; color:var(--lavanda); opacity:.75; }
+
+/* 45. Un pequeno salto de la cifra al cambiar */
+@keyframes brinca { 0% { transform:translateY(3px); opacity:.6; } 100% { transform:none; opacity:1; } }
+.num.brinca { animation:brinca .3s ease-out; }
+
+/* 46. Reparto en dos fichas, con los platos dibujados */
+.reparto { margin-top:1.4rem; padding-top:1.2rem; border-top:1px solid rgba(164,156,255,.2); }
+.reparto h3 { font-family:var(--mono); font-size:.7rem; font-weight:600; letter-spacing:.13em; text-transform:uppercase; color:var(--marca-clara); margin-bottom:.8rem; }
+.reps { display:grid; grid-template-columns:1fr 1fr; gap:.6rem; }
+.reps p { display:grid; gap:.1rem; padding:.85rem .9rem; border-radius:1rem; background:rgba(255,255,255,.05); border:1px solid rgba(164,156,255,.2); }
+.platos { display:flex; gap:.3rem; margin-bottom:.4rem; }
+.platos i { width:.75rem; height:.75rem; border-radius:50%; border:1.5px solid var(--marca-clara); background:radial-gradient(circle, var(--marca-clara) 0 28%, transparent 32%); }
+.r-t { font-size:.8rem; color:var(--lavanda); }
+.r-n { font-stretch:115%; font-weight:760; font-size:1.6rem; line-height:1.1; color:#fff; font-variant-numeric:tabular-nums; }
+.r-u { font-size:.78rem; color:var(--lavanda); }
+
+/* 47. La casilla de los 40+ en ambar, con su icono */
+.edad-nota { margin-top:1rem; padding:1rem; border:1px solid rgba(240,198,116,.3); border-left:3px solid var(--oro); border-radius:1rem; background:rgba(240,198,116,.07); }
+.edad-nota h3 { color:var(--oro); display:flex; align-items:center; gap:.5rem; margin-bottom:.5rem; }
+.edad-nota h3::before { content:""; flex:none; width:.5rem; height:.5rem; transform:rotate(45deg); background:var(--oro); box-shadow:0 0 10px var(--oro); }
+.edad-nota p { font-size:.92rem; color:#fff; }
+.edad-nota b { color:var(--oro); }
+
+/* 48. El aviso del rinon con icono y el rojo de la web */
+.rojo { display:grid; grid-template-columns:auto 1fr; gap:.9rem; align-items:start; padding:1.1rem 1.2rem; font-size:.92rem; line-height:1.55; color:var(--tinta-2); background:var(--sup); border:1px solid var(--linea); border-left:4px solid var(--rojo); border-radius:1.2rem; }
+.rojo svg { width:1.7rem; height:1.7rem; fill:none; stroke:var(--rojo); stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; margin-top:.1rem; }
+.rojo b { color:var(--rojo); }
+
+/* 49. Enlaces finales como los botones de la web, con flecha */
+.enlaces { display:grid; gap:.75rem; margin-top:.5rem; }
+@media (min-width:640px) { .enlaces { grid-template-columns:repeat(3, minmax(0, 1fr)); } }
+.btn { position:relative; display:flex; flex-direction:column; justify-content:center; gap:.15rem; min-height:4.4rem; padding:1rem 3.2rem 1rem 1.25rem; border-radius:1.2rem; text-decoration:none; font-weight:700; font-size:1.02rem; line-height:1.25; transition:transform .18s, box-shadow .18s, background .18s, border-color .18s; }
+.btn::after { content:""; position:absolute; right:1.4rem; top:50%; width:.55rem; height:.55rem; margin-top:-.3rem; border-top:2px solid; border-right:2px solid; transform:rotate(45deg); transition:transform .18s; }
+.btn:hover { transform:translateY(-2px); }
+.btn:hover::after { transform:translateX(3px) rotate(45deg); }
+.btn small { font-weight:400; font-size:.82rem; opacity:.85; }
+.btn-yt { background:var(--sup); color:var(--tinta); border:1.5px solid var(--linea); }
+.btn-yt:hover { border-color:var(--marca); box-shadow:var(--sombra-s); }
+.btn-web { background:var(--noche); color:#fff; border:1px solid rgba(164,156,255,.22); }
+.btn-web:hover { background:var(--noche-2); }
+.btn-coach { background:linear-gradient(120deg, var(--marca), #7C6AFD); color:#fff; box-shadow:0 .8rem 1.8rem -.7rem rgba(89,62,222,.65); }
+.btn-coach:hover { box-shadow:0 1rem 2.2rem -.6rem rgba(89,62,222,.75); }
+
+/* 50. Pie con el lema y las fuentes en letra de terminal */
+footer { max-width:70rem; margin:0 auto; padding:2.2rem 20px calc(2.6rem + env(safe-area-inset-bottom, 0px)); text-align:center; font-size:.88rem; color:var(--tinta-2); }
+footer .marca-pie { width:2.4rem; height:2.4rem; margin:0 auto .8rem; fill:var(--acento); opacity:.8; }
+footer .lema { font-stretch:115%; font-weight:740; font-size:1rem; color:var(--tinta); margin-bottom:.2rem; }
+footer .fuentes { margin-top:.9rem; font-size:.74rem; letter-spacing:.02em; line-height:1.7; text-transform:none; }
+footer .fuentes::before { content:""; display:block; width:4.6rem; height:2px; margin:0 auto .9rem; background:linear-gradient(90deg, var(--marca), var(--marca-clara) 70%, var(--oro)); }
+
+/* 51. Ficha flotante en el movil con tu rango cuando el panel no se ve */
+.flota { position:fixed; z-index:30; left:50%; bottom:calc(1rem + env(safe-area-inset-bottom, 0px)); display:flex; align-items:baseline; gap:.55rem; padding:.75rem 1.2rem; border-radius:99px; color:#fff; text-decoration:none; white-space:nowrap; background:rgba(20,11,58,.92); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border:1px solid rgba(164,156,255,.35); box-shadow:0 1rem 2rem rgba(20,11,58,.4); transform:translate(-50%, 160%); opacity:0; visibility:hidden; transition:transform .3s, opacity .3s, visibility 0s .3s; }
+.flota.ve { transform:translate(-50%, 0); opacity:1; visibility:visible; transition:transform .3s, opacity .3s; }
+.flota-e { font-size:.64rem; color:var(--marca-clara); }
+.flota b { font-stretch:115%; font-size:1.15rem; font-variant-numeric:tabular-nums; }
+.flota span:last-child { font-size:.82rem; color:var(--lavanda); }
+.flota::after { content:""; align-self:center; width:.45rem; height:.45rem; margin:-.2rem 0 0 .15rem; border-right:2px solid var(--marca-clara); border-bottom:2px solid var(--marca-clara); transform:rotate(45deg); }
+@media (min-width:980px) { .flota { display:none; } }
+
+/* 52. Lectura para lectores de pantalla: ver #anuncio (resumen tras dejar de mover) */
+
+/* 53. Modo oscuro completo: tokens arriba y estos remates */
+@media (prefers-color-scheme: dark) {
+  .resultado { border-color:rgba(164,156,255,.3); }
+  .btn-web { background:var(--noche-2); }
+  .fase.sel { box-shadow:0 .7rem 1.5rem -.8rem rgba(0,0,0,.8); }
+}
+
+/* 54. Version para imprimir limpia */
+@media print {
+  .cab, .flota, .enlaces, .anillos, .agua, .ruta, .paso-btn, .salta, .escala { display:none !important; }
+  body { background:#fff; color:#000; }
+  .hero { margin:0; padding:0; background:none; color:#000; border-radius:0; }
+  .hero::before, .resultado::before, .tarjeta::after { display:none; }
+  .hero .in { padding:0 0 1rem; }
+  .sub { color:#333; }
+  .wrap { margin:0; display:block; }
+  .tarjeta, .resultado, .rojo { break-inside:avoid; box-shadow:none; margin-bottom:.8rem; }
+  .resultado { background:#fff; color:#000; border:2px solid #000; }
+  .resultado .num { background:none; color:#000; -webkit-text-fill-color:#000; }
+  .resultado .unidad, .resultado .fase-txt, .r-t, .r-u, .r-n, .edad-nota p { color:#000; }
+}
+
+/* 55. Movimiento reducido respetado */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation:none !important; transition:none !important; scroll-behavior:auto !important; }
+}
+
+/* 56. Seleccion de texto en lila */
+::selection { background:color-mix(in srgb, var(--marca-clara) 45%, transparent); }
+
+/* 57. Cifras que no bailan al cambiar (tabular-nums en peso, resultado y reparto) */
+
+/* 58. Entrada suave de las tarjetas al cargar, una sola vez */
+@keyframes entra { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:none; } }
+.pasos-c > *, .lado > * { animation:entra .55s cubic-bezier(.2, .7, .2, 1) both; }
+.pasos-c > :nth-child(2), .lado > :nth-child(1) { animation-delay:.06s; }
+.pasos-c > :nth-child(3), .lado > :nth-child(2) { animation-delay:.12s; }
+.pasos-c > :nth-child(4) { animation-delay:.18s; }
+
+/* 59. Enlace canonico y descripcion para buscadores: en el head */
+
+/* 60. Zonas de toque de al menos 44 px (botones, fases, interruptor, enlaces) */
+.toggle-row, .fase, .btn { min-height:2.75rem; }
+</style>
+</head>
+<body>
+<a class="salta" href="#calc">Ir a la calculadora</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="lobo" viewBox="150 82 954 1092"><path fill-rule="evenodd" d="M318 93C298 118 281 158 274 198C272 213 272 250 274 267C276 281 284 310 288 320C292 329 292 329 270 325C248 320 250 320 252 327C256 347 270 372 287 391L293 398 286 404C263 422 236 453 221 478C218 484 217 484 229 480C239 478 259 474 263 474C265 474 262 477 249 489C226 512 206 537 189 565C177 584 161 617 157 630L156 633 163 630C181 620 202 613 221 608C236 605 236 605 228 615C183 667 158 740 165 801C165 808 166 808 169 803C182 786 211 761 233 750C242 745 242 746 238 754C221 788 218 837 230 874C235 890 247 912 254 918C256 920 256 920 256 917C256 893 270 860 289 840L295 834 295 838C288 889 305 944 338 982C343 988 358 1001 359 1000C359 1000 358 997 358 993C356 977 357 955 362 939C364 930 375 908 377 907C377 907 378 910 378 915C381 949 401 995 427 1030C438 1044 456 1062 466 1068L469 1070 468 1058C468 1049 468 1044 469 1037C471 1026 476 1012 478 1013C478 1013 480 1017 482 1022C494 1052 520 1085 547 1108L556 1114 556 1103L557 1091 564 1101C577 1118 624 1167 627 1167C629 1167 672 1123 680 1114C684 1109 689 1102 692 1098L698 1090 698 1102C698 1109 698 1114 699 1114C700 1114 715 1101 724 1092C745 1071 764 1042 773 1020C775 1016 776 1013 777 1013C778 1013 782 1025 784 1035C786 1042 786 1046 786 1057C786 1064 786 1070 786 1070C788 1070 804 1056 811 1048C843 1015 867 966 874 923C875 918 876 912 877 910L877 907 880 911C893 929 900 965 896 992C896 996 895 1000 896 1000C896 1001 909 990 916 982C949 947 965 893 959 839L959 834 963 838C982 855 998 891 998 916C998 921 999 921 1005 912C1023 889 1031 860 1031 826C1031 799 1026 774 1017 755C1012 746 1012 745 1020 750C1041 760 1067 781 1083 800L1088 807 1089 803C1091 795 1089 756 1087 743C1079 696 1058 652 1026 615C1018 604 1017 604 1036 609C1053 613 1074 621 1091 630C1095 631 1098 633 1098 633C1098 630 1087 603 1081 592C1062 554 1037 521 1004 489C996 480 989 474 989 474C990 473 1018 478 1026 481C1032 482 1036 483 1036 483C1036 482 1018 455 1011 447C1001 435 980 414 970 406C965 402 961 398 961 398C961 397 964 393 968 389C984 372 998 347 1003 324C1004 320 1005 320 984 325C961 329 963 330 967 319C989 259 986 188 960 132C952 115 934 88 931 88C931 88 925 94 919 101C889 133 862 154 809 186C780 204 763 219 749 239C743 249 736 264 734 270C733 278 730 266 730 251L730 240 727 241C715 244 709 245 701 248C696 250 692 252 692 252C692 251 695 243 698 236C703 225 709 217 720 207L728 199 718 198C686 196 653 207 633 225L627 231 621 226C601 206 562 194 531 199L526 200 532 204C540 211 550 224 555 233C559 241 563 251 562 252C562 252 558 250 553 248C546 246 538 243 527 241L525 240 525 251C525 262 523 274 521 272C521 272 520 269 519 266C508 236 487 213 445 187C408 165 396 156 378 142C366 133 341 108 331 96C327 92 323 88 323 88C323 88 320 90 318 93M324 142C318 165 318 198 322 222C327 250 340 282 357 310L362 318 357 318C355 317 346 315 339 312C332 310 326 308 325 308C324 309 331 326 337 337C342 347 351 361 357 367L359 370 355 370C349 370 338 368 327 365C323 363 319 363 319 363C319 366 332 389 337 395L340 397 337 399C324 408 309 423 298 437C293 443 293 443 306 440C315 437 330 435 335 435C337 435 335 437 330 443C312 463 297 487 288 510C284 521 284 522 289 519C305 508 329 499 353 494C355 493 357 494 364 504C374 517 380 527 384 535L387 540 382 542C347 555 315 584 298 620C293 630 286 648 288 648C288 648 292 645 297 642C305 636 325 625 331 623L333 623 331 626C320 645 313 665 309 690C308 701 308 733 309 735C310 735 311 734 313 732C321 722 336 708 338 708C339 708 339 711 339 715C343 751 367 791 416 841C434 860 436 863 444 884C451 902 459 920 464 931C468 939 475 951 476 951C476 951 477 947 478 942C480 934 483 926 484 926C484 927 486 933 489 940C497 966 512 993 527 1008C537 1019 547 1027 563 1035C582 1044 592 1051 602 1061C610 1069 621 1084 625 1092C627 1097 627 1097 630 1092C633 1084 643 1070 650 1063C660 1052 668 1046 687 1036C697 1031 708 1025 712 1022C734 1005 753 976 765 940L771 925 773 930C774 933 776 939 777 943L778 951 780 949C786 941 801 908 811 881C818 863 819 861 836 843C872 806 888 786 901 760C909 742 915 722 915 711C915 709 915 708 916 708C918 708 931 720 941 731C943 733 944 735 945 735C945 734 945 725 945 713C945 682 940 661 927 635C920 621 920 622 932 627C939 630 955 640 961 645C967 649 967 648 963 636C950 596 915 559 875 543L867 540 871 532C875 525 889 504 896 497L899 493 907 495C922 498 935 503 952 512C961 516 969 520 969 520C970 520 965 507 959 496C950 476 938 459 922 441C917 436 917 435 919 435C924 435 942 438 950 440C955 441 959 442 959 442C959 441 954 434 945 424C938 417 930 409 917 399L915 397 921 389C927 380 935 366 935 364C935 363 934 363 929 364C917 368 896 371 896 369C896 369 899 365 902 361C909 351 914 344 919 334C924 325 930 309 929 308C928 308 926 309 922 310C915 313 896 318 894 318C892 318 893 316 898 308C928 258 940 210 934 162C932 150 929 136 928 135C928 134 925 138 922 143C910 163 890 185 867 205C835 231 830 235 821 245C800 267 791 286 792 307C794 332 805 348 840 373C866 391 885 407 882 408C881 409 875 410 869 412C862 414 857 416 857 416C857 417 861 419 865 422C880 432 893 445 904 460L908 466 895 466C859 468 831 474 808 484C805 485 803 486 802 486C800 483 816 466 824 462L829 460 824 459C817 457 798 459 784 463C777 465 771 467 771 467C770 466 776 448 780 440L786 429 782 430C732 437 679 509 676 575C676 592 676 592 684 587C693 581 709 568 724 554L737 542 737 546C737 547 736 553 736 558C735 562 734 566 734 567C735 568 758 552 771 540C786 528 802 518 820 511C826 509 852 502 853 502C854 503 848 513 843 519C835 530 823 538 804 546C792 551 783 556 772 562L764 567 768 571C772 577 772 577 779 573C786 569 786 569 786 575C789 594 770 608 752 599L748 597 743 602C737 609 737 608 742 612C758 625 783 622 797 606C804 598 811 578 810 568C810 566 810 565 820 561L831 556 840 559C851 563 862 568 871 575C878 580 878 580 873 582C871 583 866 585 862 587L854 591 857 594C874 607 887 622 896 641C901 651 907 666 905 666C905 666 900 664 894 662C881 656 879 656 881 659C887 674 889 701 884 717C881 728 876 741 871 749C864 760 865 760 862 751C857 738 850 728 850 735C850 738 843 757 840 764C828 788 804 818 783 837L773 845 772 854C764 893 741 952 722 980C711 997 700 1005 669 1018C653 1025 640 1035 630 1046L627 1050 618 1041C607 1030 599 1024 582 1016C558 1006 550 1001 540 991C520 968 493 905 483 855L481 846 472 837C438 806 416 775 407 746C402 730 403 731 399 736C397 741 395 745 390 757C389 761 378 742 372 726C365 705 365 679 372 662C373 659 374 657 373 657C371 657 360 661 355 664C352 665 349 666 349 666C348 665 353 650 358 640C366 623 380 607 393 597C397 594 400 592 400 591C400 591 389 586 383 583C380 582 377 580 377 580C377 577 405 561 417 558L422 556 433 561L445 565 444 569C443 579 449 596 456 605C470 622 497 625 513 611L516 608 511 603L506 597 502 599C495 603 485 602 478 598C470 593 465 582 467 573L468 570 475 573C483 577 482 577 486 571L489 567 484 564C474 557 465 553 451 547C428 537 419 531 410 519C407 514 401 504 401 503C401 502 422 507 433 511C451 518 467 527 485 542C497 552 514 564 518 567C521 568 521 568 521 567C519 564 517 544 517 543C518 543 521 545 524 549C542 565 574 591 577 591C579 591 577 562 575 550C562 492 520 442 478 431C473 430 469 429 469 429C469 430 471 434 474 440C478 449 484 466 483 467C482 467 479 466 474 465C459 460 434 456 428 459C426 460 426 460 432 463C439 468 447 476 450 482C451 484 452 486 452 486C451 486 448 485 444 483C421 473 394 468 360 466L346 466 348 463C355 450 386 421 395 418C396 418 397 417 397 417C397 416 381 411 375 409C373 409 371 408 371 408C371 406 391 389 413 374C433 359 439 354 446 346C464 324 467 299 455 275C445 256 430 239 399 215C368 190 344 164 331 142C329 138 326 134 326 134C326 134 325 137 324 142M888 227C884 230 874 238 866 244C839 262 830 271 823 284C812 302 816 322 834 338C842 346 853 353 852 349C845 334 844 329 844 318C844 299 852 283 874 257C884 244 897 224 896 221C896 221 892 223 888 227M358 222C358 226 371 245 383 260C405 286 411 300 410 321C409 331 409 334 406 342C404 347 402 351 403 351C405 351 418 341 423 336C437 320 441 303 433 287C426 273 418 265 390 244C381 239 371 231 367 227C359 221 358 220 358 222M552 344C584 378 606 426 611 474C612 485 612 525 611 527C611 529 610 527 607 522C603 516 591 502 590 503C590 503 591 508 593 512C599 535 602 563 599 582C599 586 599 589 599 589C599 589 603 586 607 583C611 579 615 576 615 576C615 576 618 579 621 583C624 588 627 591 627 591C627 591 630 588 633 584C637 579 639 576 639 576C640 576 643 579 646 582C656 590 656 590 655 581C652 561 655 531 662 510C663 506 663 503 663 503C661 503 649 518 646 523C642 531 642 529 642 505C642 474 646 450 655 423C664 396 684 363 702 344C708 338 708 338 700 341C676 348 648 370 633 393C630 398 627 402 627 402C627 402 624 398 621 393C607 371 581 350 557 342C547 338 546 338 552 344M513 580C513 581 520 592 524 596C530 603 535 605 545 605C555 605 555 604 548 600C544 598 536 593 529 589C515 580 513 579 513 580M735 583C728 587 710 598 704 601C698 604 700 605 709 605C721 606 730 599 739 583C742 578 741 578 735 583M565 624C557 629 553 644 556 657C557 663 557 662 553 659C548 657 548 656 548 659C548 660 547 663 546 665L544 670 555 681C571 696 577 706 577 713C576 716 576 719 575 719C575 721 576 720 581 719C609 710 647 710 673 719C676 720 679 721 679 721C679 721 678 718 678 715C676 710 676 710 679 705C686 693 697 681 708 672C711 670 711 670 710 668C709 667 708 664 707 661L706 657 701 660C697 663 697 663 697 661C699 655 699 641 698 636C694 628 687 622 681 622C668 622 643 642 632 660C630 664 627 668 627 668C627 668 625 665 623 662C615 648 600 633 585 626C576 621 571 621 565 624M420 623C420 624 421 626 422 629C427 643 435 655 445 661L450 665 443 669C427 680 415 699 418 711C421 725 434 751 443 765C449 774 459 787 460 787C460 787 460 784 460 779C456 739 476 695 512 668C516 665 521 661 522 659C524 655 527 647 527 646C526 643 515 642 506 643C470 647 453 644 431 630C420 623 420 623 420 623M825 628C816 635 805 640 794 643C785 645 770 645 749 643C734 641 727 643 728 648C728 655 732 660 744 670C779 698 797 736 794 778C794 783 794 787 794 787C795 787 805 773 811 764C821 750 831 728 836 713C837 706 836 699 831 691C827 685 815 672 809 669C806 667 804 665 804 665C804 665 807 663 810 661C819 654 831 637 833 626C834 622 834 622 825 628M523 686C485 716 471 770 494 804C517 839 564 853 606 839C609 838 612 836 612 836C612 836 608 834 603 833C559 818 535 784 545 751C547 744 554 733 558 731C564 728 564 728 559 718C553 707 548 702 537 691L528 682 523 686M716 692C706 702 700 710 694 721L691 727 697 733C720 754 714 792 685 815C677 821 663 828 651 832C643 835 641 836 643 837C644 837 647 838 649 839C663 844 686 846 703 842C733 836 759 814 768 789C771 777 772 756 768 743C763 721 751 702 733 688C729 685 726 682 726 682C725 682 721 686 716 692M604 732C578 736 565 750 569 768C570 774 571 774 574 768C581 756 596 749 621 747C650 746 673 754 682 770L683 773 684 771C686 767 686 756 684 752C680 743 671 737 656 733C646 730 616 729 604 732M504 841C504 859 513 895 522 915L525 922 527 914C528 905 532 889 535 883C536 880 536 879 534 868C532 862 531 856 530 854C530 853 528 851 525 850C521 848 516 844 512 841L504 836 504 841M747 838C745 840 736 846 729 849C726 851 724 853 724 854C723 855 722 862 720 868C718 879 718 880 719 883C722 891 725 903 727 912L729 922 731 917C738 903 746 876 749 856C751 838 750 833 747 838M547 859C547 865 556 888 561 894L563 896 565 887C567 883 569 875 571 871C574 863 574 862 571 862C568 862 552 859 549 858C548 858 547 858 547 859M700 860C696 860 691 861 687 862C684 862 681 863 681 863C681 864 687 883 691 895C691 897 694 894 698 886C702 878 709 858 706 858C706 858 703 859 700 860M578 901C571 917 572 931 580 935C583 937 590 937 626 937C667 937 671 937 674 935C682 931 683 916 676 901L674 897 670 904C667 908 664 913 662 915L659 919 641 920C628 921 620 921 610 920C593 919 594 919 585 906L580 897 578 901M544 901C540 912 538 942 540 952C546 974 558 984 590 996C606 1002 613 1006 621 1012L627 1017 631 1014C637 1008 648 1002 661 997C690 987 702 979 709 963C716 951 717 932 713 913C710 899 710 898 707 908C697 935 685 952 673 957C653 966 598 966 580 957C569 952 558 936 548 909C544 899 544 899 544 901"/></symbol></svg>
+
+<header class="cab"><div class="in">
+  <a class="logo" href="https://fuerzabasadaenevidencia.com/"><i><svg aria-hidden="true"><use href="#lobo"/></svg></i><span>Fuerza Basada en Evidencia</span></a>
+  <a class="volver" href="https://fuerzabasadaenevidencia.com/">La web</a>
+</div></header>
+
+<section class="hero">
+  <div class="in">
+    <p class="miga">Calculadora / Proteína</p>
+    <h1>Tu número de proteína</h1>
+    <p class="sub">Rangos construidos desde metaanálisis revisados · La guía completa, con los estudios, en tu correo</p>
+    <ol class="ruta">
+      <li><a href="#p1"><b>01</b>Peso</a></li>
+      <li><a href="#p2"><b>02</b>Fase</a></li>
+      <li><a href="#p3"><b>03</b>Edad</a></li>
+      <li><a href="#resultado"><b>04</b>Reparto</a></li>
+    </ol>
+  </div>
+  <svg class="anillos" viewBox="0 0 600 600" aria-hidden="true"><circle cx="300" cy="300" r="60"/><circle cx="300" cy="300" r="110"/><circle cx="300" cy="300" r="165"/><circle cx="300" cy="300" r="225"/><circle cx="300" cy="300" r="290"/><circle class="punto" cx="465" cy="300" r="7"/><circle class="punto p2" cx="300" cy="75" r="5"/></svg>
+  <svg class="agua" aria-hidden="true"><use href="#lobo"/></svg>
+</section>
+
+<main class="wrap" id="calc">
+  <div class="pasos-c">
+    <details class="paso0 tarjeta" data-n="00">
+      <summary><span class="paso">Paso 0</span><span class="tit">¿Qué peso uso?</span> <span class="mini">Solo si tienes bastante sobrepeso o estás ya muy magro — toca aquí para desplegarlo; si no es tu caso, salta al paso 1</span></summary>
+      <div class="inner">
+        <div class="fila2">
+          <div>
+            <label for="pesoReal">Tu peso real (kg)</label>
+            <input type="number" id="pesoReal" min="40" max="220" value="95" inputmode="numeric">
+          </div>
+          <div>
+            <label for="altura">Tu altura (cm)</label>
+            <input type="number" id="altura" min="140" max="215" value="175" inputmode="numeric">
+          </div>
+        </div>
+        <label id="situEtq">Tu situación</label>
+        <div class="situ" id="situ" role="group" aria-labelledby="situEtq">
+          <button type="button" class="fase sel" aria-pressed="true" data-situ="normal"><b>Peso normal</b><span>o estable</span></button>
+          <button type="button" class="fase" aria-pressed="false" data-situ="sobrepeso"><b>Bastante sobrepeso</b><span>el peso actual infla el número</span></button>
+          <button type="button" class="fase" aria-pressed="false" data-situ="magro"><b>Muy magro</b><span>abdominales a la vista</span></button>
+        </div>
+        <div class="p0res" id="p0res" aria-live="polite"></div>
+      </div>
+    </details>
+
+    <div class="card tarjeta" id="p1" data-n="01">
+      <div class="cab-paso">
+        <h2><span class="paso">Paso 1</span> Tu peso</h2>
+        <div class="peso-val"><span id="pesoTxt">80</span><small>kg</small></div>
+      </div>
+      <div class="peso-row">
+        <button type="button" class="paso-btn" id="menos" aria-label="Un kilo menos">−</button>
+        <input type="range" id="peso" min="40" max="150" value="80" step="1" aria-label="Tu peso en kilos">
+        <button type="button" class="paso-btn" id="mas" aria-label="Un kilo más">+</button>
+      </div>
+      <div class="escala" aria-hidden="true"><span>40 kg</span><span>150 kg</span></div>
+      <p class="hint">La regla del peso objetivo: con bastante sobrepeso, o si estás ya muy magro,
+      usa aquí tu <b>peso objetivo razonable</b>, no el de la báscula de hoy.</p>
+    </div>
+
+    <div class="card tarjeta" id="p2" data-n="02">
+      <h2><span class="paso">Paso 2</span> Tu fase</h2>
+      <div class="fases" id="fases" role="group" aria-label="Tu fase">
+        <button type="button" class="fase sel" aria-pressed="true" data-lo="1.4" data-hi="1.6" data-nombre="Mantenimiento">
+          <b>Mantenimiento</b><span>1,4 – 1,6 g/kg</span>
+        </button>
+        <button type="button" class="fase" aria-pressed="false" data-lo="1.6" data-hi="2.2" data-nombre="Volumen">
+          <b>Volumen</b><span>1,6 – 2,2 g/kg</span>
+        </button>
+        <button type="button" class="fase" aria-pressed="false" data-lo="1.8" data-hi="2.4" data-nombre="Definición">
+          <b>Definición</b><span>1,8 – 2,4 g/kg</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="card tarjeta" id="p3" data-n="03">
+      <h2><span class="paso">Paso 3</span> Tu edad</h2>
+      <label class="toggle-row">
+        <span class="switch">
+          <input type="checkbox" id="edad40">
+          <span class="slider"></span>
+        </span>
+        <span>Tengo <b>más de 40 años</b> (músculo &#8220;duro de oído&#8221;: parte alta del rango
+        y mínimo por comida)</span>
+      </label>
+    </div>
+  </div>
+
+  <aside class="lado">
+    <div class="resultado" id="resultado">
+      <svg class="agua" aria-hidden="true"><use href="#lobo"/></svg>
+      <p class="etq">Tu resultado</p>
+      <div class="fase-txt" id="faseTxt">Mantenimiento · 1,4 – 1,6 g/kg/día</div>
+      <div class="num" id="rango">110 – 130</div>
+      <div class="unidad">gramos de proteína al día</div>
+      <div class="regla" aria-hidden="true">
+        <div class="regla-pista"><i class="regla-baja" id="reglaBaja"></i><i class="regla-tramo" id="reglaTramo"></i></div>
+        <div class="regla-marcas"><span style="left:14.29%">1,4</span><span style="left:28.57%">1,6</span><span style="left:42.86%">1,8</span><span style="left:57.14%">2,0</span><span style="left:71.43%">2,2</span><span style="left:85.71%">2,4</span></div>
+        <div class="regla-pie">g/kg/día</div>
+      </div>
+
+      <div class="reparto">
+        <h3>Paso 4 · Tu reparto</h3>
+        <div class="reps">
+          <p id="rep3"></p>
+          <p id="rep4"></p>
+        </div>
+      </div>
+      <div class="reparto edad-nota oculto" id="notaEdad">
+        <h3>Tu casilla de los 40+</h3>
+        <p id="minComida"></p>
+      </div>
+      <p class="sr" id="anuncio" aria-live="polite"></p>
+    </div>
+
+    <div class="rojo">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l9 16H3z"/><path d="M12 10v4"/><path d="M12 17.2v.1"/></svg>
+      <p><b>La frase completa: en riñones sanos.</b> Si tienes enfermedad renal, diabetes de años de
+      evolución, o no sabes cómo está tu riñón, tu número no sale de esta calculadora: sale de tu
+      consulta, con tu analítica delante. Primero se mide, después se decide.</p>
+    </div>
+  </aside>
+
+  <div class="enlaces">
+    <a class="btn btn-yt" href="https://www.youtube.com/@FuerzaBasadaEnEvidencia" target="_blank" rel="noopener">
+      El canal en YouTube<small>Los v&#237;deos detr&#225;s de cada n&#250;mero</small></a>
+    <a class="btn btn-web" href="https://fuerzabasadaenevidencia.com/" target="_blank" rel="noopener">
+      La web de FBE<small>Gu&#237;as, art&#237;culos y recursos</small></a>
+    <a class="btn btn-coach" href="https://noteforms.com/forms/formulario-inicial-fbe-coaching-online-snl8tn" target="_blank" rel="noopener">
+      Asesor&#237;a conmigo<small>Formulario inicial &#183; plazas limitadas</small></a>
+  </div>
+</main>
+
+<footer>
+  <svg class="marca-pie" aria-hidden="true"><use href="#lobo"/></svg>
+  <p class="lema">Fuerza Basada en Evidencia · El principio 80/20</p>
+  <p>Confianza, esfuerzo y compromiso · La evidencia encima de la creencia</p>
+  <p class="fuentes">Fuentes: Morton 2018 · Tagawa 2021 · Refalo 2025 · Moore 2015 ·
+  Devries 2018 — citas completas en la guía PDF.</p>
+</footer>
+
+<a class="flota" id="flota" href="#resultado" aria-hidden="true" tabindex="-1"><span class="flota-e">Tu rango</span><b id="flotaN">110 – 130</b><span>g/día</span></a>
+
+<script>
+  var peso = document.getElementById('peso');
+  var pesoTxt = document.getElementById('pesoTxt');
+  // Solo los botones de fase (antes cogia tambien los del paso 0 y salia NaN al cargar)
+  var fases = document.querySelectorAll('#fases .fase');
+  var edad40 = document.getElementById('edad40');
+
+  function r5(x){ return Math.round(x/5)*5; }
+
+  function calcula(){
+    var p = parseInt(peso.value, 10);
+    pesoTxt.textContent = p;
+    var sel = document.querySelector('#fases .fase.sel');
+    var lo = parseFloat(sel.dataset.lo), hi = parseFloat(sel.dataset.hi);
+    var mayor = edad40.checked;
+
+    // Regla de edad: parte alta del rango (sube el suelo al punto medio)
+    var loEfectivo = mayor ? (lo + hi) / 2 : lo;
+    var gLo = r5(p * loEfectivo), gHi = r5(p * hi);
+    if (gLo >= gHi) gLo = gHi - 5;
+
+    document.getElementById('faseTxt').textContent =
+      sel.dataset.nombre + ' · ' + String(lo).replace('.', ',') + ' – ' +
+      String(hi).replace('.', ',') + ' g/kg/día' + (mayor ? ' · parte alta del rango' : '');
+    document.getElementById('rango').textContent = gLo + ' – ' + gHi;
+
+    var medio = Math.round((gLo + gHi) / 2);
+    document.getElementById('rep3').innerHTML =
+      '<span class="platos" aria-hidden="true"><i></i><i></i><i></i></span><span class="r-t">En 3 comidas</span><b class="r-n">~' + Math.round(medio/3/5)*5 + ' g</b><span class="r-u">por comida</span>';
+    document.getElementById('rep4').innerHTML =
+      '<span class="platos" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="r-t">En 4 tomas</span><b class="r-n">~' + Math.round(medio/4/5)*5 + ' g</b><span class="r-u">por toma</span>';
+
+    var nota = document.getElementById('notaEdad');
+    if (mayor){
+      nota.classList.remove('oculto');
+      document.getElementById('minComida').innerHTML =
+        'Cada comida principal debería rondar o superar los <b>' + Math.round(p*0.4) +
+        ' g</b> (0,40 g/kg — Moore 2015). Tres avisos claros construyen más que un grito a medianoche.';
+    } else {
+      nota.classList.add('oculto');
+    }
+    pinta(p, lo, hi, loEfectivo, gLo, gHi, mayor);
+  }
+
+  // ---- Paso 0: peso de referencia ----
+  var pesoReal = document.getElementById('pesoReal');
+  var altura = document.getElementById('altura');
+  var situBtns = document.querySelectorAll('#situ .fase');
+  var p0res = document.getElementById('p0res');
+  var d0 = document.querySelector('details.paso0');
+
+  function paso0(){
+    if (!d0.open) return;
+    var pr = parseFloat(pesoReal.value), h = parseFloat(altura.value) / 100;
+    if (!pr || !h || pr < 30 || h < 1.2){ p0res.innerHTML = 'Rellena peso y altura.'; return; }
+    var imc = pr / (h * h);
+    var situ = document.querySelector('#situ .fase.sel').dataset.situ;
+    var objetivo, msg;
+    if (situ === 'sobrepeso'){
+      objetivo = Math.round(25 * h * h);
+      if (objetivo >= pr){ objetivo = Math.round(pr); }
+      msg = 'Tu IMC actual es <b>' + imc.toFixed(1) + '</b>. Peso de referencia: <b>' + objetivo +
+            ' kg</b> (&#8776; tu peso a un IMC de 25 — una referencia razonable para calcular, no una meta obligatoria).';
+    } else if (situ === 'magro'){
+      objetivo = Math.round(pr);
+      msg = 'Peso de referencia: <b>' + objetivo + ' kg</b> (el tuyo). Estando ya muy magro, tu ajuste ' +
+            'no va por el peso sino por el rango: col&#243;cate en la <b>parte alta</b> de tu fase — y en ' +
+            'definici&#243;n, el extremo alto es para ti.';
+    } else {
+      objetivo = Math.round(pr);
+      msg = 'Peso de referencia: <b>' + objetivo + ' kg</b> (el tuyo, tal cual). Sigue al paso 1.';
+    }
+    if (objetivo < 40) objetivo = 40;
+    if (objetivo > 150) objetivo = 150;
+    peso.value = objetivo;
+    p0res.innerHTML = msg + ' <b>Ya lo he puesto en el paso 1 por ti.</b>';
+    calcula();
+    avisaPeso();
+  }
+
+  // ---- Solo aspecto: relleno del deslizador, regla, ficha flotante, anuncio ----
+  var tarjetaPeso = document.getElementById('p1');
+  function avisaPeso(){
+    tarjetaPeso.classList.add('avisa');
+    clearTimeout(avisaPeso.t);
+    avisaPeso.t = setTimeout(function(){ tarjetaPeso.classList.remove('avisa'); }, 1200);
+  }
+  function pinta(p, lo, hi, loEf, gLo, gHi, mayor){
+    peso.style.setProperty('--p', ((p - 40) / (150 - 40) * 100) + '%');
+    var D0 = 1.2, D = 1.4;
+    var t = document.getElementById('reglaTramo'), bj = document.getElementById('reglaBaja');
+    t.style.left = ((loEf - D0) / D * 100) + '%';
+    t.style.width = ((hi - loEf) / D * 100) + '%';
+    bj.style.left = ((lo - D0) / D * 100) + '%';
+    bj.style.width = mayor ? ((loEf - lo) / D * 100) + '%' : '0';
+    document.getElementById('flotaN').textContent = gLo + ' – ' + gHi;
+    var n = document.getElementById('rango');
+    n.classList.remove('brinca'); void n.offsetWidth; n.classList.add('brinca');
+    clearTimeout(pinta.t);
+    pinta.t = setTimeout(function(){
+      document.getElementById('anuncio').textContent = 'Tu rango: de ' + gLo + ' a ' + gHi + ' gramos de proteína al día.';
+    }, 800);
+  }
+  function mueve(d){
+    peso.value = Math.min(150, Math.max(40, parseInt(peso.value, 10) + d));
+    calcula();
+  }
+  document.getElementById('menos').addEventListener('click', function(){ mueve(-1); });
+  document.getElementById('mas').addEventListener('click', function(){ mueve(1); });
+  ['fases', 'situ'].forEach(function(id){
+    var g = document.getElementById(id);
+    g.addEventListener('click', function(){
+      g.querySelectorAll('.fase').forEach(function(b){ b.setAttribute('aria-pressed', b.classList.contains('sel') ? 'true' : 'false'); });
+    });
+  });
+  (function(){
+    // Ficha flotante: solo cuando ya has bajado un poco y el panel del resultado queda por debajo
+    var flota = document.getElementById('flota'), res = document.getElementById('resultado'), pend = false;
+    function act(){ pend = false; flota.classList.toggle('ve', scrollY > 120 && res.getBoundingClientRect().top > innerHeight - 40); }
+    function pide(){ if (!pend){ pend = true; requestAnimationFrame(act); } }
+    addEventListener('scroll', pide, { passive: true }); addEventListener('resize', pide);
+    d0.addEventListener('toggle', pide); act();
+  })();
+
+  d0.addEventListener('toggle', function(){ if (d0.open) paso0(); });
+  pesoReal.addEventListener('input', paso0);
+  altura.addEventListener('input', paso0);
+  situBtns.forEach(function(b){
+    b.addEventListener('click', function(){
+      situBtns.forEach(function(x){ x.classList.remove('sel'); });
+      b.classList.add('sel');
+      paso0();
+    });
+  });
+  peso.addEventListener('input', calcula);
+  edad40.addEventListener('change', calcula);
+  fases.forEach(function(f){
+    f.addEventListener('click', function(){
+      fases.forEach(function(x){ x.classList.remove('sel'); });
+      f.classList.add('sel');
+      calcula();
+    });
+  });
+  calcula();
+</script>
+</body>
+</html>

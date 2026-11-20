@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tu número de proteína — Calculadora FBE</title>
+<meta name="description" content="Calcula tu objetivo diario de proteína y su reparto por comidas, con rangos construidos desde metaanálisis revisados. Fuerza Basada en Evidencia.">
+<style>
+  :root{
+    --pd:#5B2C91; --pm:#7B3FB8; --pl:#E8DEF5; --pbg:#F5F0FA;
+    --green:#2E8B57; --orange:#D97A2B; --red:#C0392B;
+    --txt:#3A3A3A; --meta:#888888;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{font-family:Helvetica,Arial,sans-serif; color:var(--txt); background:var(--pbg); line-height:1.5;}
+  .wrap{max-width:680px; margin:0 auto; padding:28px 18px 40px;}
+  header{text-align:center; margin-bottom:22px;}
+  header img{width:110px; height:110px; margin-bottom:10px;}
+  h1{color:var(--pd); font-size:1.7rem; line-height:1.2;}
+  .sub{color:var(--pm); font-style:italic; margin-top:6px; font-size:.98rem;}
+  .card{background:#fff; border-radius:14px; padding:20px 18px; margin-bottom:16px;
+        box-shadow:0 2px 10px rgba(91,44,145,.08);}
+  .card h2{color:var(--pd); font-size:1.02rem; text-transform:uppercase; letter-spacing:.4px; margin-bottom:12px;}
+  label{font-weight:bold; display:block; margin-bottom:6px;}
+  .peso-row{display:flex; align-items:center; gap:14px;}
+  input[type=range]{flex:1; accent-color:var(--pm);}
+  .peso-val{min-width:86px; text-align:center; background:var(--pl); color:var(--pd);
+            font-weight:bold; font-size:1.15rem; border-radius:10px; padding:8px 6px;}
+  .hint{font-size:.85rem; color:var(--meta); margin-top:8px;}
+  .fases{display:grid; grid-template-columns:1fr; gap:10px; margin-top:4px;}
+  @media(min-width:520px){.fases{grid-template-columns:repeat(3,1fr);}}
+  .fase{border:2px solid var(--pl); border-radius:12px; padding:12px 10px; cursor:pointer;
+        background:#fff; text-align:center; transition:.15s;}
+  .fase.sel{border-color:var(--pm); background:var(--pl);}
+  .fase b{display:block; color:var(--pd);}
+  .fase span{font-size:.85rem; color:var(--meta);}
+  .toggle-row{display:flex; align-items:center; gap:12px; margin-top:4px; cursor:pointer;}
+  .switch{position:relative; width:52px; height:28px; flex:none;}
+  .switch input{opacity:0; width:0; height:0;}
+  .slider{position:absolute; inset:0; background:#ccc; border-radius:28px; transition:.2s;}
+  .slider:before{content:""; position:absolute; height:22px; width:22px; left:3px; top:3px;
+                 background:#fff; border-radius:50%; transition:.2s;}
+  .switch input:checked + .slider{background:var(--pm);}
+  .switch input:checked + .slider:before{transform:translateX(24px);}
+  .resultado{background:var(--pd); color:#fff; border-radius:14px; padding:22px 18px; text-align:center;}
+  .resultado .num{font-size:2.3rem; font-weight:bold; line-height:1.1; margin:6px 0;}
+  .resultado .unidad{font-size:1rem; color:var(--pl);}
+  .resultado .fase-txt{color:var(--pl); font-size:.95rem;}
+  .reparto{background:#fff; border-left:5px solid var(--green); border-radius:10px;
+           padding:14px 16px; margin-top:14px; text-align:left; color:var(--txt);}
+  .reparto h3{color:var(--pd); font-size:.95rem; text-transform:uppercase; margin-bottom:8px;}
+  .reparto p{margin-bottom:6px; font-size:.95rem;}
+  .edad-nota{border-left-color:var(--orange);}
+  .rojo{background:#fff; border-left:5px solid var(--red); border-radius:10px;
+        padding:14px 16px; margin-top:14px; font-size:.9rem;}
+  .rojo b{color:var(--red);}
+  .enlaces{display:grid; grid-template-columns:1fr; gap:10px; margin-top:22px;}
+  @media(min-width:520px){.enlaces{grid-template-columns:repeat(3,1fr);}}
+  .btn{display:block; text-align:center; text-decoration:none; font-weight:bold;
+       border-radius:12px; padding:14px 12px; font-size:.98rem; transition:.15s;
+       box-shadow:0 2px 8px rgba(91,44,145,.12);}
+  .btn small{display:block; font-weight:normal; font-size:.8rem; margin-top:3px; opacity:.85;}
+  .btn-web{background:var(--pd); color:#fff;}
+  .btn-yt{background:#fff; color:var(--pd); border:2px solid var(--pm);}
+  .btn-coach{background:var(--green); color:#fff;}
+  .btn:hover{transform:translateY(-2px); box-shadow:0 4px 14px rgba(91,44,145,.22);}
+  footer{text-align:center; margin-top:26px; font-size:.85rem; color:var(--meta);}
+  footer .lema{color:var(--pd); font-weight:bold; margin-bottom:4px;}
+  .oculto{display:none;}
+  details.paso0{background:#fff; border-radius:14px; margin-bottom:16px;
+        box-shadow:0 2px 10px rgba(91,44,145,.08); overflow:hidden;}
+  details.paso0 summary{cursor:pointer; padding:16px 18px; color:var(--pd); font-weight:bold;
+        font-size:1.02rem; text-transform:uppercase; letter-spacing:.4px; list-style:none;}
+  details.paso0 summary::-webkit-details-marker{display:none;}
+  details.paso0 summary{position:relative; padding-right:52px;}
+  details.paso0 summary::after{content:""; position:absolute; right:20px; top:24px;
+        width:11px; height:11px; border-right:3px solid var(--pm); border-bottom:3px solid var(--pm);
+        transform:rotate(45deg); transition:transform .2s;}
+  details.paso0[open] summary::after{transform:rotate(225deg); top:28px;}
+  details.paso0 summary .mini{display:block; text-transform:none; letter-spacing:0;
+        font-weight:normal; color:var(--meta); font-size:.85rem; margin-top:3px;}
+  details.paso0 .inner{padding:0 18px 18px;}
+  .fila2{display:flex; gap:12px; margin-bottom:12px;}
+  .fila2 > div{flex:1;}
+  .fila2 input{width:100%; padding:10px; border:2px solid var(--pl); border-radius:10px;
+        font-size:1.05rem; text-align:center; font-weight:bold; color:var(--pd);}
+  .situ{display:grid; grid-template-columns:1fr; gap:8px;}
+  @media(min-width:520px){.situ{grid-template-columns:repeat(3,1fr);}}
+  .situ .fase{padding:10px 8px;}
+  .p0res{margin-top:14px; background:var(--pl); border-radius:10px; padding:12px 14px;
+        font-size:.95rem; color:var(--txt);}
+  .p0res b{color:var(--pd);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img src="DATAURI" alt="Fuerza Basada en Evidencia">
+    <h1>Tu número de proteína</h1>
+    <p class="sub">Rangos construidos desde metaanálisis revisados · La guía completa, con los estudios, en tu correo</p>
+  </header>
+
+  <details class="paso0">
+    <summary>Paso 0 · ¿Qué peso uso? <span class="mini">Solo si tienes bastante sobrepeso o estás ya muy magro — toca aquí para desplegarlo; si no es tu caso, salta al paso 1</span></summary>
+    <div class="inner">
+      <div class="fila2">
+        <div>
+          <label for="pesoReal">Tu peso real (kg)</label>
+          <input type="number" id="pesoReal" min="40" max="220" value="95" inputmode="numeric">
+        </div>
+        <div>
+          <label for="altura">Tu altura (cm)</label>
+          <input type="number" id="altura" min="140" max="215" value="175" inputmode="numeric">
+        </div>
+      </div>
+      <label>Tu situación</label>
+      <div class="situ" id="situ">
+        <div class="fase sel" data-situ="normal"><b>Peso normal</b><span>o estable</span></div>
+        <div class="fase" data-situ="sobrepeso"><b>Bastante sobrepeso</b><span>el peso actual infla el número</span></div>
+        <div class="fase" data-situ="magro"><b>Muy magro</b><span>abdominales a la vista</span></div>
+      </div>
+      <div class="p0res" id="p0res"></div>
+    </div>
+  </details>
+
+  <div class="card">
+    <h2>Paso 1 · Tu peso</h2>
+    <div class="peso-row">
+      <input type="range" id="peso" min="40" max="150" value="80" step="1">
+      <div class="peso-val"><span id="pesoTxt">80</span> kg</div>
+    </div>
+    <p class="hint">La regla del peso objetivo: con bastante sobrepeso, o si estás ya muy magro,
+    usa aquí tu <b>peso objetivo razonable</b>, no el de la báscula de hoy.</p>
+  </div>
+
+  <div class="card">
+    <h2>Paso 2 · Tu fase</h2>
+    <div class="fases" id="fases">
+      <div class="fase sel" data-lo="1.4" data-hi="1.6" data-nombre="Mantenimiento">
+        <b>Mantenimiento</b><span>1,4 – 1,6 g/kg</span>
+      </div>
+      <div class="fase" data-lo="1.6" data-hi="2.2" data-nombre="Volumen">
+        <b>Volumen</b><span>1,6 – 2,2 g/kg</span>
+      </div>
+      <div class="fase" data-lo="1.8" data-hi="2.4" data-nombre="Definición">
+        <b>Definición</b><span>1,8 – 2,4 g/kg</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Paso 3 · Tu edad</h2>
+    <label class="toggle-row">
+      <span class="switch">
+        <input type="checkbox" id="edad40">
+        <span class="slider"></span>
+      </span>
+      <span>Tengo <b>más de 40 años</b> (músculo &#8220;duro de oído&#8221;: parte alta del rango
+      y mínimo por comida)</span>
+    </label>
+  </div>
+
+  <div class="resultado">
+    <div class="fase-txt" id="faseTxt">Mantenimiento · 1,4 – 1,6 g/kg/día</div>
+    <div class="num" id="rango">110 – 130</div>
+    <div class="unidad">gramos de proteína al día</div>
+
+    <div class="reparto">
+      <h3>Paso 4 · Tu reparto</h3>
+      <p id="rep3"></p>
+      <p id="rep4"></p>
+    </div>
+    <div class="reparto edad-nota oculto" id="notaEdad">
+      <h3>Tu casilla de los 40+</h3>
+      <p id="minComida"></p>
+    </div>
+  </div>
+
+  <div class="rojo">
+    <b>La frase completa: en riñones sanos.</b> Si tienes enfermedad renal, diabetes de años de
+    evolución, o no sabes cómo está tu riñón, tu número no sale de esta calculadora: sale de tu
+    consulta, con tu analítica delante. Primero se mide, después se decide.
+  </div>
+
+  <div class="enlaces">
+    <a class="btn btn-yt" href="https://www.youtube.com/@FuerzaBasadaEnEvidencia" target="_blank" rel="noopener">
+      El canal en YouTube<small>Los v&#237;deos detr&#225;s de cada n&#250;mero</small></a>
+    <a class="btn btn-web" href="https://fuerzabasadaenevidencia.com/" target="_blank" rel="noopener">
+      La web de FBE<small>Gu&#237;as, art&#237;culos y recursos</small></a>
+    <a class="btn btn-coach" href="https://noteforms.com/forms/formulario-inicial-fbe-coaching-online-snl8tn" target="_blank" rel="noopener">
+      Asesor&#237;a conmigo<small>Formulario inicial &#183; plazas limitadas</small></a>
+  </div>
+
+  <footer>
+    <p class="lema">Fuerza Basada en Evidencia · El principio 80/20</p>
+    <p>Confianza, esfuerzo y compromiso · La evidencia encima de la creencia</p>
+    <p style="margin-top:6px">Fuentes: Morton 2018 · Tagawa 2021 · Refalo 2025 · Moore 2015 ·
+    Devries 2018 — citas completas en la guía PDF.</p>
+  </footer>
+</div>
+
+<script>
+  var peso = document.getElementById('peso');
+  var pesoTxt = document.getElementById('pesoTxt');
+  var fases = document.querySelectorAll('.fase');
+  var edad40 = document.getElementById('edad40');
+
+  function r5(x){ return Math.round(x/5)*5; }
+
+  function calcula(){
+    var p = parseInt(peso.value, 10);
+    pesoTxt.textContent = p;
+    var sel = document.querySelector('.fase.sel');
+    var lo = parseFloat(sel.dataset.lo), hi = parseFloat(sel.dataset.hi);
+    var mayor = edad40.checked;
+
+    // Regla de edad: parte alta del rango (sube el suelo al punto medio)
+    var loEfectivo = mayor ? (lo + hi) / 2 : lo;
+    var gLo = r5(p * loEfectivo), gHi = r5(p * hi);
+    if (gLo >= gHi) gLo = gHi - 5;
+
+    document.getElementById('faseTxt').textContent =
+      sel.dataset.nombre + ' · ' + String(lo).replace('.', ',') + ' – ' +
+      String(hi).replace('.', ',') + ' g/kg/día' + (mayor ? ' · parte alta del rango' : '');
+    document.getElementById('rango').textContent = gLo + ' – ' + gHi;
+
+    var medio = Math.round((gLo + gHi) / 2);
+    document.getElementById('rep3').innerHTML =
+      '<b>En 3 comidas:</b> ~' + Math.round(medio/3/5)*5 + ' g por comida';
+    document.getElementById('rep4').innerHTML =
+      '<b>En 4 tomas:</b> ~' + Math.round(medio/4/5)*5 + ' g por toma';
+
+    var nota = document.getElementById('notaEdad');
+    if (mayor){
+      nota.classList.remove('oculto');
+      document.getElementById('minComida').innerHTML =
+        'Cada comida principal debería rondar o superar los <b>' + Math.round(p*0.4) +
+        ' g</b> (0,40 g/kg — Moore 2015). Tres avisos claros construyen más que un grito a medianoche.';
+    } else {
+      nota.classList.add('oculto');
+    }
+  }
+
+  // ---- Paso 0: peso de referencia ----
+  var pesoReal = document.getElementById('pesoReal');
+  var altura = document.getElementById('altura');
+  var situBtns = document.querySelectorAll('#situ .fase');
+  var p0res = document.getElementById('p0res');
+  var d0 = document.querySelector('details.paso0');
+
+  function paso0(){
+    if (!d0.open) return;
+    var pr = parseFloat(pesoReal.value), h = parseFloat(altura.value) / 100;
+    if (!pr || !h || pr < 30 || h < 1.2){ p0res.innerHTML = 'Rellena peso y altura.'; return; }
+    var imc = pr / (h * h);
+    var situ = document.querySelector('#situ .fase.sel').dataset.situ;
+    var objetivo, msg;
+    if (situ === 'sobrepeso'){
+      objetivo = Math.round(25 * h * h);
+      if (objetivo >= pr){ objetivo = Math.round(pr); }
+      msg = 'Tu IMC actual es <b>' + imc.toFixed(1) + '</b>. Peso de referencia: <b>' + objetivo +
+            ' kg</b> (&#8776; tu peso a un IMC de 25 — una referencia razonable para calcular, no una meta obligatoria).';
+    } else if (situ === 'magro'){
+      objetivo = Math.round(pr);
+      msg = 'Peso de referencia: <b>' + objetivo + ' kg</b> (el tuyo). Estando ya muy magro, tu ajuste ' +
+            'no va por el peso sino por el rango: col&#243;cate en la <b>parte alta</b> de tu fase — y en ' +
+            'definici&#243;n, el extremo alto es para ti.';
+    } else {
+      objetivo = Math.round(pr);
+      msg = 'Peso de referencia: <b>' + objetivo + ' kg</b> (el tuyo, tal cual). Sigue al paso 1.';
+    }
+    if (objetivo < 40) objetivo = 40;
+    if (objetivo > 150) objetivo = 150;
+    peso.value = objetivo;
+    p0res.innerHTML = msg + ' <b>Ya lo he puesto en el paso 1 por ti.</b>';
+    calcula();
+  }
+
+  d0.addEventListener('toggle', function(){ if (d0.open) paso0(); });
+  pesoReal.addEventListener('input', paso0);
+  altura.addEventListener('input', paso0);
+  situBtns.forEach(function(b){
+    b.addEventListener('click', function(){
+      situBtns.forEach(function(x){ x.classList.remove('sel'); });
+      b.classList.add('sel');
+      paso0();
+    });
+  });
+  peso.addEventListener('input', calcula);
+  edad40.addEventListener('change', calcula);
+  fases.forEach(function(f){
+    f.addEventListener('click', function(){
+      fases.forEach(function(x){ x.classList.remove('sel'); });
+      f.classList.add('sel');
+      calcula();
+    });
+  });
+  calcula();
+</script>
+</body>
+</html>
+<script async src="/.netlify/scripts/hud?variant=public" data-nf-variant="public" data-netlify-site-id="e38619c9-9c99-4e59-890e-8e6a99f13f40" data-app-host="app.netlify.com" data-account-tier="free"></script>
