@@ -39,8 +39,8 @@ MEDIOS = [  # (medio, tipo: 'Prensa' | 'Podcast' | 'Formación', título, url, f
      'https://www.vozpopuli.com/bienestar/pelayo-fernandez-cidon-medico-hay-cuatro-pruebas-que-predicen-como-vas-a-envejecer-y-la-mayoria-de-las-personas-mayores-de-40-no-las-pasa-y-esto-no-sale-en-las-analiticas.html', 'noviembre de 2026'),
     ('Libertad Digital', 'Prensa', 'Esteroides, un cóctel letal: así destrozan el corazón, el hígado y los riñones de los culturistas',
      'https://www.libertaddigital.com/deportes/mas-deporte/2025-09-27/esteroides-un-coctel-letal-asi-destrozan-el-corazon-el-higado-y-los-rinones-de-los-culturistas-7299778/', '27/09/2025'),
-    ('Podcast de Borja Bandera', 'Podcast', 'Entrevista en el podcast de Borja Bandera', 'https://www.youtube.com/watch?v=vkqBWbCNVOs', ''),
-    ('Dr. Antitabaco (Dr. Paul Freund)', 'Podcast', 'Entrevista en el podcast del Dr. Antitabaco', 'https://www.youtube.com/watch?v=N4uZ0dNjD4M', ''),
+    ('Podcast de Borja Bandera', 'Podcast', 'El PRIMER signo de envejecer mal NO está en la analítica (3 pruebas que casi nadie pasa a los 40)', 'https://www.youtube.com/watch?v=vkqBWbCNVOs', ''),
+    ('Dr. Antitabaco (Dr. Paul Freund)', 'Podcast', 'Experto en ejercicio físico desmiente mitos sobre proteína y creatina', 'https://www.youtube.com/watch?v=N4uZ0dNjD4M', ''),
     ('SEMI · Grupo de Cronicidad y Pluripatología', 'Formación', 'Minipíldora «Beneficios de la prescripción de ejercicio físico»',
      'https://www.fesemi.org/nueva-minipildora-cargo-de-dr-pelayo-cidon-con-titulo-beneficios-de-la-prescripcion-de-ejercicio', ''),
     ('SEMI · Grupo de Cronicidad y Pluripatología', 'Formación', 'Minipíldora «Prescripción de ejercicio aeróbico»',
@@ -239,8 +239,8 @@ pagina('mitos.html', 'Mitos y evidencia', 'Nueve mitos de gimnasio y de consulta
 <script>{MITOS_JS}</script>''', cierre_t=('¿Quieres un plan sin mitos?', 'Cuéntame tu caso en el formulario. Te respondo yo.'))
 
 # ---------------------------------------------------------------------------------------------
-# 5. En los medios: solo con enlaces reales que Pelayo ha aprobado (21/11/2026). Los títulos de los dos podcasts son descriptivos
-#    (no se pudo leer el título exacto de YouTube); los de prensa y SEMI son los publicados (el de AS, comprobado con la captura que mandó Pelayo el 21/11/2026).
+# 5. En los medios: solo con enlaces reales que Pelayo ha aprobado (21/11/2026). Los títulos de los dos podcasts los dio Pelayo
+#    (YouTube no se puede leer desde aquí); los de prensa y SEMI son los publicados (el de AS, comprobado con la captura que mandó Pelayo el 21/11/2026).
 MEDIO_ACC = {'Prensa': ('libro', 'Leer la noticia'), 'Podcast': ('micro', 'Ver la entrevista'), 'Formación': ('fonendo', 'Ver la minipíldora')}
 MEDIO_T = [('', 'Todo'), ('Prensa', 'Prensa'), ('Podcast', 'Podcasts'), ('Formación', 'Formación')]
 MEDIOS_JS = r'''(function(){var f=document.getElementById('medios-f');if(!f)return;var ms=[].slice.call(document.querySelectorAll('.medio'));
