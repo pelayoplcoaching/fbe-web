@@ -1861,5 +1861,12 @@ footer a[aria-current="page"] { color: #fff; text-decoration: underline; text-de
 .mitos-todos { margin-top: .8rem; }
 .medios { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr)); }
 .medio { display: grid; gap: .5rem; padding: 1.3rem; border-radius: 1.3rem; background: var(--sup); border: 1px solid var(--linea); color: var(--tinta); text-decoration: none; box-shadow: var(--sombra-s); }
-.medio > span:last-child { color: var(--tinta-2); font-size: .9rem; }
+.medio { align-content: start; gap: .65rem; transition: border-color .25s, box-shadow .25s, transform .25s; }
+.medio:hover { border-color: color-mix(in srgb, var(--marca) 45%, var(--linea)); box-shadow: var(--sombra); transform: translateY(-2px); }
+.medio-cab { display: flex; align-items: center; gap: .7rem; }
+.medio b { font-size: 1.04rem; line-height: 1.32; }
+.medio-de { color: var(--tinta-2); font-size: .9rem; }
+.medio-acc { margin-top: .2rem; font-weight: 700; font-size: .92rem; color: var(--acento); }
+.medio-acc::after { content: " \2197"; }
+@media (prefers-reduced-motion: reduce) { .medio { transition: none; } .medio:hover { transform: none; } }
 @media (prefers-reduced-motion: reduce) { .ea-paso, .vid-boton, .mito, .mito-abre::after, .sec-enl a, .vid-temas a, .vid-redes a { transition: none; } .ea-paso:hover, .vid-marco:hover .vid-boton { transform: none; } .mito details[open] .mito-cuerpo { animation: none; } }

@@ -31,6 +31,22 @@ MAILTO = ('mailto:' + _ent(os.environ['FBE_CORREO'])) if os.environ.get('FBE_COR
 def sec_ic(n): return f'<i class="sec-ic">{ico(n)}</i>'
 def _ext(u): return ' target="_blank" rel="noopener"' if u.startswith('http') else ''
 
+# En los medios (lista arriba porque Profesionales y Quién soy enlazan a la página si existe; la página se monta en el punto 5)
+MEDIOS = [  # (medio, tipo: 'Prensa' | 'Podcast' | 'Formación', título, url, fecha o '')
+    ('AS · Tikitakas', 'Prensa', 'Pelayo Fernández, médico: «Si no bebes alcohol, no empieces. No hay ninguna razón de salud para hacerlo»',
+     'https://as.com/tikitakas/salud/pelayo-fernandez-medico-si-no-bebes-alcohol-no-empieces-no-hay-ninguna-razon-de-salud-para-hacerlo-f202611-n/', 'noviembre de 2026'),
+    ('Vozpópuli', 'Prensa', 'Pelayo Fernández Cidón, médico: «Hay cuatro pruebas que predicen cómo vas a envejecer y la mayoría de las personas mayores de 40 no las pasa, y esto no sale en las analíticas»',
+     'https://www.vozpopuli.com/bienestar/pelayo-fernandez-cidon-medico-hay-cuatro-pruebas-que-predicen-como-vas-a-envejecer-y-la-mayoria-de-las-personas-mayores-de-40-no-las-pasa-y-esto-no-sale-en-las-analiticas.html', 'noviembre de 2026'),
+    ('Libertad Digital', 'Prensa', 'Esteroides, un cóctel letal: así destrozan el corazón, el hígado y los riñones de los culturistas',
+     'https://www.libertaddigital.com/deportes/mas-deporte/2025-09-27/esteroides-un-coctel-letal-asi-destrozan-el-corazon-el-higado-y-los-rinones-de-los-culturistas-7299778/', '27/09/2025'),
+    ('Podcast de Borja Bandera', 'Podcast', 'Entrevista en el podcast de Borja Bandera', 'https://www.youtube.com/watch?v=vkqBWbCNVOs', ''),
+    ('Dr. Antitabaco (Dr. Paul Freund)', 'Podcast', 'Entrevista en el podcast del Dr. Antitabaco', 'https://www.youtube.com/watch?v=N4uZ0dNjD4M', ''),
+    ('SEMI · Grupo de Cronicidad y Pluripatología', 'Formación', 'Minipíldora «Beneficios de la prescripción de ejercicio físico»',
+     'https://www.fesemi.org/nueva-minipildora-cargo-de-dr-pelayo-cidon-con-titulo-beneficios-de-la-prescripcion-de-ejercicio', ''),
+    ('SEMI · Grupo de Cronicidad y Pluripatología', 'Formación', 'Minipíldora «Prescripción de ejercicio aeróbico»',
+     'https://www.fesemi.org/nueva-minipildora-bajo-el-titulo-prescripcion-de-ejercicio-aerobico', ''),
+]
+
 # ---------------------------------------------------------------------------------------------
 # 1. Empieza aquí: elige el perfil que se parece al tuyo y te marca tres o cuatro pasos por la web
 def ea_paso(n, u, ic_, t, d):
@@ -156,7 +172,7 @@ pagina('profesionales.html', 'Para profesionales sanitarios', 'Para médicos, en
 <section id="charlas"><div class="in pro-dos">
   <div class="sube"><div class="entrada"><h2>Sesiones, charlas y formación</h2></div><p class="pro-lead">Si organizas una sesión clínica, un curso o unas jornadas, puedo hablar de fuerza y medicación con casos reales. Cuéntame el público, el formato y la fecha, y te digo si puedo.</p>
     <ul class="pro-cred">{"".join(f"<li>{x}</li>" for x in PRO_CRED)}</ul>
-    <div class="vid-cta"><a class="btn" href="{_MAIL_S}">Escribirme</a></div></div>
+    <div class="vid-cta"><a class="btn" href="{_MAIL_S}">Escribirme</a></div>{'<p class="sec-enl"><b>Entrevistas y formación</b><a href="medios.html">En los medios</a></p>' if len(MEDIOS) >= 2 else ''}</div>
   <div class="sube"><h3 class="pro-h3">{sec_ic("micro")}Algunos temas</h3><ul class="pro-temas">{"".join(f"<li>{x}</li>" for x in PRO_TEMAS)}</ul></div>
 </div></section>''', cta=f'<div class="cta"><a class="btn claro" href="{PA}" rel="noopener">Abrir Pauta Activa</a><a class="enl" href="#charlas">Charlas y formación</a></div>',
        cierre_t=('¿Y tú, entrenas?', 'Los sanitarios también tenemos guardias y poco tiempo. Cuéntame tu caso.'), fijo=_FIJO_PRO)
@@ -223,17 +239,29 @@ pagina('mitos.html', 'Mitos y evidencia', 'Nueve mitos de gimnasio y de consulta
 <script>{MITOS_JS}</script>''', cierre_t=('¿Quieres un plan sin mitos?', 'Cuéntame tu caso en el formulario. Te respondo yo.'))
 
 # ---------------------------------------------------------------------------------------------
-# 5. En los medios: solo con enlaces reales. Aprobados por Pelayo el 21/11/2026: el podcast con Borja Bandera, la noticia de Tikitakas
-#    sobre su vídeo del alcohol, el podcast del Dr. Antitabaco (canal de YouTube @Doctor.Antitabaco, Dr. Paul Freund) y la noticia de
-#    Libertad Digital. Se genera cuando haya al menos dos con enlace; faltan los tres primeros (episodio y noticia concretos).
-MEDIOS = [  # (medio, tipo: 'Podcast' | 'Prensa', título, url, fecha)
-    ('Libertad Digital', 'Prensa', 'Esteroides, un cóctel letal: así destrozan el corazón, el hígado y los riñones de los culturistas',
-     'https://www.libertaddigital.com/deportes/mas-deporte/2025-09-27/esteroides-un-coctel-letal-asi-destrozan-el-corazon-el-higado-y-los-rinones-de-los-culturistas-7299778/', '27/09/2025'),
-]
+# 5. En los medios: solo con enlaces reales que Pelayo ha aprobado (21/11/2026). Los títulos de los dos podcasts son descriptivos
+#    (no se pudo leer el título exacto de YouTube); los de prensa y SEMI son los publicados. El de AS sale de la dirección de la noticia.
+MEDIO_ACC = {'Prensa': ('libro', 'Leer la noticia'), 'Podcast': ('micro', 'Ver la entrevista'), 'Formación': ('fonendo', 'Ver la minipíldora')}
+MEDIO_T = [('', 'Todo'), ('Prensa', 'Prensa'), ('Podcast', 'Podcasts'), ('Formación', 'Formación')]
+MEDIOS_JS = r'''(function(){var f=document.getElementById('medios-f');if(!f)return;var ms=[].slice.call(document.querySelectorAll('.medio'));
+f.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;f.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',x===b)});var t=b.dataset.t;ms.forEach(function(m){m.hidden=!!t&&m.dataset.t!==t})});})();'''
+def medio_html(m, tp, t, u, fch):
+    i, acc = MEDIO_ACC[tp]
+    return (f'<a class="medio sube" data-t="{tp}" href="{u}" target="_blank" rel="noopener"><span class="medio-cab">{sec_ic(i)}<span class="mito-tipo">{tp}</span></span>'
+            f'<b>{t}</b><span class="medio-de">{m}{" · " + fch if fch else ""}</span><span class="medio-acc">{acc}</span></a>')
 if len(MEDIOS) >= 2:
-    pagina('medios.html', 'En los medios', 'Entrevistas, podcasts y noticias con Pelayo Fernández Cidón, médico internista y entrenador.',
-           'En los medios.', 'Entrevistas, podcasts y noticias en los que he participado.', f'''
-<section><div class="in"><div class="medios">{"".join(f'<a class="medio sube" href="{u}" target="_blank" rel="noopener"><span class="mito-tipo">{tp}</span><b>{t}</b><span>{m} · {f}</span></a>' for m, tp, t, u, f in MEDIOS)}</div></div></section>''')
+    _nt = {k: sum(1 for x in MEDIOS if x[1] == k) for k in MEDIO_ACC}
+    pagina('medios.html', 'En los medios', 'Prensa, podcasts y formación con Pelayo Fernández Cidón, médico internista y entrenador: AS, Vozpópuli, Libertad Digital, podcasts y minipíldoras de la SEMI.',
+           'En los medios.', 'Noticias, entrevistas y formación en las que he participado, con el enlace a cada una.', f'''
+<section><div class="in">
+  <div class="empieza sube"><div><h2>{len(MEDIOS)} apariciones</h2><p>{_nt["Prensa"]} en prensa, {_nt["Podcast"]} podcasts y {_nt["Formación"]} de formación para sanitarios.</p></div>
+    <div class="fases claras" id="medios-f" role="group" aria-label="Filtrar por tipo">{"".join(f'<button type="button" data-t="{v}" aria-pressed="{"true" if not v else "false"}">{t}</button>' for v, t in MEDIO_T)}</div></div>
+  <div class="medios">{"".join(medio_html(*x) for x in MEDIOS)}</div>
+</div></section>
+<section class="hoja"><div class="in"><div class="calc sube"><div><h3>¿Quieres entrevistarme o que dé una charla?</h3><p>Escríbeme con el medio, el tema y la fecha. Para sanitarios, mira también la página de profesionales.</p></div><div><a class="btn claro" href="{(MAILTO + '?subject=' + _up.quote('Entrevista o charla')) if MAILTO else FORM}">Escribirme</a></div></div>
+  <p class="sec-enl sube"><b>Sigue por aquí</b><a href="profesionales.html">Para profesionales</a><a href="videos.html">Mis vídeos</a><a href="quien-soy.html">Quién soy</a></p>
+</div></section>
+<script>{MEDIOS_JS}</script>''', cierre_t=('¿Y si lo aplicamos a tu caso?', 'Cuéntame tu caso en el formulario. Te respondo yo.'))
 SEC_PAGS = ['empieza-aqui.html', 'videos.html', 'mitos.html', 'profesionales.html'] + (['medios.html'] if len(MEDIOS) >= 2 else [])
 
 # ---------------------------------------------------------------------------------------------
@@ -247,3 +275,5 @@ _parchea('herramientas.html', '<p class="herr-nota sube">', '<p class="sec-enl s
 _parchea('guias.html', '<div class="calc sube" style="margin-top:3rem">', '<p class="sec-enl sube" style="margin-top:2.5rem"><b>Gratis para aprender</b><a href="mitos.html">Mitos y evidencia</a><a href="videos.html">Vídeos</a><a href="newsletter.html">Newsletter</a></p><div class="calc sube" style="margin-top:3rem">')
 _parchea('quien-soy.html', f'<a class="caja sube" href="{YT}" target="_blank" rel="noopener">', '<a class="caja sube" href="videos.html">')
 _parchea('pauta-activa.html', f'{_PM[2]}</p>', f'{_PM[2]} <a href="profesionales.html">Más para profesionales</a></p>')
+if len(MEDIOS) >= 2:
+    _parchea('quien-soy.html', '<p>Vídeos sobre fuerza, nutrición y salud.</p></a>\n  </div>', '<p>Vídeos sobre fuerza, nutrición y salud.</p></a>\n  </div><p class="sec-enl sube"><b>También he salido en</b><a href="medios.html">Prensa, podcasts y formación</a></p>')
