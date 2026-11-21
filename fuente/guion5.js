@@ -5,7 +5,10 @@
   $$('img[data-de]').forEach(function (i) { var o = $('img[data-k="' + i.dataset.de + '"]'); if (o) i.src = o.src; });
   // Tema claro u oscuro
   var bt = $('#tema'); try { var g = localStorage.getItem('fbe-web-tema'); if (g === 'dark' || g === 'light') R.dataset.theme = g; } catch (e) {}
-  if (bt) bt.addEventListener('click', function () { var osc = R.dataset.theme ? R.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches; R.dataset.theme = osc ? 'light' : 'dark'; try { localStorage.setItem('fbe-web-tema', R.dataset.theme); } catch (e) {} });
+  if (bt) bt.addEventListener('click', function () { var osc = R.dataset.theme ? R.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches; function cambia() { R.dataset.theme = osc ? 'light' : 'dark'; try { localStorage.setItem('fbe-web-tema', R.dataset.theme); } catch (e) {} }
+    if (!D.startViewTransition || matchMedia('(prefers-reduced-motion: reduce)').matches) { cambia(); return; }
+    var r = bt.getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height / 2, rad = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y)); R.classList.add('vt-tema');
+    var t = D.startViewTransition(cambia); t.ready.then(function () { R.animate({ clipPath: ['circle(0px at ' + x + 'px ' + y + 'px)', 'circle(' + rad + 'px at ' + x + 'px ' + y + 'px)'] }, { duration: 600, easing: 'cubic-bezier(.2,.7,.2,1)', pseudoElement: '::view-transition-new(root)' }); }).catch(function () {}); t.finished.then(function () { R.classList.remove('vt-tema'); }, function () { R.classList.remove('vt-tema'); }); });
   // La cabecera se esconde al bajar y vuelve al subir
   var cab = $('.cab'), antes = 0, arr = $('#arriba');
   addEventListener('scroll', function () { var y = window.scrollY || 0; cab.classList.toggle('fina', y > 80); if (!$('.menu[open]')) cab.classList.toggle('oculta', y > 500 && y > antes + 4); if (y < antes - 4) cab.classList.remove('oculta'); if (arr) arr.classList.toggle('ver', y > 1400); antes = y; }, { passive: true });

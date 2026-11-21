@@ -2538,3 +2538,99 @@ footer a[aria-current="page"] { color: #fff; text-decoration: underline; text-de
 @keyframes supl-entra { from { opacity: 0; transform: translateY(.3rem); } to { opacity: 1; transform: none; } }
 @media print { .o-atajos, .supl-ley, .sppb-mapa { display: none !important; } }
 @media (prefers-reduced-motion: reduce) { .sppb-mapa li, .sppb-paso, .sppb-escala i, .o-atajos button, .pl-pista b, .pl-pista > i, .supl-it, .supl-busca::after { transition: none; } .sppb-escala i.on, .supl-it:hover { transform: none; } .tool-res.supl-cambia #u-n, .tool-res.supl-cambia .supl-sec { animation: none; } }
+/* ===== OTRAS 5 x 50 MEJORAS EN GENERAL - TANDA 6 (251-300): comunes y movimiento ===== */
+/* Cambio de tema con circulo que se abre desde el boton (JS en mini.js y guion5.js) */
+html.vt-tema::view-transition-old(root), html.vt-tema::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+html.vt-tema::view-transition-old(root) { z-index: 1; }
+html.vt-tema::view-transition-new(root) { z-index: 2; }
+html.vt-tema .cab, html.vt-tema .hero.mini h1, html.vt-tema .fijo { view-transition-name: none !important; }
+/* Paso entre paginas: la cabecera se queda quieta, el titulo se desliza y el resto sube */
+@media (prefers-reduced-motion: no-preference) {
+  .cab { view-transition-name: cab; }
+  .hero.mini h1 { view-transition-name: titulo; }
+  .fijo.ver { view-transition-name: fijo; }
+  ::view-transition-group(titulo) { animation-duration: .45s; animation-timing-function: cubic-bezier(.2, .7, .2, 1); }
+  ::view-transition-old(titulo), ::view-transition-new(titulo) { height: 100%; object-fit: none; object-position: left top; }
+  ::view-transition-old(root) { animation: vt-sale .22s cubic-bezier(.4, 0, 1, 1) both; }
+  ::view-transition-new(root) { animation: vt-entra .38s cubic-bezier(.2, .7, .2, 1) .05s both; }
+}
+@keyframes vt-sale { to { opacity: 0; transform: translateY(-6px); } }
+@keyframes vt-entra { from { opacity: 0; transform: translateY(10px); } }
+/* Anclas que no quedan bajo la cabecera */
+html { scroll-padding-top: 5.5rem; }
+/* Botones: respuesta al pulsar y anillo de foco que se desliza */
+.btn { touch-action: manipulation; -webkit-tap-highlight-color: transparent; transition: transform .18s cubic-bezier(.2, .7, .2, 1), box-shadow .25s, background-color .25s, color .25s, border-color .25s, outline-offset .2s; }
+.btn:active { transform: translateY(1px) scale(.97); }
+.btn:focus-visible { outline: 2px solid var(--marca-clara); outline-offset: 5px; }
+.btn:focus:not(:focus-visible) { outline-offset: 0; }
+a, button, summary, label { -webkit-tap-highlight-color: transparent; }
+/* Enlaces dentro del texto: subrayado que crece */
+main p a:not(.btn):not([class]), main li > a:not(.btn):not([class]):only-child { text-decoration: none; background: linear-gradient(currentColor, currentColor) left 100% / 100% 1px no-repeat, linear-gradient(color-mix(in srgb, var(--marca-clara) 30%, transparent), color-mix(in srgb, var(--marca-clara) 30%, transparent)) left 100% / 0 .45em no-repeat; transition: background-size .3s cubic-bezier(.2, .7, .2, 1), color .2s; padding-bottom: .05em; }
+main p a:not(.btn):not([class]):hover { background-size: 100% 1px, 100% .45em; }
+main p a[target="_blank"]:not(.btn):not([class])::after { content: "\2009\2197"; font-size: .8em; opacity: .7; }
+/* Titulares mejor repartidos y parrafos sin viudas */
+h1, h2, h3, blockquote { text-wrap: balance; }
+main p, main li { text-wrap: pretty; }
+/* Miga de pan */
+.miga a { transition: color .2s, opacity .2s; }
+.miga a:hover { color: #fff; text-decoration: none; text-shadow: 0 0 .8rem rgba(164, 156, 255, .7); }
+/* Navegacion: logo y boton de tema */
+.cab .logo i { transition: transform .45s cubic-bezier(.3, 1.4, .5, 1); }
+.cab .logo:hover i { transform: rotate(-12deg) scale(1.08); }
+.tema svg { transition: transform .5s cubic-bezier(.3, 1.4, .5, 1); }
+.tema:hover svg { transform: rotate(40deg); }
+.tema:active { transform: scale(.92); }
+/* Menu movil: entradas escalonadas */
+@media (prefers-reduced-motion: no-preference) {
+  .menu[open] div a { animation: menu-li .35s cubic-bezier(.2, .7, .2, 1) both; }
+  .menu[open] div a:nth-child(2) { animation-delay: .03s; } .menu[open] div a:nth-child(3) { animation-delay: .06s; } .menu[open] div a:nth-child(4) { animation-delay: .09s; } .menu[open] div a:nth-child(5) { animation-delay: .12s; }
+  .menu[open] div a:nth-child(6) { animation-delay: .15s; } .menu[open] div a:nth-child(7) { animation-delay: .18s; } .menu[open] div a:nth-child(8) { animation-delay: .21s; } .menu[open] div a:nth-child(n+9) { animation-delay: .24s; }
+}
+@keyframes menu-li { from { opacity: 0; transform: translateX(10px); } }
+/* Seguir leyendo: flecha que acompana */
+.sigue a small { transition: letter-spacing .3s, color .2s; }
+.sigue a:hover small { letter-spacing: .18em; color: var(--acento); }
+.sigue a::before { transition: transform .3s cubic-bezier(.3, 1.4, .5, 1); }
+/* Pie: columnas que suben al llegar, enlaces que se desplazan */
+@supports (animation-timeline: view()) { @media (prefers-reduced-motion: no-preference) {
+  footer .in > div { animation: pie-entra linear both; animation-timeline: view(); animation-range: entry 0% entry 70%; }
+  footer .in > div:nth-child(2) { animation-range: entry 5% entry 75%; } footer .in > div:nth-child(3) { animation-range: entry 10% entry 80%; } footer .in > div:nth-child(4) { animation-range: entry 15% entry 85%; }
+  .cierre .marca-agua { animation: agua-sube linear both; animation-timeline: view(); animation-range: cover; }
+} }
+@keyframes pie-entra { from { opacity: 0; transform: translateY(18px); } }
+@keyframes agua-sube { from { translate: 0 6%; } to { translate: 0 -6%; } }
+footer .in > div > a { transition: color .2s, transform .25s cubic-bezier(.2, .7, .2, 1); }
+footer .in > div > a:hover { transform: translateX(4px); color: #fff; }
+footer .redes a { transition: transform .25s cubic-bezier(.3, 1.4, .5, 1), background-color .2s, border-color .2s; }
+footer .redes a:hover { transform: translateY(-2px); }
+footer .legal a { transition: color .2s; }
+footer .legal a:hover { color: #fff; }
+/* Volver arriba: la flecha salta al pasar */
+.arriba svg { transition: transform .35s cubic-bezier(.3, 1.6, .5, 1); }
+.arriba:hover svg { transform: translateY(-3px); }
+.arriba:active { transform: scale(.92); }
+/* Barra fija del movil: entra con rebote suave */
+.fijo { transition: transform .45s cubic-bezier(.3, 1.3, .5, 1), opacity .3s; }
+/* Destino de un enlace con almohadilla: un destello breve */
+@media (prefers-reduced-motion: no-preference) { main [id]:target:not(.mito):not(section):not(.ea-ruta) { animation: objetivo 1.4s ease-out; } }
+@keyframes objetivo { 0%, 30% { box-shadow: 0 0 0 4px color-mix(in srgb, var(--marca-clara) 55%, transparent); } 100% { box-shadow: 0 0 0 14px transparent; } }
+/* Barra de avance: punta luminosa */
+.avance i { box-shadow: 0 0 10px var(--marca-clara), 0 0 2px #fff; }
+/* Salto al contenido */
+.salto { transition: transform .25s cubic-bezier(.2, .7, .2, 1); }
+/* Tarjetas enlace con foco de teclado dentro */
+.caja:has(:focus-visible), a.caja:focus-visible { outline: 2px solid var(--marca-clara); outline-offset: 4px; }
+/* Imagenes de tarjeta: acercamiento suave */
+.caja .pub-img { transition: transform .6s cubic-bezier(.2, .7, .2, 1), filter .4s; }
+.caja:hover .pub-img { transform: scale(1.035); filter: saturate(1.1); }
+/* Listas con marcas: los checks aparecen en cascada */
+@media (prefers-reduced-motion: no-preference) {
+  .sube .marcas li { opacity: 0; transform: translateX(-6px); transition: opacity .4s, transform .4s cubic-bezier(.2, .7, .2, 1); }
+  .sube.ya .marcas li { opacity: 1; transform: none; }
+  .sube.ya .marcas li:nth-child(2) { transition-delay: .07s; } .sube.ya .marcas li:nth-child(3) { transition-delay: .14s; } .sube.ya .marcas li:nth-child(4) { transition-delay: .21s; } .sube.ya .marcas li:nth-child(n+5) { transition-delay: .28s; }
+}
+/* Sin vista de transiciones: el cambio de tema se funde */
+@supports not (view-transition-name: none) { html, body, .cab, footer, main section { transition: background-color .35s, color .35s; } }
+@media (forced-colors: active) { .btn:focus-visible, .caja:has(:focus-visible) { outline-color: Highlight; } }
+@media print { .avance, .arriba, .fijo, .salto, .tema, .menu { display: none !important; } }
+@media (prefers-reduced-motion: reduce) { .btn, .cab .logo i, .tema svg, .sigue a small, .sigue a::before, footer .in > div > a, footer .redes a, .arriba svg, .fijo, .caja .pub-img, main p a:not(.btn):not([class]) { transition: none; } .btn:active, .cab .logo:hover i, .tema:hover svg, .tema:active, footer .in > div > a:hover, footer .redes a:hover, .arriba:hover svg, .arriba:active, .caja:hover .pub-img { transform: none; } }
