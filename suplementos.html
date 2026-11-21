@@ -17,12 +17,13 @@
 <main id="contenido">
 <section class="tool-s"><div class="in"><div class="tool sube">
   <form class="tool-form" onsubmit="return false" novalidate><div class="tool-campo supl-busca"><label for="u-q">Busca un suplemento</label><input id="u-q" type="search" autocomplete="off" placeholder="Creatina, omega-3, magnesio, colágeno…"></div>
-<fieldset class="tool-campo seg-t supl-filtro"><legend>Grupo de evidencia</legend><div><label><input type="radio" name="u-g" value="" checked><span>Todos</span></label><label><input type="radio" name="u-g" value="A"><span>A</span></label><label><input type="radio" name="u-g" value="B"><span>B</span></label><label><input type="radio" name="u-g" value="C"><span>C</span></label><label><input type="radio" name="u-g" value="D"><span>D</span></label></div></fieldset>
+<fieldset class="tool-campo seg-t supl-filtro"><legend>Grupo de evidencia</legend><div><label><input type="radio" name="u-g" value="" checked><span>Todos<em>42</em></span></label><label><input type="radio" name="u-g" value="A"><span>A<em>15</em></span></label><label><input type="radio" name="u-g" value="B"><span>B<em>10</em></span></label><label><input type="radio" name="u-g" value="C"><span>C<em>8</em></span></label><label><input type="radio" name="u-g" value="D"><span>D<em>9</em></span></label></div></fieldset>
+<p class="supl-ley" aria-hidden="true"><span class="gA"><b>A</b>sólida</span><span class="gB"><b>B</b>emergente</span><span class="gC"><b>C</b>sin beneficio</span><span class="gD"><b>D</b>prohibido o de riesgo</span></p>
 <div class="supl-lista" id="u-lista" role="list"></div>
 <p class="tool-nota supl-cuenta" id="u-cuenta"></p>
 <p class="vol-vacio" id="u-nada" hidden></p>
 <div class="tool-campo"><label for="u-peso">Tu peso, para calcular las dosis</label><div class="num-paso" data-ud="kg"><button type="button" data-paso="-1" data-para="u-peso" aria-label="Restar">−</button><input id="u-peso" type="number" inputmode="decimal" min="30" max="200" step="1" value="75"><button type="button" data-paso="1" data-para="u-peso" aria-label="Sumar">+</button></div></div></form>
-  <div class="tool-res" aria-live="polite"><img class="tool-fondo" src="img/suplementos-fondo.webp" alt="" width="720" height="720" loading="lazy" decoding="async"><div class="supl-cab"><span class="supl-g" id="u-g-l">A</span><p class="tool-et" id="u-sub"></p></div>
+  <div class="tool-res" aria-live="polite"><img class="tool-fondo" src="img/suplementos-fondo.webp" alt="" width="720" height="720" loading="lazy" decoding="async"><div class="supl-cab"><span class="supl-g" id="u-g-l">A</span><p class="tool-et" id="u-sub"></p><span class="supl-escala" id="u-esc" aria-hidden="true"><i class="gA">A</i><i class="gB">B</i><i class="gC">C</i><i class="gD">D</i></span></div>
 <p class="res-veredicto grande-t" id="u-n"></p>
 <p class="supl-gtxt" id="u-gtxt"></p>
 <div class="supl-sec" id="u-s-para"><p class="tool-et">Para qué</p><p class="res-texto" id="u-para"></p></div>
@@ -55,6 +56,7 @@ function lista(){var q=norm($('u-q').value),g=grupo(),L=S.filter(function(s){ret
   if(L.length===1&&L[0][0]!==sel){sel=L[0][0];ficha();lista()}}
 function ficha(){var s=S.filter(function(x){return x[0]===sel})[0];if(!s)return;var kg=parseFloat($('u-peso').value),res=document.querySelector('.tool-res');
   res.classList.remove('z-alto','z-medio','z-bajo');res.classList.add(s[3]==='A'?'z-alto':s[3]==='D'?'z-bajo':'z-medio');
+  [].forEach.call($('u-esc').children,function(x){x.classList.toggle('on',x.textContent===s[3])});var fx=document.querySelector('.tool-res');fx.classList.remove('supl-cambia');void fx.offsetWidth;fx.classList.add('supl-cambia');
   $('u-g-l').textContent='Grupo '+s[3];$('u-g-l').className='supl-g g'+s[3];$('u-sub').textContent=s[4];$('u-n').textContent=s[1];$('u-gtxt').textContent=G[s[3]];
   $('u-para').textContent=s[5];$('u-s-dosis').hidden=!s[6];$('u-dosis').textContent=s[6];$('u-s-ojo').hidden=!s[7];$('u-ojo').textContent=s[7];
   var c='';if(kg>=30&&kg<=250){if(s[8]==='caf')c='Para tus '+fmt(kg)+' kg: '+fmt(kg*3)+'-'+fmt(kg*6)+' mg'+(kg*6>200?' · la EFSA da por seguras tomas de hasta 200 mg':'');if(s[8]==='ba')c='Para tus '+fmt(kg)+' kg: unos '+g1(kg*0.065)+' g al día';if(s[8]==='bic')c='Para tus '+fmt(kg)+' kg: '+g1(kg*0.2)+'-'+g1(kg*0.4)+' g'}

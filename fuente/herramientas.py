@@ -591,7 +591,7 @@ function diario(){var a=lee(),c=$('d-diario');c.hidden=!a.length&&!deshacer;$('d
   var u=a.slice(-12),W=300,H=86,L=18,B=8,X=function(i){return L+(u.length<2?(W-L-8)/2:i*(W-L-8)/(u.length-1))},Y=function(v){return 6+(1-v/10)*(H-6-B)};
   var p=u.map(function(e,i){return (i?'L':'M')+X(i).toFixed(1)+' '+Y(Math.max(e.d,e.s)).toFixed(1)}).join('');
   var ks={v:0,a:0,r:0};u.forEach(function(e){ks[e.k]=(ks[e.k]||0)+1});var mx=function(e){return Math.max(e.d,e.s)},tr=u.length>1?mx(u[u.length-1])-mx(u[u.length-2]):0;
-  $('d-resumen').innerHTML='<span class="k-v"><b>'+ks.v+'</b> verde'+(ks.v===1?'':'s')+'</span><span class="k-a"><b>'+ks.a+'</b> ámbar</span><span class="k-r"><b>'+ks.r+'</b> roja'+(ks.r===1?'':'s')+'</span>'+(u.length>1?'<span class="d-tend '+(tr>0?'sube':tr<0?'baja':'igual')+'">'+(tr>0?'Más dolor que la vez anterior':tr<0?'Menos dolor que la vez anterior':'Igual que la vez anterior')+'</span>':'');
+  $('d-resumen').innerHTML='<span class="k-v"><b>'+ks.v+'</b> verde'+(ks.v===1?'':'s')+'</span><span class="k-a"><b>'+ks.a+'</b> ámbar</span><span class="k-r"><b>'+ks.r+'</b> roja'+(ks.r===1?'':'s')+'</span>'+(u.length>1?'<span class="d-tend '+(tr>0?'t-mas':tr<0?'t-menos':'t-igual')+'">'+(tr>0?'Más dolor que la vez anterior':tr<0?'Menos dolor que la vez anterior':'Igual que la vez anterior')+'</span>':'');
   var area=u.length>1?'<path class="area" d="'+p+'L'+X(u.length-1).toFixed(1)+' '+Y(0).toFixed(1)+'L'+X(0).toFixed(1)+' '+Y(0).toFixed(1)+'Z"/>':'';
   $('d-graf').innerHTML='<rect class="banda-v" x="'+L+'" y="'+Y(5)+'" width="'+(W-4-L)+'" height="'+(Y(0)-Y(5))+'"/><rect class="banda-r" x="'+L+'" y="'+Y(10)+'" width="'+(W-4-L)+'" height="'+(Y(5)-Y(10))+'"/>'+area+'<line class="cinco" x1="'+L+'" x2="'+(W-4)+'" y1="'+Y(5)+'" y2="'+Y(5)+'"/><text class="t" x="'+(L-5)+'" y="'+(Y(5)+3.5)+'" text-anchor="end">5</text>'+(u.length>1?'<path class="linea" d="'+p+'"/>':'')+u.map(function(e,i){return '<circle class="pt k-'+e.k+'" cx="'+X(i).toFixed(1)+'" cy="'+Y(Math.max(e.d,e.s)).toFixed(1)+'" r="4"/>'}).join('');
   $('d-entradas').innerHTML=a.slice(-6).reverse().map(function(e){var f=new Date(e.f);return '<li class="k-'+e.k+'"><i></i><b>'+f.toLocaleDateString('es-ES',{day:'numeric',month:'short'})+'</b><span>'+(e.z?esc(e.z)+' · ':'')+'durante '+e.d+' · después '+e.s+'</span></li>'}).join('')}
@@ -618,6 +618,7 @@ tool_pagina('semaforo-dolor.html', 'Semáforo del dolor al entrenar',
 # ---------------------------------------------------------------------------------------------
 # 8. Test SPPB (Guralnik 1994 y 2000; EWGSOP2 2019; niveles Vivifrail 2017)
 SPPB_FORM = (f'''<p class="tool-aviso">Hazlo con alguien al lado y una silla firme sin brazos apoyada en la pared. Si aparece mareo, dolor en el pecho o falta de aire, para. No es para quien no pueda estar de pie sin ayuda.</p>
+<ol class="sppb-mapa" aria-hidden="true"><li><b>1</b>Equilibrio</li><li><b>2</b>Marcha</li><li><b>3</b>Silla</li></ol>
 <div class="sppb-paso"><p class="sppb-t"><b>1</b>Equilibrio <small>De pie, sin apoyarse, 10 segundos en cada postura</small></p>
 <button type="button" class="cuenta10" id="p-c10"><i aria-hidden="true"></i><span>Contar 10 segundos</span></button>'''
     + seg('p-lado', 'Pies juntos, uno al lado del otro', [('10', 'Aguanta 10 s'), ('0', 'Menos de 10 s')], clase='sppb-q')
@@ -636,10 +637,12 @@ SPPB_FORM = (f'''<p class="tool-aviso">Hazlo con alguien al lado y una silla fir
 <div class="vol-bots rev-bots"><button type="button" class="ver-res" id="p-ver" hidden>Ver el resultado ↓</button><button type="button" class="enl-b" id="p-reset">Empezar de nuevo</button></div>''')
 SPPB_RES = f'''<p class="tool-et">Puntuación SPPB</p>
 <div class="res-grande"><b id="p-total">–</b><span>de 12</span></div>
+<div class="sppb-escala" id="p-esc" aria-hidden="true">{''.join(f'<i class="{"e-b" if n <= 6 else "e-m" if n <= 9 else "e-a"}">{n}</i>' for n in range(13))}</div>
 <p class="res-chip" id="p-cat" hidden></p>
 <div class="sppb-partes" id="p-partes"></div>
 <p class="res-veredicto" id="p-tit">Haz las tres pruebas.</p>
 <p class="res-texto" id="p-txt">Equilibrio, marcha y levantarse de la silla: cada una puntúa de 0 a 4.</p>
+<div class="sppb-viv" id="p-viv" aria-hidden="true" hidden><span>Nivel Vivifrail</span><i data-v="A">A<small>0-3</small></i><i data-v="B">B<small>4-6</small></i><i data-v="C">C<small>7-9</small></i><i data-v="D">D<small>10-12</small></i></div>
 <p class="res-texto p-vel" id="p-vel"></p>
 {copiar_b("p-copiar", "Copiar resultado")}'''
 SPPB_JS = r'''(function(){
@@ -662,10 +665,12 @@ function pinta(){
   var P=[['Equilibrio',eq],['Marcha',mp],['Levantarse',sp]];
   $('p-partes').innerHTML=P.map(function(p){return '<div class="pp'+(p[1]===null?' falta':'')+'"><span>'+p[0]+'</span><i>'+[0,1,2,3].map(function(k){return '<b'+(p[1]!==null&&k<p[1]?' class="on"':'')+'></b>'}).join('')+'</i><em>'+(p[1]===null?'–':p[1]+'/4')+'</em></div>'}).join('');
   var hechas=P.filter(function(p){return p[1]!==null}).length,tot=(eq||0)+(mp||0)+(sp||0),listo=hechas===3;
+  document.querySelectorAll('.sppb-paso').forEach(function(el,i){el.classList.toggle('hecho',P[i][1]!==null)});document.querySelectorAll('.sppb-mapa li').forEach(function(el,i){el.classList.toggle('hecho',P[i][1]!==null)});
+  [].forEach.call($('p-esc').children,function(c,i){c.classList.toggle('on',listo&&i===tot);c.classList.toggle('lleno',hechas>0&&i<=tot)});$('p-esc').classList.toggle('listo',listo);
   res.classList.remove('z-alto','z-medio','z-bajo');$('p-ver').hidden=!listo;$('p-copiar').hidden=!listo;
   $('p-total').textContent=hechas?tot:'–';$('p-vel').textContent=mt&&!mno?'Velocidad de marcha: '+fmt(4/mt,2)+' metros por segundo.':'';
-  if(!listo){$('p-cat').hidden=!hechas;$('p-cat').textContent='Faltan '+(3-hechas)+(3-hechas===1?' prueba':' pruebas');$('p-tit').textContent=hechas?'Sigue con las pruebas que faltan.':'Haz las tres pruebas.';$('p-txt').textContent='Equilibrio, marcha y levantarse de la silla: cada una puntúa de 0 a 4.';return}
-  var viv=tot<=3?'A':tot<=6?'B':tot<=9?'C':'D',cat,tit,txt;
+  if(!listo){$('p-viv').hidden=true;$('p-cat').hidden=!hechas;$('p-cat').textContent='Faltan '+(3-hechas)+(3-hechas===1?' prueba':' pruebas');$('p-tit').textContent=hechas?'Sigue con las pruebas que faltan.':'Haz las tres pruebas.';$('p-txt').textContent='Equilibrio, marcha y levantarse de la silla: cada una puntúa de 0 a 4.';return}
+  var viv=tot<=3?'A':tot<=6?'B':tot<=9?'C':'D',cat,tit,txt;$('p-viv').hidden=false;[].forEach.call($('p-viv').querySelectorAll('i'),function(x){x.classList.toggle('on',x.dataset.v===viv)});
   if(tot>=10){res.classList.add('z-alto');cat='Rendimiento alto (10-12)';tit='Rendimiento alto';txt='Buen equilibrio, buena marcha y buena fuerza de piernas. Lo que lo mantiene es seguir entrenando fuerza y equilibrio.'}
   else if(tot>=7){res.classList.add('z-medio');cat='Rendimiento intermedio (7-9)';tit='Rendimiento intermedio';txt='Hay margen de mejora, y el ejercicio de fuerza y equilibrio adaptado suele mejorarlo.'+(tot<=8?' Una puntuación de 8 o menos es la que el consenso europeo de sarcopenia considera bajo rendimiento físico: conviene comentarlo con el médico.':'')}
   else{res.classList.add('z-bajo');cat='Rendimiento bajo (0-6)';tit='Rendimiento bajo';txt='Conviene comentarlo con el médico y empezar con un programa de ejercicio adaptado, mejor supervisado.'}
@@ -697,6 +702,7 @@ tool_pagina('test-sppb.html', 'Test SPPB: equilibrio, marcha y fuerza',
 # ---------------------------------------------------------------------------------------------
 # 9. ¿Cuánto pierdo si paro? (Bosquet 2013; Spiering 2021; Mujika y Padilla 2000 y 2001; Ogasawara 2013)
 PAR_FORM = (campo_num('o-sem', 'Semanas sin entrenar como siempre', 3, 1, 52, 1, 'Vacaciones, Navidad, una lesión, una época de mucho trabajo…', ud='sem.')
+    + '<div class="o-atajos" role="group" aria-label="Semanas habituales">' + ''.join(f'<button type="button" data-sem="{n}" aria-pressed="false">{n} sem.</button>' for n in (1, 2, 4, 8, 12)) + '</div>'
     + seg('o-edad', 'Edad', [('j', 'Menos de 65'), ('m', '65 o más')], 'j')
     + seg('o-tipo', 'Qué entrenas', [('f', 'Fuerza'), ('r', 'Resistencia (cardio)'), ('a', 'Las dos')], 'a')
     + seg('o-hago', 'Durante el parón podré hacer', [('0', 'Nada'), ('1', '1 sesión a la semana'), ('2', '2 sesiones a la semana')], '0'))
@@ -713,6 +719,7 @@ function v(n){var r=document.querySelector('input[name="'+n+'"]:checked');return
 var ORD={ok:0,at:1,baja:2},ETQ={ok:'Se mantiene',at:'Puede quedarse corto',baja:'Baja'};
 function pinta(){
   var w=Math.round(parseFloat($('o-sem').value)),ed=v('o-edad'),ti=v('o-tipo'),h=+v('o-hago'),res=document.querySelector('.tool-res'),items=[],filas=[];
+  document.querySelectorAll('.o-atajos button').forEach(function(b){b.setAttribute('aria-pressed',+b.dataset.sem===w)});
   if(!(w>=1)){$('o-tit').textContent='Escribe cuántas semanas vas a parar.';return}
   var W=Math.min(52,Math.max(16,Math.ceil((w+3)/4)*4));
   if(ti!=='r'){var e,t,d,seg;
@@ -741,6 +748,7 @@ function pinta(){
   copia='Mi parón de '+w+' semanas (FBE)\n'+items.map(function(x){return x[1]+'. '+x[2]}).join('\n')+'\nPlan mínimo:\n'+plan.filter(function(x,i){return !(h===0&&i===0)}).map(function(x){return '- '+x}).join('\n');
 }
 $('o-copiar').addEventListener('click',function(){copiar(this,copia)});
+document.querySelector('.o-atajos').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;var i=$('o-sem');i.value=b.dataset.sem;i.dispatchEvent(new Event('input',{bubbles:true}))});
 document.querySelector('.tool-form').addEventListener('input',pinta);document.querySelector('.tool-form').addEventListener('change',pinta);pinta();
 })();'''
 
@@ -814,12 +822,13 @@ SUP = [
 ]
 SUP_G = {'A': 'Evidencia sólida para usos concretos, con protocolos basados en estudios.', 'B': 'Evidencia emergente, que merece más investigación.', 'C': 'Sin beneficio demostrado o sin estudios suficientes.', 'D': 'Prohibido o con alto riesgo de contaminación.'}
 SUP_FORM = f'''<div class="tool-campo supl-busca"><label for="u-q">Busca un suplemento</label><input id="u-q" type="search" autocomplete="off" placeholder="Creatina, omega-3, magnesio, colágeno…"></div>
-{seg("u-g", "Grupo de evidencia", [("", "Todos"), ("A", "A"), ("B", "B"), ("C", "C"), ("D", "D")], "", "supl-filtro")}
+{seg("u-g", "Grupo de evidencia", [("", f"Todos<em>{len(SUP)}</em>")] + [(g, f"{g}<em>{sum(1 for x in SUP if x[3] == g)}</em>") for g in "ABCD"], "", "supl-filtro")}
+<p class="supl-ley" aria-hidden="true"><span class="gA"><b>A</b>sólida</span><span class="gB"><b>B</b>emergente</span><span class="gC"><b>C</b>sin beneficio</span><span class="gD"><b>D</b>prohibido o de riesgo</span></p>
 <div class="supl-lista" id="u-lista" role="list"></div>
 <p class="tool-nota supl-cuenta" id="u-cuenta"></p>
 <p class="vol-vacio" id="u-nada" hidden></p>
 {campo_num("u-peso", "Tu peso, para calcular las dosis", 75, 30, 200, 1, ud="kg")}'''
-SUP_RES = f'''<div class="supl-cab"><span class="supl-g" id="u-g-l">A</span><p class="tool-et" id="u-sub"></p></div>
+SUP_RES = f'''<div class="supl-cab"><span class="supl-g" id="u-g-l">A</span><p class="tool-et" id="u-sub"></p><span class="supl-escala" id="u-esc" aria-hidden="true"><i class="gA">A</i><i class="gB">B</i><i class="gC">C</i><i class="gD">D</i></span></div>
 <p class="res-veredicto grande-t" id="u-n"></p>
 <p class="supl-gtxt" id="u-gtxt"></p>
 <div class="supl-sec" id="u-s-para"><p class="tool-et">Para qué</p><p class="res-texto" id="u-para"></p></div>
@@ -838,6 +847,7 @@ function lista(){var q=norm($('u-q').value),g=grupo(),L=S.filter(function(s){ret
   if(L.length===1&&L[0][0]!==sel){sel=L[0][0];ficha();lista()}}
 function ficha(){var s=S.filter(function(x){return x[0]===sel})[0];if(!s)return;var kg=parseFloat($('u-peso').value),res=document.querySelector('.tool-res');
   res.classList.remove('z-alto','z-medio','z-bajo');res.classList.add(s[3]==='A'?'z-alto':s[3]==='D'?'z-bajo':'z-medio');
+  [].forEach.call($('u-esc').children,function(x){x.classList.toggle('on',x.textContent===s[3])});var fx=document.querySelector('.tool-res');fx.classList.remove('supl-cambia');void fx.offsetWidth;fx.classList.add('supl-cambia');
   $('u-g-l').textContent='Grupo '+s[3];$('u-g-l').className='supl-g g'+s[3];$('u-sub').textContent=s[4];$('u-n').textContent=s[1];$('u-gtxt').textContent=G[s[3]];
   $('u-para').textContent=s[5];$('u-s-dosis').hidden=!s[6];$('u-dosis').textContent=s[6];$('u-s-ojo').hidden=!s[7];$('u-ojo').textContent=s[7];
   var c='';if(kg>=30&&kg<=250){if(s[8]==='caf')c='Para tus '+fmt(kg)+' kg: '+fmt(kg*3)+'-'+fmt(kg*6)+' mg'+(kg*6>200?' · la EFSA da por seguras tomas de hasta 200 mg':'');if(s[8]==='ba')c='Para tus '+fmt(kg)+' kg: unos '+g1(kg*0.065)+' g al día';if(s[8]==='bic')c='Para tus '+fmt(kg)+' kg: '+g1(kg*0.2)+'-'+g1(kg*0.4)+' g'}

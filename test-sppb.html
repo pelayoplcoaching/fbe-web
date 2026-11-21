@@ -17,6 +17,7 @@
 <main id="contenido">
 <section class="tool-s"><div class="in"><div class="tool sube">
   <form class="tool-form" onsubmit="return false" novalidate><p class="tool-aviso">Hazlo con alguien al lado y una silla firme sin brazos apoyada en la pared. Si aparece mareo, dolor en el pecho o falta de aire, para. No es para quien no pueda estar de pie sin ayuda.</p>
+<ol class="sppb-mapa" aria-hidden="true"><li><b>1</b>Equilibrio</li><li><b>2</b>Marcha</li><li><b>3</b>Silla</li></ol>
 <div class="sppb-paso"><p class="sppb-t"><b>1</b>Equilibrio <small>De pie, sin apoyarse, 10 segundos en cada postura</small></p>
 <button type="button" class="cuenta10" id="p-c10"><i aria-hidden="true"></i><span>Contar 10 segundos</span></button><fieldset class="tool-campo seg-t sppb-q"><legend>Pies juntos, uno al lado del otro</legend><div><label><input type="radio" name="p-lado" value="10"><span>Aguanta 10 s</span></label><label><input type="radio" name="p-lado" value="0"><span>Menos de 10 s</span></label></div></fieldset><fieldset class="tool-campo seg-t sppb-q"><legend>Semitándem: el talón de un pie junto al dedo gordo del otro</legend><div><label><input type="radio" name="p-semi" value="10"><span>Aguanta 10 s</span></label><label><input type="radio" name="p-semi" value="0"><span>Menos de 10 s</span></label></div></fieldset><fieldset class="tool-campo seg-t sppb-q"><legend>Tándem: un pie justo delante del otro, talón con punta</legend><div><label><input type="radio" name="p-tan" value="2"><span>10 s</span></label><label><input type="radio" name="p-tan" value="1"><span>De 3 a 9 s</span></label><label><input type="radio" name="p-tan" value="0"><span>Menos de 3 s</span></label></div></fieldset></div>
 <div class="sppb-paso"><p class="sppb-t"><b>2</b>Marcha de 4 metros <small>A su paso normal. Dos intentos; cuenta el más rápido</small></p>
@@ -29,10 +30,12 @@
 <div class="vol-bots rev-bots"><button type="button" class="ver-res" id="p-ver" hidden>Ver el resultado ↓</button><button type="button" class="enl-b" id="p-reset">Empezar de nuevo</button></div></form>
   <div class="tool-res" aria-live="polite"><img class="tool-fondo" src="img/sppb-fondo.webp" alt="" width="720" height="720" loading="lazy" decoding="async"><p class="tool-et">Puntuación SPPB</p>
 <div class="res-grande"><b id="p-total">–</b><span>de 12</span></div>
+<div class="sppb-escala" id="p-esc" aria-hidden="true"><i class="e-b">0</i><i class="e-b">1</i><i class="e-b">2</i><i class="e-b">3</i><i class="e-b">4</i><i class="e-b">5</i><i class="e-b">6</i><i class="e-m">7</i><i class="e-m">8</i><i class="e-m">9</i><i class="e-a">10</i><i class="e-a">11</i><i class="e-a">12</i></div>
 <p class="res-chip" id="p-cat" hidden></p>
 <div class="sppb-partes" id="p-partes"></div>
 <p class="res-veredicto" id="p-tit">Haz las tres pruebas.</p>
 <p class="res-texto" id="p-txt">Equilibrio, marcha y levantarse de la silla: cada una puntúa de 0 a 4.</p>
+<div class="sppb-viv" id="p-viv" aria-hidden="true" hidden><span>Nivel Vivifrail</span><i data-v="A">A<small>0-3</small></i><i data-v="B">B<small>4-6</small></i><i data-v="C">C<small>7-9</small></i><i data-v="D">D<small>10-12</small></i></div>
 <p class="res-texto p-vel" id="p-vel"></p>
 <button type="button" class="copiar-t" id="p-copiar" hidden><span>Copiar resultado</span></button></div>
 </div></div></section>
@@ -69,10 +72,12 @@ function pinta(){
   var P=[['Equilibrio',eq],['Marcha',mp],['Levantarse',sp]];
   $('p-partes').innerHTML=P.map(function(p){return '<div class="pp'+(p[1]===null?' falta':'')+'"><span>'+p[0]+'</span><i>'+[0,1,2,3].map(function(k){return '<b'+(p[1]!==null&&k<p[1]?' class="on"':'')+'></b>'}).join('')+'</i><em>'+(p[1]===null?'–':p[1]+'/4')+'</em></div>'}).join('');
   var hechas=P.filter(function(p){return p[1]!==null}).length,tot=(eq||0)+(mp||0)+(sp||0),listo=hechas===3;
+  document.querySelectorAll('.sppb-paso').forEach(function(el,i){el.classList.toggle('hecho',P[i][1]!==null)});document.querySelectorAll('.sppb-mapa li').forEach(function(el,i){el.classList.toggle('hecho',P[i][1]!==null)});
+  [].forEach.call($('p-esc').children,function(c,i){c.classList.toggle('on',listo&&i===tot);c.classList.toggle('lleno',hechas>0&&i<=tot)});$('p-esc').classList.toggle('listo',listo);
   res.classList.remove('z-alto','z-medio','z-bajo');$('p-ver').hidden=!listo;$('p-copiar').hidden=!listo;
   $('p-total').textContent=hechas?tot:'–';$('p-vel').textContent=mt&&!mno?'Velocidad de marcha: '+fmt(4/mt,2)+' metros por segundo.':'';
-  if(!listo){$('p-cat').hidden=!hechas;$('p-cat').textContent='Faltan '+(3-hechas)+(3-hechas===1?' prueba':' pruebas');$('p-tit').textContent=hechas?'Sigue con las pruebas que faltan.':'Haz las tres pruebas.';$('p-txt').textContent='Equilibrio, marcha y levantarse de la silla: cada una puntúa de 0 a 4.';return}
-  var viv=tot<=3?'A':tot<=6?'B':tot<=9?'C':'D',cat,tit,txt;
+  if(!listo){$('p-viv').hidden=true;$('p-cat').hidden=!hechas;$('p-cat').textContent='Faltan '+(3-hechas)+(3-hechas===1?' prueba':' pruebas');$('p-tit').textContent=hechas?'Sigue con las pruebas que faltan.':'Haz las tres pruebas.';$('p-txt').textContent='Equilibrio, marcha y levantarse de la silla: cada una puntúa de 0 a 4.';return}
+  var viv=tot<=3?'A':tot<=6?'B':tot<=9?'C':'D',cat,tit,txt;$('p-viv').hidden=false;[].forEach.call($('p-viv').querySelectorAll('i'),function(x){x.classList.toggle('on',x.dataset.v===viv)});
   if(tot>=10){res.classList.add('z-alto');cat='Rendimiento alto (10-12)';tit='Rendimiento alto';txt='Buen equilibrio, buena marcha y buena fuerza de piernas. Lo que lo mantiene es seguir entrenando fuerza y equilibrio.'}
   else if(tot>=7){res.classList.add('z-medio');cat='Rendimiento intermedio (7-9)';tit='Rendimiento intermedio';txt='Hay margen de mejora, y el ejercicio de fuerza y equilibrio adaptado suele mejorarlo.'+(tot<=8?' Una puntuación de 8 o menos es la que el consenso europeo de sarcopenia considera bajo rendimiento físico: conviene comentarlo con el médico.':'')}
   else{res.classList.add('z-bajo');cat='Rendimiento bajo (0-6)';tit='Rendimiento bajo';txt='Conviene comentarlo con el médico y empezar con un programa de ejercicio adaptado, mejor supervisado.'}
