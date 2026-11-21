@@ -1,0 +1,249 @@
+# ===== secciones nuevas (21/11/2026): Empieza aquí, Vídeos, Para profesionales y Mitos y evidencia =====
+# Se ejecuta desde interior.py justo después de herramientas.py (antes del sitemap). No van en el menú: se enlazan desde el pie,
+# la portada, Herramientas, Guías, Quién soy y Pauta Activa. «En los medios» espera los enlaces reales (MEDIOS vacío = no se genera).
+# Mitos: cada cifra lleva su fuente en la tarjeta; no cambiar números sin cambiar la fuente.
+import urllib.parse as _up
+
+I.update({
+    'brujula': '<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>',
+    'play': '<rect x="2.5" y="5" width="19" height="14" rx="3.5"/><path d="M10 9v6l5-3z"/>',
+    'micro': '<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/>',
+    'fonendo': '<path d="M6 3v5a4 4 0 0 0 8 0V3"/><path d="M10 12v3a5 5 0 0 0 10 0v-2"/><circle cx="20" cy="11" r="2"/>',
+    'bombilla': '<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/>',
+})
+
+# «Anterior / Siguiente» de las paginas que no estan en el menu
+SEC_SIG = {'empieza-aqui.html': (('index.html', 'Inicio'), ('quien-soy.html', 'Quién soy')),
+           'mitos.html': (('guias.html', 'Guías'), ('newsletter.html', 'Newsletter')),
+           'videos.html': (('newsletter.html', 'Newsletter'), ('herramientas.html', 'Herramientas')),
+           'profesionales.html': (('herramientas.html', 'Herramientas'), ('pauta-activa.html', 'Pauta Activa')),
+           'medios.html': (('quien-soy.html', 'Quién soy'), ('videos.html', 'Vídeos'))}
+_sigue_h = sigue
+def sigue(arch, padre=None):
+    if arch in SEC_SIG and not padre:
+        a, b = SEC_SIG[arch]
+        return f'<nav class="sigue" aria-label="Seguir leyendo"><div class="in"><a href="{a[0]}"><small>Anterior</small><b>{a[1]}</b></a><a class="der" href="{b[0]}"><small>Siguiente</small><b>{b[1]}</b></a></div></nav>'
+    return _sigue_h(arch, padre)
+
+HM = {u: (sl, i, t, d) for u, sl, i, t, d in HERR_MAS}
+YT = dict(REDES)['YouTube']
+MAILTO = ('mailto:' + _ent(os.environ['FBE_CORREO'])) if os.environ.get('FBE_CORREO') else ''
+def sec_ic(n): return f'<i class="sec-ic">{ico(n)}</i>'
+def _ext(u): return ' target="_blank" rel="noopener"' if u.startswith('http') else ''
+
+# ---------------------------------------------------------------------------------------------
+# 1. Empieza aquí: elige el perfil que se parece al tuyo y te marca tres o cuatro pasos por la web
+def ea_paso(n, u, ic_, t, d):
+    return f'<li><a class="ea-paso" href="{u}"{" rel=\"noopener\"" if u.startswith("http") else ""}><span class="ea-n">{n:02d}</span>{sec_ic(ic_)}<b>{t}</b><span>{d}</span></a></li>'
+def _h(u): return HM[u][1]
+EA_PERF = [
+    ('cero', 'Nunca he entrenado fuerza', 'Lo básico, sin prisa. Primero, comprobar que puedes empezar por tu cuenta.', [
+        ('revision-medica.html', _h('revision-medica.html'), '¿Necesito pasar por el médico?', 'Unas preguntas del algoritmo del ACSM y te dice si puedes empezar ya o conviene consultar antes.'),
+        ('guias.html', 'libro', 'Elige una guía para empezar', 'La rutina minimalista parte de dos días por semana; la de recomposición está pensada para quien empieza.'),
+        (CALC, 'plato', 'Calcula tu proteína', 'Tu rango diario según tu peso y tu fase, con reparto por comidas.'),
+        ('programas.html', 'pesa', 'O que te lo monte yo', 'Un plan a tu medida dentro de la app, revisado cada semana.')]),
+    ('sinplan', 'Ya entreno, pero sin plan', 'Pon números a lo que ya haces: cuánto mueves, cuántas series y si te sobra o te falta.', [
+        ('calculadora-1rm.html', _h('calculadora-1rm.html'), 'Calcula tu 1RM', 'Con un peso y tus repeticiones: tu máximo estimado y la tabla de cargas.'),
+        ('volumen-semanal.html', _h('volumen-semanal.html'), 'Cuenta tus series por músculo', 'Series semanales por músculo, contadas como en los estudios.'),
+        ('mitos.html', 'bombilla', 'Quita lo que sobra', 'Nueve ideas de gimnasio contrastadas con los estudios.'),
+        ('programas.html', 'pesa', 'Un plan con revisión semanal', 'Si quieres dejar de improvisar, lo montamos juntos.')]),
+    ('medicacion', 'Tomo medicación o tengo una enfermedad crónica', 'Antes de pensar en la intensidad, mira qué cambia tu medicación durante el ejercicio.', [
+        ('revision-medica.html', _h('revision-medica.html'), '¿Necesito pasar por el médico?', 'El cribado del ACSM, con un texto para copiar y llevar a tu consulta.'),
+        ('pauta-activa.html', 'capsula', 'Revisa tu medicación con Pauta Activa', 'Qué tener en cuenta con tus fármacos al hacer ejercicio, con la fuente de cada regla.'),
+        ('zonas-pulso.html', _h('zonas-pulso.html'), 'Tus zonas de pulso', 'Y cómo guiarte si tu medicación cambia el pulso.'),
+        ('puesta-a-punto.html', 'check', 'Un plan hecho por un médico', 'La Puesta a punto: consulta y plan de 12 semanas, con lectura de tu analítica.')]),
+    ('mayores', 'Tengo más de 60 años, o busco algo para mis padres', 'Mide cómo estás hoy para tener un punto de partida, y empieza desde ahí.', [
+        ('test-sppb.html', _h('test-sppb.html'), 'Haz el test SPPB', 'Equilibrio, marcha y levantarse de la silla, con la puntuación y lo que significa.'),
+        ('test-silla.html', _h('test-silla.html'), 'Test de la silla en 30 segundos', 'Con cronómetro, contador y los valores de referencia de 60 a 94 años.'),
+        ('revision-medica.html', _h('revision-medica.html'), '¿Hace falta pasar por el médico?', 'Unas preguntas del algoritmo del ACSM antes de empezar.'),
+        ('puesta-a-punto.html', 'check', 'Un plan hecho por un médico', 'Consulta y plan de 12 semanas, con lectura de la analítica.')]),
+    ('dolor', 'Me duele algo al entrenar', 'Molestia no siempre significa parar. Lo importante es saber dosificar.', [
+        ('semaforo-dolor.html', _h('semaforo-dolor.html'), 'El semáforo del dolor', 'Hasta dónde puedes seguir entrenando con molestias y cuándo conviene bajar.'),
+        ('mitos.html#artrosis', 'bombilla', '¿Y si es artrosis?', 'Lo que dice la guía clínica sobre el ejercicio en la artrosis de rodilla.'),
+        ('puesta-a-punto.html', 'check', 'Que lo mire un médico', 'Si quieres un plan individual con tu historia delante.')]),
+    ('paron', 'Vuelvo después de un parón', 'Mira cuánto has podido perder y vuelve con cargas realistas.', [
+        ('paron.html', _h('paron.html'), '¿Cuánto he perdido?', 'Lo que dicen los estudios según las semanas parado y tu edad.'),
+        ('calculadora-1rm.html', _h('calculadora-1rm.html'), 'Recalcula tus cargas', 'Tu 1RM de hoy, no el de antes del parón.'),
+        ('volumen-semanal.html', _h('volumen-semanal.html'), 'Ajusta tus series', 'Cuántas series por músculo para volver sin pasarte.'),
+        ('programas.html', 'pesa', 'Vuelve con un plan', 'Lo ajusto cada semana según cómo responde tu cuerpo.')]),
+]
+EA_TRES = [('Aprender', 'libro', [('guias.html', 'Guías'), ('newsletter.html', 'Newsletter'), ('videos.html', 'Vídeos'), ('mitos.html', 'Mitos y evidencia'), ('dudas.html', 'Dudas')]),
+           ('Medir', 'grafica', [('herramientas.html', 'Todas las herramientas'), ('pauta-activa.html', 'Pauta Activa'), (CALC, 'Calculadora de proteína'), ('test-sppb.html', 'Test SPPB'), ('calculadora-1rm.html', 'Calculadora de 1RM')]),
+           ('Trabajar conmigo', 'chat', [('programas.html', 'Programas'), ('puesta-a-punto.html', 'Puesta a punto'), (FORM, 'Pedir plaza'), ('quien-soy.html', 'Quién soy')])]
+EA_JS = r'''(function(){var g=document.getElementById('ea-perfil');if(!g)return;var bs=[].slice.call(g.querySelectorAll('button')),rs=[].slice.call(document.querySelectorAll('.ea-ruta'));
+function pon(p,url){if(!rs.some(function(r){return r.dataset.p===p}))return false;bs.forEach(function(b){b.setAttribute('aria-pressed',b.dataset.p===p)});rs.forEach(function(r){r.hidden=r.dataset.p!==p});if(url){try{history.replaceState(null,'','#'+p)}catch(e){}}return true}
+bs.forEach(function(b){b.addEventListener('click',function(){pon(b.dataset.p,true)})});
+if(!pon(location.hash.slice(1)))pon(bs[0].dataset.p);addEventListener('hashchange',function(){pon(location.hash.slice(1))});})();'''
+pagina('empieza-aqui.html', 'Empieza aquí', 'Por dónde empezar en Fuerza Basada en Evidencia según tu caso: nunca has entrenado, entrenas sin plan, tomas medicación, tienes más de 60 años, te duele algo o vuelves de un parón.',
+       'Empieza aquí.', 'Dime cuál se parece más a ti y te señalo qué mirar primero. Son tres o cuatro pasos, en orden.', f'''
+<section><div class="in">
+  <div class="empieza sube"><div><h2>¿Cuál se parece más a ti?</h2><p>Elige uno. Puedes cambiar cuando quieras.</p></div>
+    <div class="fases claras" id="ea-perfil" role="group" aria-label="Tu caso">{"".join(f'<button type="button" data-p="{p}" aria-pressed="{"true" if k == 0 else "false"}">{t}</button>' for k, (p, t, _, _) in enumerate(EA_PERF))}</div></div>
+  {"".join(f'<div class="ea-ruta sube" data-p="{p}"><h3>{t}</h3><p>{d}</p><ol class="ea-pasos">{"".join(ea_paso(n + 1, *x) for n, x in enumerate(xs))}</ol></div>' for p, t, d, xs in EA_PERF)}
+</div></section>
+<section class="hoja"><div class="in"><div class="entrada sube"><h2>Todo lo que hay en la web</h2><p>En tres verbos, por si prefieres ir a tu aire.</p></div>
+  <div class="ea-tres">{"".join(f'<div class="ea-col sube">{sec_ic(i)}<h3>{t}</h3><ul>{"".join(f"<li><a href=\"{u}\"{_ext(u)}>{n}</a></li>" for u, n in xs)}</ul></div>' for t, i, xs in EA_TRES)}</div>
+</div></section>
+<section><div class="in"><div class="calc sube"><div><h3>Si solo vas a hacer una cosa</h3><p>Apúntate al boletín: una idea cada semana sobre fuerza, nutrición y salud.</p></div><div><a class="btn claro" href="newsletter.html">Ver el boletín</a></div></div></div></section>
+<script>{EA_JS}</script>''')
+
+# ---------------------------------------------------------------------------------------------
+# 2. Vídeos: la lista «subidas» del canal (UC... -> UU...) tras una fachada; YouTube solo se carga al pulsar
+VID_LISTA = 'UUiE1T4Z2KiaKSw88mg7k6CQ'
+VID_SRC = f'https://www.youtube-nocookie.com/embed/videoseries?list={VID_LISTA}&amp;rel=0&amp;autoplay=1'
+VID_TEMAS = ['Fuerza', 'Proteína', 'Creatina', 'Suplementos', 'Alcohol', 'Sueño', 'Colesterol', 'Cardio', 'Perder grasa', 'Mayores', 'Mujer', 'Mitos']
+VID_JS = r'''(function(){var a=document.getElementById('vid');if(!a)return;a.addEventListener('click',function(e){e.preventDefault();var f=document.createElement('iframe');f.src=a.dataset.src;f.title='Últimos vídeos de Fuerza Basada en Evidencia en YouTube';f.allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';f.allowFullscreen=true;f.referrerPolicy='strict-origin-when-cross-origin';var d=document.createElement('div');d.className='vid-marco vid-on';d.appendChild(f);a.replaceWith(d);});})();'''
+_PLAY = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 5.8v12.4L19 12z"/></svg>'
+pagina('videos.html', 'Vídeos', 'Los vídeos de Fuerza Basada en Evidencia en YouTube: fuerza, nutrición y salud explicadas por un médico internista.',
+       'Lo que publico en YouTube.', 'Fuerza, nutrición y salud, explicadas por un médico internista. Aquí tienes los últimos vídeos del canal y los temas para buscar.', f'''
+<section><div class="in">
+  <a class="vid-marco sube" id="vid" href="{YT}/videos" data-src="{VID_SRC}" target="_blank" rel="noopener">{ilus("videos-fondo", "vid-fondo")}<span class="vid-boton">{_PLAY}</span><span class="vid-txt"><b>Ver los últimos vídeos del canal</b><small>Al pulsar se carga el reproductor de YouTube, en modo de privacidad mejorada.</small></span></a>
+  <div class="vid-cta sube"><a class="btn" href="{YT}"{_ext(YT)}>Ir al canal</a><a class="btn hueco" href="{YT}?sub_confirmation=1"{_ext(YT)}>Suscribirme</a></div>
+</div></section>
+<section class="hoja"><div class="in"><div class="entrada sube"><h2>Busca por tema</h2><p>Cada tema abre la búsqueda dentro del canal.</p></div>
+  <ul class="vid-temas sube">{"".join(f'<li><a href="{YT}/search?query={_up.quote(t)}"{_ext(YT)}>{t}</a></li>' for t in VID_TEMAS)}</ul>
+</div></section>
+<section><div class="in"><div class="entrada sube"><h2>Del vídeo a tu semana</h2><p>Un vídeo te da la idea. Lo que cambia las cosas es aplicarla.</p></div>
+  <ol class="pasos-g en-linea sube">
+    <li><b>Ves el vídeo</b><span>Una idea concreta sobre fuerza, nutrición o salud.</span></li>
+    <li><b>Lo pruebas en tu caso</b><span>Con las <a href="herramientas.html">herramientas de la web</a> o con una <a href="guias.html">guía</a>.</span></li>
+    <li><b>Si quieres, lo llevamos a tu semana</b><span>En la <a href="programas.html">asesoría</a> lo convierto en tu plan y lo reviso cada semana.</span></li>
+  </ol>
+  <div class="vid-redes sube"><b>También estoy en</b>{"".join(f'<a href="{u}" target="_blank" rel="noopener">{t}</a>' for t, u in REDES if t != 'YouTube')}</div>
+</div></section>
+<script>{VID_JS}</script>''')
+
+# ---------------------------------------------------------------------------------------------
+# 3. Para profesionales sanitarios: Pauta Activa en consulta, herramientas con fuente, recursos para pacientes y charlas
+_PM = PA_PARA[1]
+PRO_HERR = [('revision-medica.html', 'Cribado antes del ejercicio', 'Algoritmo del ACSM 2015 (Riebe), con texto para copiar y llevar al médico.'),
+            ('test-sppb.html', 'Test SPPB guiado', 'Guralnik 1994 y 2000, punto de corte de EWGSOP2 y niveles de Vivifrail.'),
+            ('test-silla.html', 'Test de la silla en 30 segundos', 'Valores normales de Rikli y Jones (1999) y umbral de autonomía (2013).'),
+            ('zonas-pulso.html', 'Zonas de pulso con medicación', 'Tanaka, tramos del ACSM y aviso cuando un fármaco invalida el pulso como guía.'),
+            ('semaforo-dolor.html', 'Semáforo del dolor', 'Modelo de Thomeé (1997) y Silbernagel (2007), con diario.'),
+            ('suplementos.html', 'Suplementos con evidencia', 'Grupos del AIS y dosis del consenso del COI de 2018.')]
+PRO_TEMAS = ['Fuerza en el paciente crónico y polimedicado: por dónde empezar.',
+             'Fármacos y ejercicio: qué cambia el pulso, la tensión o la glucosa durante el esfuerzo.',
+             'Valoración funcional en consulta: SPPB y test de la silla.',
+             'Ejercicio en la persona mayor y prevención de la fragilidad.',
+             'Proteína y masa muscular con la edad.',
+             'Dolor persistente: cómo dosificar la carga.']
+PRO_CRED = ['Especialista en Medicina Interna', 'Experto universitario en entrenamiento de fuerza', 'Máster en nutrición clínica', 'Más de 15 años entrenando fuerza']
+_G0 = G[0]
+_MAIL_S = (MAILTO + '?subject=' + _up.quote('Sesión o formación')) if MAILTO else FORM
+_FIJO_PRO = f'<a class="arriba" id="arriba" href="#contenido" aria-label="Volver arriba">{ico("sube")}</a>\n<div class="fijo" id="fijo"><a class="sec" href="pauta-activa.html">Pauta Activa</a><a class="btn claro" href="#charlas">Charlas</a></div>'
+def pro_tarj(u, t, d):
+    sl, i, _, _ = HM[u]
+    return f'<a class="herr-mini" href="{u}">{ilus(f"herr-{sl}", "herr-mini-img") or f"<i class=\"ic\">{ico(i)}</i>"}<b>{t}</b><span>{d}</span></a>'
+pagina('profesionales.html', 'Para profesionales sanitarios', 'Para médicos, enfermería, farmacia y fisioterapia: Pauta Activa en consulta, herramientas con la fuente al pie y charlas sobre fuerza y medicación.',
+       'Para profesionales sanitarios.', 'Soy médico internista. Esto es lo que te puede servir en la consulta, y cómo escribirme si quieres una sesión o una charla para tu equipo.', f'''
+<section id="pauta"><div class="in pro-dos">
+  <div class="sube"><div class="entrada"><h2>Pauta Activa en tu consulta</h2></div><p class="pro-lead">{_PM[2]}</p>
+    <ul class="marcas">{"".join(f"<li>{x}</li>" for x in _PM[3])}</ul>
+    <div class="vid-cta"><a class="btn" href="{PA}" rel="noopener">Abrir Pauta Activa</a><a class="btn hueco" href="pauta-activa.html">Ver qué hace</a></div></div>
+  <div class="sube"><ul class="pro-cif">{"".join(f"<li><b>{n}</b><span>{t}</span></li>" for n, t in PA_CIF)}</ul><p class="pro-nota">{PA_NO[0][0]} {PA_NO[0][1]}</p></div>
+</div></section>
+<section class="hoja" id="herramientas"><div class="in"><div class="entrada sube"><h2>Herramientas con la fuente al pie</h2><p>Gratis y en el navegador: no se envía ningún dato del paciente. Cada una cita de dónde salen sus números.</p></div>
+  <div class="herr-mas-rej sube">{"".join(pro_tarj(*x) for x in PRO_HERR)}</div>
+</div></section>
+<section><div class="in"><div class="entrada sube"><h2>Para tus pacientes</h2><p>Lo que puedes recomendar en la consulta.</p></div>
+  <div class="pro-pac">
+    <div class="ea-col sube">{sec_ic("libro")}<h3>Para aprender por su cuenta</h3><ul><li><a href="herramientas.html">Herramientas</a></li><li><a href="mitos.html">Mitos y evidencia</a></li><li><a href="videos.html">Vídeos</a></li><li><a href="newsletter.html">Newsletter</a></li></ul></div>
+    <div class="ea-col sube">{sec_ic("check")}<h3>Si necesitan un plan individual</h3><ul><li><a href="puesta-a-punto.html">Puesta a punto</a>: consulta y plan de 12 semanas, con lectura de su analítica.</li><li><a href="programas.html">Asesoría</a>: plan de fuerza y nutrición en la app, revisado cada semana.</li></ul></div>
+  </div>
+</div></section>
+<section class="hoja"><div class="in"><div class="calc sube"><div><h3>¿Tú también haces guardias?</h3><p>La guía «{_G0[0]}» es para {_G0[2][0].lower() + _G0[2][1:-1]}: {_G0[1].split(": ", 1)[1]}</p></div><div><a class="btn claro" href="guias.html">Ver la guía</a></div></div></div></section>
+<section id="charlas"><div class="in pro-dos">
+  <div class="sube"><div class="entrada"><h2>Sesiones, charlas y formación</h2></div><p class="pro-lead">Si organizas una sesión clínica, un curso o unas jornadas, puedo hablar de fuerza y medicación con casos reales. Cuéntame el público, el formato y la fecha, y te digo si puedo.</p>
+    <ul class="pro-cred">{"".join(f"<li>{x}</li>" for x in PRO_CRED)}</ul>
+    <div class="vid-cta"><a class="btn" href="{_MAIL_S}">Escribirme</a></div></div>
+  <div class="sube"><h3 class="pro-h3">{sec_ic("micro")}Algunos temas</h3><ul class="pro-temas">{"".join(f"<li>{x}</li>" for x in PRO_TEMAS)}</ul></div>
+</div></section>''', cta=f'<div class="cta"><a class="btn claro" href="{PA}" rel="noopener">Abrir Pauta Activa</a><a class="enl" href="#charlas">Charlas y formación</a></div>',
+       cierre_t=('¿Y tú, entrenas?', 'Los sanitarios también tenemos guardias y poco tiempo. Cuéntame tu caso.'), fijo=_FIJO_PRO)
+
+# ---------------------------------------------------------------------------------------------
+# 4. Mitos y evidencia (fuentes comprobadas el 21/11/2026)
+MITO_VER = {'f': 'Falso', 'a': 'A medias', 'n': 'No demostrado'}
+MITO_T = [('', 'Todos'), ('entreno', 'Entrenamiento'), ('nutri', 'Nutrición'), ('salud', 'Salud'), ('mayores', 'Mayores')]
+MITOS = [
+    ('estirar', 'entreno salud', 'Estirar antes de entrenar evita lesiones.', 'f', '', 'Metaanálisis',
+     'Un metaanálisis de 25 ensayos con más de 26 000 participantes no encontró que estirar previniera lesiones. Lo que sí las redujo fue el entrenamiento de fuerza: a menos de un tercio. Estirar puede servirte para ganar movilidad, no como seguro contra lesiones.',
+     'Lauersen JB, Bertelsen DM, Andersen LB. Br J Sports Med. 2014;48:871-7.', ('volumen-semanal.html', 'Organiza tus series de fuerza')),
+    ('proteina-rinon', 'nutri salud', 'Comer mucha proteína daña el riñón.', 'f', 'Falso en personas sanas', 'Metaanálisis',
+     'En adultos sin enfermedad renal, las dietas altas en proteína (por ejemplo, 1,5 g por kilo al día o más) no cambiaron la función del riñón de forma distinta a las dietas normales. Si tienes enfermedad renal crónica es otra cosa: ahí la cantidad la decide tu nefrólogo.',
+     'Devries MC, Sithamparapillai A, Brimble KS, et al. J Nutr. 2018;148:1760-75.', (CALC, 'Calcula tu proteína diaria')),
+    ('fallo', 'entreno', 'Si no llegas al fallo, no creces.', 'a', '', 'Metaanálisis y ensayo',
+     'Entrenar cerca del fallo ayuda a ganar músculo, pero llegar al fallo en cada serie añade poco: en el metaanálisis la ventaja fue trivial. En un ensayo de 8 semanas con personas entrenadas, terminar las series a una o dos repeticiones del fallo dio el mismo crecimiento del cuádriceps que llegar al fallo, con menos fatiga en cada sesión.',
+     'Refalo MC, et al. Sports Med. 2023;53:649-65. Refalo MC, et al. J Sports Sci. 2024;42:85-101.', ('calculadora-1rm.html', 'Calcula tus cargas')),
+    ('sesenta', 'mayores', 'A partir de los 60 ya no se gana músculo.', 'f', '', 'Metaanálisis',
+     'En 49 estudios con 1328 personas de 50 años o más, el entrenamiento de fuerza sumó de media 1,1 kg de masa magra. Los de más edad ganaron algo menos y los programas con más volumen, algo más: razón para empezar cuanto antes, no para no empezar.',
+     'Peterson MD, Sen A, Gordon PM. Med Sci Sports Exerc. 2011;43:249-58.', ('test-sppb.html', 'Mide tu punto de partida')),
+    ('ayunas', 'nutri', 'El cardio en ayunas quema más grasa.', 'n', '', 'Ensayo',
+     'En un ensayo con 20 mujeres jóvenes a dieta, que hicieron una hora de cardio tres días por semana durante 4 semanas, la pérdida de grasa fue la misma en ayunas que después de comer. Es un estudio pequeño y corto: si te sienta mejor entrenar en ayunas, hazlo, pero no esperes quemar más grasa por ello.',
+     'Schoenfeld BJ, Aragon AA, Wilborn CD, et al. J Int Soc Sports Nutr. 2014;11:54.', ('guias.html', 'Guías para perder grasa')),
+    ('creatina', 'nutri salud', 'La creatina es un esteroide y daña el riñón.', 'f', '', 'Revisión de expertos',
+     'La creatina no es un esteroide anabolizante: es una sustancia que fabrica tu cuerpo y que está en la carne y el pescado. Una revisión de expertos concluyó que, a las dosis habituales (3-5 g al día), no daña el riñón en personas sanas, y que no hay pruebas de que haga caer el pelo. Si tienes enfermedad renal, consúltalo antes.',
+     'Antonio J, Candow DG, Forbes SC, et al. J Int Soc Sports Nutr. 2021;18:13.', ('suplementos.html', 'Suplementos con y sin evidencia')),
+    ('mujeres', 'entreno', 'Si levantas pesas siendo mujer, te pones enorme.', 'f', '', 'Metaanálisis',
+     'Mujeres y hombres ganan músculo en proporción parecida a lo que ya tenían. Como ellas parten de menos masa muscular, en kilos ganan algo menos. Y en fuerza relativa del tren superior, ellas mejoraron incluso más.',
+     'Roberts BM, Nuckols G, Krieger JW. J Strength Cond Res. 2020;34:1448-60. Refalo MC, Nuckols G, Galpin AJ, et al. PeerJ. 2025;13:e19042.', ('programas.html', 'Entrena con un plan')),
+    ('artrosis', 'salud mayores', 'Con artrosis de rodilla, mejor no cargar la articulación.', 'f', '', 'Guía clínica',
+     'La guía de la OARSI de 2019 pone el ejercicio estructurado, junto con la educación y, si hace falta, perder peso, como tratamiento central de la artrosis de rodilla: recomendado para la mayoría de los pacientes en cualquier momento de la enfermedad. La clave es dosificar la carga, no evitarla.',
+     'Bannuru RR, Osani MC, Vaysbrot EE, et al. Osteoarthritis Cartilage. 2019;27:1578-89.', ('semaforo-dolor.html', 'Dosifica con el semáforo del dolor')),
+    ('frecuencia', 'entreno', 'Hay que entrenar cada músculo dos o tres veces por semana.', 'a', '', 'Metaanálisis',
+     'Con las mismas series a la semana, repartirlas en uno, dos o tres días da un crecimiento muy parecido (revisión de 25 estudios). Entrenar más días ayuda sobre todo porque facilita hacer más series. Elige la frecuencia que puedas sostener.',
+     'Schoenfeld BJ, Grgic J, Krieger J. J Sports Sci. 2019;37:1286-95.', ('volumen-semanal.html', 'Cuenta tus series por músculo')),
+]
+def mito_html(id_, t, frase, ver, ver_t, tipo, txt, fuente, enl):
+    return (f'<article class="mito sube" id="{id_}" data-t="{t}" data-ver="{ver}"><details><summary><span class="mito-tipo">{tipo}</span>'
+            f'<span class="mito-frase">«{frase}»</span><span class="mito-abre">Qué dicen los estudios</span></summary>'
+            f'<div class="mito-cuerpo"><p class="mito-ver"><b>{ver_t or MITO_VER[ver]}</b></p><p>{txt}</p><p class="mito-fuente"><b>Fuente</b> {fuente}</p>'
+            f'<a class="mito-enl" href="{enl[0]}"{_ext(enl[0])}>{enl[1]}</a></div></details></article>')
+MITOS_JS = r'''(function(){var f=document.getElementById('mitos-f');if(!f)return;var ms=[].slice.call(document.querySelectorAll('.mito')),n=document.getElementById('mitos-n'),todo=document.getElementById('mitos-todos');
+function cuenta(){var k=ms.filter(function(m){return!m.hidden}).length;n.textContent=k+(k===1?' mito':' mitos')}
+f.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;f.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',x===b)});var t=b.dataset.t;ms.forEach(function(m){m.hidden=!!t&&(' '+m.dataset.t+' ').indexOf(' '+t+' ')<0});cuenta()});
+todo.addEventListener('click',function(){var ab=todo.getAttribute('aria-pressed')!=='true';todo.setAttribute('aria-pressed',ab);todo.querySelector('span').textContent=ab?'Cerrar todas':'Abrir todas';ms.forEach(function(m){m.querySelector('details').open=ab})});
+var h=location.hash.slice(1),d=h&&document.getElementById(h);if(d&&d.classList.contains('mito'))d.querySelector('details').open=true;cuenta();})();'''
+pagina('mitos.html', 'Mitos y evidencia', 'Nueve mitos de gimnasio y de consulta contrastados con revisiones, ensayos y guías clínicas: estiramientos, proteína y riñón, fallo, edad, ayunas, creatina, mujeres, artrosis y frecuencia.',
+       'Mitos y evidencia.', f'{len(MITOS)} ideas que se repiten en el gimnasio y en la consulta, contrastadas con revisiones, ensayos y guías clínicas. Toca cada una para ver qué dicen los estudios.', f'''
+<section><div class="in">
+  <div class="empieza sube"><div><h2>Filtra por tema</h2><p id="mitos-n" role="status">{len(MITOS)} mitos</p></div>
+    <div><div class="fases claras" id="mitos-f" role="group" aria-label="Filtrar por tema">{"".join(f'<button type="button" data-t="{v}" aria-pressed="{"true" if not v else "false"}">{t}</button>' for v, t in MITO_T)}</div>
+    <button type="button" class="btn hueco mitos-todos" id="mitos-todos" aria-pressed="false"><span>Abrir todas</span></button></div></div>
+  <div class="mitos-rej">{"".join(mito_html(*m) for m in MITOS)}</div>
+</div></section>
+<section class="hoja"><div class="in"><div class="entrada sube"><h2>Cómo leer la etiqueta de cada mito</h2><p>Arriba de cada tarjeta verás de qué tipo de estudio sale la respuesta.</p></div>
+  <ol class="pasos-g en-linea sube">
+    <li><b>Metaanálisis</b><span>Junta los resultados de muchos estudios sobre la misma pregunta. Pesa más que un estudio suelto.</span></li>
+    <li><b>Ensayo</b><span>Compara dos grupos asignados al azar. Si es pequeño o corto, la conclusión es más provisional.</span></li>
+    <li><b>Guía clínica</b><span>Recomendaciones de un grupo de expertos que revisa toda la evidencia disponible.</span></li>
+  </ol>
+  <p class="sec-enl sube"><b>¿Tienes otra duda?</b><a href="dudas.html">Dudas frecuentes</a><a href="suplementos.html">Suplementos</a><a href="videos.html">Vídeos</a></p>
+</div></section>
+<script>{MITOS_JS}</script>''', cierre_t=('¿Quieres un plan sin mitos?', 'Cuéntame tu caso en el formulario. Te respondo yo.'))
+
+# ---------------------------------------------------------------------------------------------
+# 5. En los medios: solo con enlaces reales. Aprobados por Pelayo el 21/11/2026: el podcast con Borja Bandera, la noticia de Tikitakas
+#    sobre su vídeo del alcohol, el podcast del Dr. Antitabaco (canal de YouTube @Doctor.Antitabaco, Dr. Paul Freund) y la noticia de
+#    Libertad Digital. Se genera cuando haya al menos dos con enlace; faltan los tres primeros (episodio y noticia concretos).
+MEDIOS = [  # (medio, tipo: 'Podcast' | 'Prensa', título, url, fecha)
+    ('Libertad Digital', 'Prensa', 'Esteroides, un cóctel letal: así destrozan el corazón, el hígado y los riñones de los culturistas',
+     'https://www.libertaddigital.com/deportes/mas-deporte/2025-09-27/esteroides-un-coctel-letal-asi-destrozan-el-corazon-el-higado-y-los-rinones-de-los-culturistas-7299778/', '27/09/2025'),
+]
+if len(MEDIOS) >= 2:
+    pagina('medios.html', 'En los medios', 'Entrevistas, podcasts y noticias con Pelayo Fernández Cidón, médico internista y entrenador.',
+           'En los medios.', 'Entrevistas, podcasts y noticias en los que he participado.', f'''
+<section><div class="in"><div class="medios">{"".join(f'<a class="medio sube" href="{u}" target="_blank" rel="noopener"><span class="mito-tipo">{tp}</span><b>{t}</b><span>{m} · {f}</span></a>' for m, tp, t, u, f in MEDIOS)}</div></div></section>''')
+SEC_PAGS = ['empieza-aqui.html', 'videos.html', 'mitos.html', 'profesionales.html'] + (['medios.html'] if len(MEDIOS) >= 2 else [])
+
+# ---------------------------------------------------------------------------------------------
+# Enlaces desde otras paginas ya generadas
+def _parchea(arch, a, b):
+    p = open(f'{SAL}/{arch}', encoding='utf-8').read()
+    assert a in p, (arch, a[:70])
+    open(f'{SAL}/{arch}', 'w', encoding='utf-8').write(p.replace(a, b, 1))
+_parchea('index.html', '<li>Mitos del fitness</li></ul>', '<li>Mitos del fitness</li></ul>\n  <p class="sec-enl sube"><b>¿Aún no eres atleta?</b><a href="empieza-aqui.html">Empieza aquí</a><a href="mitos.html">Mitos y evidencia</a><a href="videos.html">Vídeos</a></p>')
+_parchea('herramientas.html', '<p class="herr-nota sube">', '<p class="sec-enl sube"><b>¿No sabes cuál usar?</b><a href="empieza-aqui.html">Empieza aquí</a><b>¿Eres sanitario?</b><a href="profesionales.html">Para profesionales</a></p>\n  <p class="herr-nota sube">')
+_parchea('guias.html', '<div class="calc sube" style="margin-top:3rem">', '<p class="sec-enl sube" style="margin-top:2.5rem"><b>Gratis para aprender</b><a href="mitos.html">Mitos y evidencia</a><a href="videos.html">Vídeos</a><a href="newsletter.html">Newsletter</a></p><div class="calc sube" style="margin-top:3rem">')
+_parchea('quien-soy.html', f'<a class="caja sube" href="{YT}" target="_blank" rel="noopener">', '<a class="caja sube" href="videos.html">')
+_parchea('pauta-activa.html', f'{_PM[2]}</p>', f'{_PM[2]} <a href="profesionales.html">Más para profesionales</a></p>')
