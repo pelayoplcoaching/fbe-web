@@ -131,8 +131,8 @@ tool_pagina('test-silla.html', 'Test de la silla en 30 segundos',
     '''<p>El resultado se compara con el <b>rango normal</b> de su edad y sexo: el 50 % central de las personas de 60 a 94 años que viven en su casa, medidas en el estudio de referencia. Por debajo del rango, la campaña STEADI de los CDC lo asocia a más riesgo de caídas; por encima, está mejor que 3 de cada 4.</p>
 <p>La línea dorada es el <b>umbral de autonomía</b> que proponen los mismos autores: el número de veces que conviene alcanzar a cada edad para mantener la capacidad de valerse por sí mismo en edades avanzadas.</p>
 <p>No es un diagnóstico: orienta. Repetirlo cada pocas semanas es una buena forma de ver si el entrenamiento de fuerza está funcionando.</p>''',
-    ['Rikli RE, Jones CJ. Functional fitness normative scores for community-residing older adults, ages 60-94. J Aging Phys Act. 1999 (rangos normales).',
-     'Rikli RE, Jones CJ. Development and validation of criterion-referenced clinically relevant fitness standards for maintaining physical independence in later years. Gerontologist. 2013 (umbral de autonomía).',
+    ['Rikli RE, Jones CJ. Functional fitness normative scores for community-residing older adults, ages 60-94. J Aging Phys Act. 1999;7(2):162-81 (rangos normales).',
+     'Rikli RE, Jones CJ. Development and validation of criterion-referenced clinically relevant fitness standards for maintaining physical independence in later years. Gerontologist. 2013;53(2):255-67 (umbral de autonomía).',
      'CDC. STEADI: The 30-Second Chair Stand (resultado por debajo de la media y riesgo de caídas).'],
     SILLA_JS, slug='silla', tira=('Sentado, con los brazos cruzados', 'De pie del todo', 'Tantas veces como puedas en 30 segundos'))
 
@@ -294,7 +294,7 @@ tool_pagina('volumen-semanal.html', 'Contador de volumen semanal',
 <p>Más series siguen sumando, pero cada vez menos: el análisis más reciente de Pelland y cols. encuentra rendimientos decrecientes. Si vas sobrado de volumen y te recuperas mal, quitar series suele ser mejor idea que añadir.</p>
 <p>Cada ejercicio cuenta 1 serie para el músculo principal y media para los que ayudan (el press de banca suma 1 al pecho y 0,5 al tríceps y al hombro). Es el recuento «fraccional» que mejor predijo los resultados en ese análisis. El reparto de cada ejercicio es orientativo.</p>''',
     ['Schoenfeld BJ, Ogborn D, Krieger JW. Dose-response relationship between weekly resistance training volume and increases in muscle mass: a systematic review and meta-analysis. J Sports Sci. 2017;35(11):1073-82.',
-     'Pelland JC y cols. The resistance training dose-response: meta-regressions exploring the effects of weekly volume and frequency on muscle hypertrophy and strength gain. SportRxiv. 2024 (recuento fraccional y rendimientos decrecientes).'],
+     'Pelland JC y cols. The resistance training dose response: meta-regressions exploring the effects of weekly volume and frequency on muscle hypertrophy and strength gains. Sports Med. 2026;56(2):481-505 (recuento fraccional y rendimientos decrecientes; antes, preprint en SportRxiv, 2024).'],
     VOL_JS, slug='volumen', tira=('La serie directa cuenta 1', 'La indirecta cuenta media', 'Más series suman, cada vez menos'))
 
 # ---------------------------------------------------------------------------------------------

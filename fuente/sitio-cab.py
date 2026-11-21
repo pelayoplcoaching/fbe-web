@@ -33,13 +33,13 @@ def nav(act=''):
     ap = ''.join(f'<a class="nm-it" href="{u}"{_cur(u, act)}><b>{t}</b><small>{d}</small></a>' for u, t, d in APRENDE)
     he = ''.join(f'<div class="nm-col"><p class="nm-h">{g}</p>' + ''.join(f'<a href="{u}"{_cur(u, act)}{" rel=\"noopener\"" if u.startswith("http") else ""}>{t}</a>' for u, t in L) + '</div>' for g, L in HERR_MENU)
     he += f'<div class="nm-pie"><a href="herramientas.html"{_cur("herramientas.html", act)}>Ver todas las herramientas</a><a href="mis-resultados.html">Mis resultados</a></div>'
-    return (''.join(f'<a href="{u}"{_cur(u, act)}>{t}</a>' for u, t in PAGS[:3]) + _desp('aprende', 'Aprende', f'<div class="nm-rej">{ap}</div>')
+    return (''.join(f'<a href="{u}"{_cur(u, act)}>{t}</a>' for u, t in PAGS[:3]) + _desp('aprende', 'Aprende', f'<div class="nm-rej">{ap}</div><div class="nm-pie"><a href="fuentes.html"{_cur("fuentes.html", act)}>Fuentes: de dónde sale cada número</a></div>')
             + _desp('herr', 'Herramientas', f'<div class="nm-cols">{he}</div>') + f'<a href="dudas.html"{_cur("dudas.html", act)}>Dudas</a>')
 def nav_movil(act=''):
     g = lambda t, L: f'<p class="mm-h">{t}</p>' + ''.join(f'<a href="{u}"{_cur(u, act)}>{n}</a>' for u, n in L)
     return ('<a href="index.html">Inicio</a>' + g('Asesoría', PAGS[:3]) + g('Aprende', [(u, t) for u, t, _ in APRENDE[:7]])
             + g('Herramientas', [('herramientas.html', 'Todas las herramientas'), ('pauta-activa.html', 'Pauta Activa'), ('calculadora-1rm.html', 'Calculadora de 1RM'), ('test-silla.html', 'Test de la silla'), ('zonas-pulso.html', 'Zonas de pulso'), ('mis-resultados.html', 'Mis resultados')])
-            + g('Ayuda', [('dudas.html', 'Dudas'), ('profesionales.html', 'Para profesionales')]))
+            + g('Ayuda', [('dudas.html', 'Dudas'), ('profesionales.html', 'Para profesionales'), ('fuentes.html', 'Fuentes')]))
 def cabecera(act=''):
     return f'''<a class="salto" href="#contenido">Saltar al contenido</a>
 <div class="avance" aria-hidden="true"><i id="avance"></i></div>
@@ -54,7 +54,7 @@ ESCRIBE = ('mailto:' + _ent(os.environ['FBE_CORREO'])) if os.environ.get('FBE_CO
 PIE = f'''<footer><div class="in">
   <div><div class="marca"><i>{LOBO}</i>Fuerza Basada en Evidencia</div><p>Asesoría online de fuerza y nutrición, por Pelayo Fernández Cidón. La asesoría no sustituye a tu médico ni a un tratamiento.</p><div class="redes">{''.join(f'<a href="{u}" target="_blank" rel="noopener">{t}</a>' for t, u in REDES)}</div></div>
   <div><b>El sitio</b><a href="index.html">Inicio</a><a href="empieza-aqui.html">Empieza aquí</a>{''.join(f'<a href="{u}">{t}</a>' for u, t in PAGS[:3])}<a href="profesionales.html">Profesionales sanitarios</a><a href="medios.html">En los medios</a></div>
-  <div><b>Recursos</b><a href="guias.html">Guías</a><a href="newsletter.html">Newsletter</a><a href="herramientas.html">Herramientas</a><a href="videos.html">Vídeos</a><a href="mitos.html">Mitos y evidencia</a><a href="glosario.html">Glosario</a><a href="mis-resultados.html">Mis resultados</a><a href="dudas.html">Dudas</a></div>
+  <div><b>Recursos</b><a href="guias.html">Guías</a><a href="newsletter.html">Newsletter</a><a href="herramientas.html">Herramientas</a><a href="videos.html">Vídeos</a><a href="mitos.html">Mitos y evidencia</a><a href="fuentes.html">Fuentes</a><a href="glosario.html">Glosario</a><a href="mis-resultados.html">Mis resultados</a><a href="dudas.html">Dudas</a></div>
   <div><b>¿Ya eres atleta?</b><a href="{APP}">Entrar en la app</a><a href="{FORM}">Pedir plaza</a><a href="{ESCRIBE}">Escribirme</a></div>
   <div class="legal"><span>© 2026 Fuerza Basada en Evidencia, por Pelayo Fernández Cidón</span><span><a href="{PRIV}" style="display:inline">Privacidad</a> · <a href="{TERM}" style="display:inline">Términos y condiciones</a></span></div>
 </div></footer>'''

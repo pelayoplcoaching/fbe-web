@@ -4109,3 +4109,63 @@ html.contraste .bol-it > .bol-txt::before { display: none; }
 @keyframes ya-entra { from { opacity: 0; translate: 0 8px; } }
 @media (prefers-reduced-motion: reduce) { .ya-t, .ya-t::after { transition: none; } .ya-t:hover { translate: none; } }
 @media print { .ya-s { display: none !important; } }
+/* ===== FUENTES (21/11/2026, noche): pagina de referencias comprobadas y enlaces en herramientas, mitos y portada ===== */
+.f-enl { display: inline-flex; flex-wrap: wrap; gap: .35rem; margin-left: .45rem; vertical-align: baseline; }
+.f-enl a, .fu-enl a { display: inline-flex; align-items: center; gap: .3rem; padding: .12rem .5rem; border-radius: .4rem; border: 1px solid color-mix(in srgb, var(--marca) 30%, var(--linea)); background: color-mix(in srgb, var(--marca) 7%, transparent); color: var(--acento); font: 600 .68rem/1.5 var(--mono); letter-spacing: .04em; text-decoration: none; white-space: nowrap; transition: background-color .2s, border-color .2s, color .2s; }
+.f-enl a:hover, .fu-enl a:hover { background: var(--marca); border-color: var(--marca); color: #fff !important; }
+.f-enl a.f-pm::before, .fu-enl a.f-pm::before { content: ""; width: .42rem; height: .42rem; border-radius: 50%; background: var(--verde); box-shadow: 0 0 6px var(--verde); }
+.f-enl a.f-ver { border-style: dashed; background: transparent; color: var(--tinta-2); }
+.f-enl a:focus-visible, .fu-enl a:focus-visible { outline: 2px solid var(--marca); outline-offset: 2px; }
+.f-todas { margin: .8rem 0 0; }
+.f-todas a { display: inline-flex; align-items: center; gap: .45rem; font: 600 .8rem/1.4 var(--mono); letter-spacing: .04em; color: var(--acento); text-decoration: none; border-bottom: 1px dashed color-mix(in srgb, var(--acento) 50%, transparent); padding-bottom: .1rem; }
+.f-todas a::after { content: "\2192"; transition: translate .2s; }
+.f-todas a:hover::after { translate: 3px 0; }
+.ciencia .f-todas { margin: 1.2rem 0 0; }
+.mito-fuente .f-enl { margin: .35rem 0 0; display: flex; }
+.fu-cif { list-style: none; margin: 0 0 1rem; padding: 0; display: grid; gap: .6rem; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.fu-cif li { --k: var(--marca); position: relative; overflow: hidden; display: grid; gap: .2rem; padding: .9rem 1rem .9rem 1.15rem; border-radius: .9rem; background: var(--sup); border: 1px solid var(--linea); color: var(--tinta-2); font-size: .85rem; line-height: 1.3; }
+.fu-cif li::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--k); }
+.fu-cif b { font: 700 1.7rem/1 var(--mono); color: var(--acento); font-variant-numeric: tabular-nums; }
+.fu-cif .c-pm { --k: var(--verde); } .fu-cif .c-meta { --k: var(--marca-clara); } .fu-cif .c-guia { --k: var(--oro); }
+@media (max-width: 760px) { .fu-cif { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.fu-barra { margin-top: .4rem; }
+#fu-f button em { font-style: normal; margin-left: .4rem; padding: .12rem .38rem; border-radius: .35rem; background: color-mix(in srgb, var(--marca) 12%, transparent); font: 600 .7rem/1.2 var(--mono); font-variant-numeric: tabular-nums; }
+#fu-f button[aria-pressed="true"] em, #hb-f button[aria-pressed="true"] em { background: rgba(10, 6, 30, .32); color: #fff; }
+.fu-lista { display: grid; gap: .8rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr)); align-items: start; }
+.fu { --k: var(--marca-clara); position: relative; display: grid; gap: .5rem; padding: 1.05rem 1.15rem 1rem; border-radius: 1.1rem; border: 1px solid var(--linea); background: var(--sup); scroll-margin-top: 6rem; transition: border-color .2s, box-shadow .25s; }
+.fu[hidden] { display: none; }
+.fu::before { content: ""; position: absolute; left: 1.15rem; right: 1.15rem; top: 0; height: 2px; border-radius: 0 0 2px 2px; background: linear-gradient(90deg, var(--k), transparent); }
+.fu[data-t="meta"] { --k: var(--marca-clara); } .fu[data-t="ensayo"] { --k: var(--verde); } .fu[data-t="obs"] { --k: color-mix(in srgb, var(--verde) 45%, var(--marca)); }
+.fu[data-t="guia"] { --k: var(--oro); } .fu[data-t="rev"] { --k: color-mix(in srgb, var(--marca) 55%, var(--tinta-2)); } .fu[data-t="otro"] { --k: var(--tinta-2); }
+.fu:hover { border-color: color-mix(in srgb, var(--k) 55%, var(--linea)); box-shadow: 0 16px 34px -26px var(--k); }
+.fu:target { border-color: var(--k); box-shadow: 0 0 0 3px color-mix(in srgb, var(--k) 22%, transparent); }
+.fu-top { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem .6rem; }
+.fu-tipo { font: 700 .62rem/1.3 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--tinta); padding: .22rem .5rem; border-radius: .4rem; background: color-mix(in srgb, var(--k) 16%, transparent); border: 1px solid color-mix(in srgb, var(--k) 40%, transparent); }
+.fu-a { font: 700 .8rem/1 var(--mono); color: var(--tinta-2); font-variant-numeric: tabular-nums; }
+.fu-ok { margin-left: auto; display: inline-flex; align-items: center; gap: .35rem; font: 600 .62rem/1.2 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: color-mix(in srgb, var(--verde) 70%, var(--tinta)); }
+.fu-ok::before { content: ""; width: .5rem; height: .5rem; border-radius: 50%; background: var(--verde); box-shadow: 0 0 0 3px color-mix(in srgb, var(--verde) 20%, transparent); }
+.fu-ok-w { color: var(--tinta-2); } .fu-ok-w::before { background: var(--marca-clara); box-shadow: 0 0 0 3px color-mix(in srgb, var(--marca-clara) 20%, transparent); }
+.fu-ok-l { color: var(--tinta-2); } .fu-ok-l::before { background: var(--tinta-2); box-shadow: none; }
+.fu-ti { margin: 0; font-size: 1rem; line-height: 1.35; font-weight: 700; color: var(--tinta); overflow-wrap: anywhere; }
+.fu-au { margin: 0; font-size: .85rem; color: var(--tinta-2); line-height: 1.45; overflow-wrap: anywhere; }
+.fu-au i { font-style: normal; font-family: var(--mono); font-size: .78rem; }
+.fu-nota { margin: 0; padding: .55rem .7rem; border-radius: .6rem; background: color-mix(in srgb, var(--k) 8%, transparent); border-left: 2px solid var(--k); font-size: .84rem; color: var(--tinta); line-height: 1.45; }
+.fu-donde { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: .35rem; font-size: .8rem; }
+.fu-donde b { font: 700 .62rem/1.3 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--tinta-2); margin-right: .15rem; }
+.fu-donde a { padding: .18rem .55rem; border-radius: 99px; border: 1px solid var(--linea); background: var(--fondo); color: var(--tinta); text-decoration: none; line-height: 1.35; transition: border-color .2s, color .2s; }
+.fu-donde a:hover { border-color: var(--marca); color: var(--acento); }
+.fu-enl { margin: .1rem 0 0; display: flex; flex-wrap: wrap; gap: .4rem; }
+.fu-enl a { font-size: .72rem; padding: .25rem .6rem; }
+.f-sin { font: 600 .7rem/1.5 var(--mono); color: var(--tinta-2); }
+.fu-leyenda { list-style: none; margin: 0 0 1.2rem; padding: 0; display: grid; gap: .7rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); }
+.fu-leyenda li { --k: var(--marca-clara); display: grid; gap: .45rem; padding: 1rem 1.1rem; border-radius: .9rem; background: var(--sup); border: 1px solid var(--linea); border-top: 3px solid var(--k); color: var(--tinta-2); font-size: .9rem; }
+.fu-leyenda b { color: var(--tinta); font-size: .92rem; }
+.fu-leyenda .t-ensayo { --k: var(--verde); } .fu-leyenda .t-obs { --k: color-mix(in srgb, var(--verde) 45%, var(--marca)); } .fu-leyenda .t-guia { --k: var(--oro); } .fu-leyenda .t-rev { --k: color-mix(in srgb, var(--marca) 55%, var(--tinta-2)); } .fu-leyenda .t-otro { --k: var(--tinta-2); }
+.fu-error { margin: 0 0 1rem; color: var(--tinta-2); }
+.fu-error a { color: var(--acento); font-weight: 700; }
+.bd-l li[data-k="f"] { --k: color-mix(in srgb, var(--verde) 40%, var(--marca-clara)); }
+.nm-aprende .nm-pie { grid-column: 1 / -1; }
+@media (prefers-reduced-motion: no-preference) { .fu.sube { transition: border-color .2s, box-shadow .25s, opacity .5s, translate .5s; } }
+@media (prefers-reduced-motion: reduce) { .f-enl a, .fu-enl a, .f-todas a::after, .fu, .fu-donde a { transition: none; } .f-todas a:hover::after { translate: none; } }
+.contraste .fu, .contraste .fu-cif li, .contraste .fu-leyenda li { background: var(--fondo); }
+@media print { .fu-barra, .f-ver { display: none !important; } .fu { break-inside: avoid; } }
