@@ -1992,6 +1992,14 @@ footer a[aria-current="page"] { color: #fff; text-decoration: underline; text-de
 .pa-para-img { margin: -.2rem 0 1rem; }
 .pa-para-ilus { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 1rem; background: var(--noche); box-shadow: var(--sombra-s); }
 .tres-img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 1rem; margin-bottom: .9rem; background: var(--noche); }
+/* Bloque W7 en portada y Quien soy: evidencia, que puedes esperar y lo que publico */
+.idea.con-img .ev-img { margin: 0 0 1rem; }
+.ev-ilus { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 1rem; background: var(--noche); box-shadow: var(--sombra-s); }
+.espera-img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; margin-top: 1rem; border-radius: 1rem; background: var(--noche); box-shadow: var(--sombra-s); }
+.pub-img { display: block; width: calc(100% + 2px); max-width: none; height: auto; aspect-ratio: 16 / 9; object-fit: cover; margin: 0 0 .9rem; border-radius: .9rem; background: var(--noche); }
+.espera li:has(.espera-img) { display: flex; flex-direction: column; }
+.espera li:has(.espera-img) .espera-img { margin-top: auto; }
+.espera li:has(.espera-img) p { margin-bottom: 1rem; }
 </style>
 <script>document.documentElement.classList.add('js');</script>
 <a class="salto" href="#semana">Saltar al contenido</a>
@@ -2122,9 +2130,9 @@ footer a[aria-current="page"] { color: #fff; text-decoration: underline; text-de
 <section class="ciencia lenta"><div class="in">
   <div class="entrada sube"><h2>Basada en evidencia, de verdad</h2><p>Tres ideas que están detrás de cada plan, con el estudio que las sostiene. Sin dogmas: si la evidencia cambia, cambia el plan.</p></div>
   <div class="rej">
-    <article class="idea sube"><span class="n">01</span><h3>El volumen se dosifica</h3><p>Más series semanales por músculo dan más ganancia, de forma gradual. Por eso tu volumen sube poco a poco y se descarga cuando toca.</p><a href="https://doi.org/10.1080/02640414.2016.1210197" target="_blank" rel="noopener">Schoenfeld, Ogborn y Krieger. J Sports Sci. 2017;35(11):1073-82.</a></article>
-    <article class="idea sube"><span class="n">02</span><h3>No todo va al fallo</h3><p>La fuerza mejora parecido en un rango amplio de esfuerzo; el músculo, algo más cerca del fallo. Por eso cada serie lleva su esfuerzo objetivo.</p><a href="https://doi.org/10.1007/s40279-024-02069-2" target="_blank" rel="noopener">Robinson y cols. Sports Med. 2024;54(9):2209-31.</a></article>
-    <article class="idea sube"><span class="n">03</span><h3>Proteína: la suficiente</h3><p>Por encima de unos 1,6 g por kilo y día, suplementar más proteína no añade masa magra. Suficiente, no infinita.</p><a href="https://doi.org/10.1136/bjsports-2017-097608" target="_blank" rel="noopener">Morton y cols. Br J Sports Med. 2018;52(6):376-84.</a></article>
+    <article class="idea sube con-img"><div class="ev-img"><img class="ev-ilus" src="img/ev-volumen.webp" alt="" width="720" height="720" loading="lazy" decoding="async"></div><span class="n">01</span><h3>El volumen se dosifica</h3><p>Más series semanales por músculo dan más ganancia, de forma gradual. Por eso tu volumen sube poco a poco y se descarga cuando toca.</p><a href="https://doi.org/10.1080/02640414.2016.1210197" target="_blank" rel="noopener">Schoenfeld, Ogborn y Krieger. J Sports Sci. 2017;35(11):1073-82.</a></article>
+    <article class="idea sube con-img"><div class="ev-img"><img class="ev-ilus" src="img/ev-fallo.webp" alt="" width="720" height="720" loading="lazy" decoding="async"></div><span class="n">02</span><h3>No todo va al fallo</h3><p>La fuerza mejora parecido en un rango amplio de esfuerzo; el músculo, algo más cerca del fallo. Por eso cada serie lleva su esfuerzo objetivo.</p><a href="https://doi.org/10.1007/s40279-024-02069-2" target="_blank" rel="noopener">Robinson y cols. Sports Med. 2024;54(9):2209-31.</a></article>
+    <article class="idea sube con-img"><div class="ev-img"><img class="ev-ilus" src="img/ev-proteina.webp" alt="" width="720" height="720" loading="lazy" decoding="async"></div><span class="n">03</span><h3>Proteína: la suficiente</h3><p>Por encima de unos 1,6 g por kilo y día, suplementar más proteína no añade masa magra. Suficiente, no infinita.</p><a href="https://doi.org/10.1136/bjsports-2017-097608" target="_blank" rel="noopener">Morton y cols. Br J Sports Med. 2018;52(6):376-84.</a></article>
   </div>
   <div class="calc sube"><div><h3>¿Cuánta proteína te toca?</h3><p>Elige tu fase, mueve el peso y mira tu rango diario.</p><small>Orientativo y para riñones sanos. Con enfermedad renal, diabetes de años o dudas, consúltalo antes con una analítica. <a href="https://calculadoradeproteina.fuerzabasadaenevidencia.com/">Abre la calculadora completa</a>, con edad y reparto por comidas.</small></div>
     <div><div class="fases" role="group" aria-label="Fase"><button type="button" data-a="1.4" data-b="1.6" aria-pressed="false">Mantenimiento</button><button type="button" data-a="1.6" data-b="2.2" aria-pressed="true">Volumen</button><button type="button" data-a="1.8" data-b="2.4" aria-pressed="false">Definición</button></div><label for="peso">Tu peso <output id="peso-o" for="peso">75 kg</output></label><input type="range" id="peso" min="45" max="130" step="1" value="75"><div class="res"><div><b id="prot">120–165 g</b><span>de proteína al día</span></div><div><b id="toma">30–40 g</b><span>por comida, en cuatro tomas</span></div></div></div></div>
@@ -2158,9 +2166,9 @@ footer a[aria-current="page"] { color: #fff; text-decoration: underline; text-de
 <section class="espera lenta"><div class="in">
   <div class="entrada sube"><h2>Qué puedes esperar</h2><p>Sin promesas de antes y después. Esto es lo que suele pasar cuando se hace bien.</p></div>
   <ol>
-    <li class="sube"><small>Semana 1</small><h3>Aprendes el camino</h3><p>La app, los ejercicios y tu menú. Cargas cómodas y la técnica por delante.</p></li>
-    <li class="sube"><small>Mes 1</small><h3>La rutina ya es tuya</h3><p>Primeras subidas de carga, el menú rodando y los check-ins con datos para ajustar.</p></li>
-    <li class="sube"><small>Mes 3</small><h3>Cierras tu primer bloque</h3><p>Miramos tus números, tus fotos si quieres, y decidimos juntos el siguiente.</p></li>
+    <li class="sube"><small>Semana 1</small><h3>Aprendes el camino</h3><p>La app, los ejercicios y tu menú. Cargas cómodas y la técnica por delante.</p><img class="espera-img" src="img/esperar-semana1.webp" alt="" width="960" height="540" loading="lazy" decoding="async"></li>
+    <li class="sube"><small>Mes 1</small><h3>La rutina ya es tuya</h3><p>Primeras subidas de carga, el menú rodando y los check-ins con datos para ajustar.</p><img class="espera-img" src="img/esperar-mes1.webp" alt="" width="960" height="540" loading="lazy" decoding="async"></li>
+    <li class="sube"><small>Mes 3</small><h3>Cierras tu primer bloque</h3><p>Miramos tus números, tus fotos si quieres, y decidimos juntos el siguiente.</p><img class="espera-img" src="img/esperar-mes3.webp" alt="" width="960" height="541" loading="lazy" decoding="async"></li>
   </ol>
 </div></section>
 

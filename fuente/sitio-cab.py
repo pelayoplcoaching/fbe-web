@@ -71,6 +71,20 @@ cam('<div><label for="peso">', '<div><div class="fases" role="group" aria-label=
 h += '''<script>(function(){var D=document,p=D.getElementById('peso'),A=1.6,B=2.2;if(!p)return;function r(v){return Math.round(v/5)*5}function pinta(){var k=+p.value,a=r(k*A),b=r(k*B);D.getElementById('peso-o').textContent=k+' kg';D.getElementById('prot').textContent=a+'–'+b+' g';D.getElementById('toma').textContent=r(a/4)+'–'+r(b/4)+' g'}
 [].forEach.call(D.querySelectorAll('.fases button'),function(b){b.addEventListener('click',function(){[].forEach.call(D.querySelectorAll('.fases button'),function(x){x.setAttribute('aria-pressed',x===b)});A=+b.dataset.a;B=+b.dataset.b;pinta()})});p.addEventListener('input',pinta);pinta()})();</script>'''
 cam('<div class="retrato" aria-hidden="true">PF</div>', '<div class="retrato">PF<img loading="lazy" src="' + ('img/foto-pelayo.webp' if os.path.exists('web-img/foto-pelayo.webp') else 'https://storage.mlcdn.com/account_image/1626427/9IMbm5EtFHhfSdYJ65FBb9koyf2wl2C5kufOmYtZ.png') + '" alt="Pelayo Fernández Cidón" onerror="this.remove()"></div>')
+# Bloque W7 de imagenes en la portada (solo si estan todas las del grupo): «Basada en evidencia» y «Qué puedes esperar»
+def _img_w(n, clase, alt=''):
+    import shutil
+    from PIL import Image as _I
+    f = f'web-img/{n}.webp'; os.makedirs(f'{SAL}/img', exist_ok=True); shutil.copy(f, f'{SAL}/img/{n}.webp'); _w, _h = _I.open(f).size
+    return f'<img class="{clase}" src="img/{n}.webp" alt="{alt}" width="{_w}" height="{_h}" loading="lazy" decoding="async">'
+_EV = ['ev-volumen', 'ev-fallo', 'ev-proteina']
+if all(os.path.exists(f'web-img/{n}.webp') for n in _EV):
+    for k, n in enumerate(_EV):
+        cam(f'<article class="idea sube"><span class="n">0{k + 1}</span>', f'<article class="idea sube con-img"><div class="ev-img">{_img_w(n, "ev-ilus")}</div><span class="n">0{k + 1}</span>')
+_ES = [('esperar-semana1', 'la técnica por delante.</p></li>'), ('esperar-mes1', 'los check-ins con datos para ajustar.</p></li>'), ('esperar-mes3', 'y decidimos juntos el siguiente.</p></li>')]
+if all(os.path.exists(f'web-img/{n}.webp') for n, _ in _ES):
+    for n, fin in _ES:
+        cam(fin, fin.replace('</p></li>', '</p>' + _img_w(n, 'espera-img') + '</li>'))
 cam('<title>Web FBE Equipo</title>', '<title>Sitio FBE</title>')
 h += '<script>' + open('luz.js', encoding='utf-8').read() + '</script>'
 cam('</style>\n<script>document.documentElement', open('sitio.css', encoding='utf-8').read() + open('futuro.css', encoding='utf-8').read() + '</style>\n<script>document.documentElement')

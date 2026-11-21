@@ -24,6 +24,8 @@ def _todas(*ns): return all(os.path.exists(f'web-img/{n}.webp') for n in ns)
 PP_OK = _todas('pp-reservas', 'pp-datos', 'pp-hablamos', 'pp-plan')
 def PP_IMG(n, t): return ilus(n, 'paso-img').replace('alt=""', f'alt="{t}"', 1) if PP_OK else ''
 PROG_OK = _todas('prog-plan', 'prog-app', 'prog-guias')
+PUB_OK = _todas('web-guias', 'web-newsletter', 'web-calculadora', 'pub-youtube')
+def PUB_IMG(n, i): return ilus(n, 'pub-img') if PUB_OK else f'<i class="ic">{ico(i)}</i>'
 def PROG_IMG(n, i): return ilus(n, 'tres-img') if PROG_OK else f'<i>{ico(i)}</i>'
 _PA_P = ['pa-pacientes', 'pa-profesionales', 'pa-entrenadores']
 def PA_PARA_IMG(i, l): return f'<div class="pa-para-img">{ilus(_PA_P[i], "pa-para-ilus")}</div>' if _todas(*_PA_P) else f'<span class="n" aria-hidden="true">{l}</span>'
@@ -85,10 +87,10 @@ pagina('quien-soy.html', 'Quién soy', 'Pelayo Fernández Cidón, médico intern
 {voz_banda(1)}
 <section class="hoja"><div class="in"><div class="entrada sube"><h2>Lo que publico</h2><p>Si todavía no quieres una asesoría, empieza por aquí.</p></div>
   <div class="bento">
-    <a class="caja sube" href="guias.html"><i class="ic">{ico('libro')}</i><h3>Guías</h3><p>Nueve guías prácticas para descargar.</p></a>
-    <a class="caja sube" href="newsletter.html"><i class="ic">{ico('chat')}</i><h3>Newsletter</h3><p>Un correo a la semana.</p></a>
-    <a class="caja sube" href="{CALC}"><i class="ic">{ico('plato')}</i><h3>Calculadora de proteína</h3><p>Gratis, con reparto por comidas.</p></a>
-    <a class="caja sube" href="{dict(REDES)['YouTube']}" target="_blank" rel="noopener"><i class="ic">{ico('video')}</i><h3>YouTube</h3><p>Vídeos sobre fuerza, nutrición y salud.</p></a>
+    <a class="caja sube" href="guias.html">{PUB_IMG('web-guias', 'libro')}<h3>Guías</h3><p>Nueve guías prácticas para descargar.</p></a>
+    <a class="caja sube" href="newsletter.html">{PUB_IMG('web-newsletter', 'chat')}<h3>Newsletter</h3><p>Un correo a la semana.</p></a>
+    <a class="caja sube" href="{CALC}">{PUB_IMG('web-calculadora', 'plato')}<h3>Calculadora de proteína</h3><p>Gratis, con reparto por comidas.</p></a>
+    <a class="caja sube" href="{dict(REDES)['YouTube']}" target="_blank" rel="noopener">{PUB_IMG('pub-youtube', 'video')}<h3>YouTube</h3><p>Vídeos sobre fuerza, nutrición y salud.</p></a>
   </div></div></section>''', BTN + datos(('15+', 'años entrenando fuerza'), ('2020', 'el año en que nace FBE')), extra=LDP, lado=f'<div class="retrato xl">PF<img src="{FOTO}" alt="Pelayo Fernández Cidón" width="720" height="900" fetchpriority="high" decoding="async" onerror="this.remove()"></div>')
 
 # ===== programas =====

@@ -1491,3 +1491,11 @@ footer a[aria-current="page"] { color: #fff; text-decoration: underline; text-de
 .pa-para-img { margin: -.2rem 0 1rem; }
 .pa-para-ilus { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 1rem; background: var(--noche); box-shadow: var(--sombra-s); }
 .tres-img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 1rem; margin-bottom: .9rem; background: var(--noche); }
+/* Bloque W7 en portada y Quien soy: evidencia, que puedes esperar y lo que publico */
+.idea.con-img .ev-img { margin: 0 0 1rem; }
+.ev-ilus { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 1rem; background: var(--noche); box-shadow: var(--sombra-s); }
+.espera-img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; margin-top: 1rem; border-radius: 1rem; background: var(--noche); box-shadow: var(--sombra-s); }
+.pub-img { display: block; width: calc(100% + 2px); max-width: none; height: auto; aspect-ratio: 16 / 9; object-fit: cover; margin: 0 0 .9rem; border-radius: .9rem; background: var(--noche); }
+.espera li:has(.espera-img) { display: flex; flex-direction: column; }
+.espera li:has(.espera-img) .espera-img { margin-top: auto; }
+.espera li:has(.espera-img) p { margin-bottom: 1rem; }
