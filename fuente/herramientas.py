@@ -41,11 +41,12 @@ def tool_pagina(arch, titulo, desc, h1, sub, form, res, explica, fuentes, js, ex
     pagina(arch, titulo, desc, h1, sub, cuerpo, padre=PADRE_H)
 
 # «Guardar en Mis resultados»: aparece junto a «Copiar» y guarda el mismo texto en este navegador (localStorage fbe-resultados)
-GUARDA_JS = r'''(function(){var r=document.querySelector('.tool-res'),c=r&&r.querySelector('.copiar-t:not(.guardar)');if(!r||!c||!window.fbeCopia)return;
-var b=document.createElement('button');b.type='button';b.className='copiar-t guarda-r';b.innerHTML='<span>Guardar en Mis resultados</span>';c.insertAdjacentElement('afterend',b);
+GUARDA_JS = r'''(function(){var r=document.querySelector('.tool-res'),c=r&&r.querySelector('.copiar-t:not(.guardar)');if(!r||!window.fbeCopia)return;
+var b=document.createElement('button');b.type='button';b.className='copiar-t guarda-r';b.innerHTML='<span>Guardar en Mis resultados</span>';if(c)c.insertAdjacentElement('afterend',b);else{var at=r.querySelector('.res-texto');(at||r.lastElementChild).insertAdjacentElement('afterend',b)}
 var v=document.createElement('a');v.className='guarda-ver';v.href='mis-resultados.html';v.textContent='Ver mis resultados';v.hidden=true;b.insertAdjacentElement('afterend',v);
-function mira(){b.hidden=c.hidden}mira();new MutationObserver(mira).observe(c,{attributes:true,attributeFilter:['hidden']});
-b.addEventListener('click',function(){var t=window.fbeCopia();if(!t)return;var K='fbe-resultados',o={};try{o=JSON.parse(localStorage.getItem(K)||'{}')||{}}catch(e){}var k=r.dataset.herr,e=o[k]||{};if(!e.h)e={titulo:r.dataset.titulo,h:e.texto?[{t:e.t,texto:e.texto}]:[]};e.titulo=r.dataset.titulo;if(e.h[0]&&e.h[0].texto===t)e.h[0].t=Date.now();else e.h.unshift({t:Date.now(),texto:t});e.h=e.h.slice(0,12);o[k]=e;var ok=true;try{localStorage.setItem(K,JSON.stringify(o))}catch(e){ok=false}var s=b.querySelector('span');b.classList.add('hecho');s.textContent=ok?'Guardado':'No se pudo guardar';v.hidden=!ok;setTimeout(function(){b.classList.remove('hecho');s.textContent='Guardar en Mis resultados'},1800)})})();'''
+function mira(){b.hidden=c?c.hidden:!window.fbeCopia()}mira();if(c)new MutationObserver(mira).observe(c,{attributes:true,attributeFilter:['hidden']});else new MutationObserver(mira).observe(r.querySelector('.res-grande b')||r,{childList:true,characterData:true,subtree:true});
+function dato(){var g=r.querySelector('.res-grande b'),gu=r.querySelector('.res-grande span'),d={};if(g){var ns=(g.textContent.match(/\d{1,3}(?:\.\d{3})+(?:,\d+)?|\d+(?:,\d+)?/g)||[]).map(function(x){return parseFloat(x.replace(/\./g,'').replace(',','.'))}).filter(function(x){return !isNaN(x)});if(ns.length){d.v=ns.length>1?(ns[0]+ns[1])/2:ns[0];d.vt=g.textContent.trim();d.u=gu?gu.textContent.trim():''}}var z=['z-alto','z-medio','z-bajo'].filter(function(c){return r.classList.contains(c)})[0];if(z){d.z=z.slice(2);var vd=r.querySelector('.res-veredicto');if(vd&&vd.textContent.trim())d.zt=vd.textContent.trim().slice(0,90)}if(r.dataset.serie)d.s=r.dataset.serie;return d}
+b.addEventListener('click',function(){var t=window.fbeCopia();if(!t)return;var K='fbe-resultados',o={};try{o=JSON.parse(localStorage.getItem(K)||'{}')||{}}catch(e){}var k=r.dataset.herr,e=o[k]||{},d=dato();if(!e.h)e={titulo:r.dataset.titulo,h:e.texto?[{t:e.t,texto:e.texto}]:[]};e.titulo=r.dataset.titulo;if(e.h[0]&&e.h[0].texto===t){e.h[0].t=Date.now();Object.keys(d).forEach(function(x){e.h[0][x]=d[x]})}else e.h.unshift(Object.assign({t:Date.now(),texto:t},d));e.h=e.h.slice(0,12);o[k]=e;var ok=true;try{localStorage.setItem(K,JSON.stringify(o))}catch(e){ok=false}var s=b.querySelector('span');b.classList.add('hecho');s.textContent=ok?'Guardado':'No se pudo guardar';v.hidden=!ok;setTimeout(function(){b.classList.remove('hecho');s.textContent='Guardar en Mis resultados'},1800)})})();'''
 # Botones +/- de los campos numericos (delegado: vale para filas que se anaden despues) y formato es-ES
 STEP_JS = r'''(function(){document.addEventListener('click',function(e){var b=e.target.closest('[data-paso]');if(!b)return;var i=document.getElementById(b.dataset.para)||b.parentNode.querySelector('input');if(!i)return;var p=parseFloat(b.dataset.paso),v=parseFloat(i.value);if(isNaN(v))v=parseFloat(i.min)||0;var mn=parseFloat(i.min),mx=parseFloat(i.max);v=Math.round((v+p)*100)/100;if(!isNaN(mn))v=Math.max(mn,v);if(!isNaN(mx))v=Math.min(mx,v);i.value=v;i.dispatchEvent(new Event('input',{bubbles:true}));});})();
 window.fmt=function(x,d){return Number(x).toLocaleString('es-ES',{minimumFractionDigits:d||0,maximumFractionDigits:d||0});};
@@ -142,6 +143,7 @@ RM_FORM = f'''
 <div class="tool-fila">{campo_num("r-peso", "Peso de la serie", 60, 1, 500, 2.5, ud="kg")}{campo_num("r-reps", "Repeticiones hechas", 8, 1, 15, 1, ud="rep.")}</div>
 {seg("r-rir", "¿Cuántas te quedaban?", [("0", "Ninguna"), ("1", "1"), ("2", "2"), ("3", "3"), ("4", "4")], "2", clase="rir")}
 {seg("r-red", "Redondear las cargas a", [("2.5", "2,5 kg"), ("1", "1 kg"), ("0", "Sin redondeo")], "2.5")}
+<div class="tool-campo rm-ej"><label for="r-ej">Ejercicio <small>(opcional)</small></label><input id="r-ej" type="text" list="r-ej-l" maxlength="40" autocomplete="off" placeholder="Por ejemplo, sentadilla"><datalist id="r-ej-l"><option value="Sentadilla"><option value="Press de banca"><option value="Peso muerto"><option value="Press militar"><option value="Hip thrust"><option value="Remo con barra"><option value="Dominada lastrada"></datalist><small>Si lo guardas en Mis resultados, verás la evolución de cada ejercicio por separado.</small></div>
 <p class="tool-nota">No hace falta ir al fallo para estimarlo: haz una serie de 3 a 10 repeticiones dejando 1 o 2 en reserva y apunta cuántas te quedaban.</p>'''
 
 RM_RES = '''<p class="tool-et">Tu 1RM estimado</p>
@@ -174,19 +176,20 @@ function discos(carga){var svg=$('r-discos'),t=$('r-discos-t');
 function fp(x){return fmt(x,Math.abs(x*10%1)>1e-6?2:(Math.abs(x%1)>1e-6?1:0))}
 function pinta(){
   var w=parseFloat($('r-peso').value),k=parseInt($('r-reps').value,10),rir=val('r-rir'),r=val('r-red');
+  var ej=String($('r-ej').value||'').replace(/\s+/g,' ').trim().slice(0,40);document.querySelector('.tool-res').dataset.serie=ej;
   var tb=document.querySelector('#r-tabla tbody');
   if(!(w>0)||!(k>=1)){$('r-r-num').textContent='–';$('r-r-tit').textContent='Escribe el peso y las repeticiones.';$('r-r-txt').textContent='';$('r-serie').textContent='';tb.innerHTML='';discos(0);return}
   var n=k+rir,rm=w/pct(n),bz=n<37?w*36/(37-n):NaN,v=f1(red(rm,r));
   $('r-r-num').textContent=v;if(v!==ultimo){destella($('r-r-num'));ultimo=v}
-  $('r-serie').textContent='Tu serie: '+f1(w)+' kg × '+k+' · '+(rir?rir+' en reserva':'al fallo');
+  $('r-serie').textContent=(ej?ej+': ':'Tu serie: ')+f1(w)+' kg × '+k+' · '+(rir?rir+' en reserva':'al fallo');
   $('r-n-marca').style.left=Math.min(100,(n-1)/19*100)+'%';$('r-n-marca').className=n>10?'fuera':'';
   $('r-r-tit').textContent=n===1?'Una repetición al fallo: tu 1RM es ese peso.':'Equivale a unas '+n+' repeticiones hasta el fallo.';
   $('r-r-txt').textContent=(isNaN(bz)||n===1?'':'Con la fórmula de Brzycki saldría '+f1(red(bz,r))+' kg. ')+(n>10?'Con más de 10 repeticiones hasta el fallo la estimación pierde precisión: mejor una serie más pesada.':'Hasta unas 10 repeticiones hasta el fallo, las dos fórmulas dan valores parecidos.');
   var h='',lin=['Repeticiones; al fallo; 1 en reserva; 2 en reserva; 3 en reserva'];
   for(var f=1;f<=12;f++){var l=[f];h+='<tr'+(f===k?' class="fila-tu"':'')+'><th scope="row">'+f+'</th>';for(var c=0;c<=3;c++){var m=f===k&&c===rir,s=sel&&sel[0]===f&&sel[1]===c,p=pct(f+c),cg=red(rm*p,r);l.push(f1(cg)+' kg');h+='<td tabindex="0" data-f="'+f+'" data-c="'+c+'" style="--a:'+Math.max(0,Math.min(.32,(p-.62)/.38*.32)).toFixed(3)+'" class="'+(m?'tu':'')+(s?' sel':'')+'">'+f1(cg)+'<small>'+fmt(p*100,0)+' %</small></td>'}h+='</tr>';lin.push(l.join('; '))}
   tb.innerHTML=h;
-  $('r-cap').textContent='1RM '+v+' kg · Epley · '+(r>0?'redondeo a '+f1(r)+' kg':'sin redondeo');
-  copia='Tabla de cargas (1RM estimado '+v+' kg, Epley)\n'+lin.join('\n');
+  $('r-cap').textContent=(ej?ej+' · ':'')+'1RM '+v+' kg · Epley · '+(r>0?'redondeo a '+f1(r)+' kg':'sin redondeo');
+  copia='Tabla de cargas'+(ej?' · '+ej:'')+' (1RM estimado '+v+' kg, Epley)\n'+lin.join('\n');
   if(sel){var cg2=red(rm*pct(sel[0]+sel[1]),r);$('r-discos-et').textContent='Discos para '+sel[0]+' repeticiones '+(sel[1]?'con '+sel[1]+' en reserva':'al fallo')+': '+f1(cg2)+' kg';discos(cg2)}
   else{$('r-discos-et').textContent='Discos para el 1RM: '+v+' kg';discos(red(rm,r))}
 }

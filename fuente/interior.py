@@ -533,6 +533,7 @@ exec(open('extras.py', encoding='utf-8').read())  # Glosario, archivo del bolet�
 exec(open('fuentes.py', encoding='utf-8').read())  # Fuentes: todas las referencias, comprobadas en PubMed, y enlaces en herramientas, mitos y portada (21/11/2026, noche)
 exec(open('temas.py', encoding='utf-8').read())  # cinco páginas de tema: envejecer, medicación, dolor, nutrición y poco tiempo (21/11/2026, noche)
 exec(open('autoria.py', encoding='utf-8').read())  # firma y fecha en las páginas de salud y «Cómo trabajo la evidencia» (21/11/2026, noche)
+exec(open('evolucion.py', encoding='utf-8').read())  # «Mi evolución» (gráficas) e «Informe para tu médico» en Mis resultados (21/11/2026, noche)
 exec(open('extras2.py', encoding='utf-8').read())  # test de mitos, plan semanal con calendario, datos estructurados e imagen para compartir de cada página (21/11/2026)
 exec(open('siguiente.py', encoding='utf-8').read())  # «¿Y ahora qué?» bajo cada calculadora, según el resultado (21/11/2026, noche)
 open(f'{SAL}/sitemap.xml', 'w', encoding='utf-8').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join(f'  <url><loc>{WEB}{u}</loc></url>\n' for u in [''] + [u for u, _ in PAGS] + ['pauta-activa.html', 'test-silla.html', 'calculadora-1rm.html', 'volumen-semanal.html', 'cafeina.html', 'revision-medica.html', 'zonas-pulso.html', 'semaforo-dolor.html', 'test-sppb.html', 'paron.html', 'suplementos.html'] + SEC_PAGS + (['privacidad.html'] if os.environ.get('FBE_CORREO') else [])) + '</urlset>\n')
