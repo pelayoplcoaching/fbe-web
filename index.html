@@ -4377,6 +4377,48 @@ html.contraste .bol-it > .bol-txt::before { display: none; }
 .pa-para:hover .pa-para-ilus { transform: scale(1.04); filter: brightness(1.06); }
 .pa-autor-foto { box-shadow: 0 0 0 3px color-mix(in srgb, var(--marca-clara) 45%, transparent), 0 0 24px -6px var(--marca); }
 @media (prefers-reduced-motion: reduce) { .zonas-barra span, .zl::after, .z-borg div > *, .sppb-mapa li, .sppb-paso, .supl-lista button, .supl-lista a, .supl-escala > *, .herr::before, .herr-chips li, .herr-mini::before, .pa-tel, .pa-para-ilus { transition: none; } .z-borg div > *:hover, .supl-lista button:hover, .supl-lista a:hover, .pa-moviles .pa-tel:hover, .pa-para:hover .pa-para-ilus, .cronom:active, .cuenta10:active, .o-atajos button:active { transform: none; } }
+/* ===== 5 x 50 FUTURISTA - TANDA H (851-900): Empieza aqui, Videos, Profesionales, Medios y Mitos ===== */
+/* Empieza aqui: numeros de paso encendidos, imagen con marco de visor y etiqueta de inicio con halo */
+.ea-n { transition: opacity .25s, text-shadow .25s, color .25s; }
+.ea-paso:hover .ea-n { opacity: 1; text-shadow: 0 0 12px color-mix(in srgb, var(--marca-clara) 80%, transparent); }
+.ea-kick { box-shadow: 0 0 14px -4px var(--marca); }
+.ea-img { outline: 1px solid color-mix(in srgb, var(--marca-clara) 35%, transparent); outline-offset: 5px; transition: outline-offset .35s, outline-color .35s, filter .4s; }
+.ea-top:hover .ea-img { outline-offset: 2px; outline-color: color-mix(in srgb, var(--marca-clara) 65%, transparent); filter: brightness(1.05); }
+.empieza .fases.claras button[aria-pressed="true"] .sec-ic, .empieza .fases.claras button[aria-pressed="true"] svg { filter: drop-shadow(0 0 6px rgba(255, 255, 255, .6)); }
+/* Videos: boton con anillos al pasar, temas como etiquetas de sistema y buscador con brillo */
+.vid-boton { position: relative; }
+.vid-boton::after { content: ""; position: absolute; inset: -.6rem; border-radius: 50%; border: 1px solid color-mix(in srgb, var(--marca-clara) 60%, transparent); opacity: 0; transform: scale(.85); transition: opacity .35s, transform .5s cubic-bezier(.2, .7, .2, 1); pointer-events: none; }
+.vid-marco:hover .vid-boton::after, .vid-marco:focus-visible .vid-boton::after { opacity: 1; transform: scale(1.25); }
+.vid-busca input:focus { box-shadow: 0 0 0 4px color-mix(in srgb, var(--marca) 18%, transparent), 0 0 22px -8px var(--marca); }
+.vid-temas a { font-family: var(--mono); font-size: .86rem; letter-spacing: .01em; }
+.vid-chip { box-shadow: 0 0 14px -4px #FF5A6E; }
+/* Profesionales: indice de cristal, cifras con lectura y lista con marcador encendido */
+.pro-indice { backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); background: color-mix(in srgb, var(--sup) 80%, transparent); }
+.pro-indice a { box-shadow: 0 2px 0 var(--linea); transition: border-color .2s, color .2s, box-shadow .2s, transform .15s; }
+.pro-indice a:hover { border-color: var(--marca-clara); color: var(--acento); box-shadow: 0 2px 0 color-mix(in srgb, var(--marca) 45%, var(--linea)), 0 0 14px -6px var(--marca); }
+.pro-indice a:active { transform: translateY(1px); }
+.pro-cif li b { font-variant-numeric: tabular-nums; text-shadow: 0 0 18px color-mix(in srgb, var(--marca-clara) 45%, transparent); }
+.pro-cif li { transition: transform .25s cubic-bezier(.2, .7, .2, 1), box-shadow .25s; }
+.pro-cif li:hover { transform: translateY(-2px); box-shadow: var(--sombra-s), 0 14px 30px -22px var(--marca); }
+.pro-fuente { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--marca) 30%, transparent); }
+.pro-img { outline: 1px solid color-mix(in srgb, var(--marca-clara) 30%, transparent); outline-offset: 4px; }
+/* Medios: halo del color de cada tipo y fecha como lectura */
+.medio:hover { box-shadow: var(--sombra), 0 22px 44px -30px var(--k, var(--marca)); }
+.medio-fecha { font-variant-numeric: tabular-nums; }
+.medio-de { letter-spacing: .02em; }
+.medios-cif li { transition: border-color .2s, box-shadow .2s; }
+.medios-cif li:hover { border-color: color-mix(in srgb, var(--marca) 40%, var(--linea)); box-shadow: 0 0 16px -8px var(--marca); }
+.medios-cif b { text-shadow: 0 0 12px color-mix(in srgb, var(--marca-clara) 50%, transparent); }
+/* Mitos: numero encendido, sello con halo y fuente como cita */
+.mito-n { transition: color .2s, text-shadow .2s; }
+.mito summary:hover .mito-n, .mito details[open] .mito-n { text-shadow: 0 0 10px color-mix(in srgb, var(--marca-clara) 70%, transparent); }
+.mito-sello { box-shadow: 0 0 16px -4px var(--k); }
+.mito-fuente b::before { content: "["; color: var(--acento); } .mito-fuente b::after { content: "]"; color: var(--acento); }
+.mito:hover { box-shadow: var(--sombra), 0 20px 40px -30px var(--k, var(--marca)); }
+.mito-foto { position: relative; }
+.mito-foto::after { content: ""; position: absolute; inset: 0; border-radius: .9rem; background: linear-gradient(125deg, rgba(255, 255, 255, .12), transparent 30%); pointer-events: none; }
+.mitos-indice a i { text-shadow: 0 0 8px color-mix(in srgb, var(--marca-clara) 50%, transparent); }
+@media (prefers-reduced-motion: reduce) { .ea-n, .ea-img, .vid-boton::after, .pro-indice a, .pro-cif li, .medios-cif li, .mito-n { transition: none; } .pro-cif li:hover, .pro-indice a:active { transform: none; } }
 </style>
 <script>document.documentElement.classList.add('js');</script>
 <a class="salto" href="#semana">Saltar al contenido</a>
