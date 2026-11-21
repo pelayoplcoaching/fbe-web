@@ -116,6 +116,7 @@ function num(id){var x=parseFloat(String($(id).value).replace(',','.'));return x
 function pinta(){
   var s=v('g-sexo'),cor=s==='h'?27:16,ts=['g-1','g-2','g-3'].map(num).filter(Boolean),res=document.querySelector('.tool-res'),top=s==='h'?70:45;
   $('g-cor').style.left=(cor/top*100)+'%';$('g-cor').querySelector('b').textContent=cor;res.classList.remove('z-alto','z-medio','z-bajo');
+  ['g-1','g-2','g-3'].forEach(function(id){var c=$(id).closest('.tool-campo');if(c)c.classList.toggle('g-mejor',ts.length>1&&num(id)===Math.max.apply(null,ts))});
   if(!ts.length){$('g-max').textContent='–';$('g-rel').style.width='0';$('g-tit').textContent='Apunta al menos un intento.';$('g-txt').textContent='Con un dinamómetro de mano, sentado y con el codo doblado.';$('g-copiar').hidden=true;return}
   var m=Math.max.apply(null,ts),tit,txt;
   $('g-max').textContent=fmt(m,m%1?1:0);destella($('g-max'));$('g-rel').style.width=Math.min(100,m/top*100)+'%';
