@@ -890,8 +890,36 @@ HERR_MAS += [('zonas-pulso.html', 'pulso', 'pulso', 'Zonas de pulso y esfuerzo',
 
 exec(open('herramientas3.py', encoding='utf-8').read())  # actividad de la OMS, cintura y altura, fuerza de prensión (21/11/2026)
 _h = open(f'{SAL}/herramientas.html', encoding='utf-8').read()
-_mas = ('<div class="herr-mas sube"><h2 class="herr-mas-t">Más herramientas</h2><div class="herr-mas-rej">'
-    + ''.join(f'<a class="herr-mini" href="{u}">{ilus(f"herr-{sl}", "herr-mini-img") or f"<i class=\"ic\">{ico(i)}</i>"}<b>{t}</b><span>{d}</span></a>' for u, sl, i, t, d in HERR_MAS)
-    + '</div></div>\n  <p class="herr-nota sube">')
+# Herramientas por objetivo (21/11/2026, noche): grupos con filtro y buscador. Mismo reparto que el menu (HERR_MENU de sitio-cab.py).
+_HB_G = [('evalua', 'Evalúa tu forma física', ['test-silla.html', 'test-sppb.html', 'prension.html', 'cintura-altura.html']),
+         ('planifica', 'Planifica tu entrenamiento', ['calculadora-1rm.html', 'volumen-semanal.html', 'zonas-pulso.html', 'actividad-oms.html', 'paron.html']),
+         ('come', 'Come y suplementa', ['calorias.html', 'cafeina.html', 'suplementos.html']),
+         ('seguro', 'Entrena seguro', ['revision-medica.html', 'semaforo-dolor.html'])]
+_HB_K = {'test-silla.html': 'piernas mayores caidas levantarse', 'calculadora-1rm.html': 'fuerza maxima peso repeticiones rir cargas', 'volumen-semanal.html': 'series semana musculo hipertrofia',
+         'cafeina.html': 'cafe te energetica dormir sueno', 'revision-medica.html': 'medico corazon riesgo cribado empezar', 'zonas-pulso.html': 'frecuencia cardiaca cardio borg reloj betabloqueantes',
+         'semaforo-dolor.html': 'lesion tendon rodilla molestia', 'test-sppb.html': 'mayores padres equilibrio marcha fragilidad', 'paron.html': 'vacaciones descanso perder musculo',
+         'suplementos.html': 'creatina proteina beta alanina', 'actividad-oms.html': 'minutos semana caminar recomendaciones', 'cintura-altura.html': 'grasa abdominal barriga perimetro',
+         'prension.html': 'dinamometro mano sarcopenia agarre', 'calorias.html': 'mantenimiento comer energia dieta kcal'}
+import unicodedata as _ud
+def _hb_norm(t): return ''.join(c for c in _ud.normalize('NFD', t.lower()) if _ud.category(c) != 'Mn')
+_HB_D = {u: (u, sl, i, t, d) for u, sl, i, t, d in HERR_MAS}
+assert sorted(u for _, _, L in _HB_G for u in L) == sorted(_HB_D), 'reparto de herramientas por grupo incompleto'
+def _hb_tarj(u):
+    u, sl, i, t, d = _HB_D[u]
+    return f'<a class="herr-mini" href="{u}" data-q="{_hb_norm(t + " " + d + " " + _HB_K.get(u, ""))}">{ilus(f"herr-{sl}", "herr-mini-img") or f"<i class=\"ic\">{ico(i)}</i>"}<b>{t}</b><span>{d}</span></a>'
+_HB_JS = r"""(function(){var f=document.getElementById('hb-f'),q=document.getElementById('hb-q'),n=document.getElementById('hb-n'),gs=[].slice.call(document.querySelectorAll('.hb-grupo')),g='';
+function norm(t){return String(t||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')}
+function pinta(){var v=norm(q.value).trim().split(/\s+/).filter(Boolean),k=0;gs.forEach(function(s){var c=0;[].forEach.call(s.querySelectorAll('.herr-mini'),function(a){var ok=(!g||s.dataset.g===g)&&v.every(function(p){return a.dataset.q.indexOf(p)>=0});a.hidden=!ok;if(ok)c++});s.hidden=!c;k+=c});n.textContent=k+(k===1?' herramienta':' herramientas');document.getElementById('hb-nada').hidden=k>0}
+f.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;[].forEach.call(f.querySelectorAll('button'),function(x){x.setAttribute('aria-pressed',x===b)});g=b.dataset.g;pinta()});
+q.addEventListener('input',pinta);pinta();})();"""
+_n_tot = len(HERR_MAS)
+_mas = ('<div class="herr-mas sube"><h2 class="herr-mas-t">Más herramientas</h2>'
+    + f'<div class="hb-barra"><label class="oculto" for="hb-q">Buscar una herramienta</label><span class="lupa glos-busca hb-busca"><input id="hb-q" type="search" placeholder="Por ejemplo: pulso, mayores, cafeína" autocomplete="off"></span>'
+    + '<div class="fases claras" id="hb-f" role="group" aria-label="Filtrar por objetivo">' + f'<button type="button" data-g="" aria-pressed="true">Todas<em>{_n_tot}</em></button>'
+    + ''.join(f'<button type="button" data-g="{k}" aria-pressed="false">{t}<em>{len(L)}</em></button>' for k, t, L in _HB_G) + '</div>'
+    + f'<p class="hb-n" id="hb-n" aria-live="polite">{_n_tot} herramientas</p></div>'
+    + ''.join(f'<section class="hb-grupo" data-g="{k}" aria-labelledby="hb-{k}"><h3 class="hb-h" id="hb-{k}">{t}<em>{len(L)}</em></h3><div class="herr-mas-rej">' + ''.join(_hb_tarj(u) for u in L) + '</div></section>' for k, t, L in _HB_G)
+    + '<p class="vol-vacio hb-nada" id="hb-nada" hidden>Ninguna herramienta con esa palabra. Prueba con el <button type="button" class="enl-b" onclick="window.fbeBusca&&window.fbeBusca(document.getElementById(\'hb-q\').value)">buscador de toda la web</button>.</p>'
+    + f'</div><script>{_HB_JS}</script>\n  <p class="herr-nota sube">')
 assert '<p class="herr-nota sube">' in _h
 open(f'{SAL}/herramientas.html', 'w', encoding='utf-8').write(_h.replace('<p class="herr-nota sube">', _mas, 1))

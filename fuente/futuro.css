@@ -4071,3 +4071,19 @@ html.contraste .bol-it > .bol-txt::before { display: none; }
 @media (forced-colors: active) { .nav-m { border: 2px solid CanvasText; } }
 .cab nav .nav-m a.nm-it { display: grid; gap: .12rem; }
 .nm-it small { display: block; line-height: 1.35; }
+/* ===== HERRAMIENTAS POR OBJETIVO (21/11/2026, noche) ===== */
+.hb-barra { display: grid; gap: .8rem; margin: 1rem 0 1.6rem; padding: 1rem 1.1rem; border-radius: 1.2rem; border: 1px solid transparent; background: linear-gradient(var(--sup), var(--sup)) padding-box, linear-gradient(135deg, color-mix(in srgb, var(--marca-clara) 55%, transparent), color-mix(in srgb, var(--linea) 80%, transparent) 50%) border-box; }
+.hb-busca { margin: 0; max-width: 26rem; }
+.hb-barra .fases { margin: 0; }
+.hb-barra .fases button[aria-pressed="true"] { background: var(--marca); border-color: var(--marca); color: #fff; }
+.hb-n { margin: 0; font: 600 .72rem/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--tinta-2); display: flex; align-items: center; gap: .45rem; }
+.hb-n::before { content: ""; width: .45rem; height: .45rem; border-radius: 50%; background: var(--verde); box-shadow: 0 0 8px var(--verde); }
+.hb-grupo { margin: 0 0 1.8rem; }
+.hb-grupo[hidden] { display: none; }
+.hb-h { display: flex; align-items: center; gap: .6rem; margin: 0 0 .9rem; font-size: 1.15rem; }
+.hb-h em { font: 700 .7rem/1 var(--mono); font-style: normal; padding: .25rem .45rem; border-radius: .4rem; background: color-mix(in srgb, var(--marca) 12%, transparent); color: var(--acento); }
+.hb-h::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, var(--linea), transparent); }
+.hb-grupo .herr-mini[hidden] { display: none; }
+@media (min-width: 900px) { .hb-barra { grid-template-columns: minmax(0, 22rem) minmax(0, 1fr); align-items: center; } .hb-n { grid-column: 1 / -1; } }
+#hb-f button em { font-style: normal; margin-left: .4rem; padding: .12rem .38rem; border-radius: .35rem; background: color-mix(in srgb, var(--marca) 12%, transparent); font: 600 .7rem/1.2 var(--mono); font-variant-numeric: tabular-nums; }
+#hb-f button[aria-pressed="true"] em { background: rgba(255, 255, 255, .22); color: #fff; }
