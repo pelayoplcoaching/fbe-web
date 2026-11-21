@@ -2,7 +2,7 @@
   var D = document, reducido = matchMedia('(prefers-reduced-motion: reduce)').matches;
   // Entrada de cada bloque y contadores
   function contar(el) { var fin = +el.dataset.n, t0 = performance.now(); if (reducido || fin < 5) { el.textContent = fin; return; } (function paso(t) { var k = Math.min(1, (t - t0) / 1100), v = Math.round(fin * (1 - Math.pow(1 - k, 3))); el.textContent = v; if (k < 1) requestAnimationFrame(paso); })(t0); }
-  function ya(el) { el.classList.add('ya'); el.querySelectorAll('[data-n]').forEach(contar); }
+  function ya(el) { el.classList.add('ya'); el.querySelectorAll('[data-n]:not(.entrada)').forEach(contar); }
   var io = 'IntersectionObserver' in window ? new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { ya(e.target); io.unobserve(e.target); } }); }, { rootMargin: '0px 0px -8% 0px' }) : null;
   var subes = D.querySelectorAll('.sube'); subes.forEach(function (el) { if (io) io.observe(el); else ya(el); });
   setTimeout(function () { subes.forEach(function (el) { if (!el.classList.contains('ya')) ya(el); }); }, 6000);
