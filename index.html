@@ -4419,6 +4419,59 @@ html.contraste .bol-it > .bol-txt::before { display: none; }
 .mito-foto::after { content: ""; position: absolute; inset: 0; border-radius: .9rem; background: linear-gradient(125deg, rgba(255, 255, 255, .12), transparent 30%); pointer-events: none; }
 .mitos-indice a i { text-shadow: 0 0 8px color-mix(in srgb, var(--marca-clara) 50%, transparent); }
 @media (prefers-reduced-motion: reduce) { .ea-n, .ea-img, .vid-boton::after, .pro-indice a, .pro-cif li, .medios-cif li, .mito-n { transition: none; } .pro-cif li:hover, .pro-indice a:active { transform: none; } }
+/* ===== 5 x 50 FUTURISTA - TANDA I (901-950): portada, Quien soy, Programas y Puesta a punto ===== */
+/* Cifras y datos con halo, sin tocar las fotos reales */
+.cifras li b { filter: drop-shadow(0 0 16px rgba(164, 156, 255, .35)); }
+.franja li:hover b { text-shadow: 0 0 14px rgba(164, 156, 255, .8); }
+.hero .datos b, .hero.mini .datos b { text-shadow: 0 0 18px rgba(164, 156, 255, .45); }
+.metas button { box-shadow: 0 2px 0 rgba(0, 0, 0, .25); transition: transform .15s, box-shadow .2s, background-color .2s, color .2s, border-color .2s; }
+.metas button:active { transform: translateY(1px); box-shadow: none; }
+/* Portada: comparativa con la columna FBE iluminada y testimonios con halo */
+.compara:has(thead th.yo:nth-child(2)) :is(thead th:nth-child(2), tbody td:nth-child(2)) { box-shadow: inset 1px 0 0 color-mix(in srgb, var(--marca-clara) 45%, transparent), inset -1px 0 0 color-mix(in srgb, var(--marca-clara) 45%, transparent); }
+.compara:has(thead th.yo:nth-child(2)) tbody tr:hover td:nth-child(2) { background: color-mix(in srgb, var(--marca) 10%, transparent); }
+.voz .quien .cara { transition: box-shadow .3s; }
+.voz:hover .quien .cara { box-shadow: 0 0 0 3px var(--sup), 0 0 0 5px var(--marca-clara), 0 0 18px -2px var(--marca-clara); }
+.testi > .voz:first-child:hover .quien .cara { box-shadow: 0 0 0 3px var(--noche), 0 0 0 5px var(--oro), 0 0 18px -2px var(--oro); }
+/* Quien soy: tarjeta de formacion, redes como teclas, frase con halo y publicaciones */
+.pegada { transition: box-shadow .35s, border-color .35s; }
+.pegada:hover { border-color: color-mix(in srgb, var(--marca) 35%, var(--linea)); box-shadow: var(--sombra-s), 0 20px 44px -30px var(--marca); }
+.redes a { box-shadow: 0 2px 0 var(--linea); transition: transform .15s, box-shadow .2s, border-color .2s, color .2s; }
+.redes a:hover { border-color: var(--marca-clara); color: var(--acento); box-shadow: 0 2px 0 color-mix(in srgb, var(--marca) 45%, var(--linea)), 0 0 14px -6px var(--marca); }
+.redes a:active { transform: translateY(1px); }
+.lema-banda blockquote p { text-shadow: 0 0 28px rgba(164, 156, 255, .35); }
+.pub-img { transition: transform .6s cubic-bezier(.2, .7, .2, 1), filter .4s; }
+.caja:hover .pub-img { transform: scale(1.04); filter: brightness(1.06); }
+.caja:has(.pub-img) { overflow: hidden; }
+.linea li b, .linea li strong { transition: text-shadow .3s, color .3s; }
+.linea li:hover b, .linea li:hover strong { text-shadow: 0 0 14px color-mix(in srgb, var(--marca-clara) 60%, transparent); }
+/* Programas: test con borde de luz, etiqueta de plan con halo y barras de nivel encendidas */
+.elige { position: relative; isolation: isolate; }
+.elige::after { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; padding: 1px; background: linear-gradient(135deg, color-mix(in srgb, var(--marca-clara) 70%, transparent), transparent 45%, color-mix(in srgb, var(--oro) 55%, transparent)); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); pointer-events: none; }
+.elige-r #elige-t { filter: drop-shadow(0 0 10px color-mix(in srgb, var(--marca-clara) 45%, transparent)); }
+.plan .eti { box-shadow: var(--sombra-s), 0 0 16px -4px var(--oro); }
+.plan h3 .nivel i.on { box-shadow: 0 0 8px -1px currentColor; }
+.ritmo span { transition: box-shadow .2s, border-color .2s; }
+.plan:hover .ritmo span { box-shadow: 0 0 12px -6px var(--marca); }
+.aviso { box-shadow: 0 14px 34px -28px var(--oro); }
+.tres-img { transition: transform .6s cubic-bezier(.2, .7, .2, 1), filter .4s; }
+.caja:hover .tres-img, .idea:hover .tres-img { transform: scale(1.03); filter: brightness(1.06); }
+/* Puesta a punto: precio con halo, analiticas como chips con piloto, encaje con brillo */
+.pegada .precio { filter: drop-shadow(0 0 16px color-mix(in srgb, var(--marca-clara) 40%, transparent)); }
+.chips li { transition: border-color .2s, box-shadow .2s, transform .2s; }
+.chips li:hover { transform: translateY(-1px); box-shadow: 0 0 0 3px color-mix(in srgb, var(--marca) 10%, transparent), 0 0 14px -6px var(--marca); }
+.encaje > div:first-child { box-shadow: inset 0 3px 0 var(--verde), 0 -10px 30px -24px var(--verde); }
+.encaje > .no { box-shadow: inset 0 3px 0 color-mix(in srgb, var(--rojo) 70%, transparent), 0 -10px 30px -24px var(--rojo); }
+.llama { position: relative; overflow: hidden; }
+.llama::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: linear-gradient(180deg, var(--marca-clara), var(--marca)); box-shadow: 0 0 12px var(--marca-clara); }
+/* Anterior / siguiente: etiqueta como lectura y flecha con halo */
+.sigue a small { transition: color .2s, letter-spacing .3s; }
+.sigue a:hover small { color: var(--acento); letter-spacing: .14em; }
+/* Cierre: titular con halo suave */
+.cierre h2 { text-shadow: 0 0 40px rgba(164, 156, 255, .35); }
+@media (prefers-reduced-motion: reduce) { .metas button, .voz .quien .cara, .pegada, .redes a, .pub-img, .linea li b, .linea li strong, .ritmo span, .tres-img, .chips li, .sigue a small { transition: none; } .metas button:active, .redes a:active, .chips li:hover, .caja:hover .pub-img, .caja:hover .tres-img, .idea:hover .tres-img { transform: none; } }
+@media print { .cifras li b, .pegada .precio, .elige-r #elige-t { filter: none; } .cierre h2, .lema-banda blockquote p { text-shadow: none; } }
+.pegada .precio { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: .6rem; row-gap: .35rem; }
+.pegada .precio small { white-space: normal; min-width: 0; }
 </style>
 <script>document.documentElement.classList.add('js');</script>
 <a class="salto" href="#semana">Saltar al contenido</a>
