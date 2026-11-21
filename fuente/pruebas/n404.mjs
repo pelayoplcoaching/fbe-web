@@ -1,0 +1,21 @@
+// 404 con sugerencias: lee la dirección equivocada y propone páginas del buscador; también en direcciones con subcarpetas
+import { chromium, servir, RAIZ, SALIDA } from './comun.mjs';
+let mal = 0; const ok = (c, m) => { console.log((c ? '  ✔ ' : '  ✘ ') + m); if (!c) mal++; };
+const s = await servir(RAIZ, 4415); const b = await chromium.launch(); const p = await b.newPage({ viewport: { width: 1280, height: 900 } }); const errs = []; p.on('pageerror', e => errs.push(e.message));
+const r = await p.goto('http://localhost:4415/creatina-dosis'); await p.waitForTimeout(900);
+ok(r.status() === 404, 'responde 404');
+const sug = await p.$$eval('#n4-lista a', a => a.map(x => x.getAttribute('href')));
+ok(!(await p.isHidden('#n4-sug')) && sug.some(u => /creatina|suplementos/.test(u)), `/creatina-dosis sugiere ${sug.slice(0, 3).join(', ')}`);
+ok((await p.inputValue('#n4-q')) === 'creatina dosis', 'el buscador viene relleno con las palabras de la dirección');
+await p.goto('http://localhost:4415/herramientas/pulso-maximo'); await p.waitForTimeout(900);
+const css = await p.evaluate(() => getComputedStyle(document.querySelector('footer')).backgroundColor);
+const sug2 = await p.$$eval('#n4-lista a', a => a.map(x => x.getAttribute('href')));
+ok(css !== 'rgba(0, 0, 0, 0)' && sug2.some(u => /zonas-pulso|pulso/.test(u)), `con subcarpetas carga el estilo y sugiere ${sug2.slice(0, 2).join(', ')}`);
+const hrefOk = await p.evaluate(() => new URL(document.querySelector('.n4-a').getAttribute('href'), document.baseURI).pathname);
+ok(hrefOk === '/empieza-aqui.html', 'los enlaces apuntan a la raíz de la web: ' + hrefOk);
+await p.goto('http://localhost:4415/zz'); await p.waitForTimeout(600);
+ok(await p.isHidden('#n4-sug'), 'sin palabras útiles no enseña sugerencias, solo los accesos');
+await p.goto('http://localhost:4415/calculadora-1rm'); ok((await p.title()).includes('1RM'), '/calculadora-1rm sirve la página (como GitHub Pages)');
+ok(errs.length === 0, 'sin errores ' + errs.join('|'));
+await p.goto('http://localhost:4415/creatina-dosis'); await p.waitForTimeout(900); await p.screenshot({ path: `${SALIDA}/n404.png`, fullPage: true });
+await b.close(); s.close(); console.log(mal ? 'FALLOS ' + mal : 'todo correcto'); process.exit(0);

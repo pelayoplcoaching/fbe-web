@@ -4,7 +4,7 @@ const dir = path.dirname(fileURLToPath(import.meta.url));
 const LISTA = [
   ['calculadoras-1.mjs', 'Cinco primeras calculadoras'], ['calculadoras-1-extra.mjs', 'Mejoras de las cinco primeras'], ['calculadoras-2.mjs', 'Segunda tanda de calculadoras'],
   ['calculadoras-3.mjs', 'OMS, cintura/altura, prensión y ajustes'], ['diez-mejoras.mjs', 'Calorías, test de mitos, plan, Mis resultados'], ['extras.mjs', 'Buscador, glosario, archivo, Mis resultados, sin conexión'],
-  ['mitos.mjs', 'Mitos'], ['resaltado.mjs', 'Resaltado y letras del glosario'], ['secciones.mjs', 'Secciones nuevas'], ['enlaces.mjs', 'Enlaces, anclas, imágenes y sitemap'], ['menu.mjs', 'Menú con desplegables'], ['herramientas-hub.mjs', 'Herramientas por objetivo'], ['siguiente.mjs', '¿Y ahora qué? bajo cada resultado'], ['fuentes.mjs', 'Fuentes comprobadas'], ['autoria.mjs', 'Firma y Cómo trabajo la evidencia'], ['temas.mjs', 'Páginas de tema'],
+  ['mitos.mjs', 'Mitos'], ['resaltado.mjs', 'Resaltado y letras del glosario'], ['secciones.mjs', 'Secciones nuevas'], ['enlaces.mjs', 'Enlaces, anclas, imágenes y sitemap'], ['menu.mjs', 'Menú con desplegables'], ['herramientas-hub.mjs', 'Herramientas por objetivo'], ['siguiente.mjs', '¿Y ahora qué? bajo cada resultado'], ['fuentes.mjs', 'Fuentes comprobadas'], ['autoria.mjs', 'Firma y Cómo trabajo la evidencia'], ['temas.mjs', 'Páginas de tema'], ['n404.mjs', '404 con sugerencias'],
   ['desbordes.mjs', 'Nada se sale de la pantalla (todas las páginas)'], ['cajas.mjs', 'Nada se sale de su tarjeta (todas las páginas)'], ['accesibilidad.mjs', 'Accesibilidad (axe)'],
 ];
 const rapidas = process.argv[2] === 'rapidas'; let mal = 0;

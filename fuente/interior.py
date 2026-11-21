@@ -249,13 +249,44 @@ if('IntersectionObserver' in window){var L=$$('.indice a'),o=new IntersectionObs
 pagina('dudas.html', 'Dudas', 'Preguntas frecuentes sobre la asesoría de Fuerza Basada en Evidencia: funcionamiento, entrenamiento, nutrición y soporte.', 'Las dudas de siempre, respondidas.', 'Si la tuya no está, escríbeme y te contesto yo.', '<section><div class="in dudas"><nav class="indice sube" aria-label="Temas"><b>Temas</b>' + ''.join(f'<a href="#t{i}">{t}<span>{len(qs)}</span></a>' for i, (t, qs) in enumerate(D)) + '</nav><div class="lista-d"><div class="busca sube"><label for="busca">Busca en las ' + str(NQ) + ' respuestas</label><span class="lupa"><input id="busca" type="search" placeholder="Por ejemplo: guardia, creatina, fallo" autocomplete="off"></span><div class="busca-pie"><span id="halla" role="status"></span><button class="btn peq hueco" id="todas" type="button" aria-pressed="false">Abrir todas</button></div></div>' + ''.join(f'<div class="grupo-d sube" id="t{i}"><h2>{t}</h2><div class="faq">' + ''.join(f'<details id="{slug(q)}"><summary>{q}</summary><p>{a}</p><a class="ancla" href="#{slug(q)}">Enlace a esta respuesta</a></details>' for q, a in qs) + '</div>' + mas(t) + '</div>' for i, (t, qs) in enumerate(D)) + f'<p id="vacio" hidden>No hay ninguna respuesta con esas palabras. Prueba con otra o escríbeme.</p><div class="llama sube" style="margin-top:0"><b>¿No está tu pregunta?</b><a class="btn" href="{ESCRIBE}">Escribirme</a></div></div></div></section>' + JS_D, datos((str(NQ), 'respuestas'), (str(len(D)), 'temas')), extra=LDF)
 
 # ===== publicar: icono, 404, mapa =====
+N404_JS = r"""(function(){var D=document,L=D.getElementById('n4-lista'),S=D.getElementById('n4-sug'),q=D.getElementById('n4-q'),f=D.getElementById('n4-f');
+function norm(t){return String(t||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'')}
+function esc(t){return String(t).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+var p=norm(decodeURIComponent(location.pathname)).replace(/^\/fbe-web\//,'/').replace(/\.(html?|php|aspx?)$/,'');
+var NO={'www':1,'html':1,'index':1,'fbe':1,'web':1,'com':1,'pagina':1,'page':1,'the':1,'los':1,'las':1,'del':1,'para':1,'con':1};
+var ws=p.split(/[^a-z0-9]+/).filter(function(w){return w.length>2&&!NO[w]});
+q.value=ws.join(' ');
+f.addEventListener('submit',function(e){e.preventDefault();if(window.fbeBusca)window.fbeBusca(q.value);});
+if(!ws.length)return;
+fetch('buscar.json').then(function(r){return r.json()}).then(function(ix){
+  var PRI={'Herramienta':0,'Página':1,'Glosario':2,'Duda':3,'Mito':4,'Guía':5,'Empieza aquí':6,'Fuente':7,'Boletín':8};
+  var res=ix.map(function(e){var t=norm(e.t),k=norm(e.k+' '+e.d+' '+e.u),s=0;ws.forEach(function(w){var w4=w.slice(0,Math.max(4,w.length-2));if(t.indexOf(w)>=0)s+=6;else if(t.indexOf(w4)>=0)s+=4;else if(k.indexOf(w)>=0)s+=2;else if(k.indexOf(w4)>=0)s+=1});return s?{e:e,s:s-(PRI[e.y]||0)*.25}:null}).filter(Boolean).sort(function(a,b){return b.s-a.s}).slice(0,6);
+  if(!res.length)return;
+  L.innerHTML=res.map(function(x){var e=x.e;return '<li><a class="n4-r" href="'+esc(e.u)+'"'+(e.x?' target="_blank" rel="noopener"':'')+'><small>'+esc(e.y)+'</small><b>'+esc(e.t)+'</b>'+(e.d?'<span>'+esc(e.d.length>120?e.d.slice(0,118)+'…':e.d)+'</span>':'')+'</a></li>'}).join('');
+  S.hidden=false;
+}).catch(function(){});})();"""
+
 open(f'{SAL}/favicon.svg', 'w', encoding='utf-8').write(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1254 1254"><rect width="1254" height="1254" rx="280" fill="#593EDE"/><g transform="translate(627 627) scale(.82) translate(-627 -628)"><path fill="#fff" fill-rule="evenodd" d="{LD}"/></g></svg>')
 open(f'{SAL}/404.html', 'w', encoding='utf-8').write(f'''{cabeza('404.html', 'Página no encontrada', 'Esta página no existe.', '<meta name="robots" content="noindex">')}
 {cabecera()}
 <header class="hero mini t-404" id="inicio">{ANILLOS}{ilus("web-404")}<div class="in"><div class="txt"><p class="num404" aria-hidden="true">404</p><h1>Aquí no hay nada.</h1><p class="sub">La página que buscas no existe o ha cambiado de sitio. Estas sí están:</p><div class="cta"><a class="btn claro" href="index.html">Ir al inicio</a><a class="enl" href="programas.html">Programas</a><a class="enl" href="guias.html">Guías</a><a class="enl" href="dudas.html">Dudas</a></div></div></div></header>
-<main id="contenido"></main>
+<main id="contenido">
+<section class="n4-s" id="n4-sug" hidden aria-labelledby="n4-h"><div class="in"><div class="entrada"><h2 id="n4-h">¿Buscabas esto?</h2><p id="n4-p">Por la dirección que has escrito, puede que sea una de estas páginas.</p></div>
+  <ul class="n4-lista" id="n4-lista"></ul>
+</div></section>
+<section class="n4-s"><div class="in">
+  <form class="n4-busca" id="n4-f" role="search"><label for="n4-q">Busca en toda la web</label><span class="lupa glos-busca hb-busca"><input id="n4-q" type="search" placeholder="Por ejemplo: creatina, rodilla, 1RM" autocomplete="off"></span><button class="btn" type="submit"><span>Buscar</span></button></form>
+  <h2 class="n4-t">O empieza por aquí</h2>
+  <div class="n4-rej">{"".join(f'<a class="n4-a" href="{u}"><b>{t}</b><span>{d}</span></a>' for u, t, d in [('empieza-aqui.html', 'Empieza aquí', 'Tu ruta según tu caso'), ('herramientas.html', 'Herramientas', 'Calculadoras y tests gratuitos'), ('mitos.html', 'Mitos y evidencia', 'Qué dicen los estudios'), ('guias.html', 'Guías', 'Para descargar y aplicar'), ('programas.html', 'Programas', 'Entrena con un plan'), ('dudas.html', 'Dudas', 'Preguntas frecuentes')])}</div>
+  <p class="sec-enl n4-temas"><b>Por tema</b>{"".join(f'<a href="{u}">{t}</a>' for u, t in TEMAS_MENU)}</p>
+</div></section>
+</main>
 {PIE}
-<script src="fbe.js"></script></body></html>''')
+<script src="fbe.js"></script>
+<script>{N404_JS}</script></body></html>''')
+# La 404 se sirve en cualquier dirección: si la dirección tiene subcarpetas, una <base> para que carguen el estilo y los enlaces (en la de pruebas, bajo /fbe-web/)
+_n4 = open(f'{SAL}/404.html', encoding='utf-8').read()
+open(f'{SAL}/404.html', 'w', encoding='utf-8').write(_n4.replace('<meta charset="utf-8">', '<meta charset="utf-8"><script>(function(){var p=location.pathname,r=p.indexOf("/fbe-web/")===0?"/fbe-web/":"/";if(p.slice(r.length).indexOf("/")>=0)document.write(\'<base href="\'+r+\'">\')})();</script>', 1))
 # Tandas 12-14 (20/11/2026): sello de las paginas de gracias, tarjetas de «Mientras tanto» y pasos de «Cómo sigue»
 SELLO = '<span class="sello" aria-hidden="true"><svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="23"/><path d="M15.5 27.5l7 7 14-15"/></svg></span>'
 def tarj_sigue(href, img, titulo):

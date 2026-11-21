@@ -4247,3 +4247,20 @@ html.contraste .bol-it > .bol-txt::before { display: none; }
 .cab nav .nm-temas a:hover, .cab nav .nm-temas a[aria-current] { background: rgba(164, 156, 255, .18); box-shadow: none; }
 @media (prefers-reduced-motion: reduce) { .tm-mito, .tm-guia, .tm-indice a, .tm-term, .tm-bol a, .tm-fu a { transition: none; } .tm-mito:hover, .tm-guia:hover { translate: none; } }
 .contraste .tm-mito, .contraste .tm-term, .contraste .tm-guia, .contraste .tm-bol a, .contraste .tm-fu a, .contraste .tm-indice { background: var(--fondo); }
+/* ===== 404 CON SUGERENCIAS (21/11/2026, noche) ===== */
+.n4-s[hidden] { display: none; }
+.n4-lista { list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); }
+.n4-r { display: grid; gap: .3rem; padding: .95rem 1.1rem; border-radius: 1rem; border: 1px solid var(--linea); background: var(--sup); color: var(--tinta-2); text-decoration: none; font-size: .88rem; line-height: 1.45; transition: border-color .2s, box-shadow .25s; }
+.n4-r small { font: 700 .62rem/1.3 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--acento); }
+.n4-r b { color: var(--tinta); font-size: 1rem; line-height: 1.3; }
+.n4-r:hover { border-color: var(--marca); box-shadow: 0 14px 30px -24px var(--marca); }
+.n4-busca { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1rem; margin: 0 0 2rem; padding: 1rem 1.1rem; border-radius: 1.2rem; border: 1px solid var(--linea); background: var(--sup); }
+.n4-busca label { flex-basis: 100%; font: 700 .7rem/1.3 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--tinta-2); }
+.n4-busca .hb-busca { flex: 1 1 16rem; max-width: 30rem; }
+.n4-t { font-size: clamp(1.3rem, 3vw, 1.7rem); margin: 0 0 1rem; }
+.n4-rej { display: grid; gap: .6rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); margin: 0 0 1.2rem; }
+.n4-a { display: grid; gap: .25rem; padding: .9rem 1rem; border-radius: .9rem; border: 1px solid var(--linea); background: var(--sup); color: var(--tinta-2); text-decoration: none; font-size: .86rem; transition: border-color .2s, translate .25s cubic-bezier(.2, .7, .2, 1); }
+.n4-a b { color: var(--tinta); font-size: 1rem; }
+.n4-a:hover { border-color: var(--marca); translate: 0 -2px; }
+@media (prefers-reduced-motion: reduce) { .n4-r, .n4-a { transition: none; } .n4-a:hover { translate: none; } }
+.contraste .n4-r, .contraste .n4-a, .contraste .n4-busca { background: var(--fondo); }
