@@ -3736,3 +3736,82 @@ html.contraste :is(#bol-n, #mr-n) { background: none; color: var(--tinta); }
 html.contraste .bol-it > .bol-txt::before { display: none; }
 @media (forced-colors: active) { .cab::after, .bol-lista::before, .bol-mes::before, .qz-anillo { display: none; } :is(.caja, .herr-mini, .guia, .idea, .plan, .medio, .tarj-s, .pro-herr, .mr-it, .term, .mito, .calc):hover { outline-color: Highlight; } }
 @media (prefers-reduced-motion: reduce) { .miga a::after, footer .in a, footer .marca i, .faq details, .compara tbody tr { transition: none; } footer .in a:hover { translate: none; } }
+/* ===== 5 x 50 FUTURISTA - TANDA F (751-800): marco de las calculadoras y las cinco primeras ===== */
+/* Panel de resultado: piloto de estado, linea de lectura y cifra con halo */
+.tool-res > p.tool-et:first-of-type { display: flex; align-items: center; gap: .55rem; --st: var(--marca-clara); }
+.tool-res > p.tool-et:first-of-type::before { content: ""; flex: none; width: .5rem; height: .5rem; border-radius: 50%; background: var(--st); box-shadow: 0 0 0 3px color-mix(in srgb, var(--st) 22%, transparent), 0 0 10px var(--st); transition: background-color .3s, box-shadow .3s; }
+.tool-res > p.tool-et:first-of-type::after { content: ""; flex: 1; min-width: 1.5rem; height: 1px; background: linear-gradient(90deg, color-mix(in srgb, var(--st) 55%, transparent), transparent); }
+.tool-res.z-alto > p.tool-et:first-of-type { --st: var(--ok); } .tool-res.z-medio > p.tool-et:first-of-type { --st: var(--at); } .tool-res.z-bajo > p.tool-et:first-of-type { --st: var(--mal); }
+.res-grande b { filter: drop-shadow(0 0 18px rgba(164, 156, 255, .35)); }
+.z-alto .res-grande b { filter: drop-shadow(0 0 18px rgba(95, 211, 160, .35)); } .z-medio .res-grande b { filter: drop-shadow(0 0 18px rgba(240, 198, 116, .35)); } .z-bajo .res-grande b { filter: drop-shadow(0 0 18px rgba(255, 143, 163, .35)); }
+.res-grande span { padding: .2rem .45rem; border-radius: .4rem; background: rgba(255, 255, 255, .06); box-shadow: inset 0 0 0 1px rgba(164, 156, 255, .25); letter-spacing: .04em; }
+.res-veredicto:empty { display: none; }
+.tool-res:is(.z-alto, .z-medio, .z-bajo) .res-veredicto { position: relative; padding-left: 2.05rem; }
+.tool-res.z-alto .res-veredicto::before, .tool-res.z-medio .res-veredicto::before, .tool-res.z-bajo .res-veredicto::before { position: absolute; left: 0; top: .05rem; display: grid; place-items: center; width: 1.45rem; height: 1.45rem; border-radius: .45rem; font: 800 .8rem/1 var(--mono); color: var(--noche); }
+.tool-res.z-alto .res-veredicto::before { content: "\2713"; background: var(--ok); box-shadow: 0 0 12px -2px var(--ok); }
+.tool-res.z-medio .res-veredicto::before { content: "!"; background: var(--at); box-shadow: 0 0 12px -2px var(--at); }
+.tool-res.z-bajo .res-veredicto::before { content: "!"; background: var(--mal); box-shadow: 0 0 12px -2px var(--mal); }
+.tool-res .copiar-t { background: rgba(255, 255, 255, .04); }
+.tool-res .copiar-t:hover { box-shadow: 0 0 0 3px rgba(164, 156, 255, .2), 0 0 18px -6px var(--marca-clara); }
+/* Formulario: linea de luz arriba, borde que se enciende al escribir y etiqueta activa */
+.tool-form::after { content: ""; position: absolute; top: -1px; left: 12%; width: 34%; height: 1px; background: linear-gradient(90deg, transparent, var(--marca-clara), transparent); pointer-events: none; opacity: .8; }
+.tool-form { transition: border-color .3s, box-shadow .3s; }
+.tool-form:focus-within { border-color: color-mix(in srgb, var(--marca) 35%, var(--linea)); box-shadow: var(--sombra-s), 0 18px 40px -30px var(--marca); }
+.tool-campo:focus-within > label, .tool-campo:focus-within > legend { color: var(--acento); }
+.tool-campo > label { transition: color .2s; }
+.num-paso button { box-shadow: 0 2px 0 var(--linea); transition: background-color .2s, border-color .2s, box-shadow .2s, transform .12s; }
+.num-paso button:active { transform: translateY(1px); box-shadow: 0 1px 0 var(--linea); }
+.num-paso button:hover { box-shadow: 0 2px 0 color-mix(in srgb, var(--marca) 40%, var(--linea)), 0 0 0 3px color-mix(in srgb, var(--marca) 14%, transparent); }
+.tool input[type="number"]:focus, .tool input[type="time"]:focus, .tool select:focus { box-shadow: 0 0 0 4px color-mix(in srgb, var(--marca) 18%, transparent), 0 0 22px -8px var(--marca); }
+.tool input[type="number"] { font-variant-numeric: tabular-nums; }
+.seg-t span { box-shadow: 0 2px 0 var(--linea); transition: background-color .2s, color .2s, border-color .2s, box-shadow .2s, transform .15s; }
+.seg-t label:active span { transform: translateY(1px); }
+.seg-t input:checked + span { background: linear-gradient(160deg, var(--marca-clara), var(--marca) 60%); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25), 0 2px 0 color-mix(in srgb, var(--marca) 55%, #000), 0 .6rem 1.4rem -.7rem var(--marca); }
+.tool .tool-nota { padding-left: .85rem; border-left: 2px solid color-mix(in srgb, var(--marca-clara) 45%, transparent); }
+.tool-aviso { position: relative; padding-left: 2.6rem; }
+.tool-aviso::before { content: "!"; position: absolute; left: .8rem; top: .8rem; display: grid; place-items: center; width: 1.3rem; height: 1.3rem; border-radius: 50%; background: var(--oro); color: #1a1033; font: 800 .75rem/1 var(--mono); box-shadow: 0 0 10px -2px var(--oro); }
+/* Como se interpreta: tira con marco de visor, texto con rail y fuentes como citas */
+.tool-fig img { box-shadow: var(--sombra-s), inset 0 0 0 1px rgba(164, 156, 255, .25); }
+.tool-fig figcaption b { padding: .15rem .4rem; border-radius: .35rem; background: color-mix(in srgb, var(--marca) 12%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--marca) 30%, transparent); }
+.tool-explica { position: relative; padding-left: 1.3rem; }
+.tool-explica::before { content: ""; position: absolute; left: 0; top: .4rem; bottom: .4rem; width: 2px; border-radius: 2px; background: linear-gradient(180deg, var(--marca-clara), color-mix(in srgb, var(--marca) 30%, transparent), transparent); }
+.tool-explica p { position: relative; }
+.tool-explica p::before { content: ""; position: absolute; left: calc(-1.3rem - 4px); top: .55em; width: 10px; height: 10px; border-radius: 50%; background: var(--fondo); border: 2px solid var(--marca-clara); box-shadow: 0 0 8px color-mix(in srgb, var(--marca-clara) 60%, transparent); }
+.fuentes-h { display: flex; align-items: center; gap: .6rem; }
+.fuentes-h::before { content: "//"; color: var(--acento); font-weight: 700; }
+.fuentes-h::after { content: ""; flex: 1; max-width: 16rem; height: 1px; background: linear-gradient(90deg, var(--linea), transparent); }
+.fuentes-t { list-style: none; padding-left: 0; counter-reset: fte; }
+.fuentes-t li { position: relative; counter-increment: fte; padding: .55rem .8rem .55rem 3rem; border-radius: .7rem; border: 1px solid transparent; transition: color .2s, border-color .2s, background-color .2s; }
+.fuentes-t li::before { content: "[" counter(fte) "]"; position: absolute; left: .8rem; top: .55rem; font: 700 .78rem/1.5 var(--mono); color: var(--acento); }
+.fuentes-t li:hover { border-color: color-mix(in srgb, var(--marca) 25%, var(--linea)); background: color-mix(in srgb, var(--marca) 4%, transparent); }
+/* Silla: cronometro y botones */
+.crono-t.corre .crono-num b { background: linear-gradient(180deg, var(--tinta), var(--acento)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.crono-hint { font-family: var(--mono); letter-spacing: .02em; }
+.crono-mas { box-shadow: 0 2px 0 var(--linea); }
+.crono-mas:active { transform: translateY(1px); }
+.medidor-pista { background: repeating-linear-gradient(90deg, transparent 0 calc(10% - 1px), rgba(255, 255, 255, .1) calc(10% - 1px) 10%), rgba(255, 255, 255, .08); }
+/* 1RM: serie como lectura y escala con brillo */
+.rm-serie { box-shadow: inset 0 0 0 1px rgba(164, 156, 255, .3), 0 0 14px -6px var(--marca-clara); }
+.rm-pista { background: repeating-linear-gradient(90deg, transparent 0 calc(5.263% - 1px), rgba(255, 255, 255, .1) calc(5.263% - 1px) 5.263%), rgba(255, 255, 255, .06); }
+.discos-caja { position: relative; }
+.discos-t::before { content: ""; display: inline-block; vertical-align: middle; margin: -.15rem .5rem 0 0; width: .45rem; height: .45rem; border-radius: 50%; background: var(--marca-clara); box-shadow: 0 0 8px var(--marca-clara); }
+/* Volumen: cifras de resumen con piloto de color y atajos con signo encendido */
+.vol-tiles > div { position: relative; overflow: hidden; }
+.vol-tiles > div::before { content: ""; position: absolute; left: .6rem; right: .6rem; top: 0; height: 2px; border-radius: 0 0 2px 2px; background: var(--vt, var(--marca-clara)); box-shadow: 0 0 10px var(--vt, var(--marca-clara)); }
+.vol-tiles > .t2 { --vt: var(--ok); } .vol-tiles > .t1 { --vt: var(--marca-clara); } .vol-tiles > .t0 { --vt: var(--at); } .vol-tiles > .tt { --vt: #fff; }
+.vol-rapidos .chip-b:hover, .caf-rapidos .chip-b:hover { box-shadow: 0 0 0 3px color-mix(in srgb, var(--marca) 14%, transparent), 0 0 16px -6px var(--marca); }
+/* Cafeina: curva con mas brillo, lectura como pantalla */
+.caf-curva .linea { filter: drop-shadow(0 0 5px rgba(164, 156, 255, .85)); }
+.caf-curva { box-shadow: inset 0 0 0 1px rgba(164, 156, 255, .22), inset 0 0 40px -16px rgba(89, 62, 222, .7); }
+.caf-lectura { font-family: var(--mono); }
+.caf-limites > * { box-shadow: inset 0 0 0 1px rgba(164, 156, 255, .25); }
+/* Revision medica: pasos unidos por luz y 112 con halo */
+.rev-pasos span { box-shadow: 0 2px 0 var(--linea); }
+.rev-pasos span.on { background: linear-gradient(160deg, var(--marca-clara), var(--marca)); box-shadow: 0 0 0 4px color-mix(in srgb, var(--marca) 16%, transparent), 0 0 14px -2px var(--marca); }
+.rev-pasos span.on + i { background: linear-gradient(90deg, var(--marca), var(--linea)); }
+.rev-camino span { font-family: var(--mono); font-size: .72rem; }
+.rev-camino span + span::before { content: "\2192"; margin-right: .35rem; color: var(--marca-clara); }
+.tel-112 { box-shadow: 0 0 0 3px color-mix(in srgb, var(--rojo) 25%, transparent), 0 0 20px -6px var(--rojo); }
+@media (prefers-reduced-motion: reduce) { .tool-form, .tool-campo > label, .num-paso button, .seg-t span, .fuentes-t li, .tool-res > p.tool-et:first-of-type::before { transition: none; } .num-paso button:active, .seg-t label:active span, .crono-mas:active { transform: none; } }
+@media print { .tool-res > p.tool-et:first-of-type::before, .tool-res > p.tool-et:first-of-type::after, .tool-explica::before, .tool-explica p::before { display: none; } .tool-explica { padding-left: 0; } .res-grande b { filter: none; } }
+@media (max-width: 440px) { .crono-bots .btn { padding-inline: 1rem; font-size: .92rem; white-space: nowrap; } .crono-mas { white-space: nowrap; font-size: 1rem; gap: .4rem; padding-inline: .6rem; } .crono-mas b { min-width: 1.7rem; font-size: .85rem; padding: .12rem .4rem; } }
