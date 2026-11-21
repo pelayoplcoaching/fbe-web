@@ -240,7 +240,7 @@ pagina('mitos.html', 'Mitos y evidencia', 'Nueve mitos de gimnasio y de consulta
 
 # ---------------------------------------------------------------------------------------------
 # 5. En los medios: solo con enlaces reales que Pelayo ha aprobado (21/11/2026). Los títulos de los dos podcasts son descriptivos
-#    (no se pudo leer el título exacto de YouTube); los de prensa y SEMI son los publicados. El de AS sale de la dirección de la noticia.
+#    (no se pudo leer el título exacto de YouTube); los de prensa y SEMI son los publicados (el de AS, comprobado con la captura que mandó Pelayo el 21/11/2026).
 MEDIO_ACC = {'Prensa': ('libro', 'Leer la noticia'), 'Podcast': ('micro', 'Ver la entrevista'), 'Formación': ('fonendo', 'Ver la minipíldora')}
 MEDIO_T = [('', 'Todo'), ('Prensa', 'Prensa'), ('Podcast', 'Podcasts'), ('Formación', 'Formación')]
 MEDIOS_JS = r'''(function(){var f=document.getElementById('medios-f');if(!f)return;var ms=[].slice.call(document.querySelectorAll('.medio'));
