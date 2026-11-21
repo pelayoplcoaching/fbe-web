@@ -2537,3 +2537,74 @@ footer .legal a:hover { color: #fff; }
 .pasos.con-img .cuatro li { overflow: hidden; }
 .compara.dosc tbody tr:hover td.yo { background: color-mix(in srgb, var(--marca) 14%, transparent); }
 @media (prefers-reduced-motion: reduce) { .retrato.xl img, .hero.mini .datos li, .linea li, .pegada, .redes a, .ciencia .idea .foto-i, .bento .caja .foto-c, .voz .cara, .elige .fases button, .plan h3 .nivel i, .plan ul li, .plan.oro::after, .aviso, .tres .tres-img, .tres li, .calc, #ana li, .cuatro .paso-img { transition: none; } .hero.mini .retrato.xl, .plan .eti:not([hidden]), .sube .precio, .pegada .precio { animation: none; } .retrato.xl:hover img, .hero.mini .datos li:hover, .linea li:hover, .redes a:hover, .ciencia .idea:hover .foto-i, .bento .caja:hover .foto-c, .voz:hover .cara, .plan ul li:hover, .aviso:hover, .tres li:hover .tres-img, .tres li:hover, #ana li:hover, .cuatro li:hover .paso-img { transform: none; translate: none; } }
+.autor-foto .foto-p { height: auto; padding: 0; background: color-mix(in srgb, var(--marca-clara) 16%, var(--noche)); box-shadow: var(--sombra-s); transition: transform .7s cubic-bezier(.2, .7, .2, 1), box-shadow .4s; }
+.autor-foto { overflow: hidden; border-radius: 1.4rem; }
+.autor-foto:hover .foto-p { transform: scale(1.03); box-shadow: var(--sombra); }
+.autor-foto figcaption { padding-inline: .2rem; }
+.barra-f .fases button { transition: background-color .2s, color .2s, border-color .2s, transform .2s cubic-bezier(.3, 1.4, .5, 1); }
+.barra-f .fases button:active { transform: scale(.95); }
+.guia .portada b { transition: letter-spacing .4s cubic-bezier(.2, .7, .2, 1), text-shadow .3s; }
+.guia:hover .portada b { letter-spacing: .01em; text-shadow: 0 .3rem 1.2rem rgba(0, 0, 0, .55); }
+.guia .portada span { transition: color .2s, letter-spacing .3s; }
+.guia:hover .portada span { color: #fff; letter-spacing: .2em; }
+.guia h3 { transition: color .2s; }
+.guia:hover h3 { color: var(--acento); }
+.temas-g span { transition: transform .25s cubic-bezier(.3, 1.4, .5, 1); }
+.guia:hover .temas-g span { transform: translateY(-1px); }
+.dentro summary { transition: color .2s; }
+.dentro summary:hover { color: var(--tinta); }
+@supports (interpolate-size: allow-keywords) { .dentro { interpolate-size: allow-keywords; } .dentro::details-content { block-size: 0; overflow: hidden; transition: block-size .3s ease, content-visibility .3s allow-discrete; } .dentro[open]::details-content { block-size: auto; } }
+.dentro[open] li { animation: dentro-li .35s cubic-bezier(.2, .7, .2, 1) both; }
+.dentro[open] li:nth-child(2) { animation-delay: .04s; } .dentro[open] li:nth-child(3) { animation-delay: .08s; } .dentro[open] li:nth-child(4) { animation-delay: .12s; } .dentro[open] li:nth-child(n+5) { animation-delay: .16s; }
+@keyframes dentro-li { from { opacity: 0; translate: -6px 0; } }
+.guia .btn { position: relative; overflow: hidden; }
+.guia .btn::before { content: ""; position: absolute; inset: 0; background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, .28) 50%, transparent 65%); translate: -120% 0; transition: translate .8s cubic-bezier(.2, .7, .2, 1); pointer-events: none; }
+.guia:hover .btn::before { translate: 120% 0; }
+.correo .de .cara { transition: transform .4s cubic-bezier(.3, 1.6, .5, 1); }
+.correo:hover .de .cara { transform: scale(1.12) rotate(-6deg); }
+.correo h3 { transition: color .2s; }
+.correo:hover h3 { color: var(--acento); }
+.correo .foto-b { transition: transform .7s cubic-bezier(.2, .7, .2, 1), box-shadow .4s; }
+.correo:hover .foto-b { transform: scale(1.03); }
+.herr .herr-img { overflow: hidden; }
+.herr .herr-img img { transition: transform .8s cubic-bezier(.2, .7, .2, 1), filter .4s; }
+.herr:hover .herr-img img { transform: scale(1.04); filter: brightness(1.05); }
+.herr h2 { transition: color .2s; }
+.herr:hover h2 { color: var(--acento); }
+.herr-et img { transition: transform .5s cubic-bezier(.3, 1.6, .5, 1); }
+.herr:hover .herr-et img { transform: rotate(-10deg) scale(1.1); }
+@media (prefers-reduced-motion: no-preference) {
+  .herr.sube .herr-chips li { opacity: 0; translate: 0 6px; transition: opacity .35s, translate .35s cubic-bezier(.2, .7, .2, 1); }
+  .herr.sube.ya .herr-chips li { opacity: 1; translate: 0 0; } .herr.sube.ya .herr-chips li:nth-child(2) { transition-delay: .07s; } .herr.sube.ya .herr-chips li:nth-child(3) { transition-delay: .14s; } .herr.sube.ya .herr-chips li:nth-child(n+4) { transition-delay: .21s; }
+}
+.enl-h { transition: color .2s, letter-spacing .3s; }
+.enl-h:hover { letter-spacing: .02em; }
+.herr-mas-t { display: flex; align-items: center; gap: .9rem; }
+.herr-mas-t::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, var(--linea), transparent); }
+.herr-mini-img { transition: transform .7s cubic-bezier(.2, .7, .2, 1), filter .4s; }
+.herr-mini:hover .herr-mini-img { transform: scale(1.05); filter: brightness(1.08) saturate(1.1); }
+.herr-mini b { transition: color .2s; }
+.herr-mini:hover b { color: var(--acento); }
+.herr-mini:active { transform: scale(.98); }
+@supports (animation-timeline: view()) { @media (prefers-reduced-motion: no-preference) { .herr-mas-rej .herr-mini { animation: mini-entra linear both; animation-timeline: view(); animation-range: entry 0% entry 55%; } .herr-mas-rej .herr-mini:nth-child(4n+2) { animation-range: entry 5% entry 60%; } .herr-mas-rej .herr-mini:nth-child(4n+3) { animation-range: entry 10% entry 65%; } .herr-mas-rej .herr-mini:nth-child(4n) { animation-range: entry 15% entry 70%; } } }
+@keyframes mini-entra { from { opacity: 0; translate: 0 22px; scale: .97; } }
+.herr-nota { transition: color .2s; }
+.indice a { transition: background-color .2s, color .2s, border-color .2s, translate .25s cubic-bezier(.2, .7, .2, 1); }
+.indice a:hover { translate: 3px 0; border-color: var(--marca-clara); }
+.indice a span { transition: background-color .2s, color .2s; border-radius: 99px; padding: 0 .4rem; }
+.indice a:hover span { background: var(--marca); color: var(--sobre); }
+.indice a:active { transform: scale(.97); }
+.busca input { transition: box-shadow .25s, border-color .25s; }
+.busca input:focus { box-shadow: 0 0 0 4px color-mix(in srgb, var(--marca) 18%, transparent), var(--sombra-s); border-color: var(--marca-clara); }
+.busca .lupa::before { transition: scale .4s cubic-bezier(.3, 1.6, .5, 1), rotate .4s cubic-bezier(.3, 1.6, .5, 1), color .2s; }
+.busca:focus-within .lupa::before { scale: 1.15; rotate: -12deg; }
+#halla:not(:empty) { animation: halla-entra .3s ease-out; }
+@keyframes halla-entra { from { opacity: 0; translate: 0 -4px; } }
+.grupo-d h2 { display: flex; align-items: center; gap: .9rem; }
+.grupo-d h2::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, var(--linea), transparent); }
+@media (prefers-reduced-motion: no-preference) { .grupo-d.sube h2::after { transform: scaleX(0); transform-origin: left; transition: transform 1s .15s cubic-bezier(.2, .7, .2, 1); } .grupo-d.sube.ya h2::after { transform: none; } }
+.ancla { transition: color .2s, translate .25s; }
+.ancla:hover { translate: 3px 0; }
+.mas-d a { transition: color .2s, letter-spacing .3s; }
+.mas-d a:hover { letter-spacing: .12em; }
+@media (prefers-reduced-motion: reduce) { .autor-foto .foto-p, .barra-f .fases button, .guia .portada b, .guia .portada span, .temas-g span, .guia .btn::before, .correo .de .cara, .correo .foto-b, .herr .herr-img img, .herr-et img, .herr-mini-img, .indice a, .busca .lupa::before, .ancla { transition: none; } .dentro[open] li, #halla:not(:empty) { animation: none; } .dentro::details-content { transition: none; } .autor-foto:hover .foto-p, .guia:hover .temas-g span, .correo:hover .de .cara, .correo:hover .foto-b, .herr:hover .herr-img img, .herr:hover .herr-et img, .herr-mini:hover .herr-mini-img, .indice a:hover, .ancla:hover { transform: none; translate: none; } .busca:focus-within .lupa::before { scale: none; rotate: none; } }
