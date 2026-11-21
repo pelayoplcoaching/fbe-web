@@ -870,7 +870,7 @@ tool_pagina('suplementos.html', 'Suplementos con evidencia',
     '''<p>La clasificación es la del <b>Instituto Australiano del Deporte (AIS)</b>, que ordena los suplementos en cuatro grupos: A, evidencia sólida para usos concretos; B, evidencia emergente; C, sin beneficio demostrado o sin estudios suficientes; y D, prohibidos o con alto riesgo de contaminación.</p>
 <p>Las dosis son las del <b>consenso del Comité Olímpico Internacional (2018)</b> y están pensadas para deportistas. Como recuerda el propio consenso, un suplemento solo aporta una contribución pequeña al lado de la alimentación y el entrenamiento.</p>
 <p>Ningún producto está garantizado al 100 %: algunos suplementos llevan sustancias no declaradas. Los programas que analizan cada lote reducen el riesgo, pero no lo eliminan.</p>
-<p>Si tomas medicación o tienes una enfermedad, consúltalo antes con tu médico.</p>''',
+<p>Si tomas medicación o tienes una enfermedad, consúltalo antes con tu médico. En <a href="pauta-activa.html">Pauta Activa</a> puedes añadir tus suplementos y plantas junto a tus fármacos y ver sus interacciones.</p>''',
     ['Australian Institute of Sport. AIS Sports Supplement Framework: clasificación ABCD (versión vigente, consultada en noviembre de 2026).',
      'Maughan RJ y cols. IOC consensus statement: dietary supplements and the high-performance athlete. Br J Sports Med. 2018;52(7):439-55 (dosis y efectos secundarios).',
      'EFSA NDA Panel. Scientific opinion on the safety of caffeine. EFSA Journal. 2015;13(5):4102 (200 mg por toma y 400 mg al día).'],
