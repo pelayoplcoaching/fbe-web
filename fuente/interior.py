@@ -20,6 +20,14 @@ def ilus(nombre, clase='ilus'):
     _arriba = clase == 'ilus'
     _carga = 'loading="eager" fetchpriority="high"' if _arriba else 'loading="lazy"'
     return f'<img class="{clase}" src="img/{nombre}.webp" alt=""{_wh} {_carga} decoding="async">'
+def _todas(*ns): return all(os.path.exists(f'web-img/{n}.webp') for n in ns)
+PP_OK = _todas('pp-reservas', 'pp-datos', 'pp-hablamos', 'pp-plan')
+def PP_IMG(n, t): return ilus(n, 'paso-img').replace('alt=""', f'alt="{t}"', 1) if PP_OK else ''
+PROG_OK = _todas('prog-plan', 'prog-app', 'prog-guias')
+def PROG_IMG(n, i): return ilus(n, 'tres-img') if PROG_OK else f'<i>{ico(i)}</i>'
+_PA_P = ['pa-pacientes', 'pa-profesionales', 'pa-entrenadores']
+def PA_PARA_IMG(i, l): return f'<div class="pa-para-img">{ilus(_PA_P[i], "pa-para-ilus")}</div>' if _todas(*_PA_P) else f'<span class="n" aria-hidden="true">{l}</span>'
+
 def datos(*xs): return '<ul class="datos">' + ''.join(f'<li><b>{a}</b>{b}</li>' for a, b in xs) + '</ul>'
 def sigue(arch, padre=None):
     L = [u for u, _ in PAGS]; i = L.index(padre[0] if padre else arch)
@@ -115,7 +123,7 @@ pagina('programas.html', 'Programas', 'Programas de seguimiento de entrenamiento
 </div></section>
 <section class="hoja" id="lado"><div class="in"><div class="entrada sube"><h2>Los cinco, lado a lado</h2></div><p class="desliza">Desliza la tabla para ver los cinco.</p>{TABLA}</div></section>
 <section><div class="in"><div class="entrada sube"><h2>Lo que llevan todos</h2></div>
-  <ul class="tres sube" style="margin-top:0"><li><i>{ico('pesa')}</i><b>Plan a medida</b><span>Hecho para tu horario, tu material y tu punto de partida.</span></li><li><i>{ico('video')}</i><b>La app FBE Equipo</b><span>Sesiones, registro serie a serie, vídeos, recetario y progreso. <a href="index.html#semana">Mírala por dentro</a>.</span></li><li><i>{ico('libro')}</i><b>Las guías</b><span>Para entender lo que haces y por qué.</span></li></ul>
+  <ul class="tres sube" style="margin-top:0"><li>{PROG_IMG('prog-plan', 'pesa')}<b>Plan a medida</b><span>Hecho para tu horario, tu material y tu punto de partida.</span></li><li>{PROG_IMG('prog-app', 'video')}<b>La app FBE Equipo</b><span>Sesiones, registro serie a serie, vídeos, recetario y progreso. <a href="index.html#semana">Mírala por dentro</a>.</span></li><li>{PROG_IMG('prog-guias', 'libro')}<b>Las guías</b><span>Para entender lo que haces y por qué.</span></li></ul>
 </div></section>
 {voz_banda(3)}
 <section class="hoja"><div class="in"><div class="entrada sube centro"><h2>Antes de pedir plaza</h2></div>
@@ -150,12 +158,12 @@ pagina('puesta-a-punto.html', 'Puesta a punto', 'Una consulta, un plan de 12 sem
   <aside class="pegada sube"><p class="precio">250 € <small>pago único, IVA incluido</small></p><ul class="marcas"><li>Videollamada de 30 minutos</li><li>Plan entregado en menos de 7 días</li><li>Plan para 12 semanas</li><li>Se puede regalar</li></ul><a class="btn" href="{STRIPE}">Reservar mi plaza</a><small style="color:var(--tinta-2)">Pago con tarjeta por Stripe al reservar. Acepto una o dos consultas por semana.</small><a href="{ESCRIBE}">Tengo una duda antes</a></aside>
 </div></section>
 {BANNER}
-<section class="pasos">{ANILLOS}<div class="in"><div class="entrada sube"><h2>Cómo va</h2><p>De la reserva al plan, en cuatro pasos.</p></div>
+<section class="pasos{" con-img" if PP_OK else ""}">{ANILLOS}<div class="in"><div class="entrada sube"><h2>Cómo va</h2><p>De la reserva al plan, en cuatro pasos.</p></div>
   <ol class="cuatro">
-    <li class="sube"><h3>Reservas</h3><p>Pagas con tarjeta y tu plaza queda guardada.</p></li>
-    <li class="sube"><h3>Me envías tus datos</h3><p>Analítica e historial, por un formulario seguro.</p></li>
-    <li class="sube"><h3>Hablamos 30 minutos</h3><p>Por videollamada: tu objetivo, tu horario y lo que dice tu analítica.</p></li>
-    <li class="sube"><h3>Recibes tu plan</h3><p>En menos de 7 días, para 12 semanas. Y una ronda de dudas por correo.</p></li>
+    <li class="sube">{PP_IMG("pp-reservas", "Reservas")}<h3>Reservas</h3><p>Pagas con tarjeta y tu plaza queda guardada.</p></li>
+    <li class="sube">{PP_IMG("pp-datos", "Me envías tus datos")}<h3>Me envías tus datos</h3><p>Analítica e historial, por un formulario seguro.</p></li>
+    <li class="sube">{PP_IMG("pp-hablamos", "Hablamos 30 minutos")}<h3>Hablamos 30 minutos</h3><p>Por videollamada: tu objetivo, tu horario y lo que dice tu analítica.</p></li>
+    <li class="sube">{PP_IMG("pp-plan", "Recibes tu plan")}<h3>Recibes tu plan</h3><p>En menos de 7 días, para 12 semanas. Y una ronda de dudas por correo.</p></li>
   </ol></div></section>
 <section><div class="in"><div class="encaje sube" style="margin:0">
   <div><h3>Es para ti si…</h3><ul><li>Quieres un plan hecho por un médico, sin compromiso mensual</li><li>Tienes una analítica y no sabes qué hacer con ella</li><li>Te organizas bien por tu cuenta una vez sabes qué toca</li></ul></div>
@@ -257,7 +265,7 @@ _TALLY = 'https://tally.so/r/J94Voz'; _CAL = 'https://calendly.com/pelayoplcoach
 _CC = _ent(os.environ.get('FBE_CORREO', '')); _CCM = f'<a href="mailto:{_CC}">{_CC}</a>' if _CC else 'el formulario de contacto'
 open(f'{SAL}/gracias.html', 'w', encoding='utf-8').write(f"""{cabeza('gracias.html', 'Gracias · Puesta a punto', 'Pago recibido: los dos pasos que quedan para tu Puesta a punto.', '<meta name="robots" content="noindex">')}
 {cabecera()}
-<header class="hero mini t-puesta-a-punto" id="inicio">{ANILLOS}{ilus("web-puesta-a-punto")}<div class="in"><div class="txt"><span class="miga"><a href="index.html">Inicio</a> / <a href="puesta-a-punto.html">Puesta a punto</a> / Gracias</span>{SELLO}<h1>Pago recibido.</h1><p class="sub">Tu Puesta a punto ya está en marcha. En unos minutos te llega el recibo de Stripe por email.</p></div></div></header>
+<header class="hero mini t-puesta-a-punto" id="inicio">{ANILLOS}{ilus("web-gracias") or ilus("web-puesta-a-punto")}<div class="in"><div class="txt"><span class="miga"><a href="index.html">Inicio</a> / <a href="puesta-a-punto.html">Puesta a punto</a> / Gracias</span>{SELLO}<h1>Pago recibido.</h1><p class="sub">Tu Puesta a punto ya está en marcha. En unos minutos te llega el recibo de Stripe por email.</p></div></div></header>
 <main id="contenido">
 <section><div class="in"><div class="entrada sube"><h2>Quedan dos pasos, y el orden importa</h2><p>Para que yo pueda revisar tu caso antes de que hablemos: primero el cuestionario, después la cita. Reserva la cita solo cuando hayas enviado el cuestionario con tu analítica. Si reservas antes, no podré preparar la consulta.</p></div>
   <ol class="pasos-g dos-pasos con-iconos sube">
@@ -279,7 +287,7 @@ for _vieja, _nueva in [('faq', 'dudas.html'), ('newsletter-semanal', 'newsletter
 # Gracias del boletin: a esta pagina redirige el formulario de MailerLite «Boletín · Newsletter (web)». Siempre noindex y fuera del sitemap.
 open(f'{SAL}/gracias-boletin.html', 'w', encoding='utf-8').write(f"""{cabeza('gracias-boletin.html', 'Ya estás dentro', 'Gracias por apuntarte al boletín de Fuerza Basada en Evidencia.', '<meta name="robots" content="noindex">')}
 {cabecera()}
-<header class="hero mini t-newsletter" id="inicio">{ANILLOS}{ilus("web-newsletter")}<div class="in"><div class="txt"><span class="miga"><a href="index.html">Inicio</a> / <a href="newsletter.html">Newsletter</a> / Gracias</span>{SELLO}<h1>Ya estás dentro.</h1><p class="sub">Gracias por apuntarte. En unos minutos te llega mi correo de bienvenida.</p></div></div></header>
+<header class="hero mini t-newsletter" id="inicio">{ANILLOS}{ilus("web-gracias-boletin") or ilus("web-newsletter")}<div class="in"><div class="txt"><span class="miga"><a href="index.html">Inicio</a> / <a href="newsletter.html">Newsletter</a> / Gracias</span>{SELLO}<h1>Ya estás dentro.</h1><p class="sub">Gracias por apuntarte. En unos minutos te llega mi correo de bienvenida.</p></div></div></header>
 <main id="contenido">
 <section><div class="in"><div class="entrada sube"><h2>Para que no se pierda</h2></div>
   <ol class="pasos-g en-linea sube">
@@ -465,7 +473,7 @@ FIJO_PA = f'<a class="arriba" id="arriba" href="#contenido" aria-label="Volver a
 pagina('pauta-activa.html', 'Pauta Activa', 'Pauta Activa · Medicación y Ejercicio: de tu lista de medicación a un plan de ejercicio seguro. Gratuita, sin cuentas y sin enviar datos a ningún servidor.', 'De tu lista de medicación a un plan de ejercicio seguro', 'Pauta Activa lee tu medicación habitual, y tu situación clínica, y te dice qué tener en cuenta al entrenar: aeróbico, fuerza y equilibrio, con horario según las tomas, interacciones relevantes e informes para ti, tu médico y tu entrenador. Gratuita, sin cuentas y sin enviar ningún dato a ningún servidor.', f'''
 <section class="cifras pa-cifras"><div class="in"><ul>{"".join(f"<li><b>{a}</b><span>{b}</span></li>" for a, b in PA_CIF)}</ul></div></section>
 <section><div class="in"><div class="entrada sube"><h2>Para quién</h2><p>Dos modos en la misma herramienta: el del paciente, en lenguaje llano y letra grande, y el profesional, con los datos clínicos que cambian la prescripción.</p></div>
-  <div class="ciencia"><div class="rej">{"".join(f'<article class="idea pa-para sube"><span class="n" aria-hidden="true">{l}</span><h3>{t}</h3><p>{d}</p><ul class="marcas">{"".join(f"<li>{x}</li>" for x in xs)}</ul></article>' for l, t, d, xs in PA_PARA)}</div></div>
+  <div class="ciencia"><div class="rej">{"".join(f'<article class="idea pa-para sube">{PA_PARA_IMG(i, l)}<h3>{t}</h3><p>{d}</p><ul class="marcas">{"".join(f"<li>{x}</li>" for x in xs)}</ul></article>' for i, (l, t, d, xs) in enumerate(PA_PARA))}</div></div>
 </div></section>
 <section class="hoja" id="que-hace"><div class="in"><div class="entrada sube"><h2>Qué hace</h2><p>Todo ocurre en el navegador. La base de conocimiento se descarga una vez y la aplicación funciona sin conexión e instalada en el móvil.</p></div>
   <figure class="pa-pantalla sube"><div class="pa-barra" aria-hidden="true"><i></i><i></i><i></i><span>medicacionyejercicio.fuerzabasadaenevidencia.com</span></div>{_alt(ilus("pa-consulta", "pa-cap"), "Pantalla de consulta de Pauta Activa: datos y medicación a la izquierda, «Qué tener en cuenta» a la derecha")}</figure>
