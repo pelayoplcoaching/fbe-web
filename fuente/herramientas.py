@@ -494,13 +494,15 @@ PUL_FORM = f'''<div class="tool-fila">{campo_num("z-edad", "Edad", 45, 18, 95, 1
 PUL_RES = f'''<p class="tool-et" id="z-et">Tu pulso máximo estimado</p>
 <div class="res-grande"><b id="z-max-n">–</b><span id="z-ud">lpm</span></div>
 <p class="res-chip" id="z-metodo" hidden></p>
+<p class="z-formulas" id="z-form" hidden></p>
 <div class="zonas-barra" id="z-barra" aria-hidden="true"></div>
 <div class="zonas-lista" id="z-lista"></div>
+<div class="z-borg" aria-hidden="true"><p class="tool-et">Escala de Borg (6-20)</p><div>{''.join(f'<i class="zb-{("lig" if 9 <= n <= 11 else "mod" if n <= 13 else "vig" if n <= 17 else "max") if n >= 9 else "suave"}">{n}</i>' for n in range(6, 21))}</div><p><span>Muy suave</span><span>Máximo</span></p></div>
 <p class="res-texto" id="z-txt"></p>
 {copiar_b("z-copiar", "Copiar mis zonas")}'''
 PUL_JS = r'''(function(){
 var $=function(i){return document.getElementById(i)},copia='',ult='';
-var Z=[['lig','Ligera',.30,.39,.57,.63,'9–11','Puedes hablar y hasta cantar'],['mod','Moderada',.40,.59,.64,.76,'12–13','Puedes hablar, pero no cantar'],['vig','Vigorosa',.60,.89,.77,.95,'14–17','Solo frases cortas'],['max','Casi máxima',.90,1,.96,1,'18 o más','']];
+var Z=[['lig','Ligera',.30,.39,.57,.63,'9–11','Puedes hablar y hasta cantar',''],['mod','Moderada',.40,.59,.64,.76,'12–13','Puedes hablar, pero no cantar','≥150 min/semana'],['vig','Vigorosa',.60,.89,.77,.95,'14–17','Solo frases cortas','≥75 min/semana'],['max','Casi máxima',.90,1,.96,1,'18 o más','','']];
 function pinta(){
   var e=parseFloat($('z-edad').value),r=parseFloat($('z-rep').value),mm=parseFloat($('z-max').value),bb=$('z-bb').checked,res=document.querySelector('.tool-res');
   res.classList.remove('z-alto','z-medio','z-bajo');
@@ -513,13 +515,17 @@ function pinta(){
   $('z-metodo').hidden=false;$('z-metodo').textContent=bb?'Guíate por el esfuerzo, no por el pulso':(hrr?'Con tu pulso en reposo (método de Karvonen)':'Porcentaje del pulso máximo')+(medido?' · máximo medido':' · máximo estimado (Tanaka)');
   var b0=filas[0].lo,span=Math.max(1,max-b0);
   $('z-barra').innerHTML=bb?'':filas.map(function(x,i){var nx=i<filas.length-1?filas[i+1].lo:max;return '<span class="zb-'+x.z[0]+'" style="width:'+((nx-x.lo)/span*100).toFixed(2)+'%"><b>'+x.lo+'</b></span>'}).join('')+'<em>'+max+'</em>';
-  $('z-lista').innerHTML=filas.map(function(x){return '<div class="zl zl-'+x.z[0]+'"><i></i><b>'+x.z[1]+'</b>'+(bb?'':'<span class="zl-lpm">'+x.lo+'–'+x.hi+' lpm</span>')+'<small>Borg '+x.z[6]+(x.z[7]?' · '+x.z[7]:'')+'</small></div>'}).join('');
+  $('z-form').hidden=bb;$('z-form').innerHTML='<span><small>Tanaka</small>'+est+'</span><span><small>220 − edad</small>'+(220-Math.round(e))+'</span>'+(medido?'<span class="on"><small>Medido</small>'+max+'</span>':'');
+  $('z-lista').innerHTML=filas.map(function(x,i){return '<div class="zl zl-'+x.z[0]+'" data-z="'+x.z[0]+'"><i></i><b>'+x.z[1]+(x.z[8]?'<span class="zl-salud" title="Mínimo recomendado para la salud (ACSM)">'+x.z[8]+'</span>':'')+'</b>'+(bb?'':'<span class="zl-lpm">'+x.lo+'–'+x.hi+' lpm</span>')+'<small>Borg '+x.z[6]+(x.z[7]?' · '+x.z[7]:'')+'</small><em class="zl-int" aria-hidden="true">'+'<u></u><u></u><u></u><u></u>'.replace(/<u><\/u>/g,function(m,o){return o/7<=i?'<u class="si"></u>':m})+'</em></div>'}).join('');
+  document.querySelector('.z-borg').dataset.bb=bb?'1':'';
   if(bb){res.classList.add('z-medio');$('z-txt').textContent='Con estos fármacos, con fibrilación auricular o con marcapasos, el pulso sube menos de lo normal o de forma irregular: no te fíes de las zonas de pulso del reloj. Guíate por el esfuerzo que notas (escala de Borg, de 6 a 20) y por la prueba del habla: para intensidad moderada, poder hablar pero no cantar.'}
   else{res.classList.add('z-alto');$('z-txt').textContent=(medido?'Usamos el máximo que te midieron. ':'Con la fórmula clásica (220 − edad) saldría '+(220-Math.round(e))+' lpm. Cualquier fórmula tiene un error típico de unos 10 latidos. ')+(hrr?'':'Si apuntas tu pulso en reposo, las zonas se ajustan mejor a tu forma física.')}
   $('z-copiar').hidden=false;
   copia='Mis zonas de esfuerzo (FBE)\n'+(bb?'El pulso no me sirve de guía: esfuerzo percibido y prueba del habla.\n':'Pulso máximo: '+max+' lpm ('+(medido?'medido':'estimado con Tanaka')+')'+(hrr?' · reposo '+r+' lpm':'')+'\n')+filas.map(function(x){return x.z[1]+': '+(bb?'':x.lo+'–'+x.hi+' lpm · ')+'Borg '+x.z[6]+(x.z[7]?' ('+x.z[7].toLowerCase()+')':'')}).join('\n');
 }
 $('z-copiar').addEventListener('click',function(){copiar(this,copia)});
+function enlaza(e){var r=e.target.closest&&e.target.closest('.zl'),k=r?r.dataset.z:'';document.querySelectorAll('#z-barra span').forEach(function(sp){sp.classList.toggle('on',!!k&&sp.classList.contains('zb-'+k))});document.querySelectorAll('.z-borg i').forEach(function(c){c.classList.toggle('on',!!k&&c.classList.contains('zb-'+k))})}
+$('z-lista').addEventListener('mouseover',enlaza);$('z-lista').addEventListener('mouseleave',enlaza);
 document.querySelector('.tool-form').addEventListener('input',pinta);document.querySelector('.tool-form').addEventListener('change',pinta);pinta();
 })();'''
 
@@ -544,7 +550,7 @@ DOL_FORM = (f'<div class="tool-campo"><label for="d-zona">Zona (opcional)</label
     + rango('d-dur', 'Dolor durante el ejercicio') + rango('d-des', 'Dolor al terminar o ese mismo día')
     + seg('d-man', 'A la mañana siguiente', [('igual', 'Como antes de entrenar'), ('peor', 'Más dolor o rigidez'), ('nose', 'Aún no lo sé')], 'nose')
     + seg('d-sem', 'Comparado con la semana pasada', [('igual', 'Igual o mejor'), ('peor', 'Peor'), ('nose', 'No lo sé')], 'nose')
-    + '<fieldset class="tool-campo rev-sint d-banderas"><legend>Señales para consultar antes de seguir</legend>'
+    + '<fieldset class="tool-campo rev-sint d-banderas"><legend>Señales para consultar antes de seguir <em id="d-nflag" hidden></em></legend>'
     + ''.join(f'<label class="caf-check"><input type="checkbox" name="d-flag" value="{v}"><span>{t}</span></label>' for v, t in DOL_FLAGS)
     + '</fieldset><p class="tool-nota">Sirve para dolores por sobrecarga y tendones, no para golpes ni lesiones recientes. Lo que guardes en el diario se queda en este navegador.</p>')
 DOL_RES = f'''<div class="semaforo" id="d-luces" data-k="v" aria-hidden="true"><i class="l-r"></i><i class="l-a"></i><i class="l-v"></i></div>
@@ -554,7 +560,7 @@ DOL_RES = f'''<div class="semaforo" id="d-luces" data-k="v" aria-hidden="true"><
 <p class="tool-et rev-que">Qué hacer</p>
 <ul class="res-lista" id="d-lista"></ul>
 <div class="vol-bots"><button type="button" class="copiar-t guardar" id="d-guardar"><span>Guardar en mi diario</span></button>{copiar_b("d-copiar", "Copiar", False)}</div>
-<div class="d-diario" id="d-diario" hidden><p class="tool-et">Tu diario</p><svg class="d-graf" id="d-graf" viewBox="0 0 300 86" role="img" aria-label="Dolor máximo de tus últimas anotaciones"></svg><ol class="d-entradas" id="d-entradas"></ol><button type="button" class="enl-b claro" id="d-borrar">Borrar el diario</button><p class="vol-aviso" id="d-aviso" role="status"></p></div>'''
+<div class="d-diario" id="d-diario" hidden><p class="tool-et">Tu diario</p><p class="d-resumen" id="d-resumen"></p><svg class="d-graf" id="d-graf" viewBox="0 0 300 86" role="img" aria-label="Dolor máximo de tus últimas anotaciones"></svg><ol class="d-entradas" id="d-entradas"></ol><button type="button" class="enl-b claro" id="d-borrar">Borrar el diario</button><p class="vol-aviso" id="d-aviso" role="status"></p></div>'''
 DOL_JS = r'''(function(){
 var $=function(i){return document.getElementById(i)},K='fbe-dolor',copia='',estado='v',deshacer=null;
 function val(n){var r=document.querySelector('input[name="'+n+'"]:checked');return r?r.value:'nose'}
@@ -569,6 +575,10 @@ function pinta(){
   else if(du===0&&de===0){k='v';tit='Sin dolor: entrena con normalidad';txt='Ni durante ni después. Sigue progresando como tenías previsto.';li=['Si aparece dolor, vuelve y apúntalo.']}
   else if(m==='nose'){k='v';tit='Por ahora, dentro del límite';txt='Hasta 5 sobre 10 durante y después está dentro del modelo. Falta un dato: a la mañana siguiente debería estar como antes de entrenar.';li=['Mañana, vuelve y marca cómo te has levantado.','Mientras, puedes mantener la carga.']}
   else{k='v';tit='Puedes seguir';txt='Dentro del modelo de control del dolor: no pasa de 5 sobre 10, se va a la mañana siguiente y no empeora de una semana a otra.';li=['Mantén la carga y, si se repite así, súbela poco a poco.','Sigue apuntándolo para ver la tendencia.']}
+  var nf=$('d-nflag');nf.hidden=!fl.length;nf.textContent=fl.length+(fl.length===1?' marcada':' marcadas');
+  ['d-dur','d-des'].forEach(function(id){$(id).closest('.rango-t').classList.toggle('pasa',+$(id).value>5)});
+  document.querySelectorAll('input[name="d-flag"]').forEach(function(c){c.closest('label').classList.toggle('marcada',c.checked)});
+  if(estado!==k){var lz=$('d-luces');lz.classList.remove('cambia');void lz.offsetWidth;lz.classList.add('cambia')}
   estado=k;res.classList.remove('z-alto','z-medio','z-bajo');res.classList.add(k==='v'?'z-alto':k==='a'?'z-medio':'z-bajo');$('d-luces').dataset.k=k;
   $('d-tit').textContent=tit;$('d-txt').textContent=txt;$('d-lista').innerHTML=li.map(function(x){return '<li>'+x+'</li>'}).join('');
   var z=$('d-zona').value.trim();
@@ -580,7 +590,10 @@ function esc(t){return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp
 function diario(){var a=lee(),c=$('d-diario');c.hidden=!a.length&&!deshacer;$('d-graf').style.display=a.length?'':'none';$('d-borrar').hidden=!a.length;if(!a.length){$('d-entradas').innerHTML='';return}
   var u=a.slice(-12),W=300,H=86,L=18,B=8,X=function(i){return L+(u.length<2?(W-L-8)/2:i*(W-L-8)/(u.length-1))},Y=function(v){return 6+(1-v/10)*(H-6-B)};
   var p=u.map(function(e,i){return (i?'L':'M')+X(i).toFixed(1)+' '+Y(Math.max(e.d,e.s)).toFixed(1)}).join('');
-  $('d-graf').innerHTML='<line class="cinco" x1="'+L+'" x2="'+(W-4)+'" y1="'+Y(5)+'" y2="'+Y(5)+'"/><text class="t" x="'+(L-5)+'" y="'+(Y(5)+3.5)+'" text-anchor="end">5</text>'+(u.length>1?'<path class="linea" d="'+p+'"/>':'')+u.map(function(e,i){return '<circle class="pt k-'+e.k+'" cx="'+X(i).toFixed(1)+'" cy="'+Y(Math.max(e.d,e.s)).toFixed(1)+'" r="4"/>'}).join('');
+  var ks={v:0,a:0,r:0};u.forEach(function(e){ks[e.k]=(ks[e.k]||0)+1});var mx=function(e){return Math.max(e.d,e.s)},tr=u.length>1?mx(u[u.length-1])-mx(u[u.length-2]):0;
+  $('d-resumen').innerHTML='<span class="k-v"><b>'+ks.v+'</b> verde'+(ks.v===1?'':'s')+'</span><span class="k-a"><b>'+ks.a+'</b> ámbar</span><span class="k-r"><b>'+ks.r+'</b> roja'+(ks.r===1?'':'s')+'</span>'+(u.length>1?'<span class="d-tend '+(tr>0?'sube':tr<0?'baja':'igual')+'">'+(tr>0?'Más dolor que la vez anterior':tr<0?'Menos dolor que la vez anterior':'Igual que la vez anterior')+'</span>':'');
+  var area=u.length>1?'<path class="area" d="'+p+'L'+X(u.length-1).toFixed(1)+' '+Y(0).toFixed(1)+'L'+X(0).toFixed(1)+' '+Y(0).toFixed(1)+'Z"/>':'';
+  $('d-graf').innerHTML='<rect class="banda-v" x="'+L+'" y="'+Y(5)+'" width="'+(W-4-L)+'" height="'+(Y(0)-Y(5))+'"/><rect class="banda-r" x="'+L+'" y="'+Y(10)+'" width="'+(W-4-L)+'" height="'+(Y(5)-Y(10))+'"/>'+area+'<line class="cinco" x1="'+L+'" x2="'+(W-4)+'" y1="'+Y(5)+'" y2="'+Y(5)+'"/><text class="t" x="'+(L-5)+'" y="'+(Y(5)+3.5)+'" text-anchor="end">5</text>'+(u.length>1?'<path class="linea" d="'+p+'"/>':'')+u.map(function(e,i){return '<circle class="pt k-'+e.k+'" cx="'+X(i).toFixed(1)+'" cy="'+Y(Math.max(e.d,e.s)).toFixed(1)+'" r="4"/>'}).join('');
   $('d-entradas').innerHTML=a.slice(-6).reverse().map(function(e){var f=new Date(e.f);return '<li class="k-'+e.k+'"><i></i><b>'+f.toLocaleDateString('es-ES',{day:'numeric',month:'short'})+'</b><span>'+(e.z?esc(e.z)+' · ':'')+'durante '+e.d+' · después '+e.s+'</span></li>'}).join('')}
 $('d-guardar').addEventListener('click',function(){var a=lee();a.push({f:new Date().toISOString(),z:$('d-zona').value.trim().slice(0,40),d:+$('d-dur').value,s:+$('d-des').value,m:val('d-man'),k:estado});escribe(a.slice(-60));deshacer=null;$('d-aviso').innerHTML='';diario();var b=this,sp=b.querySelector('span');b.classList.add('hecho');sp.textContent='Guardado';setTimeout(function(){b.classList.remove('hecho');sp.textContent='Guardar en mi diario'},1600)});
 $('d-borrar').addEventListener('click',function(){deshacer=lee();escribe([]);$('d-aviso').innerHTML='Diario borrado. <button type="button" class="enl-b claro" id="d-deshacer">Deshacer</button>';diario()});

@@ -23,8 +23,10 @@
   <div class="tool-res" aria-live="polite"><img class="tool-fondo" src="img/pulso-fondo.webp" alt="" width="720" height="720" loading="lazy" decoding="async"><p class="tool-et" id="z-et">Tu pulso máximo estimado</p>
 <div class="res-grande"><b id="z-max-n">–</b><span id="z-ud">lpm</span></div>
 <p class="res-chip" id="z-metodo" hidden></p>
+<p class="z-formulas" id="z-form" hidden></p>
 <div class="zonas-barra" id="z-barra" aria-hidden="true"></div>
 <div class="zonas-lista" id="z-lista"></div>
+<div class="z-borg" aria-hidden="true"><p class="tool-et">Escala de Borg (6-20)</p><div><i class="zb-suave">6</i><i class="zb-suave">7</i><i class="zb-suave">8</i><i class="zb-lig">9</i><i class="zb-lig">10</i><i class="zb-lig">11</i><i class="zb-mod">12</i><i class="zb-mod">13</i><i class="zb-vig">14</i><i class="zb-vig">15</i><i class="zb-vig">16</i><i class="zb-vig">17</i><i class="zb-max">18</i><i class="zb-max">19</i><i class="zb-max">20</i></div><p><span>Muy suave</span><span>Máximo</span></p></div>
 <p class="res-texto" id="z-txt"></p>
 <button type="button" class="copiar-t" id="z-copiar" hidden><span>Copiar mis zonas</span></button></div>
 </div></div></section>
@@ -43,7 +45,7 @@ window.copiar=function(b,t){var s=b.querySelector('span');b.dataset.t=b.dataset.
 window.destella=function(el){if(!el)return;el.classList.remove('destello');void el.offsetWidth;el.classList.add('destello')};
 (function(){
 var $=function(i){return document.getElementById(i)},copia='',ult='';
-var Z=[['lig','Ligera',.30,.39,.57,.63,'9–11','Puedes hablar y hasta cantar'],['mod','Moderada',.40,.59,.64,.76,'12–13','Puedes hablar, pero no cantar'],['vig','Vigorosa',.60,.89,.77,.95,'14–17','Solo frases cortas'],['max','Casi máxima',.90,1,.96,1,'18 o más','']];
+var Z=[['lig','Ligera',.30,.39,.57,.63,'9–11','Puedes hablar y hasta cantar',''],['mod','Moderada',.40,.59,.64,.76,'12–13','Puedes hablar, pero no cantar','≥150 min/semana'],['vig','Vigorosa',.60,.89,.77,.95,'14–17','Solo frases cortas','≥75 min/semana'],['max','Casi máxima',.90,1,.96,1,'18 o más','','']];
 function pinta(){
   var e=parseFloat($('z-edad').value),r=parseFloat($('z-rep').value),mm=parseFloat($('z-max').value),bb=$('z-bb').checked,res=document.querySelector('.tool-res');
   res.classList.remove('z-alto','z-medio','z-bajo');
@@ -56,13 +58,17 @@ function pinta(){
   $('z-metodo').hidden=false;$('z-metodo').textContent=bb?'Guíate por el esfuerzo, no por el pulso':(hrr?'Con tu pulso en reposo (método de Karvonen)':'Porcentaje del pulso máximo')+(medido?' · máximo medido':' · máximo estimado (Tanaka)');
   var b0=filas[0].lo,span=Math.max(1,max-b0);
   $('z-barra').innerHTML=bb?'':filas.map(function(x,i){var nx=i<filas.length-1?filas[i+1].lo:max;return '<span class="zb-'+x.z[0]+'" style="width:'+((nx-x.lo)/span*100).toFixed(2)+'%"><b>'+x.lo+'</b></span>'}).join('')+'<em>'+max+'</em>';
-  $('z-lista').innerHTML=filas.map(function(x){return '<div class="zl zl-'+x.z[0]+'"><i></i><b>'+x.z[1]+'</b>'+(bb?'':'<span class="zl-lpm">'+x.lo+'–'+x.hi+' lpm</span>')+'<small>Borg '+x.z[6]+(x.z[7]?' · '+x.z[7]:'')+'</small></div>'}).join('');
+  $('z-form').hidden=bb;$('z-form').innerHTML='<span><small>Tanaka</small>'+est+'</span><span><small>220 − edad</small>'+(220-Math.round(e))+'</span>'+(medido?'<span class="on"><small>Medido</small>'+max+'</span>':'');
+  $('z-lista').innerHTML=filas.map(function(x,i){return '<div class="zl zl-'+x.z[0]+'" data-z="'+x.z[0]+'"><i></i><b>'+x.z[1]+(x.z[8]?'<span class="zl-salud" title="Mínimo recomendado para la salud (ACSM)">'+x.z[8]+'</span>':'')+'</b>'+(bb?'':'<span class="zl-lpm">'+x.lo+'–'+x.hi+' lpm</span>')+'<small>Borg '+x.z[6]+(x.z[7]?' · '+x.z[7]:'')+'</small><em class="zl-int" aria-hidden="true">'+'<u></u><u></u><u></u><u></u>'.replace(/<u><\/u>/g,function(m,o){return o/7<=i?'<u class="si"></u>':m})+'</em></div>'}).join('');
+  document.querySelector('.z-borg').dataset.bb=bb?'1':'';
   if(bb){res.classList.add('z-medio');$('z-txt').textContent='Con estos fármacos, con fibrilación auricular o con marcapasos, el pulso sube menos de lo normal o de forma irregular: no te fíes de las zonas de pulso del reloj. Guíate por el esfuerzo que notas (escala de Borg, de 6 a 20) y por la prueba del habla: para intensidad moderada, poder hablar pero no cantar.'}
   else{res.classList.add('z-alto');$('z-txt').textContent=(medido?'Usamos el máximo que te midieron. ':'Con la fórmula clásica (220 − edad) saldría '+(220-Math.round(e))+' lpm. Cualquier fórmula tiene un error típico de unos 10 latidos. ')+(hrr?'':'Si apuntas tu pulso en reposo, las zonas se ajustan mejor a tu forma física.')}
   $('z-copiar').hidden=false;
   copia='Mis zonas de esfuerzo (FBE)\n'+(bb?'El pulso no me sirve de guía: esfuerzo percibido y prueba del habla.\n':'Pulso máximo: '+max+' lpm ('+(medido?'medido':'estimado con Tanaka')+')'+(hrr?' · reposo '+r+' lpm':'')+'\n')+filas.map(function(x){return x.z[1]+': '+(bb?'':x.lo+'–'+x.hi+' lpm · ')+'Borg '+x.z[6]+(x.z[7]?' ('+x.z[7].toLowerCase()+')':'')}).join('\n');
 }
 $('z-copiar').addEventListener('click',function(){copiar(this,copia)});
+function enlaza(e){var r=e.target.closest&&e.target.closest('.zl'),k=r?r.dataset.z:'';document.querySelectorAll('#z-barra span').forEach(function(sp){sp.classList.toggle('on',!!k&&sp.classList.contains('zb-'+k))});document.querySelectorAll('.z-borg i').forEach(function(c){c.classList.toggle('on',!!k&&c.classList.contains('zb-'+k))})}
+$('z-lista').addEventListener('mouseover',enlaza);$('z-lista').addEventListener('mouseleave',enlaza);
 document.querySelector('.tool-form').addEventListener('input',pinta);document.querySelector('.tool-form').addEventListener('change',pinta);pinta();
 })();</script></main>
 <nav class="sigue" aria-label="Seguir leyendo"><div class="in"><a href="herramientas.html"><small>Anterior</small><b>Herramientas</b></a><a class="der" href="dudas.html"><small>Siguiente</small><b>Dudas</b></a></div></nav>
