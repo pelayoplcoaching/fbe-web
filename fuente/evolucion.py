@@ -87,6 +87,7 @@ if(IB&&I){IB.addEventListener('click',function(){SEL={};opciones(lee());informe(
   D.getElementById('mr-inf-imp').addEventListener('click',imprime);
   D.getElementById('mr-inf-x').addEventListener('click',function(){I.hidden=true;IB.focus()});}
 pinta();new MutationObserver(function(){pinta();if(I&&!I.hidden)opciones(lee())}).observe(L,{childList:true});
+if(/^#(informe|mr-inf)$/.test(location.hash)&&IB)setTimeout(function(){if(herrs(lee()).length)IB.click()},60);
 })();"""
 EVO_JS = EVO_JS.replace('__CFG__', json.dumps(EVO_CFG)).replace('__FU__', json.dumps(EVO_FU, ensure_ascii=False))
 _EVO_HTML = '''<section class="mr-evo sube" id="mr-evo" hidden aria-labelledby="mr-evo-h"><div class="entrada"><h2 id="mr-evo-h">Mi evolución</h2><p id="mr-evo-n"></p></div>

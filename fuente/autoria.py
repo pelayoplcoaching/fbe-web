@@ -7,7 +7,7 @@
 # FECHAS: cambiar la de una página cuando cambie su contenido (no al regenerar).
 _MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre']
 def fecha_es(iso): a, m, d = iso.split('-'); return f'{int(d)} de {_MESES[int(m) - 1]} de {a}'
-FECHAS = {u: '2026-11-21' for u in [u for u, *_ in HERR_MAS] + ['pauta-activa.html', 'mitos.html', 'glosario.html', 'empieza-aqui.html', 'fuentes.html', 'profesionales.html', 'evidencia.html'] + globals().get('TEMAS_PAGS', [])}
+FECHAS = {u: '2026-11-21' for u in [u for u, *_ in HERR_MAS] + ['pauta-activa.html', 'mitos.html', 'glosario.html', 'empieza-aqui.html', 'fuentes.html', 'profesionales.html', 'evidencia.html'] + globals().get('TEMAS_PAGS', []) + globals().get('CHQ_PAGS', [])}
 PERSONA = {'@type': 'Person', 'name': 'Pelayo Fernández Cidón', 'url': WEB + 'quien-soy.html', 'jobTitle': 'Médico especialista en Medicina Interna y entrenador'}
 
 # ---- Foto pequeña para la firma (sale de la foto real de Quién soy; si no está, la firma va sin foto) ----
@@ -78,7 +78,7 @@ for _a in FECHAS:
     _p = f'{SAL}/{_a}'
     if not os.path.exists(_p): continue
     _h = open(_p, encoding='utf-8').read()
-    _ff = '#fuentes' if 'class="fuentes-t"' in _h else ('#lista' if _a == 'mitos.html' else ('#fu-lista' if _a == 'fuentes.html' else ('#fuentes-tema' if 'id="fuentes-tema"' in _h else None)))
+    _ff = '#fuentes' if 'class="fuentes-t"' in _h else ('#lista' if _a == 'mitos.html' else ('#fu-lista' if _a == 'fuentes.html' else ('#fuentes-tema' if 'id="fuentes-tema"' in _h else ('#chq-por' if 'id="chq-por"' in _h else None))))
     _m = re.search(r'(<header class="hero mini[^>]*>.*?<p class="sub">.*?</p>)', _h, re.S)
     if not _m: continue
     _ld = '<script type="application/ld+json">' + json.dumps({'@context': 'https://schema.org', '@type': 'WebPage', 'url': WEB + _a, 'inLanguage': 'es', 'dateModified': FECHAS[_a], 'author': PERSONA,

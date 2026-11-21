@@ -33,13 +33,13 @@ def _desp(i, t, cuerpo): return f'<div class="nav-g"><button type="button" class
 def nav(act=''):
     ap = ''.join(f'<a class="nm-it" href="{u}"{_cur(u, act)}><b>{t}</b><small>{d}</small></a>' for u, t, d in APRENDE)
     he = ''.join(f'<div class="nm-col"><p class="nm-h">{g}</p>' + ''.join(f'<a href="{u}"{_cur(u, act)}{" rel=\"noopener\"" if u.startswith("http") else ""}>{t}</a>' for u, t in L) + '</div>' for g, L in HERR_MENU)
-    he += f'<div class="nm-pie"><a href="herramientas.html"{_cur("herramientas.html", act)}>Ver todas las herramientas</a><a href="mis-resultados.html">Mis resultados</a></div>'
+    he += f'<div class="nm-pie"><a class="nm-chq" href="chequeo.html"{_cur("chequeo.html", act)}>Chequeo de 10 minutos</a><a href="herramientas.html"{_cur("herramientas.html", act)}>Ver todas las herramientas</a><a href="mis-resultados.html">Mis resultados</a></div>'
     return (''.join(f'<a href="{u}"{_cur(u, act)}>{t}</a>' for u, t in PAGS[:3]) + _desp('aprende', 'Aprende', f'<div class="nm-rej">{ap}</div><div class="nm-temas"><p class="nm-h">Por tema</p>' + ''.join(f'<a href="{u}"{_cur(u, act)}>{t}</a>' for u, t in TEMAS_MENU) + f'</div><div class="nm-pie"><a href="fuentes.html"{_cur("fuentes.html", act)}>Fuentes: de dónde sale cada número</a></div>')
             + _desp('herr', 'Herramientas', f'<div class="nm-cols">{he}</div>') + f'<a href="dudas.html"{_cur("dudas.html", act)}>Dudas</a>')
 def nav_movil(act=''):
     g = lambda t, L: f'<p class="mm-h">{t}</p>' + ''.join(f'<a href="{u}"{_cur(u, act)}>{n}</a>' for u, n in L)
     return ('<a href="index.html">Inicio</a>' + g('Asesoría', PAGS[:3]) + g('Aprende', [(u, t) for u, t, _ in APRENDE[:7]])
-            + g('Herramientas', [('herramientas.html', 'Todas las herramientas'), ('pauta-activa.html', 'Pauta Activa'), ('calculadora-1rm.html', 'Calculadora de 1RM'), ('test-silla.html', 'Test de la silla'), ('zonas-pulso.html', 'Zonas de pulso'), ('mis-resultados.html', 'Mis resultados')])
+            + g('Herramientas', [('herramientas.html', 'Todas las herramientas'), ('chequeo.html', 'Chequeo de 10 minutos'), ('pauta-activa.html', 'Pauta Activa'), ('calculadora-1rm.html', 'Calculadora de 1RM'), ('test-silla.html', 'Test de la silla'), ('zonas-pulso.html', 'Zonas de pulso'), ('mis-resultados.html', 'Mis resultados')])
             + g('Por tema', TEMAS_MENU) + g('Ayuda', [('dudas.html', 'Dudas'), ('profesionales.html', 'Para profesionales'), ('fuentes.html', 'Fuentes')]))
 def cabecera(act=''):
     return f'''<a class="salto" href="#contenido">Saltar al contenido</a>

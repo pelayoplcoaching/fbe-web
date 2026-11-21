@@ -1,5 +1,5 @@
 # «¿Y ahora qué?» (21/11/2026, noche): bajo cada calculadora, el siguiente paso según cómo salga el resultado.
-# Lo ejecuta interior.py después de extras2.py. Solo enlaza a páginas que ya existen (guías, perfiles de Empieza aquí,
+# Lo ejecuta interior.py después de temas.py (antes de chequeo.py, que usa SIGUE). Solo enlaza a páginas que ya existen (guías, perfiles de Empieza aquí,
 # otras herramientas, mitos, glosario, Puesta a punto, Programas, Pauta Activa); no añade datos nuevos.
 # Zonas: z-alto (verde), z-medio (ámbar), z-bajo (rojo); 'def' es lo que sale si la herramienta no tiene zonas o aún no la hay.
 _SG_EA = 'empieza-aqui.html#'
