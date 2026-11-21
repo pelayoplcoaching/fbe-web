@@ -3815,3 +3815,64 @@ html.contraste .bol-it > .bol-txt::before { display: none; }
 @media (prefers-reduced-motion: reduce) { .tool-form, .tool-campo > label, .num-paso button, .seg-t span, .fuentes-t li, .tool-res > p.tool-et:first-of-type::before { transition: none; } .num-paso button:active, .seg-t label:active span, .crono-mas:active { transform: none; } }
 @media print { .tool-res > p.tool-et:first-of-type::before, .tool-res > p.tool-et:first-of-type::after, .tool-explica::before, .tool-explica p::before { display: none; } .tool-explica { padding-left: 0; } .res-grande b { filter: none; } }
 @media (max-width: 440px) { .crono-bots .btn { padding-inline: 1rem; font-size: .92rem; white-space: nowrap; } .crono-mas { white-space: nowrap; font-size: 1rem; gap: .4rem; padding-inline: .6rem; } .crono-mas b { min-width: 1.7rem; font-size: .85rem; padding: .12rem .4rem; } }
+/* ===== 5 x 50 FUTURISTA - TANDA G (801-850): otras cinco calculadoras, Herramientas y Pauta Activa ===== */
+/* Zonas de pulso: barra con brillo superior, filas con lectura y escala de Borg como teclado */
+.zonas-barra span { box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35), inset 0 -10px 18px -10px rgba(0, 0, 0, .35); }
+.zonas-barra span:hover { filter: brightness(1.12) saturate(1.1); }
+.zonas-barra span { transition: filter .2s; }
+.zl { box-shadow: inset 0 0 0 1px rgba(164, 156, 255, .12); }
+.zl::after { content: ""; position: absolute; left: .8rem; right: .8rem; bottom: 0; height: 1px; background: linear-gradient(90deg, rgba(164, 156, 255, .35), transparent); opacity: 0; transition: opacity .25s; }
+.zl:hover::after { opacity: 1; }
+.zl i { box-shadow: 0 0 8px currentColor; }
+.z-borg div > * { transition: transform .15s, filter .15s; }
+.z-borg div > *:hover { transform: translateY(-2px); filter: brightness(1.2); }
+/* Semaforo del dolor: luces de cristal y marcadores numericos como pantalla */
+.semaforo i.l-r, .semaforo i.l-a, .semaforo i.l-v { background-image: radial-gradient(circle at 35% 30%, rgba(255, 255, 255, .6), transparent 45%); }
+.semaforo { box-shadow: inset 0 0 0 1px rgba(164, 156, 255, .25), inset 0 2px 8px rgba(0, 0, 0, .45); }
+.rango-t output, .rango-fila output { font-variant-numeric: tabular-nums; box-shadow: 0 0 0 3px color-mix(in srgb, var(--marca) 12%, transparent), 0 0 16px -6px var(--marca); }
+.d-banderas label:has(input:checked) { color: var(--tinta); }
+.d-banderas label:has(input:checked) input { box-shadow: 0 0 0 3px color-mix(in srgb, var(--rojo) 22%, transparent); }
+/* SPPB: mapa de pruebas con piloto y escala que se enciende */
+.sppb-mapa li { transition: border-color .25s, box-shadow .25s, background-color .25s; }
+.sppb-mapa li:hover { border-color: color-mix(in srgb, var(--marca) 40%, var(--linea)); box-shadow: 0 0 0 3px color-mix(in srgb, var(--marca) 10%, transparent); }
+.sppb-mapa li b { box-shadow: 0 0 10px -2px var(--marca); }
+.sppb-escala i.lleno { box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), 0 0 8px -2px currentColor; }
+.sppb-paso { transition: border-color .3s, box-shadow .3s; }
+.sppb-paso:focus-within { border-color: color-mix(in srgb, var(--marca) 40%, var(--linea)); box-shadow: 0 14px 34px -26px var(--marca); }
+.cronom, .cuenta10 { box-shadow: 0 2px 0 var(--linea); }
+.cronom:active, .cuenta10:active { transform: translateY(1px); }
+/* Paron: atajos como teclas y plan con barra de luz */
+.o-atajos button { box-shadow: 0 2px 0 var(--linea); font-variant-numeric: tabular-nums; }
+.o-atajos button:active { transform: translateY(1px); }
+.paron-plan { position: relative; overflow: hidden; }
+.paron-plan::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: linear-gradient(180deg, var(--ok), var(--marca-clara)); box-shadow: 0 0 10px var(--ok); }
+.paron-linea { box-shadow: inset 0 0 0 1px rgba(164, 156, 255, .2), inset 0 0 30px -14px rgba(89, 62, 222, .6); }
+/* Suplementos: grupo con piloto y ficha con borde de luz */
+.supl-lista button, .supl-lista a { transition: transform .15s, box-shadow .2s, border-color .2s; }
+.supl-lista button:hover, .supl-lista a:hover { transform: translateY(-1px); box-shadow: 0 0 0 3px color-mix(in srgb, var(--marca) 12%, transparent), 0 0 14px -6px var(--marca); }
+.supl-g { box-shadow: 0 0 14px -4px currentColor; }
+.supl-escala > * { transition: transform .2s, box-shadow .2s; }
+.supl-busca input:focus { box-shadow: 0 0 0 4px color-mix(in srgb, var(--marca) 18%, transparent), 0 0 22px -8px var(--marca); }
+/* Herramientas: tarjetas grandes con borde que se enciende y etiqueta con piloto */
+.herr { position: relative; isolation: isolate; }
+.herr::before { content: ""; position: absolute; inset: 0; z-index: 2; border-radius: inherit; padding: 1px; background: linear-gradient(135deg, color-mix(in srgb, var(--marca-clara) 70%, transparent), transparent 40%, transparent 60%, color-mix(in srgb, var(--oro) 50%, transparent)); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); opacity: .35; transition: opacity .35s; pointer-events: none; }
+.herr:hover::before { opacity: 1; }
+.herr-et::before { content: ""; flex: none; width: .45rem; height: .45rem; border-radius: 50%; background: var(--marca-clara); box-shadow: 0 0 8px var(--marca-clara); }
+.herr-et:has(.pa-logo)::before { display: none; }
+.herr-chips li { transition: border-color .2s, color .2s, box-shadow .2s; }
+.herr:hover .herr-chips li { border-color: color-mix(in srgb, var(--marca) 35%, var(--linea)); }
+.herr-mas-t::before { content: "//"; font-family: var(--mono); font-size: .6em; color: var(--acento); }
+.herr-mini::before { content: ""; position: absolute; left: 1rem; right: 1rem; top: 0; height: 2px; background: var(--hilo); opacity: 0; transition: opacity .3s; z-index: 1; }
+.herr-mini:hover::before { opacity: 1; }
+/* Pauta Activa: cifras con separadores de luz, pantallas con reflejo y tarjetas Para quien */
+.pa-cifras li b { filter: drop-shadow(0 0 16px rgba(164, 156, 255, .35)); }
+.pa-pantalla { position: relative; box-shadow: var(--sombra), 0 30px 60px -40px var(--marca); }
+.pa-pantalla::after { content: ""; position: absolute; inset: 0; background: linear-gradient(120deg, rgba(255, 255, 255, .12), transparent 30%); pointer-events: none; }
+.pa-tel { position: relative; transition: transform .5s cubic-bezier(.2, .7, .2, 1), box-shadow .4s; }
+.pa-tel::after { content: ""; position: absolute; inset: .45rem; border-radius: 1.7rem; background: linear-gradient(125deg, rgba(255, 255, 255, .16), transparent 32%); pointer-events: none; }
+.pa-moviles .pa-tel:hover { transform: translateY(-6px); box-shadow: var(--sombra), 0 0 0 6px color-mix(in srgb, var(--marca) 14%, transparent), 0 24px 50px -24px var(--marca); }
+.pa-para-img { overflow: hidden; border-radius: 1rem; }
+.pa-para-ilus { transition: transform .6s cubic-bezier(.2, .7, .2, 1), filter .4s; }
+.pa-para:hover .pa-para-ilus { transform: scale(1.04); filter: brightness(1.06); }
+.pa-autor-foto { box-shadow: 0 0 0 3px color-mix(in srgb, var(--marca-clara) 45%, transparent), 0 0 24px -6px var(--marca); }
+@media (prefers-reduced-motion: reduce) { .zonas-barra span, .zl::after, .z-borg div > *, .sppb-mapa li, .sppb-paso, .supl-lista button, .supl-lista a, .supl-escala > *, .herr::before, .herr-chips li, .herr-mini::before, .pa-tel, .pa-para-ilus { transition: none; } .z-borg div > *:hover, .supl-lista button:hover, .supl-lista a:hover, .pa-moviles .pa-tel:hover, .pa-para:hover .pa-para-ilus, .cronom:active, .cuenta10:active, .o-atajos button:active { transform: none; } }
