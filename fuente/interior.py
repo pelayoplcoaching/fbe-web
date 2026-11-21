@@ -542,6 +542,49 @@ for _f in glob.glob(f'{SAL}/*.html'):
     _t = open(_f, encoding='utf-8').read()
     _n = _re.sub(r'<a href="' + _re.escape(_b) + r'"(?![^>]*aria-current)', f'<a href="{_b}" aria-current="page"', _t)
     if _n != _t: open(_f, 'w', encoding='utf-8').write(_n)
+# Accesibilidad (zonas): la barra superior es la cabecera del sitio (<header>), la cabecera de cada pagina
+# pasa a ser una region con nombre (su h1), la portada tiene su <main>, y «Volver arriba» y la barra del movil
+# quedan dentro de zonas. Asi un lector de pantalla salta por zonas sin que nada quede fuera.
+def _cierre(t, ini, tag):
+    d = 0
+    for m in _re.finditer(r'<(/?)' + tag + r'\b[^>]*>', t[ini:]):
+        d += -1 if m.group(1) else 1
+        if d == 0: return ini + m.start()
+    return -1
+def _zonas(t, portada):
+    i = t.find('<div class="cab">')
+    if i >= 0:
+        j = _cierre(t, i, 'div')
+        if j > 0: t = t[:j] + '</header>' + t[j + 6:]; t = t[:i] + '<header class="cab">' + t[i + 17:]
+    i = t.find('<header class="hero')
+    if i >= 0:
+        j = _cierre(t, i, 'header')
+        if j > 0:
+            seg = t[i:j]; m = _re.search(r'<h1\b([^>]*)>', seg); hid = 'titulo'
+            if m:
+                mi = _re.search(r'\bid="([^"]+)"', m.group(1))
+                if mi: hid = mi.group(1)
+                else: seg = seg[:m.start()] + '<h1 id="titulo"' + seg[m.start() + 3:]
+            seg = '<div role="region" aria-labelledby="' + hid + '" class="hero' + seg[len('<header class="hero'):]
+            t = t[:i] + seg + '</div>' + t[j + len('</header>'):]
+    if portada:  # paneles de la galeria de la app: el papel de panel va en un envoltorio, no en la imagen
+        t = _re.sub(r'<img ([^>]*?)id="p(\d+)" role="tabpanel" aria-labelledby="t\2" (hidden )?([^>]*)>', lambda m: f'<div id="p{m.group(2)}" role="tabpanel" aria-labelledby="t{m.group(2)}" tabindex="0"{" hidden" if m.group(3) else ""}><img {m.group(1)}{m.group(4)}></div>', t)
+    if portada and '<main' not in t:
+        k = t.find('<div class="franja">'); f = t.find('<footer')
+        if 0 < k < f: t = t[:k] + '<main id="contenido">' + t[k:f] + '</main>\n' + t[f:]
+    t = _re.sub(r'(<a class="arriba"[^>]*>.*?</a>)', r'<nav class="arriba-n" aria-label="Volver arriba">\1</nav>', t, count=1, flags=_re.S) if 'class="arriba-n"' not in t else t
+    i = t.find('<section class="cierre">')
+    if i >= 0 and not portada:
+        m = _re.compile(r'<h2\b([^>]*)>').search(t, i)
+        if m and 'id="' not in m.group(1):
+            t = t[:m.start()] + '<h2 id="cierre-t"' + t[m.start() + 3:]
+            t = t[:i] + '<section class="cierre" aria-labelledby="cierre-t">' + t[i + len('<section class="cierre">'):]
+    t = t.replace('<div class="fijo" id="fijo">', '<div class="fijo" id="fijo" role="navigation" aria-label="Accesos rápidos">', 1)
+    return t
+for _f in glob.glob(f'{SAL}/*.html'):
+    _t = open(_f, encoding='utf-8').read()
+    _n = _zonas(_t, os.path.basename(_f) == 'index.html')
+    if _n != _t: open(_f, 'w', encoding='utf-8').write(_n)
 # CSS sin comentarios (mas ligero)
 _c = open(f'{SAL}/fbe.css', encoding='utf-8').read()
 _c2 = _re.sub(r'/\*.*?\*/', '', _c, flags=_re.S)

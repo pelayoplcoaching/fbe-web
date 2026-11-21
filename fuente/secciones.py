@@ -165,7 +165,7 @@ def pro_tarj(u, t, d, fu):
     sl, i, _, _ = HM[u]
     return f'<a class="herr-mini pro-herr" href="{u}">{ilus(f"herr-{sl}", "herr-mini-img") or f"<i class=\"ic\">{ico(i)}</i>"}<b>{t}</b><span>{d}</span><em class="pro-fuente">{fu}</em></a>'
 def pro_li(u, n):
-    return f'<li><a href="{u}">{n}</a><button type="button" class="pro-copia" data-u="{u}" aria-label="Copiar el enlace de {n}"><span>Copiar enlace</span></button></li>'
+    return f'<li><a href="{u}">{n}</a><button type="button" class="pro-copia" data-u="{u}" aria-label="Copiar enlace de {n}"><span>Copiar enlace</span></button></li>'
 PRO_IND = [('#pauta', 'Pauta Activa'), ('#herramientas', 'Herramientas'), ('#pacientes', 'Para tus pacientes'), ('#charlas', 'Charlas y formación')]
 pagina('profesionales.html', 'Para profesionales sanitarios', 'Para médicos, enfermería, farmacia y fisioterapia: Pauta Activa en consulta, herramientas con la fuente al pie y charlas sobre fuerza y medicación.',
        'Para profesionales sanitarios.', 'Soy médico internista. Esto es lo que te puede servir en la consulta, y cómo escribirme si quieres una sesión o una charla para tu equipo.', f'''
@@ -243,7 +243,7 @@ def mito_html(k, id_, t, frase, ver, ver_t, tipo, txt, fuente, enl):
             f'<span class="mito-frase">«{frase}»</span><span class="mito-abre">Qué dicen los estudios</span></summary>'
             f'<div class="mito-cuerpo"><p class="mito-ver"><b>{ver_t or MITO_VER[ver]}</b></p><p>{txt}</p><p class="mito-fuente"><b>Fuente</b> {fuente}</p>'
             f'<a class="mito-enl" href="{enl[0]}"{_ext(enl[0])}>{enl[1]}</a>'
-            f'<div class="mito-pie"><span class="mito-temas">{temas}</span><span class="mito-acc"><button type="button" class="pro-copia mito-copia" data-u="mitos.html#{id_}" aria-label="Copiar el enlace a este mito"><span>Copiar enlace</span></button>'
+            f'<div class="mito-pie"><span class="mito-temas">{temas}</span><span class="mito-acc"><button type="button" class="pro-copia mito-copia" data-u="mitos.html#{id_}" aria-label="Copiar enlace a este mito"><span>Copiar enlace</span></button>'
             f'<button type="button" class="mito-sig">Siguiente</button></span></div></div></details></article>')
 MITOS_JS = r'''(function(){var f=document.getElementById('mitos-f');if(!f)return;var ms=[].slice.call(document.querySelectorAll('.mito')),n=document.getElementById('mitos-n'),todo=document.getElementById('mitos-todos'),q=matchMedia('(prefers-reduced-motion: reduce)').matches,K='fbe-mitos',L=[];
 try{L=JSON.parse(localStorage.getItem(K)||'[]')||[]}catch(e){}
@@ -304,7 +304,7 @@ if len(MEDIOS) >= 2:
     pagina('medios.html', 'En los medios', 'Prensa, podcasts y formación con Pelayo Fernández Cidón, médico internista y entrenador: AS, Vozpópuli, Libertad Digital, podcasts y minipíldoras de la SEMI.',
            'En los medios.', 'Noticias, entrevistas y formación en las que he participado, con el enlace a cada una.', f'''
 <section><div class="in">
-  <div class="empieza sube"><div><h2 id="medios-n" role="status">{len(MEDIOS)} apariciones</h2><ul class="medios-cif"><li><b>{_nt["Prensa"]}</b>en prensa</li><li><b>{_nt["Podcast"]}</b>podcasts</li><li><b>{_nt["Formación"]}</b>de formación</li></ul></div>
+  <div class="empieza sube"><div><h2 id="medios-n" aria-live="polite">{len(MEDIOS)} apariciones</h2><ul class="medios-cif"><li><b>{_nt["Prensa"]}</b>en prensa</li><li><b>{_nt["Podcast"]}</b>podcasts</li><li><b>{_nt["Formación"]}</b>de formación</li></ul></div>
     <div class="fases claras" id="medios-f" role="group" aria-label="Filtrar por tipo">{"".join(f'<button type="button" data-t="{v}" aria-pressed="{"true" if not v else "false"}">{t}<em>{len(MEDIOS) if not v else _nt[v]}</em></button>' for v, t in MEDIO_T)}</div></div>
   <div class="medios" id="lista">{"".join(medio_html(*x) for x in MEDIOS)}</div>
 </div></section>

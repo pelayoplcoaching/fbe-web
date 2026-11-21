@@ -46,7 +46,7 @@
   D.addEventListener('visibilitychange', function () { R.classList.toggle('pestana-oculta', D.hidden); });
   if (!('IntersectionObserver' in window)) return;
   var io = new IntersectionObserver(function (es) { es.forEach(function (e) { e.target.classList.toggle('quieta-z', !e.isIntersecting); }); }, { rootMargin: '120px 0px' });
-  function vigilar() { if (!D.getAnimations) return; var cajas = []; D.getAnimations().forEach(function (an) { var t = an.effect && an.effect.target; if (!t || !an.effect.getComputedTiming || an.effect.getComputedTiming().iterations !== Infinity) return; var c = t.closest('section, header, footer, .cinta, aside') || t; if (cajas.indexOf(c) < 0) cajas.push(c); }); cajas.forEach(function (c) { io.observe(c); }); }
+  function vigilar() { if (!D.getAnimations) return; var cajas = []; D.getAnimations().forEach(function (an) { var t = an.effect && an.effect.target; if (!t || !an.effect.getComputedTiming || an.effect.getComputedTiming().iterations !== Infinity) return; var c = t.closest('section, header, footer, .cinta, aside, .hero') || t; if (cajas.indexOf(c) < 0) cajas.push(c); }); cajas.forEach(function (c) { io.observe(c); }); }
   if (D.readyState === 'complete') setTimeout(vigilar, 800); else addEventListener('load', function () { setTimeout(vigilar, 800); });
 })();
 /* Buscador de toda la web (indice buscar.json, Ctrl+K o /), service worker (calculadoras sin conexion) e instalacion */

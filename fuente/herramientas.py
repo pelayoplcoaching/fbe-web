@@ -830,7 +830,7 @@ SUP_G = {'A': 'Evidencia sólida para usos concretos, con protocolos basados en 
 SUP_FORM = f'''<div class="tool-campo supl-busca"><label for="u-q">Busca un suplemento</label><input id="u-q" type="search" autocomplete="off" placeholder="Creatina, omega-3, magnesio, colágeno…"></div>
 {seg("u-g", "Grupo de evidencia", [("", f"Todos<em>{len(SUP)}</em>")] + [(g, f"{g}<em>{sum(1 for x in SUP if x[3] == g)}</em>") for g in "ABCD"], "", "supl-filtro")}
 <p class="supl-ley" aria-hidden="true"><span class="gA"><b>A</b>sólida</span><span class="gB"><b>B</b>emergente</span><span class="gC"><b>C</b>sin beneficio</span><span class="gD"><b>D</b>prohibido o de riesgo</span></p>
-<div class="supl-lista" id="u-lista" role="list"></div>
+<div class="supl-lista" id="u-lista" role="group" aria-label="Suplementos"></div>
 <p class="tool-nota supl-cuenta" id="u-cuenta"></p>
 <p class="vol-vacio" id="u-nada" hidden></p>
 {campo_num("u-peso", "Tu peso, para calcular las dosis", 75, 30, 200, 1, ud="kg")}'''
@@ -848,7 +848,7 @@ function norm(t){return String(t||'').toLowerCase().normalize('NFD').replace(/[�
 function g1(x){x=Math.round(x*10)/10;return fmt(x,x%1?1:0)}
 function grupo(){var r=document.querySelector('input[name="u-g"]:checked');return r?r.value:''}
 function lista(){var q=norm($('u-q').value),g=grupo(),L=S.filter(function(s){return (!g||s[3]===g)&&(!q||norm(s[1]+' '+s[2]).indexOf(q)>=0||q.split(' ').every(function(p){return norm(s[1]+' '+s[2]).indexOf(p)>=0}))});
-  $('u-lista').innerHTML=L.map(function(s){return '<button type="button" role="listitem" class="supl-it g'+s[3]+(s[0]===sel?' sel':'')+'" data-id="'+s[0]+'"><b>'+s[3]+'</b>'+s[1]+'</button>'}).join('');
+  $('u-lista').innerHTML=L.map(function(s){return '<button type="button" class="supl-it g'+s[3]+(s[0]===sel?' sel':'')+'" aria-pressed="'+(s[0]===sel)+'" data-id="'+s[0]+'"><b>'+s[3]+'</b>'+s[1]+'</button>'}).join('');
   $('u-nada').hidden=L.length>0;$('u-cuenta').textContent=L.length?(L.length===1?'1 suplemento':L.length+' suplementos')+' · toca uno para ver su ficha':'';if(!L.length)$('u-nada').textContent=q?'«'+$('u-q').value.trim()+'» no está en la clasificación del AIS. Eso no quiere decir que funcione ni que no: si te interesa, pregúntame.':'No hay suplementos en este grupo.';
   if(L.length===1&&L[0][0]!==sel){sel=L[0][0];ficha();lista()}}
 function ficha(){var s=S.filter(function(x){return x[0]===sel})[0];if(!s)return;var kg=parseFloat($('u-peso').value),res=document.querySelector('.tool-res');

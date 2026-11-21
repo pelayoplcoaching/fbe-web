@@ -141,7 +141,7 @@ _b0 = BOL[-1]['f'].split('-')
 pagina('boletin.html', 'Archivo del boletín', f'Los {len(BOL)} envíos del boletín semanal de Fuerza Basada en Evidencia desde {_MES[int(_b0[1]) - 1]} de {_b0[0]}: entrenamiento, nutrición, suplementos y salud, con buscador por tema.',
        'Archivo del boletín.', f'{len(BOL)} correos desde {_MES[int(_b0[1]) - 1]} de {_b0[0]}. Busca un tema y ábrelo tal como llegó.', f'''
 <section><div class="in">
-  <div class="empieza sube bol-caja"><div><h2 id="bol-n" role="status">{len(BOL)} envíos</h2>
+  <div class="empieza sube bol-caja"><div><h2 id="bol-n" aria-live="polite">{len(BOL)} envíos</h2>
     <label class="oculto" for="bol-q">Buscar en el archivo</label><span class="lupa glos-busca"><input id="bol-q" type="search" placeholder="Por ejemplo: creatina, sueño, rodilla" autocomplete="off"></span></div>
     <div class="fases claras" id="bol-f" role="group" aria-label="Filtrar por tema">{"".join(f'<button type="button" data-t="{v}" aria-pressed="{"true" if not v else "false"}">{tt}<em>{len(BOL) if not v else _bn[v]}</em></button>' for v, tt in BOL_T)}</div></div>
   <div class="bol-lista" id="lista">{_bol_html()}</div>
@@ -195,7 +195,7 @@ _MR_H = ''.join(f'<a class="herr-mini" href="{u}">{ilus(f"herr-{sl}", "herr-mini
 pagina('mis-resultados.html', 'Mis resultados', 'Tus resultados de las calculadoras de Fuerza Basada en Evidencia, juntos en una hoja para imprimir o enseñar a tu médico o entrenador. Se guardan solo en tu navegador.',
        'Mis resultados.', 'Lo que guardas en las calculadoras, junto en una hoja para imprimir o enseñar a tu médico o a tu entrenador.', f'''
 <section><div class="in">
-  <div class="empieza sube mr-caja"><div><h2 id="mr-n" role="status">Aún no has guardado nada</h2><p class="mr-priv">{ico("candado")}Se guarda solo en este navegador: no sale de tu dispositivo ni me llega a mí.</p></div>
+  <div class="empieza sube mr-caja"><div><h2 id="mr-n" aria-live="polite">Aún no has guardado nada</h2><p class="mr-priv">{ico("candado")}Se guarda solo en este navegador: no sale de tu dispositivo ni me llega a mí.</p></div>
     <div class="mr-bots" id="mr-bots" hidden><button type="button" class="btn peq" id="mr-imp">Imprimir o guardar en PDF</button><button type="button" class="copiar-t" id="mr-cop"><span>Copiar todo</span></button><button type="button" class="enl-b" id="mr-todo">Borrar todo</button></div></div>
   <div class="mr-copia sube"><p><b>Copia de seguridad.</b> Tus resultados viven en este navegador. Descárgalos en un archivo para guardarlos o pasarlos a otro dispositivo.</p><div><button type="button" class="copiar-t" id="mr-exp"><span>Descargar copia</span></button><label class="copiar-t mr-rec"><span>Recuperar copia</span><input type="file" id="mr-imp-f" accept="application/json,.json" class="oculto"></label></div></div>
   <p class="vol-aviso" id="mr-aviso" role="status"></p>
