@@ -140,8 +140,54 @@ tool_pagina('prension.html', 'Fuerza de prensión con dinamómetro',
      'Roberts HC y cols. A review of the measurement of grip strength in clinical and epidemiological studies: towards a standardised approach. Age Ageing. 2011;40(4):423-9 (protocolo de Southampton).'],
     PRE_JS, slug='prension', tira=('Sentado, codo a 90 grados', 'Tres intentos por mano', 'Cuenta el mejor'))
 
+# ---------------------------------------------------------------------------------------------
+# 14. Calorías de mantenimiento (Mifflin-St Jeor 1990; niveles de actividad de FAO/OMS/UNU 2004; precisión, Frankenfield 2005)
+I.update({'llama2': '<path d="M12 3c1 3 4 4.5 4 8.5a4 4 0 0 1-8 0c0-1.5.6-2.6 1.5-3.5.2 1.5 1 2.3 2 2.5-.5-2.5-.3-5 .5-7.5z"/><path d="M8 15.5a4 4 0 0 0 8 0"/>'})
+CAL_FORM = (seg('k-sexo', 'Sexo', [('h', 'Hombre'), ('m', 'Mujer')], 'h')
+    + f'''<div class="tool-fila">{campo_num("k-edad", "Edad", 40, 18, 100, 1, ud="años")}{campo_num("k-peso", "Peso", 75, 35, 250, 0.5, ud="kg")}</div>
+{campo_num("k-alt", "Altura", 175, 130, 220, 1, ud="cm")}'''
+    + seg('k-act', 'Tu día a día', [('1', 'Poco activo'), ('2', 'Activo'), ('3', 'Muy activo')], '1')
+    + '<p class="tool-nota k-ayuda" id="k-ayuda"></p><p class="tool-nota">Si tienes o has tenido un trastorno de la conducta alimentaria, mejor no te guíes por calorías: háblalo con tu médico.</p>')
+CAL_RES = f'''<p class="tool-et">Para mantener tu peso, al día</p>
+<div class="res-grande"><b id="k-rango">–</b><span>kcal</span></div>
+<p class="res-chip" id="k-bmr" hidden></p>
+<div class="k-barra" aria-hidden="true"><i id="k-b1"></i><i id="k-b2"></i></div>
+<p class="res-texto" id="k-txt"></p>
+<p class="supl-enl"><a class="btn claro" href="{CALC}" rel="noopener">Calcula tu proteína</a></p>
+{copiar_b("k-copiar", "Copiar resultado")}'''
+CAL_JS = r'''(function(){
+var $=function(i){return document.getElementById(i)},copia='',PAL={'1':[1.40,1.69,'Trabajo sentado y poco ejercicio, o algo de actividad suave.'],'2':[1.70,1.99,'Trabajo de pie o caminando, o ejercicio moderado casi todos los días.'],'3':[2.00,2.40,'Trabajo físico duro o entrenamiento intenso a diario.']};
+function v(n){var r=document.querySelector('input[name="'+n+'"]:checked');return r?r.value:null}
+function num(id){var x=parseFloat(String($(id).value).replace(',','.'));return x>0?x:null}
+function r50(x){return Math.round(x/50)*50}
+function pinta(){
+  var s=v('k-sexo')||'h',e=num('k-edad'),w=num('k-peso'),h=num('k-alt'),a=PAL[v('k-act')||'1'];$('k-ayuda').textContent=a[2];
+  if(!(e>=18&&e<=110&&w>=30&&w<=300&&h>=120&&h<=230)){$('k-rango').textContent='–';$('k-bmr').hidden=true;$('k-txt').textContent='Completa tus datos.';$('k-copiar').hidden=true;return}
+  var bmr=10*w+6.25*h-5*e+(s==='h'?5:-161),lo=r50(bmr*a[0]),hi=r50(bmr*a[1]);
+  $('k-rango').textContent=fmt(lo)+'–'+fmt(hi);destella($('k-rango'));$('k-bmr').hidden=false;$('k-bmr').textContent='En reposo: unas '+fmt(Math.round(bmr/10)*10)+' kcal (Mifflin-St Jeor)';
+  $('k-b1').style.width=(lo/4500*100)+'%';$('k-b2').style.width=((hi-lo)/4500*100)+'%';
+  $('k-txt').textContent='Es una estimación: la fórmula acierta con un margen del 10 % en la mayoría de los adultos, y el gasto real cambia con el sueño, el estrés o el ejercicio de cada semana. Lo que manda es cómo evoluciona tu peso durante unas semanas.';
+  $('k-copiar').hidden=false;copia='Calorías de mantenimiento (FBE): '+fmt(lo)+'-'+fmt(hi)+' kcal al día\nEn reposo: unas '+fmt(Math.round(bmr/10)*10)+' kcal (Mifflin-St Jeor) · '+(s==='h'?'hombre':'mujer')+', '+e+' años, '+fmt(w,w%1?1:0)+' kg, '+fmt(h)+' cm · nivel de actividad '+a[0].toFixed(2).replace('.',',')+'-'+a[1].toFixed(2).replace('.',',');
+}
+$('k-copiar').addEventListener('click',function(){copiar(this,copia)});window.fbeCopia=function(){return copia};
+document.querySelector('.tool-form').addEventListener('input',pinta);document.querySelector('.tool-form').addEventListener('change',pinta);pinta();
+})();'''
+tool_pagina('calorias.html', 'Calorías de mantenimiento',
+    'Estima cuántas calorías gastas al día para mantener tu peso con la fórmula de Mifflin-St Jeor y los niveles de actividad de la FAO y la OMS. Una estimación con su margen de error.',
+    'Tus calorías para mantener el peso',
+    'Una estimación de lo que gastas al día con la fórmula más fiable para adultos (Mifflin-St Jeor) y tu nivel de actividad. Sirve de punto de partida, no de número exacto.',
+    CAL_FORM, CAL_RES,
+    '''<p>El gasto en reposo se calcula con la ecuación de <b>Mifflin-St Jeor</b>, la que mejor acierta en adultos según la revisión de Frankenfield y cols.: queda dentro de un margen del 10 % en la mayoría de las personas, aunque se equivoca más en algunas.</p>
+<p>Ese gasto se multiplica por tu <b>nivel de actividad física</b>, con los tramos del informe de la FAO, la OMS y la Universidad de las Naciones Unidas: de 1,40 a 1,69 en una vida poco activa, de 1,70 a 1,99 en una activa y de 2,00 a 2,40 en una muy activa. Por eso el resultado es un rango y no un número.</p>
+<p>Úsalo como punto de partida: si durante unas semanas tu peso se mantiene, estás en tu mantenimiento. Si tienes o has tenido un trastorno de la conducta alimentaria, no te guíes por calorías y háblalo con tu médico.</p>''',
+    ['Mifflin MD, St Jeor ST, Hill LA y cols. A new predictive equation for resting energy expenditure in healthy individuals. Am J Clin Nutr. 1990;51(2):241-7.',
+     'FAO, OMS y UNU. Human energy requirements: report of a joint FAO/WHO/UNU expert consultation. Roma: FAO; 2004 (niveles de actividad física).',
+     'Frankenfield D, Roth-Yousey L, Compher C. Comparison of predictive equations for resting metabolic rate in healthy nonobese and obese adults: a systematic review. J Am Diet Assoc. 2005;105(5):775-89.'],
+    CAL_JS, slug='calorias', tira=('Tu gasto en reposo', 'Por tu actividad', 'Ajusta con tu peso'))
+
 HERR_MAS += [('actividad-oms.html', 'oms', 'calendario', '¿Llegas a lo mínimo de la OMS?', 'Tu semana de actividad frente a las recomendaciones de la OMS: aeróbica, fuerza y equilibrio.'),
     ('cintura-altura.html', 'cintura', 'cinta', 'Cintura y altura', 'Tu grasa abdominal con una cinta métrica, con los rangos de la guía de NICE.'),
-    ('prension.html', 'prension', 'mano', 'Fuerza de prensión', 'Tu fuerza con un dinamómetro, frente al punto de corte del consenso europeo de sarcopenia.')]
+    ('prension.html', 'prension', 'mano', 'Fuerza de prensión', 'Tu fuerza con un dinamómetro, frente al punto de corte del consenso europeo de sarcopenia.'),
+    ('calorias.html', 'calorias', 'llama2', 'Calorías de mantenimiento', 'Lo que gastas al día para mantener tu peso, con su margen de error.')]
 
-SEC_PAGS_H3 = ['actividad-oms.html', 'cintura-altura.html', 'prension.html']  # entran en el sitemap desde extras.py
+SEC_PAGS_H3 = ['actividad-oms.html', 'cintura-altura.html', 'prension.html', 'calorias.html']  # entran en el sitemap desde extras.py

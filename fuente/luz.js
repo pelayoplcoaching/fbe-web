@@ -80,7 +80,7 @@
 })();
 /* Ajustes de lectura: tamano del texto, contraste alto y sin animaciones (localStorage fbe-lectura; la clase se pone antes en la cabecera de cada pagina) */
 (function () {
-  var D = document, R = D.documentElement, K = 'fbe-lectura', a = {}, b, p;
+  var D = document, R = D.documentElement, K = 'fbe-lectura', a = {}, b, p, OIR = 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
   try { a = JSON.parse(localStorage.getItem(K) || '{}') || {}; } catch (e) {}
   function aplica() { R.classList.toggle('letra-1', a.l === 1); R.classList.toggle('letra-2', a.l === 2); R.classList.toggle('contraste', !!a.c); R.classList.toggle('quieto', !!a.q); }
   function pinta() { if (!p) return; [].forEach.call(p.querySelectorAll('[data-l]'), function (x) { x.setAttribute('aria-pressed', String((a.l || 0) === +x.dataset.l)); }); [].forEach.call(p.querySelectorAll('[data-k]'), function (x) { x.checked = !!a[x.dataset.k]; }); b.classList.toggle('activo', !!(a.l || a.c || a.q)); }
@@ -91,14 +91,29 @@
   var tema = D.getElementById('tema'); cab.insertBefore(b, tema && tema.parentNode === cab ? tema : null);
   var img = (R.getAttribute('data-fbe-img') || '').indexOf('ajustes') >= 0 ? '<img class="aj-img" src="img/web-ajustes.webp" alt="" loading="lazy" decoding="async">' : '';
   p = D.createElement('div'); p.className = 'ajustes-p'; p.id = 'ajustes-p'; p.setAttribute('role', 'dialog'); p.setAttribute('aria-label', 'Ajustes de lectura'); p.hidden = true;
-  p.innerHTML = img + '<p class="aj-t">Ajustes de lectura</p><div class="aj-fila"><span id="aj-l">Tamaño del texto</span><div class="aj-seg" role="group" aria-labelledby="aj-l"><button type="button" data-l="0">A</button><button type="button" data-l="1">A+</button><button type="button" data-l="2">A++</button></div></div><label class="aj-fila"><span>Contraste alto</span><input type="checkbox" role="switch" data-k="c"></label><label class="aj-fila"><span>Sin animaciones</span><input type="checkbox" role="switch" data-k="q"></label><div class="aj-pie"><button type="button" class="enl-b aj-reset">Volver a lo normal</button><span>Se guardan en este navegador.</span></div>';
+  p.innerHTML = img + '<p class="aj-t">Ajustes de lectura</p><div class="aj-fila"><span id="aj-l">Tamaño del texto</span><div class="aj-seg" role="group" aria-labelledby="aj-l"><button type="button" data-l="0">A</button><button type="button" data-l="1">A+</button><button type="button" data-l="2">A++</button></div></div><label class="aj-fila"><span>Contraste alto</span><input type="checkbox" role="switch" data-k="c"></label><label class="aj-fila"><span>Sin animaciones</span><input type="checkbox" role="switch" data-k="q"></label>' + (OIR ? '<button type="button" class="aj-oir" aria-pressed="false"><span>Escuchar esta página</span></button>' : '') + '<div class="aj-pie"><button type="button" class="enl-b aj-reset">Volver a lo normal</button><span>Se guardan en este navegador.</span></div>';
   D.body.appendChild(p);
   function abre(v) { p.hidden = !v; b.setAttribute('aria-expanded', String(v)); if (v) { var r = b.getBoundingClientRect(); p.style.top = Math.round(r.bottom + 10) + 'px'; var w = p.offsetWidth; p.style.right = Math.round(Math.min(Math.max(8, innerWidth - r.right - 8), Math.max(8, innerWidth - w - 8))) + 'px'; } }
   b.addEventListener('click', function () { abre(p.hidden); if (!p.hidden) { var f = p.querySelector('[aria-pressed="true"]') || p.querySelector('button'); if (f) f.focus(); } });
   p.addEventListener('click', function (e) { var l = e.target.closest('[data-l]'); if (l) { a.l = +l.dataset.l; guarda(); } if (e.target.closest('.aj-reset')) { a = {}; guarda(); } });
   p.addEventListener('change', function (e) { var k = e.target.dataset.k; if (k) { a[k] = e.target.checked; guarda(); } });
+  function texto() { var m = D.querySelector('main') || D.body, h = D.querySelector('h1'), s = D.querySelector('.hero .sub'), c = m.cloneNode(true); [].forEach.call(c.querySelectorAll('script, style, svg, button, nav, form, .fuentes-t, .oculto, [aria-hidden="true"], [hidden]'), function (x) { x.remove(); }); return [h ? h.innerText : '', s ? s.innerText : '', c.innerText].join('. ').replace(/\s+/g, ' ').trim(); }
+  function para(o) { try { speechSynthesis.cancel(); } catch (e) {} if (o) { o.setAttribute('aria-pressed', 'false'); o.querySelector('span').textContent = 'Escuchar esta página'; } }
+  p.addEventListener('click', function (e) { var o = e.target.closest('.aj-oir'); if (!o) return; if (o.getAttribute('aria-pressed') === 'true') { para(o); return; }
+    var ss = speechSynthesis, vs = ss.getVoices().filter(function (v) { return /^es/i.test(v.lang); }), voz = vs.filter(function (v) { return /es-ES/i.test(v.lang); })[0] || vs[0], fr = texto().match(/[^.!?;:]+[.!?;:]*\s*/g) || [], tr = [], cur = '';
+    fr.forEach(function (f) { if ((cur + f).length > 220 && cur) { tr.push(cur); cur = f; } else cur += f; }); if (cur) tr.push(cur);
+    ss.cancel(); tr.forEach(function (t, i) { var u = new SpeechSynthesisUtterance(t.trim()); u.lang = 'es-ES'; if (voz) u.voice = voz; if (i === tr.length - 1) u.onend = function () { para(o); }; ss.speak(u); });
+    o.setAttribute('aria-pressed', 'true'); o.querySelector('span').textContent = 'Parar la lectura'; });
+  addEventListener('pagehide', function () { if (OIR) para(null); });
   D.addEventListener('click', function (e) { if (!p.hidden && !p.contains(e.target) && !b.contains(e.target)) abre(false); });
   D.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !p.hidden) { abre(false); b.focus(); } });
   addEventListener('resize', function () { if (!p.hidden) abre(true); });
   pinta();
+})();
+/* Compartir la pagina (menu del movil o copiar el enlace) */
+(function () {
+  var D = document, t = D.querySelector('.hero.mini .txt'); if (!t || !(navigator.share || (navigator.clipboard && navigator.clipboard.writeText))) return;
+  var b = D.createElement('button'); b.type = 'button'; b.className = 'compartir-b'; b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="M8.2 10.8l7.6-4.4M8.2 13.2l7.6 4.4"/></svg><span>Compartir</span>';
+  var c = t.querySelector('.cta'); (c || t).appendChild(b);
+  b.addEventListener('click', function () { var u = location.href.split('#')[0], s = b.querySelector('span'); if (navigator.share) navigator.share({ title: D.title, url: u }).catch(function () {}); else navigator.clipboard.writeText(u).then(function () { s.textContent = 'Enlace copiado'; setTimeout(function () { s.textContent = 'Compartir'; }, 1600); }, function () {}); });
 })();
