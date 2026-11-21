@@ -2000,6 +2000,396 @@ footer a[aria-current="page"] { color: #fff; text-decoration: underline; text-de
 .espera li:has(.espera-img) { display: flex; flex-direction: column; }
 .espera li:has(.espera-img) .espera-img { margin-top: auto; }
 .espera li:has(.espera-img) p { margin-bottom: 1rem; }
+/* ===== CINCO CALCULADORAS: 5 x 20 MEJORAS DE BELLEZA (21/11/2026) ===== */
+.tool-res { --ok: #5FD3A0; --at: #F0C674; --mal: #FF8FA3; }
+/* Comunes: unidad dentro del campo, boton copiar, destello, filas que entran y salen, chips */
+.num-paso[data-ud] { position: relative; }
+.num-paso[data-ud]::after { content: attr(data-ud); position: absolute; right: 3.55rem; top: 50%; transform: translateY(-50%); font-family: var(--mono); font-size: .7rem; letter-spacing: .04em; color: var(--tinta-2); pointer-events: none; }
+.num-paso[data-ud] input { padding-right: 2.9rem; padding-left: .5rem; }
+.copiar-t { justify-self: start; display: inline-flex; align-items: center; gap: .5rem; margin-top: .2rem; padding: .5rem .95rem; border-radius: 99px; border: 1px solid color-mix(in srgb, var(--marca-clara) 45%, transparent); background: color-mix(in srgb, var(--marca) 14%, transparent); color: inherit; font-family: var(--mono); font-size: .76rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; cursor: pointer; transition: border-color .2s, background-color .2s, box-shadow .2s; }
+.copiar-t::before { content: ""; width: .8rem; height: .9rem; border: 1.6px solid currentColor; border-radius: .2rem; box-shadow: 3px -3px 0 -1.6px currentColor; flex: none; }
+.copiar-t:hover { border-color: var(--marca-clara); box-shadow: 0 0 0 3px color-mix(in srgb, var(--marca) 22%, transparent); }
+.copiar-t:focus-visible { outline: 3px solid var(--marca-clara); outline-offset: 2px; }
+.copiar-t.hecho { border-color: var(--verde); background: color-mix(in srgb, var(--verde) 16%, transparent); }
+.copiar-t.hecho::before { width: .45rem; height: .8rem; border: 0; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; border-radius: 0; box-shadow: none; transform: rotate(45deg) translate(-1px, -2px); }
+.tool-res .copiar-t { color: var(--lavanda); }
+.tool-res .copiar-t.hecho { color: var(--ok); border-color: var(--ok); }
+.res-chip, .tool-chip { justify-self: start; margin: 0; display: inline-flex; align-items: center; gap: .45rem; padding: .35rem .8rem; border-radius: 99px; font-family: var(--mono); font-size: .76rem; font-weight: 600; letter-spacing: .03em; }
+.res-chip { background: rgba(255, 255, 255, .08); color: #fff; box-shadow: inset 0 0 0 1px rgba(164, 156, 255, .3); }
+.res-chip::before { content: ""; width: .5rem; height: .5rem; border-radius: 50%; background: var(--marca-clara); }
+.z-alto .res-chip::before { background: var(--ok); } .z-medio .res-chip::before { background: var(--at); } .z-bajo .res-chip::before { background: var(--mal); }
+.tool-chip { background: var(--lila); color: var(--acento); }
+.tool-chip:empty { display: none; }
+.medidor-esc { position: relative; height: 1rem; font-family: var(--mono); font-size: .68rem; color: var(--lavanda); }
+.medidor-esc span { position: absolute; top: 0; transform: translateX(-50%); white-space: nowrap; }
+.medidor-esc span:first-child { transform: none; } .medidor-esc span.ult { transform: translateX(-100%); }
+.vol-vacio { margin: 0; padding: 1rem; border-radius: 1rem; border: 1.5px dashed color-mix(in srgb, var(--marca) 35%, var(--linea)); color: var(--tinta-2); text-align: center; font-size: .95rem; }
+@media (prefers-reduced-motion: no-preference) {
+  .destello { animation: destello-t .55s ease-out; }
+  .vol-fila.nueva, .caf-fila.nueva { animation: fila-entra .35s ease-out; }
+  .vol-fila.sale { animation: fila-sale .18s ease-in forwards; }
+}
+@keyframes destello-t { 0% { filter: drop-shadow(0 0 0 transparent); transform: scale(1.06); } 40% { filter: drop-shadow(0 0 14px rgba(164, 156, 255, .9)); } 100% { filter: none; transform: none; } }
+@keyframes fila-entra { from { opacity: 0; transform: translateY(-6px); box-shadow: 0 0 0 3px color-mix(in srgb, var(--marca) 30%, transparent); } to { opacity: 1; transform: none; } }
+@keyframes fila-sale { to { opacity: 0; transform: translateX(14px); } }
+
+/* --- Test de la silla (1-20) --- */
+/* 1. Marcas de reloj alrededor del anillo */
+.crono-anillo .marcas-t line { stroke: var(--linea); stroke-width: 1.2; stroke-linecap: round; }
+.crono-anillo .marcas-t line.may { stroke: color-mix(in srgb, var(--marca) 55%, var(--linea)); stroke-width: 2; }
+/* 2. Anillo con degradado de marca a lila */
+.crono-anillo .g1 { stop-color: var(--marca-clara); } .crono-anillo .g2 { stop-color: var(--marca); } .crono-anillo .g3 { stop-color: var(--acento); }
+.crono-anillo .valor { stroke: url(#s-grad); transition: stroke-dashoffset .1s linear; }
+/* 3. Halo suave detras del cronometro */
+.crono-t::before { content: ""; position: absolute; inset: 12%; border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--marca) 16%, transparent), transparent 70%); pointer-events: none; transition: opacity .3s; opacity: .6; }
+/* 4. Cuenta atras: numero en oro */
+.crono-t.prep .crono-num b { color: var(--oro); } .crono-t.prep .crono-num small { color: var(--oro); }
+/* 5. Mientras corre: el anillo brilla */
+.crono-t.corre::before, .crono-t.final::before { opacity: 1; }
+.crono-t.corre .crono-anillo .valor { filter: drop-shadow(0 0 8px color-mix(in srgb, var(--marca) 75%, transparent)); }
+/* 6. Ultimos 5 segundos en rojo */
+.crono-t.final .crono-num b, .crono-t.final .crono-num small { color: var(--rojo); }
+.crono-t.final .crono-anillo .marcas-t line.may { stroke: color-mix(in srgb, var(--rojo) 60%, var(--linea)); }
+/* 7. Fin: anillo completo en verde */
+.crono-t.acabado .crono-anillo .valor { stroke: var(--verde); filter: drop-shadow(0 0 8px color-mix(in srgb, var(--verde) 60%, transparent)); }
+.crono-t.acabado .crono-num small { color: var(--verde); }
+/* 8. Contador dentro del boton +1 */
+.crono-mas { display: inline-flex; align-items: center; justify-content: center; gap: .6rem; }
+.crono-mas b { min-width: 2.1rem; padding: .15rem .5rem; border-radius: 99px; background: var(--marca); color: #fff; font-family: var(--mono); font-size: .95rem; font-variant-numeric: tabular-nums; }
+/* 9. Toque: onda de luz al pulsar */
+.crono-mas { position: relative; overflow: hidden; }
+.crono-mas::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: radial-gradient(circle, color-mix(in srgb, var(--marca) 35%, transparent) 0 30%, transparent 31%); opacity: 0; transform: scale(.2); pointer-events: none; }
+@media (prefers-reduced-motion: no-preference) { .crono-mas.toque::after { animation: onda-c .4s ease-out; } }
+@keyframes onda-c { from { opacity: 1; transform: scale(.2); } to { opacity: 0; transform: scale(2.4); } }
+/* 10. Indicacion bajo los botones */
+.crono-hint { margin: -.4rem 0 0; text-align: center; font-family: var(--mono); font-size: .76rem; color: var(--tinta-2); }
+.crono-hint::before { content: ""; display: inline-block; width: .45rem; height: .45rem; margin-right: .45rem; border-radius: 50%; background: var(--marca-clara); vertical-align: .05em; }
+.crono-t.corre ~ .crono-hint::before, .crono-t.final ~ .crono-hint::before { background: var(--verde); }
+/* 11. Con quien se compara (chip) */
+#s-grupo { margin-top: -.3rem; }
+#s-grupo::before { content: ""; width: .5rem; height: .5rem; border-radius: 50%; background: var(--marca); }
+/* 12. Unidad en la edad: ver comunes (num-paso data-ud) */
+/* 13. Chip de posicion en su grupo: ver comunes (res-chip) */
+/* 14. Escala del medidor con cifras */
+#s-medidor { gap: .35rem; padding: .9rem .9rem .7rem; border-radius: 1rem; background: rgba(255, 255, 255, .04); box-shadow: inset 0 0 0 1px rgba(164, 156, 255, .16); }
+/* 15. Burbuja con tu numero sobre la marca */
+.medidor-marca[data-n]::after { content: attr(data-n); position: absolute; bottom: calc(100% + .45rem); left: 50%; transform: translateX(-50%); min-width: 1.6rem; padding: .1rem .4rem; border-radius: .45rem; background: #fff; color: var(--noche); font-family: var(--mono); font-size: .72rem; font-weight: 700; text-align: center; }
+.medidor-marca[data-n=""]::after { display: none; }
+#s-medidor .medidor-pista { margin-top: 1.7rem; }
+/* 16. Banda normal con borde luminoso */
+.medidor-banda { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .25), 0 0 14px -4px var(--marca-clara); transition: left .35s, width .35s; }
+/* 17. Umbral con remate */
+.medidor-umbral::before { content: ""; position: absolute; top: -.25rem; left: 50%; width: .5rem; height: .5rem; margin-left: -.25rem; border-radius: 50%; background: var(--at); }
+/* 18. El color del panel tambien tine la marca */
+.z-alto .medidor-marca { box-shadow: 0 0 0 3px var(--ok), 0 0 14px var(--ok); } .z-medio .medidor-marca { box-shadow: 0 0 0 3px var(--at), 0 0 14px var(--at); } .z-bajo .medidor-marca { box-shadow: 0 0 0 3px var(--mal), 0 0 14px var(--mal); }
+/* 19. Pasos de Como se hace con numero en circulo */
+.tool-como ol { list-style: none; padding-left: 0; counter-reset: paso-c; }
+.tool-como ol li { position: relative; padding-left: 2.2rem; counter-increment: paso-c; }
+.tool-como ol li::before { content: counter(paso-c); position: absolute; left: 0; top: .05rem; width: 1.55rem; height: 1.55rem; display: grid; place-items: center; border-radius: 50%; background: var(--lila); color: var(--acento); font-family: var(--mono); font-size: .75rem; font-weight: 700; }
+/* 20. Desplegable con flecha que gira */
+.tool-como summary { list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.tool-como summary::-webkit-details-marker { display: none; }
+.tool-como summary::after { content: ""; width: .55rem; height: .55rem; border-right: 2px solid var(--acento); border-bottom: 2px solid var(--acento); transform: rotate(45deg) translateY(-2px); transition: transform .25s; }
+.tool-como[open] summary::after { transform: rotate(-135deg) translateY(-2px); }
+
+/* --- 1RM (21-40) --- */
+/* 21. Unidades kg y rep.: ver comunes */
+/* 22. RIR en cinco pastillas iguales, con un punto que se llena */
+.seg-t.rir > div { flex-wrap: nowrap; }
+.seg-t.rir label { flex: 1 1 0; min-width: 0; }
+.seg-t.rir span { padding-left: .3rem; padding-right: .3rem; font-variant-numeric: tabular-nums; }
+.seg-t.rir span::after { content: ""; display: block; width: .35rem; height: .35rem; margin: .3rem auto 0; border-radius: 50%; background: color-mix(in srgb, var(--marca) 30%, var(--linea)); }
+.seg-t.rir input:checked + span::after { background: #fff; }
+/* 23. Tu serie en una pastilla */
+.rm-serie { justify-self: start; margin: -.2rem 0 0; padding: .35rem .8rem; border-radius: 99px; background: rgba(255, 255, 255, .08); box-shadow: inset 0 0 0 1px rgba(164, 156, 255, .3); font-family: var(--mono); font-size: .78rem; color: var(--lavanda); }
+.rm-serie:empty { display: none; }
+/* 24. Escala de repeticiones: zona fiable hasta 10 */
+.rm-escala { display: grid; gap: .35rem; }
+.rm-pista { position: relative; height: .55rem; border-radius: 99px; background: rgba(255, 255, 255, .08); box-shadow: inset 0 0 0 1px rgba(164, 156, 255, .2); }
+.rm-fiable { position: absolute; left: 0; top: 0; bottom: 0; width: 47.37%; border-radius: 99px; background: linear-gradient(90deg, color-mix(in srgb, var(--ok) 55%, transparent), color-mix(in srgb, var(--ok) 25%, transparent)); }
+.rm-pista i { position: absolute; top: 50%; width: 1rem; height: 1rem; margin: -.5rem 0 0 -.5rem; border-radius: 50%; background: #fff; box-shadow: 0 0 0 3px var(--ok), 0 0 12px var(--ok); transition: left .35s, box-shadow .3s; }
+.rm-pista i.fuera { box-shadow: 0 0 0 3px var(--at), 0 0 12px var(--at); }
+/* 25. Cifras de la escala */
+.rm-esc-l { position: relative; height: 1rem; font-family: var(--mono); font-size: .66rem; color: var(--lavanda); }
+.rm-esc-l span { position: absolute; top: 0; } .rm-esc-l span:nth-child(2) { left: 47.37%; transform: translateX(-50%); } .rm-esc-l span:nth-child(3) { right: 0; }
+/* 26. El 1RM destella al cambiar: ver comunes */
+/* 27. Discos por lado con colores de competicion */
+.discos-caja { display: grid; gap: .5rem; margin-top: .3rem; padding: .9rem; border-radius: 1rem; background: rgba(255, 255, 255, .04); box-shadow: inset 0 0 0 1px rgba(164, 156, 255, .16); }
+.discos { width: 100%; height: auto; display: block; max-height: 9rem; }
+.discos .barra { fill: var(--lavanda); opacity: .75; }
+.discos .tope { fill: var(--lavanda); }
+.discos .d { stroke: rgba(0, 0, 0, .35); stroke-width: 1; }
+.discos .d25 { fill: var(--rojo); } .discos .d20 { fill: var(--marca); } .discos .d15 { fill: var(--oro); } .discos .d10 { fill: var(--verde); }
+.discos .d5 { fill: #fff; } .discos .d2_5 { fill: var(--mal); } .discos .d1_25 { fill: var(--lavanda); }
+/* 28. Brillo en el canto de cada disco */
+.discos .d { filter: drop-shadow(0 0 4px rgba(164, 156, 255, .35)); }
+/* 29. Rotulo de los discos */
+#r-discos-et { color: var(--marca-clara); }
+/* 30. Mapa de calor: mas carga, mas color */
+.tabla-t td { background: color-mix(in srgb, var(--marca) calc(var(--a, 0) * 100%), transparent); cursor: pointer; transition: background-color .2s, box-shadow .2s, color .2s; }
+/* 31. Cruz de lectura al pasar por una casilla */
+.tabla-t .cruz { box-shadow: inset 0 0 0 999px color-mix(in srgb, var(--marca) 7%, transparent); }
+.tabla-t thead th.cruz { color: var(--acento); }
+/* 32. Casilla elegida: borde de neon */
+.tabla-t td.sel { box-shadow: inset 0 0 0 2px var(--marca), 0 0 0 3px color-mix(in srgb, var(--marca) 22%, transparent); color: var(--acento); position: relative; z-index: 1; }
+.tabla-t td:focus-visible { outline: 3px solid var(--marca-clara); outline-offset: -3px; }
+/* 33. Fila de tus repeticiones resaltada */
+.tabla-t tr.fila-tu th { background: var(--lila); color: var(--acento); box-shadow: inset 3px 0 0 var(--marca); }
+/* 34. Cabecera de la tabla con resumen y copiar */
+.tabla-t-cab { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .6rem 1rem; margin-bottom: .7rem; }
+.tabla-t-cap { margin: 0; font-family: var(--mono); font-size: .78rem; letter-spacing: .04em; color: var(--tinta-2); }
+.tabla-t-cab .copiar-t { margin: 0; color: var(--acento); }
+/* 35. RIR bajo cada columna */
+.tabla-t thead th small { display: block; margin-top: .15rem; font-size: .62rem; letter-spacing: .04em; color: var(--acento); opacity: .8; }
+/* 36. Columna de repeticiones fija al desplazar en movil */
+.tabla-t tbody th, .tabla-t thead th:first-child { position: sticky; left: 0; z-index: 2; background: var(--sup); }
+.tabla-t thead th:first-child { background: var(--fondo); }
+/* 37. Porcentaje del 1RM mas discreto */
+.tabla-t td small { opacity: .8; letter-spacing: .02em; }
+/* 38. La casilla de tu serie con punto de luz */
+.tabla-t td.tu { position: relative; }
+.tabla-t td.tu::after { content: ""; position: absolute; top: .35rem; right: .35rem; width: .4rem; height: .4rem; border-radius: 50%; background: #fff; box-shadow: 0 0 6px #fff; }
+/* 39. Esquinas redondeadas y sombra interior en la caja de la tabla */
+.tabla-t-caja { box-shadow: var(--sombra-s), inset 0 1px 0 color-mix(in srgb, var(--marca-clara) 30%, transparent); }
+/* 40. Texto de los discos en monoespaciada */
+.discos-t { font-family: var(--mono); font-size: .8rem; }
+.discos-t:empty { display: none; }
+
+/* --- Volumen semanal (41-60) --- */
+/* 41. Atajos para anadir ejercicios: ver chip-b */
+.vol-rapidos .chip-b, .caf-rapidos .chip-b { display: inline-flex; align-items: center; gap: .35rem; }
+.chip-b:active { transform: scale(.97); }
+.chip-b:focus-visible { outline: 3px solid var(--marca-clara); outline-offset: 2px; }
+/* 42. Numero de fila */
+.vol-fila { grid-template-columns: 1.9rem minmax(0, 1fr) 9.5rem 2.6rem; transition: border-color .2s, box-shadow .2s, background-color .2s; }
+.vol-i { font-family: var(--mono); font-size: .72rem; font-weight: 700; color: var(--acento); text-align: center; }
+/* 43. Musculos que trabaja cada ejercicio */
+.vol-musc { grid-column: 2 / -1; margin: -.15rem 0 .05rem; font-family: var(--mono); font-size: .7rem; letter-spacing: .02em; color: var(--tinta-2); }
+.vol-musc:empty { display: none; }
+@media (max-width: 520px) {
+  .vol-fila { grid-template-columns: 1.6rem minmax(0, 1fr) 2.6rem; }
+  .vol-fila .vol-i { grid-row: 1; grid-column: 1; }
+  .vol-fila select { grid-row: 1; grid-column: 2; }
+  .vol-fila .vol-quita { grid-row: 1; grid-column: 3; }
+  .vol-fila .num-paso { grid-row: 2; grid-column: 2 / -1; }
+  .vol-fila .vol-musc { grid-row: 3; grid-column: 2 / -1; }
+}
+/* 44. Unidad series: ver comunes */
+/* 45 y 46. Filas que entran y salen con suavidad: ver comunes */
+/* 47. Al pasar por una barra se iluminan los ejercicios que suman */
+.vol-fila.aporta { border-color: var(--marca); background: color-mix(in srgb, var(--marca) 7%, var(--fondo)); box-shadow: 0 0 0 3px color-mix(in srgb, var(--marca) 14%, transparent); }
+.vol-fila:focus-within { border-color: color-mix(in srgb, var(--marca) 45%, var(--linea)); }
+/* 48. Estado vacio: ver comunes */
+/* 49. Aviso con deshacer */
+.vol-aviso { margin: -.4rem 0 0; min-height: 1.2rem; font-size: .9rem; color: var(--tinta-2); }
+.vol-aviso:empty { display: none; }
+.vol-aviso .enl-b { margin-left: .4rem; padding: 0; }
+/* 50. Cuatro cifras de resumen */
+.vol-tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .5rem; }
+.vol-tiles > div { display: grid; gap: .15rem; padding: .7rem .6rem; border-radius: .9rem; background: rgba(255, 255, 255, .05); box-shadow: inset 0 0 0 1px rgba(164, 156, 255, .18); }
+.vol-tiles b { font-size: 1.6rem; font-weight: 780; font-stretch: 115%; line-height: 1; font-variant-numeric: tabular-nums; }
+.vol-tiles span { font-size: .72rem; line-height: 1.3; color: var(--lavanda); }
+.vol-tiles .t2 b { color: var(--ok); } .vol-tiles .t1 b { color: var(--marca-clara); } .vol-tiles .t0 b { color: var(--at); } .vol-tiles .tt b { color: #fff; }
+.vol-tiles .t2 { box-shadow: inset 0 2px 0 var(--ok), inset 0 0 0 1px rgba(164, 156, 255, .18); } .vol-tiles .t1 { box-shadow: inset 0 2px 0 var(--marca-clara), inset 0 0 0 1px rgba(164, 156, 255, .18); } .vol-tiles .t0 { box-shadow: inset 0 2px 0 var(--at), inset 0 0 0 1px rgba(164, 156, 255, .18); }
+@media (max-width: 520px) { .vol-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+/* 51. Boton de orden sobre fondo noche */
+.vol-cab { display: flex; justify-content: flex-end; margin-bottom: -.4rem; }
+.enl-b.claro { color: var(--marca-clara); font-family: var(--mono); font-size: .74rem; letter-spacing: .05em; text-transform: uppercase; text-decoration: none; border-bottom: 1px dashed currentColor; padding: .1rem 0; }
+.enl-b.claro[aria-pressed="true"] { color: #fff; }
+/* 52. Titulos de zona del cuerpo */
+.vol-grupo { margin: .5rem 0 -.1rem; font-family: var(--mono); font-size: .68rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--marca-clara); display: flex; align-items: center; gap: .6rem; }
+.vol-grupo::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, rgba(164, 156, 255, .35), transparent); }
+/* 53. Eje con las marcas 5 y 10 */
+.vol-eje { display: grid; grid-template-columns: 7.2rem minmax(0, 1fr) 2.6rem; gap: .6rem; height: .9rem; }
+.vol-pista-eje { position: relative; font-family: var(--mono); font-size: .64rem; color: var(--lavanda); }
+.vol-pista-eje em { position: absolute; top: 0; transform: translateX(-50%); font-style: normal; }
+/* 54. Barra activa al pasar o enfocar */
+.vol-b { padding: .15rem .3rem; margin: 0 -.3rem; border-radius: .6rem; transition: background-color .2s; }
+.vol-b:hover, .vol-b:focus-visible { background: rgba(255, 255, 255, .06); outline: none; }
+.vol-b:focus-visible { box-shadow: 0 0 0 2px var(--marca-clara); }
+/* 55. Relleno en degradado segun la zona */
+.vol-b.z0 .vol-pista b { background: linear-gradient(90deg, color-mix(in srgb, var(--at) 60%, transparent), var(--at)); }
+.vol-b.z1 .vol-pista b { background: linear-gradient(90deg, color-mix(in srgb, var(--marca-clara) 55%, transparent), var(--marca-clara)); }
+.vol-b.z2 .vol-pista b { background: linear-gradient(90deg, color-mix(in srgb, var(--ok) 55%, transparent), var(--ok)); }
+/* 56. La cifra toma el color de su zona */
+.vol-b.z0 .vol-v { color: var(--at); } .vol-b.z1 .vol-v { color: var(--marca-clara); } .vol-b.z2 .vol-v { color: var(--ok); }
+/* 57. Musculos sin series: pista punteada */
+.vol-b.zn .vol-pista { background: repeating-linear-gradient(90deg, rgba(255, 255, 255, .1) 0 4px, transparent 4px 8px); }
+/* 58. Leyenda en pastillas */
+.vol-ley span { display: inline-flex; align-items: center; padding: .2rem .55rem; border-radius: 99px; background: rgba(255, 255, 255, .05); }
+/* 59. Copiar resumen: ver comunes */
+/* 60. Lineas 5 y 10 mas visibles dentro de la barra */
+.vol-pista i { background: rgba(255, 255, 255, .4); }
+
+/* --- Cafeina y sueno (61-80) --- */
+/* 61. Atajos con los mg de cada bebida */
+.caf-rapidos .chip-b b { padding: .05rem .4rem; border-radius: 99px; background: var(--lila); color: var(--acento); font-family: var(--mono); font-size: .72rem; }
+/* 62. Miligramos fijos en una pastilla */
+.caf-mgt { flex: 0 0 auto; padding: .35rem .65rem; border-radius: 99px; background: var(--lila); color: var(--acento); font-family: var(--mono); font-size: .78rem; font-weight: 700; white-space: nowrap; }
+.caf-mgt[hidden] { display: none; }
+/* 63. Fila activa */
+.caf-fila { transition: border-color .2s, box-shadow .2s; }
+.caf-fila:focus-within { border-color: color-mix(in srgb, var(--marca) 45%, var(--linea)); box-shadow: 0 0 0 3px color-mix(in srgb, var(--marca) 10%, transparent); }
+/* 64. Interruptor de embarazo o lactancia */
+.caf-check.interruptor { align-items: center; }
+.caf-check.interruptor input { -webkit-appearance: none; appearance: none; position: relative; width: 2.6rem; height: 1.5rem; margin: 0; border-radius: 99px; background: var(--linea); cursor: pointer; transition: background-color .2s; }
+.caf-check.interruptor input::after { content: ""; position: absolute; top: .18rem; left: .18rem; width: 1.14rem; height: 1.14rem; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, .3); transition: transform .2s; }
+.caf-check.interruptor input:checked { background: var(--marca); }
+.caf-check.interruptor input:checked::after { transform: translateX(1.1rem); }
+.caf-check.interruptor input:focus-visible { outline: 3px solid var(--marca-clara); outline-offset: 2px; }
+/* 65. Hora de dormir con luna */
+.caf-dormir { position: relative; }
+.caf-dormir input { padding-left: 2.4rem; }
+.caf-dormir::after { content: ""; position: absolute; left: .85rem; bottom: 1.05rem; width: .9rem; height: .9rem; border-radius: 50%; box-shadow: inset -.28rem -.12rem 0 0 var(--acento); pointer-events: none; }
+/* 66. Escala del medidor diario: ver comunes */
+.caf-med .medidor-esc { margin-top: -.15rem; }
+/* 67. Relleno con brillo en la punta */
+.caf-med .medidor-relleno::after { content: ""; position: absolute; right: -2px; top: 50%; width: .7rem; height: .7rem; margin-top: -.35rem; border-radius: 50%; background: #fff; box-shadow: 0 0 10px var(--marca-clara); }
+.caf-med .medidor-relleno[style*="width: 0%"]::after { display: none; }
+/* 68. Area de la curva en degradado */
+.caf-curva .c1 { stop-color: var(--marca-clara); stop-opacity: .45; } .caf-curva .c2 { stop-color: var(--marca-clara); stop-opacity: 0; }
+.caf-curva .area { fill: url(#c-grad); }
+/* 69. Noche sombreada desde la hora de dormir */
+.caf-curva .noche { fill: rgba(0, 0, 0, .25); }
+/* 70. Cada toma, un punto con sus mg */
+.caf-curva .toma { fill: var(--noche); stroke: var(--marca-clara); stroke-width: 2; }
+.caf-curva .tm { fill: #fff; font-size: 11.5px; font-weight: 700; }
+/* 71. Lectura al pasar el dedo */
+.caf-curva { touch-action: pan-y; cursor: crosshair; }
+.caf-curva .sl { stroke: rgba(255, 255, 255, .5); stroke-width: 1; }
+.caf-curva .sp { fill: #fff; stroke: var(--marca); stroke-width: 2; }
+/* 72. Texto de la lectura */
+.caf-lectura { margin: .4rem 0 0; min-height: 1.2rem; font-family: var(--mono); font-size: .74rem; color: var(--lavanda); }
+.caf-lectura:empty { display: none; }
+/* 73. Marco de la curva */
+.caf-curva-caja { padding: .5rem; border-radius: 1.1rem; background: rgba(255, 255, 255, .03); box-shadow: inset 0 0 0 1px rgba(164, 156, 255, .14); }
+.caf-curva-caja .caf-curva { background: none; box-shadow: none; }
+/* 74. Horas limite en pastillas */
+.caf-limites { display: flex; flex-wrap: wrap; gap: .45rem; }
+.chip-l { display: inline-flex; align-items: baseline; gap: .45rem; padding: .35rem .75rem; border-radius: 99px; background: rgba(255, 255, 255, .06); box-shadow: inset 0 0 0 1px rgba(164, 156, 255, .22); font-size: .78rem; color: var(--lavanda); }
+.chip-l b { font-family: var(--mono); font-size: .9rem; color: #fff; }
+/* 75. Puntos de la lista con color: bien, atencion, consulta */
+.res-lista li.ok::before { background: var(--ok); box-shadow: 0 0 8px var(--ok); }
+.res-lista li.at::before { background: var(--at); box-shadow: 0 0 8px var(--at); }
+.res-lista li.mal::before { background: var(--mal); box-shadow: 0 0 8px var(--mal); }
+/* 76. La cifra grande toma el color del resultado */
+.z-alto .res-grande b { background-image: linear-gradient(180deg, #fff, var(--ok)); } .z-medio .res-grande b { background-image: linear-gradient(180deg, #fff, var(--at)); } .z-bajo .res-grande b { background-image: linear-gradient(180deg, #fff, var(--mal)); }
+/* 77. Eje de horas mas legible */
+.caf-curva .t { font-size: 12px; opacity: .85; stroke: none; }
+/* 78. Linea de dormir mas marcada */
+.caf-curva .cama { stroke-width: 1.5; }
+.caf-curva .cama-t { font-family: var(--mono); font-size: 11.5px; font-weight: 700; letter-spacing: .04em; }
+/* 79. Hora de la fila con numero tabular */
+.caf-fila input[type="time"] { font-variant-numeric: tabular-nums; }
+/* 80. Linea de 100 mg con rotulo */
+.caf-curva .cien { stroke: var(--at); opacity: .9; }
+
+/* --- Revision medica (81-100) --- */
+/* 81. Progreso de las tres preguntas */
+.rev-pasos { display: flex; align-items: center; gap: .4rem; }
+.rev-pasos span { width: 1.9rem; height: 1.9rem; display: grid; place-items: center; border-radius: 50%; border: 1.5px solid var(--linea); color: var(--tinta-2); font-family: var(--mono); font-size: .78rem; font-weight: 700; transition: background-color .25s, color .25s, border-color .25s; }
+.rev-pasos span.on { background: var(--marca); border-color: var(--marca); color: #fff; box-shadow: 0 0 0 4px color-mix(in srgb, var(--marca) 16%, transparent); }
+.rev-pasos i { flex: 1; height: 2px; border-radius: 2px; background: var(--linea); }
+.rev-pasos span.on + i { background: linear-gradient(90deg, var(--marca), var(--linea)); }
+/* 82. Cada pregunta en su tarjeta, con check al responder */
+.tool-campo.rev-q { padding: .9rem 1rem 1rem; border-radius: 1.1rem; border: 1px solid var(--linea); background: var(--fondo); transition: border-color .25s, box-shadow .25s; }
+.tool-campo.rev-q > legend { float: left; width: 100%; margin-bottom: .7rem; padding-right: 1.8rem; position: relative; }
+.tool-campo.rev-q > legend + * { clear: both; }
+.tool-campo.rev-q.hecha { border-color: color-mix(in srgb, var(--marca) 40%, var(--linea)); box-shadow: inset 3px 0 0 var(--marca); }
+.tool-campo.rev-q.hecha > legend::after { content: ""; position: absolute; right: .2rem; top: .1rem; width: .4rem; height: .8rem; border-right: 2.5px solid var(--verde); border-bottom: 2.5px solid var(--verde); transform: rotate(45deg); }
+/* 83. Ayuda desplegable de intensidad moderada */
+.rev-det { margin: -.6rem 0 0; font-size: .92rem; }
+.rev-det summary { cursor: pointer; color: var(--acento); font-weight: 650; list-style: none; display: inline-flex; align-items: center; gap: .45rem; }
+.rev-det summary::-webkit-details-marker { display: none; }
+.rev-det summary::before { content: "?"; width: 1.2rem; height: 1.2rem; display: grid; place-items: center; border-radius: 50%; background: var(--lila); font-family: var(--mono); font-size: .72rem; font-weight: 700; }
+.rev-det p { margin: .5rem 0 0; padding: .65rem .85rem; border-radius: .8rem; background: var(--lila); color: var(--tinta); }
+/* 84. Contador de sintomas marcados */
+.rev-n { display: inline-block; margin-left: .4rem; padding: .05rem .5rem; border-radius: 99px; background: var(--rojo); color: #fff; font-family: var(--mono); font-size: .7rem; vertical-align: .1em; }
+/* 85. Sintomas como tarjetas que se marcan */
+.rev-sint { gap: .4rem; }
+.rev-sint .caf-check { padding: .55rem .7rem; border-radius: .8rem; border: 1px solid transparent; transition: background-color .2s, border-color .2s; }
+.rev-sint .caf-check:hover { background: color-mix(in srgb, var(--marca) 6%, transparent); }
+.rev-sint .caf-check:has(input:checked) { background: color-mix(in srgb, var(--rojo) 9%, transparent); border-color: color-mix(in srgb, var(--rojo) 35%, transparent); }
+/* 86. Ninguno de estos en verde al marcarlo */
+.rev-sint .ninguno { border-top: 1px dashed var(--linea); border-radius: 0 0 .8rem .8rem; }
+.rev-sint .ninguno:has(input:checked) { background: color-mix(in srgb, var(--verde) 10%, transparent); border-color: color-mix(in srgb, var(--verde) 40%, transparent); border-radius: .8rem; }
+.rev-sint .ninguno input { accent-color: var(--verde); }
+/* 87. Boton para bajar al resultado (solo en movil, donde queda debajo) */
+.ver-res { border: 0; border-radius: 99px; padding: .65rem 1.1rem; background: var(--noche); color: #fff; font: inherit; font-weight: 700; cursor: pointer; box-shadow: var(--sombra-s); }
+@media (min-width: 960px) { .ver-res { display: none; } }
+/* 88. Empezar de nuevo, discreto */
+#q-reset { color: var(--tinta-2); }
+/* 89. Llamar al 112 */
+.rev-112 { display: grid; gap: .6rem; box-shadow: inset 3px 0 0 var(--rojo); background: color-mix(in srgb, var(--rojo) 9%, var(--sup)); }
+.tel-112 { justify-self: start; display: inline-flex; align-items: center; gap: .45rem; padding: .45rem .9rem; border-radius: 99px; background: var(--rojo); color: #fff; font-weight: 700; text-decoration: none; }
+.tel-112::before { content: ""; width: .5rem; height: .5rem; border-radius: 50%; background: #fff; }
+@media (min-width: 960px) { .tel-112 { display: none; } }
+/* 90. Icono del resultado segun el color */
+.rev-icono { width: 3rem; height: 3rem; border-radius: 50%; display: grid; place-items: center; background: rgba(255, 255, 255, .08); box-shadow: inset 0 0 0 1.5px rgba(164, 156, 255, .4); }
+.rev-icono::before { content: ""; width: .5rem; height: .5rem; border-radius: 50%; background: var(--marca-clara); box-shadow: 0 0 10px var(--marca-clara); }
+.z-alto .rev-icono { box-shadow: inset 0 0 0 1.5px var(--ok), 0 0 18px -4px var(--ok); }
+.z-alto .rev-icono::before { width: .55rem; height: 1.05rem; border-radius: 0; background: none; box-shadow: none; border-right: 3px solid var(--ok); border-bottom: 3px solid var(--ok); transform: rotate(45deg) translate(-2px, -2px); }
+.z-medio .rev-icono { box-shadow: inset 0 0 0 1.5px var(--at), 0 0 18px -4px var(--at); }
+.z-medio .rev-icono::before { content: "!"; width: auto; height: auto; background: none; box-shadow: none; color: var(--at); font-size: 1.5rem; font-weight: 800; line-height: 1; }
+.z-bajo .rev-icono { box-shadow: inset 0 0 0 1.5px var(--mal), 0 0 18px -4px var(--mal); }
+.z-bajo .rev-icono::before { content: "+"; width: auto; height: auto; background: none; box-shadow: none; color: var(--mal); font-size: 1.9rem; font-weight: 800; line-height: 1; }
+/* 91. Veredicto grande ya definido; aire debajo */
+.tool-res .grande-t { margin-top: -.2rem; }
+/* 92. Camino de respuestas con flechas */
+.rev-camino { display: flex; flex-wrap: wrap; align-items: center; gap: .35rem; }
+.rev-camino:empty { display: none; }
+.rev-camino span { padding: .3rem .65rem; border-radius: 99px; background: rgba(255, 255, 255, .06); box-shadow: inset 0 0 0 1px rgba(164, 156, 255, .22); font-size: .76rem; color: var(--lavanda); }
+.rev-camino b { color: #fff; }
+.rev-camino i { font-style: normal; color: var(--marca-clara); font-size: .8rem; }
+/* 93. Rotulo Que hacer ahora con linea */
+.rev-que { display: flex; align-items: center; gap: .6rem; }
+.rev-que::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, rgba(164, 156, 255, .35), transparent); }
+/* 94. Lista de pasos con numero */
+.tool-res #q-r-lista { counter-reset: q-c; }
+.tool-res #q-r-lista li { counter-increment: q-c; padding-left: 1.8rem; }
+.tool-res #q-r-lista li::before { content: counter(q-c); top: .1em; width: 1.25rem; height: 1.25rem; display: grid; place-items: center; background: rgba(164, 156, 255, .2); box-shadow: none; color: #fff; font-family: var(--mono); font-size: .68rem; font-weight: 700; }
+.tool-res #q-r-lista a { color: #fff; }
+/* 95. Escala de intensidad en tres tramos */
+.rev-int { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .4rem; }
+.rev-int .tool-et { grid-column: 1 / -1; }
+.rev-int div { display: grid; gap: .2rem; padding: .6rem .65rem .65rem; border-radius: .8rem; background: rgba(255, 255, 255, .05); }
+.rev-int div:nth-of-type(1) { box-shadow: inset 0 3px 0 var(--ok); } .rev-int div:nth-of-type(2) { box-shadow: inset 0 3px 0 var(--at); } .rev-int div:nth-of-type(3) { box-shadow: inset 0 3px 0 var(--mal); }
+.rev-int b { font-size: .9rem; color: #fff; }
+.rev-int span { font-size: .74rem; line-height: 1.3; color: var(--lavanda); }
+@media (max-width: 420px) { .rev-int { grid-template-columns: minmax(0, 1fr); } }
+/* 96. Copiar para el medico: ver comunes */
+/* 97. Si y No mas anchos en cada pregunta */
+.rev-q.seg-t label { flex: 1 1 6rem; }
+/* 98. Opcion elegida con check */
+.rev-q.seg-t input:checked + span::before { content: ""; display: inline-block; width: .3rem; height: .6rem; margin-right: .5rem; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg) translateY(-2px); }
+/* 99. Progreso fijo arriba del formulario en movil */
+@media (max-width: 959px) { .rev-pasos { position: sticky; top: 4.2rem; z-index: 3; padding: .5rem .7rem; margin: -.4rem -.4rem 0; border-radius: 99px; background: color-mix(in srgb, var(--sup) 92%, transparent); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); } }
+/* 100. Impresion: lo justo para llevar a la consulta */
+@media print { .rev-pasos, .rev-bots, .tel-112, .copiar-t, .ver-res, .caf-lectura, .vol-cab { display: none !important; } .rev-camino span, .chip-l, .res-chip, .rm-serie, .vol-tiles > div { color: #000; background: none; box-shadow: inset 0 0 0 1px #999; } .rev-camino b, .chip-l b { color: #000; } }
+@media (prefers-reduced-motion: reduce) { .crono-anillo .valor, .medidor-banda, .rm-pista i, .tabla-t td, .vol-fila, .caf-fila, .vol-b, .rev-pasos span, .tool-campo.rev-q, .caf-check.interruptor input, .caf-check.interruptor input::after, .tool-como summary::after, .chip-b { transition: none; } .chip-b:active { transform: none; } }
+/* Ajustes de las mejoras: hueco para la unidad en las filas de volumen y calor de la tabla al pasar */
+.vol-fila { grid-template-columns: 1.9rem minmax(0, 1fr) 11rem 2.6rem; }
+.vol-fila .num-paso[data-ud]::after { right: 3rem; }
+.vol-fila .num-paso[data-ud] input { padding-right: 3rem; }
+@media (max-width: 520px) { .vol-fila { grid-template-columns: 1.6rem minmax(0, 1fr) 2.6rem; } }
+.tabla-t tbody tr:hover > td { background: color-mix(in srgb, var(--marca) calc(var(--a, 0) * 100%), transparent); }
+.tabla-t tbody tr:hover > th { background: var(--sup); }
+.tabla-t tbody tr.fila-tu > th { background: var(--lila); color: var(--acento); box-shadow: inset 3px 0 0 var(--marca); }
+.crono-anillo { overflow: visible; }
+.discos .manga { fill: var(--lavanda); opacity: .9; }
+.rm-serie { border-radius: .9rem; }
+.rm-esc-t { margin: 0; font-family: var(--mono); font-size: .66rem; color: var(--lavanda); opacity: .85; }
+@media (max-width: 520px) { .seg-t.rir span { font-size: .9rem; } .seg-t.rir label:first-child { flex-grow: 1.9; } }
+.caf-curva, .discos { stroke: none; stroke-width: 1; }
+.tool .caf-dormir input { padding-left: 2.4rem; }
+.caf-dormir::after { bottom: 1.1rem; }
+.caf-fila input[type="time"] { flex-basis: 8.6rem; }
+.tool-campo.rev-q > legend { box-sizing: border-box; }
+.z-bajo .rev-icono::before { content: "!"; font-size: 1.5rem; }
+@media (max-width: 520px) { .chip-b { font-size: .84rem; padding: .4rem .65rem; } .caf-fila input[type="time"] { flex: 1 1 6rem; } }
+/* Bloque W8: flecha de las tarjetas con dibujo en una pastilla sobre la imagen; tira compacta en movil */
+.herr-mini:has(.herr-mini-img)::after { top: 1.65rem; right: 1.65rem; width: 2rem; height: 2rem; display: grid; place-items: center; border-radius: 50%; background: color-mix(in srgb, var(--noche) 70%, transparent); color: #fff; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+@media (max-width: 520px) { .tool-tira { grid-template-columns: minmax(0, 1fr); gap: .7rem; } .tool-fig { grid-template-columns: 6rem minmax(0, 1fr); align-items: center; gap: .9rem; } .tool-tira-img { border-radius: .8rem; } }
 </style>
 <script>document.documentElement.classList.add('js');</script>
 <a class="salto" href="#semana">Saltar al contenido</a>

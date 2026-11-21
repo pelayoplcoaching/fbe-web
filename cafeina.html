@@ -17,17 +17,20 @@
 <main id="contenido">
 <section class="tool-s"><div class="in"><div class="tool sube">
   <form class="tool-form" onsubmit="return false" novalidate><p class="tool-et">Añade lo que tomas en un día</p>
-<div class="caf-rapidos" id="c-rapidos"></div>
+<div class="caf-rapidos" id="c-rapidos" role="group" aria-label="Añadir rápido"></div>
 <div class="caf-filas" id="c-filas"></div>
-<div class="tool-fila"><div class="tool-campo"><label for="c-dormir">Me acuesto a las</label><input id="c-dormir" type="time" value="23:00"></div>
-<div class="tool-campo"><span class="tool-et">Situación</span><label class="caf-check"><input type="checkbox" id="c-embarazo"><span>Embarazo o lactancia</span></label></div></div>
-<p class="tool-nota">Los miligramos son valores orientativos de la EFSA; cada marca y cada taza cambian. Si tu preentreno o tu bebida dice otra cantidad en la etiqueta, usa «Otro» y escríbela.</p></form>
+<p class="vol-vacio" id="c-vacio" hidden>Todavía no hay tomas. Añade la primera con los botones de arriba.</p>
+<div class="tool-fila"><div class="tool-campo caf-dormir"><label for="c-dormir">Me acuesto a las</label><input id="c-dormir" type="time" value="23:00"></div>
+<div class="tool-campo"><span class="tool-et">Situación</span><label class="caf-check interruptor"><input type="checkbox" id="c-embarazo" role="switch"><span>Embarazo o lactancia</span></label></div></div>
+<p class="tool-nota">Los miligramos son valores orientativos de la EFSA; cada marca y cada taza cambian. Si tu preentreno o tu bebida dice otra cantidad en la etiqueta, usa «Preentreno u otro» y escríbela.</p></form>
   <div class="tool-res" aria-live="polite"><p class="tool-et">Cafeína del día</p>
 <div class="res-grande"><b id="c-r-total">0</b><span>mg</span></div>
-<div class="medidor caf-med"><div class="medidor-pista"><b class="medidor-relleno" id="c-relleno"></b></div><div class="medidor-ley"><span id="c-limite-t">Límite EFSA: 400 mg al día</span></div></div>
-<svg class="caf-curva" id="c-curva" viewBox="0 0 600 190" role="img" aria-label="Cafeína estimada en el cuerpo a lo largo del día"></svg>
+<div class="medidor caf-med"><div class="medidor-pista"><b class="medidor-relleno" id="c-relleno"></b></div><div class="medidor-esc" id="c-esc" aria-hidden="true"></div><div class="medidor-ley"><span id="c-limite-t">Límite EFSA: 400 mg al día</span></div></div>
+<div class="caf-curva-caja"><svg class="caf-curva" id="c-curva" viewBox="0 0 480 200" role="img" aria-label="Cafeína estimada en el cuerpo a lo largo del día"></svg><p class="caf-lectura" id="c-lectura" aria-live="off"></p></div>
+<div class="caf-limites" id="c-limites"></div>
 <p class="res-veredicto" id="c-r-tit"></p>
-<ul class="res-lista" id="c-r-lista"></ul></div>
+<ul class="res-lista" id="c-r-lista"></ul>
+<button type="button" class="copiar-t" id="c-copiar" hidden><span>Copiar resumen</span></button></div>
 </div></div></section>
 
 <section class="hoja"><div class="in"><div class="entrada sube"><h2>Cómo se interpreta</h2></div>
@@ -39,54 +42,74 @@
 <section><div class="in"><div class="calc sube"><div><h3>¿Y si además quieres un plan hecho por un médico?</h3><p>La Puesta a punto es una consulta y un plan de 12 semanas, con lectura de tu analítica. Sin lista de espera.</p></div><div><a class="btn claro" href="puesta-a-punto.html">Ver la Puesta a punto</a></div></div></div></section>
 <script>(function(){document.addEventListener('click',function(e){var b=e.target.closest('[data-paso]');if(!b)return;var i=document.getElementById(b.dataset.para)||b.parentNode.querySelector('input');if(!i)return;var p=parseFloat(b.dataset.paso),v=parseFloat(i.value);if(isNaN(v))v=parseFloat(i.min)||0;var mn=parseFloat(i.min),mx=parseFloat(i.max);v=Math.round((v+p)*100)/100;if(!isNaN(mn))v=Math.max(mn,v);if(!isNaN(mx))v=Math.min(mx,v);i.value=v;i.dispatchEvent(new Event('input',{bubbles:true}));});})();
 window.fmt=function(x,d){return Number(x).toLocaleString('es-ES',{minimumFractionDigits:d||0,maximumFractionDigits:d||0});};
+window.copiar=function(b,t){var s=b.querySelector('span');b.dataset.t=b.dataset.t||s.textContent;function ok(){b.classList.add('hecho');s.textContent='Copiado';setTimeout(function(){b.classList.remove('hecho');s.textContent=b.dataset.t},1800)}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok,function(){})}else{var a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');ok()}catch(e){}a.remove()}};
+window.destella=function(el){if(!el)return;el.classList.remove('destello');void el.offsetWidth;el.classList.add('destello')};
 (function(){
 var B=[["espresso", "Espresso (60 ml)", 80], ["filtro", "Café de filtro (200 ml)", 90], ["te", "Té negro (220 ml)", 50], ["cola", "Refresco de cola (lata, 355 ml)", 40], ["energetica", "Bebida energética (lata, 250 ml)", 80], ["choco-negro", "Chocolate negro (50 g)", 25], ["choco-leche", "Chocolate con leche (50 g)", 10], ["otro", "Preentreno u otro (mg)", 200]],BB={};B.forEach(function(b){BB[b[0]]=b});
-var $=function(i){return document.getElementById(i)},filas=$('c-filas'),K='fbe-cafeina',VM=5;
+var $=function(i){return document.getElementById(i)},filas=$('c-filas'),K='fbe-cafeina',VM=5,copia='',ultQ=null;
 var opts=B.map(function(b){return '<option value="'+b[0]+'">'+b[1]+'</option>'}).join('');
-$('c-rapidos').innerHTML=B.filter(function(b){return b[0]!=='choco-leche'}).map(function(b){return '<button type="button" class="chip-b" data-b="'+b[0]+'">+ '+b[1].replace(/ \(.*$/,'').replace(/:.*$/,'')+'</button>'}).join('');
+function corto(b){return BB[b]?BB[b][1].replace(/ \(.*$/,''):'Toma'}
+$('c-rapidos').innerHTML=B.filter(function(b){return b[0]!=='choco-leche'}).map(function(b){return '<button type="button" class="chip-b" data-b="'+b[0]+'">+ '+corto(b[0])+' <b>'+(b[0]==='otro'?'mg':b[2])+'</b></button>'}).join('');
 function mins(t){var p=(t||'').split(':');return p.length<2?NaN:parseInt(p[0],10)*60+parseInt(p[1],10)}
-function hhmm(m){m=((m%1440)+1440)%1440;return String(Math.floor(m/60)).padStart(2,'0')+':'+String(Math.round(m%60)).padStart(2,'0')}
+function hhmm(m){m=((Math.round(m)%1440)+1440)%1440;return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0')}
 var nid=0;
-function fila(b,h,mg){var id='c-t'+(nid++),d=document.createElement('div');d.className='caf-fila';
-  d.innerHTML='<label class="sr" for="'+id+'b">Bebida</label><select id="'+id+'b">'+opts+'</select><input class="caf-mg" type="number" inputmode="numeric" min="0" max="1000" step="10" aria-label="Miligramos de cafeína" value="'+(mg||BB[b][2])+'"><label class="sr" for="'+id+'h">Hora</label><input id="'+id+'h" type="time" value="'+h+'"><button type="button" class="vol-quita" aria-label="Quitar">×</button>';
+function fila(b,h,mg,nueva){var id='c-t'+(nid++),d=document.createElement('div');d.className='caf-fila'+(nueva?' nueva':'');
+  d.innerHTML='<label class="sr" for="'+id+'b">Bebida</label><select id="'+id+'b">'+opts+'</select><span class="caf-mgt"></span><input class="caf-mg" type="number" inputmode="numeric" min="0" max="1000" step="10" aria-label="Miligramos de cafeína" value="'+(mg||BB[b][2])+'"><label class="sr" for="'+id+'h">Hora</label><input id="'+id+'h" type="time" value="'+h+'"><button type="button" class="vol-quita" aria-label="Quitar">×</button>';
   d.querySelector('select').value=b;filas.appendChild(d);ajusta(d);return d}
-function ajusta(d){var b=d.querySelector('select').value,mg=d.querySelector('.caf-mg');mg.hidden=b!=='otro';if(b!=='otro')mg.value=BB[b][2]}
+function ajusta(d){var b=d.querySelector('select').value,mg=d.querySelector('.caf-mg'),t=d.querySelector('.caf-mgt');mg.hidden=b!=='otro';t.hidden=b==='otro';if(b!=='otro'){mg.value=BB[b][2];t.textContent=BB[b][2]+' mg'}}
+function ordena(){var ds=[].slice.call(filas.querySelectorAll('.caf-fila'));ds.sort(function(a,b){return (mins(a.querySelector('input[type=time]').value)||0)-(mins(b.querySelector('input[type=time]').value)||0)});ds.forEach(function(d){filas.appendChild(d)})}
 function lee(){return [].map.call(filas.querySelectorAll('.caf-fila'),function(d){var b=d.querySelector('select').value;return {b:b,mg:parseFloat(d.querySelector('.caf-mg').value)||0,h:d.querySelector('input[type=time]').value}})}
 function guarda(){try{localStorage.setItem(K,JSON.stringify({t:lee(),d:$('c-dormir').value,e:$('c-embarazo').checked}))}catch(e){}}
 function pinta(){
   var T=lee().filter(function(t){return !isNaN(mins(t.h))}).map(function(t){return {b:t.b,mg:t.mg,m:mins(t.h)}}).sort(function(a,b){return a.m-b.m});
   var tot=T.reduce(function(s,t){return s+t.mg},0),lim=$('c-embarazo').checked?200:400;
   $('c-r-total').textContent=fmt(tot);$('c-limite-t').textContent='Límite EFSA: '+lim+' mg al día'+(lim===200?' en embarazo o lactancia':'');
+  $('c-esc').innerHTML='<span style="left:0">0</span><span style="left:50%">'+(lim/2)+'</span><span class="ult" style="left:100%">'+lim+'</span>';
   $('c-relleno').style.width=Math.min(100,tot/lim*100)+'%';$('c-relleno').className='medidor-relleno'+(tot>lim?' pasa':'');
   var res=document.querySelector('.tool-res');res.classList.remove('z-bajo','z-medio','z-alto');
-  var dm=mins($('c-dormir').value),li=[];
-  if(!T.length){$('c-r-tit').textContent='Añade tus cafés, tés o refrescos con su hora.';$('c-r-lista').innerHTML='';$('c-curva').innerHTML='';guarda();return}
-  if(isNaN(dm))dm=23*60;var ult=T[T.length-1].m;if(dm<=ult)dm+=1440;
-  var q=function(x){return T.reduce(function(s,t){return x>=t.m?s+t.mg*Math.pow(.5,(x-t.m)/60/VM):s},0)};
-  var cama=q(dm),may=Math.max.apply(null,T.map(function(t){return t.mg}));
-  li.push(tot>lim?'Pasas el límite de la EFSA ('+lim+' mg al día) en '+fmt(tot-lim)+' mg.':'Estás dentro del límite de la EFSA ('+lim+' mg al día).');
-  if(may>200)li.push('Tu toma más grande tiene '+fmt(may)+' mg; la EFSA considera seguras tomas de hasta 200 mg de una vez.');
-  li.push('Al acostarte te quedarían unos '+fmt(cama)+' mg en el cuerpo (cálculo aproximado: el cuerpo elimina la mitad cada '+VM+' horas de media, aunque en cada persona va de 1,5 a 9,5).');
-  T.forEach(function(t){var hs=(dm-t.m)/60,n=BB[t.b]?BB[t.b][1].replace(/ \(.*$/,'').replace(/:.*$/,''):'Toma';
-    if(t.mg>=150&&hs<13.2)li.push(n+' de las '+hhmm(t.m)+' ('+fmt(t.mg)+' mg): queda a '+fmt(hs,1)+' h de dormir. Para un preentreno de unos 217 mg, Gardiner y cols. proponen tomarlo al menos 13,2 h antes.');
-    else if(t.mg>=60&&t.mg<150&&hs<8.8)li.push(n+' de las '+hhmm(t.m)+': queda a '+fmt(hs,1)+' h de dormir. Para un café de unos 107 mg, Gardiner y cols. proponen al menos 8,8 h antes de acostarse.')});
-  var hora=li.some(function(x){return x.indexOf('Gardiner')>=0}),dosis=may>200;
+  var dm=mins($('c-dormir').value),li=[];$('c-vacio').hidden=T.length>0;$('c-copiar').hidden=!T.length;
+  if(isNaN(dm))dm=23*60;
+  var lc=dm-8.8*60,lp=dm-13.2*60;
+  $('c-limites').innerHTML='<span class="chip-l"><b>'+hhmm(lc)+'</b>último café de unos 107 mg</span><span class="chip-l"><b>'+hhmm(lp)+'</b>último preentreno de unos 217 mg</span>';
+  if(!T.length){$('c-r-tit').textContent='Añade tus cafés, tés o refrescos con su hora.';$('c-r-lista').innerHTML='';$('c-curva').innerHTML='';$('c-lectura').textContent='';ultQ=null;guarda();return}
+  var ult=T[T.length-1].m;if(dm<=ult)dm+=1440;
+  var q=function(x){return T.reduce(function(s,t){return x>=t.m?s+t.mg*Math.pow(.5,(x-t.m)/60/VM):s},0)};ultQ=q;
+  var cama=q(dm),may=Math.max.apply(null,T.map(function(t){return t.mg})),hora=false;
+  li.push([tot>lim?'mal':'ok',tot>lim?'Pasas el límite de la EFSA ('+lim+' mg al día) en '+fmt(tot-lim)+' mg.':'Estás dentro del límite de la EFSA ('+lim+' mg al día).']);
+  if(may>200)li.push(['at','Tu toma más grande tiene '+fmt(may)+' mg; la EFSA considera seguras tomas de hasta 200 mg de una vez.']);
+  li.push([cama>=100?'mal':'ok','Al acostarte te quedarían unos '+fmt(cama)+' mg en el cuerpo (cálculo aproximado: el cuerpo elimina la mitad cada '+VM+' horas de media, aunque en cada persona va de 1,5 a 9,5).']);
+  T.forEach(function(t){var hs=(dm-t.m)/60,n=corto(t.b);
+    if(t.mg>=150&&hs<13.2){hora=true;li.push(['at',n+' de las '+hhmm(t.m)+' ('+fmt(t.mg)+' mg): queda a '+fmt(hs,1)+' h de dormir. Para un preentreno de unos 217 mg, Gardiner y cols. proponen tomarlo al menos 13,2 h antes.'])}
+    else if(t.mg>=60&&t.mg<150&&hs<8.8){hora=true;li.push(['at',n+' de las '+hhmm(t.m)+': queda a '+fmt(hs,1)+' h de dormir. Para un café de unos 107 mg, Gardiner y cols. proponen al menos 8,8 h antes de acostarse.'])}});
+  var dosis=may>200;
   res.classList.add(cama>=100||tot>lim?'z-bajo':(hora||dosis?'z-medio':'z-alto'));
   $('c-r-tit').textContent=cama>=100?'Te acuestas con 100 mg o más: puede costarte dormir':(tot>lim?'Te pasas del límite diario':(hora?'Revisa la hora de algún café':(dosis?'Alguna toma pasa de 200 mg':'Buena pinta para tu sueño')));
-  $('c-r-lista').innerHTML=li.map(function(x){return '<li>'+x+'</li>'}).join('');
+  $('c-r-lista').innerHTML=li.map(function(x){return '<li class="'+x[0]+'">'+x[1]+'</li>'}).join('');
+  copia='Cafeína del día: '+fmt(tot)+' mg (límite EFSA '+lim+' mg). Al acostarme ('+hhmm(dm)+'): unos '+fmt(cama)+' mg.\n'+T.map(function(t){return hhmm(t.m)+' · '+corto(t.b)+' · '+fmt(t.mg)+' mg'}).join('\n');
   // curva
-  var x0=T[0].m-60,x1=dm+120,ymax=Math.max(150,Math.max.apply(null,T.map(function(t){return q(t.m)}))*1.1),W=600,H=190,L=36,R=10,Tp=12,Bt=26;
+  var x0=T[0].m-60,x1=dm+120,ymax=Math.max(150,Math.max.apply(null,T.map(function(t){return q(t.m)}))*1.15),W=480,H=200,L=36,R=10,Tp=14,Bt=26;
   var X=function(m){return L+(m-x0)/(x1-x0)*(W-L-R)},Y=function(v){return Tp+(1-v/ymax)*(H-Tp-Bt)};
-  var p='',a='';for(var m=x0;m<=x1;m+=5){var v=q(m);p+=(m===x0?'M':'L')+X(m).toFixed(1)+' '+Y(v).toFixed(1)}
-  a=p+'L'+X(x1).toFixed(1)+' '+Y(0)+'L'+X(x0).toFixed(1)+' '+Y(0)+'Z';
-  var ej='';for(var hh=Math.ceil(x0/120)*120;hh<=x1;hh+=120)ej+='<line class="g" x1="'+X(hh)+'" x2="'+X(hh)+'" y1="'+Tp+'" y2="'+Y(0)+'"/><text class="t" x="'+X(hh)+'" y="'+(H-8)+'" text-anchor="middle">'+hhmm(hh).slice(0,2)+'h</text>';
-  $('c-curva').innerHTML=ej+'<line class="cien" x1="'+L+'" x2="'+(W-R)+'" y1="'+Y(100)+'" y2="'+Y(100)+'"/><text class="t" x="'+(L-4)+'" y="'+(Y(100)+4)+'" text-anchor="end">100</text><path class="area" d="'+a+'"/><path class="linea" d="'+p+'"/><line class="cama" x1="'+X(dm)+'" x2="'+X(dm)+'" y1="'+Tp+'" y2="'+Y(0)+'"/><circle class="punto" cx="'+X(dm)+'" cy="'+Y(cama)+'" r="5"/><text class="t cama-t" x="'+(X(dm)-6)+'" y="'+(Tp+12)+'" text-anchor="end">a dormir</text>';
+  var p='';for(var m=x0;m<=x1;m+=5){p+=(m===x0?'M':'L')+X(m).toFixed(1)+' '+Y(q(m)).toFixed(1)}
+  var a=p+'L'+X(x1).toFixed(1)+' '+Y(0)+'L'+X(x0).toFixed(1)+' '+Y(0)+'Z',ej='';
+  for(var hh=Math.ceil(x0/120)*120;hh<=x1;hh+=120)ej+='<line class="g" x1="'+X(hh)+'" x2="'+X(hh)+'" y1="'+Tp+'" y2="'+Y(0)+'"/><text class="t" x="'+X(hh)+'" y="'+(H-8)+'" text-anchor="middle">'+hhmm(hh).slice(0,2)+'h</text>';
+  var tomas=T.map(function(t){return '<circle class="toma" cx="'+X(t.m)+'" cy="'+Y(q(t.m))+'" r="3.5"/><text class="t tm" x="'+X(t.m)+'" y="'+(Y(q(t.m))-8)+'" text-anchor="middle">'+fmt(t.mg)+'</text>'}).join('');
+  $('c-curva').innerHTML='<defs><linearGradient id="c-grad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="c1"/><stop offset="1" class="c2"/></linearGradient></defs><rect class="noche" x="'+X(dm)+'" y="'+Tp+'" width="'+(W-R-X(dm))+'" height="'+(Y(0)-Tp)+'"/>'+ej+'<line class="cien" x1="'+L+'" x2="'+(W-R)+'" y1="'+Y(100)+'" y2="'+Y(100)+'"/><text class="t" x="'+(L-4)+'" y="'+(Y(100)+4)+'" text-anchor="end">100</text><path class="area" d="'+a+'"/><path class="linea" d="'+p+'"/>'+tomas+'<line class="cama" x1="'+X(dm)+'" x2="'+X(dm)+'" y1="'+Tp+'" y2="'+Y(0)+'"/><circle class="punto" cx="'+X(dm)+'" cy="'+Y(cama)+'" r="5"/><text class="t cama-t" x="'+(X(dm)-6)+'" y="'+(Tp+12)+'" text-anchor="end">a dormir</text><g class="scrub" id="c-scrub" style="display:none"><line class="sl" y1="'+Tp+'" y2="'+Y(0)+'"/><circle class="sp" r="4"/></g>';
+  $('c-curva').dataset.x0=x0;$('c-curva').dataset.x1=x1;$('c-curva').dataset.ymax=ymax;
+  $('c-lectura').textContent='Pasa el dedo o el ratón por la curva para ver la cafeína a cada hora.';
   guarda()}
-filas.addEventListener('change',function(e){if(e.target.tagName==='SELECT')ajusta(e.target.closest('.caf-fila'));pinta()});
+var cv=$('c-curva');
+function lectura(e){if(!ultQ)return;var r=cv.getBoundingClientRect(),W=480,L=36,R=10,Tp=14,H=200,Bt=26,vx=(e.clientX-r.left)/r.width*W;if(vx<L||vx>W-R)return;
+  var x0=+cv.dataset.x0,x1=+cv.dataset.x1,ym=+cv.dataset.ymax,m=x0+(vx-L)/(W-L-R)*(x1-x0),v=ultQ(m),y=Tp+(1-v/ym)*(H-Tp-Bt),s=$('c-scrub');
+  if(!s)return;s.style.display='';s.querySelector('.sl').setAttribute('x1',vx);s.querySelector('.sl').setAttribute('x2',vx);s.querySelector('.sp').setAttribute('cx',vx);s.querySelector('.sp').setAttribute('cy',y);
+  $('c-lectura').textContent='A las '+hhmm(m)+': unos '+fmt(v)+' mg en el cuerpo.'}
+cv.addEventListener('pointermove',lectura);cv.addEventListener('pointerdown',lectura);
+cv.addEventListener('pointerleave',function(){var s=$('c-scrub');if(s)s.style.display='none'});
+filas.addEventListener('change',function(e){if(e.target.tagName==='SELECT')ajusta(e.target.closest('.caf-fila'));if(e.target.type==='time')ordena();pinta()});
 filas.addEventListener('input',pinta);
 filas.addEventListener('click',function(e){if(e.target.classList.contains('vol-quita')){e.target.closest('.caf-fila').remove();pinta()}});
-$('c-rapidos').addEventListener('click',function(e){var b=e.target.closest('[data-b]');if(!b)return;var T=lee().map(function(t){return mins(t.h)}).filter(function(m){return !isNaN(m)}),h=T.length?Math.min(Math.max.apply(null,T)+120,22*60):8*60;fila(b.dataset.b,hhmm(h));pinta()});
+$('c-rapidos').addEventListener('click',function(e){var b=e.target.closest('[data-b]');if(!b)return;var T=lee().map(function(t){return mins(t.h)}).filter(function(m){return !isNaN(m)}),h=T.length?Math.min(Math.max.apply(null,T)+120,22*60):8*60;fila(b.dataset.b,hhmm(h),null,true);ordena();pinta()});
 $('c-dormir').addEventListener('input',pinta);$('c-embarazo').addEventListener('change',pinta);
+$('c-copiar').addEventListener('click',function(){copiar(this,copia)});
 var g=null;try{g=JSON.parse(localStorage.getItem(K)||'null')}catch(e){}
 if(g&&Array.isArray(g.t)){g.t.forEach(function(t){if(BB[t.b])fila(t.b,t.h,t.mg)});if(g.d)$('c-dormir').value=g.d;$('c-embarazo').checked=!!g.e}else{fila('espresso','08:00');fila('filtro','11:00');fila('espresso','16:30')}
 pinta();
