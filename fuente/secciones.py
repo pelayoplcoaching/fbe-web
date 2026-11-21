@@ -87,22 +87,24 @@ EA_TRES = [('Aprender', 'libro', [('guias.html', 'Guías'), ('newsletter.html', 
            ('Medir', 'grafica', [('herramientas.html', 'Todas las herramientas'), ('pauta-activa.html', 'Pauta Activa'), (CALC, 'Calculadora de proteína'), ('test-sppb.html', 'Test SPPB'), ('calculadora-1rm.html', 'Calculadora de 1RM')]),
            ('Trabajar conmigo', 'chat', [('programas.html', 'Programas'), ('puesta-a-punto.html', 'Puesta a punto'), (FORM, 'Pedir plaza'), ('quien-soy.html', 'Quién soy')])]
 EA_IMG_OK = _todas(*[f'ea-{p}' for p, _, _, _ in EA_PERF])  # bloque W10: una imagen por perfil, solo si estan las seis
-EA_JS = r'''(function(){var g=document.getElementById('ea-perfil');if(!g)return;var bs=[].slice.call(g.querySelectorAll('button')),rs=[].slice.call(document.querySelectorAll('.ea-ruta'));
-function pon(p,url){if(!rs.some(function(r){return r.dataset.p===p}))return false;bs.forEach(function(b){b.setAttribute('aria-pressed',b.dataset.p===p)});rs.forEach(function(r){r.hidden=r.dataset.p!==p});if(url){try{history.replaceState(null,'','#'+p)}catch(e){}}return true}
-bs.forEach(function(b){b.addEventListener('click',function(){pon(b.dataset.p,true)})});
+EA_ICO = {'cero': 'pesa', 'sinplan': 'grafica', 'medicacion': 'capsula', 'mayores': 'andar', 'dolor': 'semaforo', 'paron': 'pausa'}  # 5x50 (1): icono por perfil
+EA_JS = r'''(function(){var g=document.getElementById('ea-perfil');if(!g)return;var bs=[].slice.call(g.querySelectorAll('button')),rs=[].slice.call(document.querySelectorAll('.ea-ruta')),quieto=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function pon(p,url){if(!rs.some(function(r){return r.dataset.p===p}))return false;bs.forEach(function(b){b.setAttribute('aria-pressed',b.dataset.p===p)});rs.forEach(function(r){var v=r.dataset.p===p;if(v&&r.hidden&&url){r.classList.remove('ea-entra');void r.offsetWidth;r.classList.add('ea-entra')}r.hidden=!v});if(url){try{history.replaceState(null,'','#'+p)}catch(e){}}return true}
+bs.forEach(function(b){b.addEventListener('click',function(){pon(b.dataset.p,true);if(innerWidth<760){var r=document.querySelector('.ea-ruta[data-p="'+b.dataset.p+'"]');if(r&&r.getBoundingClientRect().top>innerHeight*.6)r.scrollIntoView({behavior:quieto?'auto':'smooth',block:'start'})}})});
+document.querySelectorAll('.ea-volver').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();g.scrollIntoView({behavior:quieto?'auto':'smooth',block:'center'});var b=g.querySelector('[aria-pressed="true"]');if(b)b.focus({preventScroll:true})})});
 if(!pon(location.hash.slice(1)))pon(bs[0].dataset.p);addEventListener('hashchange',function(){pon(location.hash.slice(1))});})();'''
 pagina('empieza-aqui.html', 'Empieza aquí', 'Por dónde empezar en Fuerza Basada en Evidencia según tu caso: nunca has entrenado, entrenas sin plan, tomas medicación, tienes más de 60 años, te duele algo o vuelves de un parón.',
        'Empieza aquí.', 'Dime cuál se parece más a ti y te señalo qué mirar primero. Son tres o cuatro pasos, en orden.', f'''
 <section><div class="in">
   <div class="empieza sube"><div><h2>¿Cuál se parece más a ti?</h2><p>Elige uno. Puedes cambiar cuando quieras.</p></div>
-    <div class="fases claras" id="ea-perfil" role="group" aria-label="Tu caso">{"".join(f'<button type="button" data-p="{p}" aria-pressed="{"true" if k == 0 else "false"}">{t}</button>' for k, (p, t, _, _) in enumerate(EA_PERF))}</div></div>
-  {"".join(f'<div class="ea-ruta sube" data-p="{p}"><div class="ea-top"><div><h3>{t}</h3><p>{d}</p></div>{ilus(f"ea-{p}", "ea-img") if EA_IMG_OK else ""}</div><ol class="ea-pasos">{"".join(ea_paso(n + 1, *x) for n, x in enumerate(xs))}</ol></div>' for p, t, d, xs in EA_PERF)}
+    <div class="fases claras" id="ea-perfil" role="group" aria-label="Tu caso">{"".join(f'<button type="button" data-p="{p}" aria-pressed="{"true" if k == 0 else "false"}"><i class="ea-bi">{ico(EA_ICO[p])}</i><span>{t}</span></button>' for k, (p, t, _, _) in enumerate(EA_PERF))}</div></div>
+  {"".join(f'<div class="ea-ruta sube" data-p="{p}"><div class="ea-top"><div><span class="ea-kick">Tu ruta · {len(xs)} pasos</span><h3>{t}</h3><p>{d}</p></div>{ilus(f"ea-{p}", "ea-img") if EA_IMG_OK else ""}</div><ol class="ea-pasos">{"".join(ea_paso(n + 1, *x) for n, x in enumerate(xs))}</ol><a class="ea-volver" href="#ea-perfil">Elegir otro caso</a></div>' for p, t, d, xs in EA_PERF)}
 </div></section>
-<section class="hoja"><div class="in"><div class="entrada sube"><h2>Todo lo que hay en la web</h2><p>En tres verbos, por si prefieres ir a tu aire.</p></div>
-  <div class="ea-tres">{"".join(f'<div class="ea-col sube">{sec_ic(i)}<h3>{t}</h3><ul>{"".join(f"<li><a href=\"{u}\"{_ext(u)}>{n}</a></li>" for u, n in xs)}</ul></div>' for t, i, xs in EA_TRES)}</div>
+<section class="hoja" id="ea-todo"><div class="in"><div class="entrada sube"><h2>Todo lo que hay en la web</h2><p>En tres verbos, por si prefieres ir a tu aire.</p></div>
+  <div class="ea-tres">{"".join(f'<div class="ea-col sube" data-n="{len(xs)}">{sec_ic(i)}<h3>{t}</h3><ul>{"".join(f"<li><a href=\"{u}\"{_ext(u)}>{n}</a></li>" for u, n in xs)}</ul></div>' for t, i, xs in EA_TRES)}</div>
 </div></section>
 <section><div class="in"><div class="calc sube"><div><h3>Si solo vas a hacer una cosa</h3><p>Apúntate al boletín: una idea cada semana sobre fuerza, nutrición y salud.</p></div><div><a class="btn claro" href="newsletter.html">Ver el boletín</a></div></div></div></section>
-<script>{EA_JS}</script>''')
+<script>{EA_JS}</script>''', cta='<div class="cta"><a class="btn claro" href="#ea-perfil">Elegir mi caso</a><a class="enl" href="#ea-todo">Ver todo lo que hay</a></div>')
 
 # ---------------------------------------------------------------------------------------------
 # 2. Vídeos: la lista «subidas» del canal (UC... -> UU...) tras una fachada; YouTube solo se carga al pulsar
@@ -111,24 +113,28 @@ VID_SRC = f'https://www.youtube-nocookie.com/embed/videoseries?list={VID_LISTA}&
 VID_TEMAS = ['Fuerza', 'Proteína', 'Creatina', 'Suplementos', 'Alcohol', 'Sueño', 'Colesterol', 'Cardio', 'Perder grasa', 'Mayores', 'Mujer', 'Mitos']
 VID_JS = r'''(function(){var a=document.getElementById('vid');if(!a)return;a.addEventListener('click',function(e){e.preventDefault();var f=document.createElement('iframe');f.src=a.dataset.src;f.title='Últimos vídeos de Fuerza Basada en Evidencia en YouTube';f.allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';f.allowFullscreen=true;f.referrerPolicy='strict-origin-when-cross-origin';var d=document.createElement('div');d.className='vid-marco vid-on';d.appendChild(f);a.replaceWith(d);});})();'''
 _PLAY = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 5.8v12.4L19 12z"/></svg>'
+_CAMPANA = '<svg class="vid-mini" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15zM10 20a2 2 0 0 0 4 0"/></svg>'
+_LUPA = '<svg class="vid-mini" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>'
 pagina('videos.html', 'Vídeos', 'Los vídeos de Fuerza Basada en Evidencia en YouTube: fuerza, nutrición y salud explicadas por un médico internista.',
        'Lo que publico en YouTube.', 'Fuerza, nutrición y salud, explicadas por un médico internista. Aquí tienes los últimos vídeos del canal y los temas para buscar.', f'''
 <section><div class="in">
-  <a class="vid-marco sube" id="vid" href="{YT}/videos" data-src="{VID_SRC}" target="_blank" rel="noopener">{ilus("videos-fondo", "vid-fondo")}<span class="vid-boton">{_PLAY}</span><span class="vid-txt"><b>Ver los últimos vídeos del canal</b><small>Al pulsar se carga el reproductor de YouTube, en modo de privacidad mejorada.</small></span></a>
-  <div class="vid-cta sube"><a class="btn" href="{YT}"{_ext(YT)}>Ir al canal</a><a class="btn hueco" href="{YT}?sub_confirmation=1"{_ext(YT)}>Suscribirme</a></div>
+  <a class="vid-marco sube" id="vid" href="{YT}/videos" data-src="{VID_SRC}" target="_blank" rel="noopener">{ilus("videos-fondo", "vid-fondo")}<span class="vid-chip">Lista del canal</span><span class="vid-boton">{_PLAY}</span><span class="vid-txt"><b>Ver los últimos vídeos del canal</b><small>Al pulsar se carga el reproductor de YouTube, en modo de privacidad mejorada.</small></span></a>
+  <div class="vid-cta sube"><a class="btn vid-ir" href="{YT}"{_ext(YT)}>Ir al canal</a><a class="btn hueco vid-sus" href="{YT}?sub_confirmation=1"{_ext(YT)}>{_CAMPANA}Suscribirme</a></div>
 </div></section>
-<section class="hoja"><div class="in"><div class="entrada sube"><h2>Busca por tema</h2><p>Cada tema abre la búsqueda dentro del canal.</p></div>
+<section class="hoja"><div class="in"><div class="entrada sube"><h2>Busca por tema</h2><p>Cada tema abre la búsqueda dentro del canal. O escribe el tuyo.</p></div>
+  <form class="vid-busca sube" action="{YT}/search" method="get" target="_blank" rel="noopener" role="search"><label class="oculto" for="vid-q">Buscar en el canal</label>{_LUPA}<input id="vid-q" name="query" type="search" placeholder="Rodilla, sueño, proteína…" autocomplete="off" required><button class="btn" type="submit">Buscar</button></form>
   <ul class="vid-temas sube">{"".join(f'<li><a href="{YT}/search?query={_up.quote(t)}"{_ext(YT)}>{t}</a></li>' for t in VID_TEMAS)}</ul>
 </div></section>
 <section><div class="in"><div class="entrada sube"><h2>Del vídeo a tu semana</h2><p>Un vídeo te da la idea. Lo que cambia las cosas es aplicarla.</p></div>
-  <ol class="pasos-g en-linea sube">
-    <li><b>Ves el vídeo</b><span>Una idea concreta sobre fuerza, nutrición o salud.</span></li>
-    <li><b>Lo pruebas en tu caso</b><span>Con las <a href="herramientas.html">herramientas de la web</a> o con una <a href="guias.html">guía</a>.</span></li>
-    <li><b>Si quieres, lo llevamos a tu semana</b><span>En la <a href="programas.html">asesoría</a> lo convierto en tu plan y lo reviso cada semana.</span></li>
+  <ol class="pasos-g en-linea vid-pasos sube">
+    <li>{sec_ic("video")}<b>Ves el vídeo</b><span>Una idea concreta sobre fuerza, nutrición o salud.</span></li>
+    <li>{sec_ic("grafica")}<b>Lo pruebas en tu caso</b><span>Con las <a href="herramientas.html">herramientas de la web</a> o con una <a href="guias.html">guía</a>.</span></li>
+    <li>{sec_ic("pesa")}<b>Si quieres, lo llevamos a tu semana</b><span>En la <a href="programas.html">asesoría</a> lo convierto en tu plan y lo reviso cada semana.</span></li>
   </ol>
   <div class="vid-redes sube"><b>También estoy en</b>{"".join(f'<a href="{u}" target="_blank" rel="noopener">{t}</a>' for t, u in REDES if t != 'YouTube')}</div>
 </div></section>
-<script>{VID_JS}</script>''')
+<section class="hoja"><div class="in"><div class="calc sube"><div><h3>¿Prefieres leerlo?</h3><p>En el boletín te llega una idea cada semana sobre fuerza, nutrición y salud.</p></div><div><a class="btn claro" href="newsletter.html">Ver el boletín</a></div></div></div></section>
+<script>{VID_JS}</script>''', cta='<div class="cta"><a class="btn claro" href="#vid">Ver los vídeos</a><a class="enl" href="#vid-q">Buscar un tema</a></div>')
 
 # ---------------------------------------------------------------------------------------------
 # 3. Para profesionales sanitarios: Pauta Activa en consulta, herramientas con fuente, recursos para pacientes y charlas
