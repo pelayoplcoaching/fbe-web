@@ -3,6 +3,7 @@
 # la portada, Herramientas, Guías, Quién soy y Pauta Activa. «En los medios» espera los enlaces reales (MEDIOS vacío = no se genera).
 # Mitos: cada cifra lleva su fuente en la tarjeta; no cambiar números sin cambiar la fuente.
 import urllib.parse as _up
+import re as _re
 
 I.update({
     'brujula': '<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>',
@@ -229,33 +230,61 @@ MITOS = [
      'Schoenfeld BJ, Grgic J, Krieger J. J Sports Sci. 2019;37:1286-95.', ('volumen-semanal.html', 'Cuenta tus series por músculo')),
 ]
 MITO_IMG_OK = _todas(*[f'mito-{m[0]}' for m in MITOS])  # bloque W10: una imagen por mito, solo si estan las nueve
-def mito_html(id_, t, frase, ver, ver_t, tipo, txt, fuente, enl):
-    return (f'<article class="mito sube" id="{id_}" data-t="{t}" data-ver="{ver}"><details><summary>{ilus(f"mito-{id_}", "mito-img") if MITO_IMG_OK else ""}<span class="mito-tipo">{tipo}</span>'
+MITO_CORTO = {'estirar': 'Estirar', 'proteina-rinon': 'Proteína y riñón', 'fallo': 'Fallo', 'sesenta': 'Músculo a los 60', 'ayunas': 'Cardio en ayunas',
+              'creatina': 'Creatina', 'mujeres': 'Mujeres y pesas', 'artrosis': 'Artrosis', 'frecuencia': 'Frecuencia'}
+MITO_TN = dict(MITO_T)
+MITO_NV = {k: sum(1 for m in MITOS if m[3] == k) for k in MITO_VER}
+MITO_NT = {v: sum(1 for m in MITOS if v in m[1].split()) for v, _ in MITO_T if v}
+MITO_REFS = sum(len(_re.findall(r'\d{4};', m[7])) for m in MITOS)
+def mito_html(k, id_, t, frase, ver, ver_t, tipo, txt, fuente, enl):
+    foto = f'<span class="mito-foto">{ilus(f"mito-{id_}", "mito-img")}<span class="mito-sello" aria-hidden="true">{MITO_VER[ver]}</span></span>' if MITO_IMG_OK else ''
+    temas = ''.join(f'<span>{MITO_TN[x]}</span>' for x in t.split() if x in MITO_TN)
+    return (f'<article class="mito sube" id="{id_}" data-t="{t}" data-ver="{ver}"><details><summary>{foto}<span class="mito-cab"><span class="mito-n">{k:02d}<small>/{len(MITOS):02d}</small></span><span class="mito-tipo">{tipo}</span><span class="mito-leido">Leído</span></span>'
             f'<span class="mito-frase">«{frase}»</span><span class="mito-abre">Qué dicen los estudios</span></summary>'
             f'<div class="mito-cuerpo"><p class="mito-ver"><b>{ver_t or MITO_VER[ver]}</b></p><p>{txt}</p><p class="mito-fuente"><b>Fuente</b> {fuente}</p>'
-            f'<a class="mito-enl" href="{enl[0]}"{_ext(enl[0])}>{enl[1]}</a></div></details></article>')
-MITOS_JS = r'''(function(){var f=document.getElementById('mitos-f');if(!f)return;var ms=[].slice.call(document.querySelectorAll('.mito')),n=document.getElementById('mitos-n'),todo=document.getElementById('mitos-todos');
-function cuenta(){var k=ms.filter(function(m){return!m.hidden}).length;n.textContent=k+(k===1?' mito':' mitos')}
-f.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;f.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',x===b)});var t=b.dataset.t;ms.forEach(function(m){m.hidden=!!t&&(' '+m.dataset.t+' ').indexOf(' '+t+' ')<0});cuenta()});
+            f'<a class="mito-enl" href="{enl[0]}"{_ext(enl[0])}>{enl[1]}</a>'
+            f'<div class="mito-pie"><span class="mito-temas">{temas}</span><span class="mito-acc"><button type="button" class="pro-copia mito-copia" data-u="mitos.html#{id_}" aria-label="Copiar el enlace a este mito"><span>Copiar enlace</span></button>'
+            f'<button type="button" class="mito-sig">Siguiente</button></span></div></div></details></article>')
+MITOS_JS = r'''(function(){var f=document.getElementById('mitos-f');if(!f)return;var ms=[].slice.call(document.querySelectorAll('.mito')),n=document.getElementById('mitos-n'),todo=document.getElementById('mitos-todos'),q=matchMedia('(prefers-reduced-motion: reduce)').matches,K='fbe-mitos',L=[];
+try{L=JSON.parse(localStorage.getItem(K)||'[]')||[]}catch(e){}
+var pl=document.getElementById('mitos-l'),pb=document.getElementById('mitos-pb');
+function prog(){var k=ms.filter(function(m){return L.indexOf(m.id)>=0}).length;ms.forEach(function(m){m.classList.toggle('leido',L.indexOf(m.id)>=0)});if(pl)pl.textContent=k;if(pb)pb.style.width=(k/ms.length*100)+'%';var w=document.querySelector('.mitos-prog');if(w)w.classList.toggle('completo',k===ms.length)}
+function vis(){return ms.filter(function(m){return!m.hidden})}
+function cuenta(){var k=vis().length;n.textContent=k+(k===1?' mito':' mitos')}
+function foco(m){m.classList.remove('mito-foco');void m.offsetWidth;m.classList.add('mito-foco')}
+function abre(m,ir){var d=m.querySelector('details');d.open=true;if(ir){m.scrollIntoView({behavior:q?'auto':'smooth',block:'start'});foco(m);var s=m.querySelector('summary');if(s)s.focus({preventScroll:true})}}
+ms.forEach(function(m){var d=m.querySelector('details');d.addEventListener('toggle',function(){if(d.open&&L.indexOf(m.id)<0){L.push(m.id);try{localStorage.setItem(K,JSON.stringify(L))}catch(e){}prog()}});
+var sg=m.querySelector('.mito-sig');if(sg)sg.addEventListener('click',function(){var v=vis(),i=v.indexOf(m),x=v[(i+1)%v.length];if(x&&x!==m)abre(x,true)})});
+f.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;f.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',x===b)});var t=b.dataset.t;ms.forEach(function(m){var o=!!t&&(' '+m.dataset.t+' ').indexOf(' '+t+' ')<0;if(!o&&m.hidden){m.classList.remove('mito-entra');void m.offsetWidth;m.classList.add('mito-entra')}m.hidden=o});cuenta()});
 todo.addEventListener('click',function(){var ab=todo.getAttribute('aria-pressed')!=='true';todo.setAttribute('aria-pressed',ab);todo.querySelector('span').textContent=ab?'Cerrar todas':'Abrir todas';ms.forEach(function(m){m.querySelector('details').open=ab})});
-var h=location.hash.slice(1),d=h&&document.getElementById(h);if(d&&d.classList.contains('mito'))d.querySelector('details').open=true;cuenta();})();'''
+var az=document.getElementById('mitos-azar');if(az)az.addEventListener('click',function(){var v=vis(),nl=v.filter(function(m){return L.indexOf(m.id)<0}),p=nl.length?nl:v;if(p.length)abre(p[Math.floor(Math.random()*p.length)],true)});
+var rs=document.getElementById('mitos-reset');if(rs)rs.addEventListener('click',function(){L=[];try{localStorage.removeItem(K)}catch(e){}prog()});
+document.querySelectorAll('.mito-copia').forEach(function(b){b.addEventListener('click',function(){var u=new URL(b.dataset.u,location.href).href,s=b.querySelector('span'),t=s.textContent;function ok(){b.classList.add('hecho');s.textContent='Copiado';setTimeout(function(){b.classList.remove('hecho');s.textContent=t},1600)}if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(u).then(ok,function(){});})});
+function hash(){var h=decodeURIComponent(location.hash.slice(1)),d=h&&document.getElementById(h);if(d&&d.classList.contains('mito')){if(d.hidden){f.querySelector('button').click()}abre(d,false);foco(d)}}
+addEventListener('hashchange',hash);addEventListener('beforeprint',function(){ms.forEach(function(m){m.querySelector('details').open=true})});
+hash();prog();cuenta();})();'''
 pagina('mitos.html', 'Mitos y evidencia', 'Nueve mitos de gimnasio y de consulta contrastados con revisiones, ensayos y guías clínicas: estiramientos, proteína y riñón, fallo, edad, ayunas, creatina, mujeres, artrosis y frecuencia.',
        'Mitos y evidencia.', f'{len(MITOS)} ideas que se repiten en el gimnasio y en la consulta, contrastadas con revisiones, ensayos y guías clínicas. Toca cada una para ver qué dicen los estudios.', f'''
 <section><div class="in">
-  <div class="empieza sube"><div><h2>Filtra por tema</h2><p id="mitos-n" role="status">{len(MITOS)} mitos</p></div>
-    <div><div class="fases claras" id="mitos-f" role="group" aria-label="Filtrar por tema">{"".join(f'<button type="button" data-t="{v}" aria-pressed="{"true" if not v else "false"}">{t}</button>' for v, t in MITO_T)}</div>
-    <button type="button" class="btn hueco mitos-todos" id="mitos-todos" aria-pressed="false"><span>Abrir todas</span></button></div></div>
-  <div class="mitos-rej">{"".join(mito_html(*m) for m in MITOS)}</div>
+  <ul class="mitos-cif sube"><li class="v-f"><b>{MITO_NV["f"]}</b>falsos</li><li class="v-a"><b>{MITO_NV["a"]}</b>a medias</li><li class="v-n"><b>{MITO_NV["n"]}</b>sin demostrar</li><li class="v-r"><b>{MITO_REFS}</b>referencias citadas</li></ul>
+  <nav class="mitos-indice sube" aria-label="Los mitos"><b>Ir a</b>{"".join(f'<a href="#{m[0]}"><i>{k:02d}</i>{MITO_CORTO[m[0]]}</a>' for k, m in enumerate(MITOS, 1))}</nav>
+  <div class="empieza sube"><div><h2>Filtra por tema</h2><p id="mitos-n" role="status">{len(MITOS)} mitos</p>
+    <div class="mitos-prog"><span>Has leído <b id="mitos-l">0</b> de {len(MITOS)}</span><i aria-hidden="true"><b id="mitos-pb"></b></i><button type="button" id="mitos-reset" class="mitos-reset">Empezar de cero</button></div></div>
+    <div><div class="fases claras" id="mitos-f" role="group" aria-label="Filtrar por tema">{"".join(f'<button type="button" data-t="{v}" aria-pressed="{"true" if not v else "false"}">{t}<em>{len(MITOS) if not v else MITO_NT[v]}</em></button>' for v, t in MITO_T)}</div>
+    <div class="mitos-botones"><button type="button" class="btn hueco mitos-todos" id="mitos-todos" aria-pressed="false"><span>Abrir todas</span></button><button type="button" class="btn hueco mitos-azar" id="mitos-azar"><span>Uno al azar</span></button></div></div></div>
+  <div class="mitos-rej" id="lista">{"".join(mito_html(k, *m) for k, m in enumerate(MITOS, 1))}</div>
 </div></section>
-<section class="hoja"><div class="in"><div class="entrada sube"><h2>Cómo leer la etiqueta de cada mito</h2><p>Arriba de cada tarjeta verás de qué tipo de estudio sale la respuesta.</p></div>
+<section class="hoja" id="leer"><div class="in"><div class="entrada sube"><h2>Cómo leer la etiqueta de cada mito</h2><p>Arriba de cada tarjeta verás de qué tipo de estudio sale la respuesta.</p></div>
   <ol class="pasos-g en-linea sube">
     <li><b>Metaanálisis</b><span>Junta los resultados de muchos estudios sobre la misma pregunta. Pesa más que un estudio suelto.</span></li>
     <li><b>Ensayo</b><span>Compara dos grupos asignados al azar. Si es pequeño o corto, la conclusión es más provisional.</span></li>
     <li><b>Guía clínica</b><span>Recomendaciones de un grupo de expertos que revisa toda la evidencia disponible.</span></li>
   </ol>
+  <h3 class="mitos-sub sube">Y el veredicto, en tres colores</h3>
+  <ul class="mitos-leyenda sube"><li class="v-f"><b>Falso</b><span>Los estudios dicen lo contrario de lo que afirma el mito.</span></li><li class="v-a"><b>A medias</b><span>Tiene parte de verdad, pero con matices importantes.</span></li><li class="v-n"><b>No demostrado</b><span>No hay pruebas de que sea así; los estudios son pocos o pequeños.</span></li></ul>
   <p class="sec-enl sube"><b>¿Tienes otra duda?</b><a href="dudas.html">Dudas frecuentes</a><a href="suplementos.html">Suplementos</a><a href="videos.html">Vídeos</a></p>
 </div></section>
-<script>{MITOS_JS}</script>''', cierre_t=('¿Quieres un plan sin mitos?', 'Cuéntame tu caso en el formulario. Te respondo yo.'))
+<script>{MITOS_JS}</script>''', cta='<div class="cta"><a class="btn claro" href="#lista">Ver los mitos</a><a class="enl" href="#leer">Cómo leer las etiquetas</a></div>', cierre_t=('¿Quieres un plan sin mitos?', 'Cuéntame tu caso en el formulario. Te respondo yo.'))
 
 # ---------------------------------------------------------------------------------------------
 # 5. En los medios: solo con enlaces reales que Pelayo ha aprobado (21/11/2026). Los títulos de los dos podcasts los dio Pelayo
