@@ -16,7 +16,7 @@
   var av = D.getElementById('avance'), fijo = D.getElementById('fijo'), cierre = D.querySelector('.cierre'), pend = false;
   function mirar() { pend = false; var y = window.scrollY || 0, alto = D.documentElement.scrollHeight - innerHeight; av.style.transform = 'scaleX(' + (alto > 0 ? Math.min(1, y / alto) : 0) + ')'; fijo.classList.toggle('ver', y > 600 && cierre.getBoundingClientRect().top > innerHeight); }
   addEventListener('scroll', function () { if (!pend) { pend = true; requestAnimationFrame(mirar); } }, { passive: true }); mirar();
-  var enlaces = [].slice.call(D.querySelectorAll('#nav a'));
+  var enlaces = [].slice.call(D.querySelectorAll('#nav a[href^="#"]'));
   if (io) { var sec = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) enlaces.forEach(function (a) { a.classList.toggle('aqui', a.getAttribute('href') === '#' + e.target.id); }); }); }, { rootMargin: '-45% 0px -50% 0px' }); enlaces.forEach(function (a) { var s = D.querySelector(a.getAttribute('href')); if (s) sec.observe(s); }); }
   // El menú del móvil se cierra al elegir
   var menu = D.querySelector('.menu'); if (menu) menu.addEventListener('click', function (e) { if (e.target.tagName === 'A') menu.open = false; });

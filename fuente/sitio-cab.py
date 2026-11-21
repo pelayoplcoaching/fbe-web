@@ -16,7 +16,30 @@ PRIV = 'privacidad.html' if os.environ.get('FBE_CORREO') else 'https://fbe-polit
 TERM = 'https://storage.googleapis.com/mailerlite-uploads-prod/1626427/HiBsw8Jed1HGMWBAioHtfU42FmBM9BSXBGOiafMN.pdf'
 REDES = [('Instagram', 'https://www.instagram.com/fuerzabasadaenevidencia/'), ('YouTube', 'https://www.youtube.com/@FuerzaBasadaEnEvidencia'), ('X', 'https://x.com/PelayoPLcoach'), ('Threads', 'https://www.threads.com/@fuerzabasadaenevidencia')]
 PAGS = [('quien-soy.html', 'Quién soy'), ('programas.html', 'Programas'), ('puesta-a-punto.html', 'Puesta a punto'), ('guias.html', 'Guías'), ('newsletter.html', 'Newsletter'), ('herramientas.html', 'Herramientas'), ('dudas.html', 'Dudas')]
-def nav(act=''): return ''.join(f'<a href="{u}"{" class=\"aqui\" aria-current=\"page\"" if u == act else ""}>{t}</a>' for u, t in PAGS)
+def nav_simple(act=''): return ''.join(f'<a href="{u}"{" class=\"aqui\" aria-current=\"page\"" if u == act else ""}>{t}</a>' for u, t in PAGS)
+# Menu (21/11/2026, noche): Aprende y Herramientas como desplegables; antes media web solo se encontraba en el pie.
+APRENDE = [('empieza-aqui.html', 'Empieza aquí', 'Tu ruta según tu caso'), ('guias.html', 'Guías', 'Para descargar y aplicar'),
+           ('newsletter.html', 'Newsletter', 'Un correo a la semana'), ('boletin.html', 'Archivo del boletín', 'Todos los envíos'),
+           ('mitos.html', 'Mitos y evidencia', 'Qué dicen los estudios'), ('glosario.html', 'Glosario', 'Cada término en dos líneas'),
+           ('videos.html', 'Vídeos', 'El canal de YouTube'), ('profesionales.html', 'Para profesionales', 'Sanitarios y charlas')]
+HERR_MENU = [('Evalúa tu forma física', [('test-silla.html', 'Test de la silla'), ('test-sppb.html', 'Test SPPB'), ('prension.html', 'Fuerza de prensión'), ('cintura-altura.html', 'Cintura y altura')]),
+             ('Planifica tu entrenamiento', [('calculadora-1rm.html', 'Calculadora de 1RM'), ('volumen-semanal.html', 'Volumen semanal'), ('zonas-pulso.html', 'Zonas de pulso'), ('actividad-oms.html', '¿Llegas a la OMS?'), ('paron.html', '¿Cuánto pierdo si paro?')]),
+             ('Come y suplementa', [('calorias.html', 'Calorías de mantenimiento'), (CALC, 'Calculadora de proteína'), ('cafeina.html', 'Cafeína y sueño'), ('suplementos.html', 'Suplementos con evidencia')]),
+             ('Entrena seguro', [('revision-medica.html', '¿Necesito revisión médica?'), ('semaforo-dolor.html', 'Semáforo del dolor'), ('pauta-activa.html', 'Pauta Activa: medicación')])]
+_FLECHA = '<svg class="nav-fl" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1.5l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+def _cur(u, act): return ' class="aqui" aria-current="page"' if u == act else ''
+def _desp(i, t, cuerpo): return f'<div class="nav-g"><button type="button" class="nav-b" aria-expanded="false" aria-controls="nm-{i}">{t}{_FLECHA}</button><div class="nav-m nm-{i}" id="nm-{i}" hidden>{cuerpo}</div></div>'
+def nav(act=''):
+    ap = ''.join(f'<a class="nm-it" href="{u}"{_cur(u, act)}><b>{t}</b><small>{d}</small></a>' for u, t, d in APRENDE)
+    he = ''.join(f'<div class="nm-col"><p class="nm-h">{g}</p>' + ''.join(f'<a href="{u}"{_cur(u, act)}{" rel=\"noopener\"" if u.startswith("http") else ""}>{t}</a>' for u, t in L) + '</div>' for g, L in HERR_MENU)
+    he += f'<div class="nm-pie"><a href="herramientas.html"{_cur("herramientas.html", act)}>Ver todas las herramientas</a><a href="mis-resultados.html">Mis resultados</a></div>'
+    return (''.join(f'<a href="{u}"{_cur(u, act)}>{t}</a>' for u, t in PAGS[:3]) + _desp('aprende', 'Aprende', f'<div class="nm-rej">{ap}</div>')
+            + _desp('herr', 'Herramientas', f'<div class="nm-cols">{he}</div>') + f'<a href="dudas.html"{_cur("dudas.html", act)}>Dudas</a>')
+def nav_movil(act=''):
+    g = lambda t, L: f'<p class="mm-h">{t}</p>' + ''.join(f'<a href="{u}"{_cur(u, act)}>{n}</a>' for u, n in L)
+    return ('<a href="index.html">Inicio</a>' + g('Asesoría', PAGS[:3]) + g('Aprende', [(u, t) for u, t, _ in APRENDE[:7]])
+            + g('Herramientas', [('herramientas.html', 'Todas las herramientas'), ('pauta-activa.html', 'Pauta Activa'), ('calculadora-1rm.html', 'Calculadora de 1RM'), ('test-silla.html', 'Test de la silla'), ('zonas-pulso.html', 'Zonas de pulso'), ('mis-resultados.html', 'Mis resultados')])
+            + g('Ayuda', [('dudas.html', 'Dudas'), ('profesionales.html', 'Para profesionales')]))
 def cabecera(act=''):
     return f'''<a class="salto" href="#contenido">Saltar al contenido</a>
 <div class="avance" aria-hidden="true"><i id="avance"></i></div>
@@ -25,7 +48,7 @@ def cabecera(act=''):
   <nav aria-label="Páginas" id="nav">{nav(act)}</nav>
   <button class="tema" id="tema" type="button" aria-label="Cambiar entre tema claro y oscuro"><span class="sol">{ico("sol")}</span><span class="luna">{ico("luna")}</span></button>
   <a class="btn peq claro" href="{FORM}">Pedir plaza</a>
-  <details class="menu"><summary aria-label="Abrir el menú"><span></span></summary><div><a href="index.html">Inicio</a>{nav(act)}<a class="app" href="{APP}">Ya soy atleta: entrar</a></div></details>
+  <details class="menu"><summary aria-label="Abrir el menú"><span></span></summary><div class="mm">{nav_movil(act)}<a class="app" href="{APP}">Ya soy atleta: entrar</a></div></details>
 </div></div>'''
 ESCRIBE = ('mailto:' + _ent(os.environ['FBE_CORREO'])) if os.environ.get('FBE_CORREO') else FORM
 PIE = f'''<footer><div class="in">
