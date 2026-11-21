@@ -60,7 +60,7 @@
   function marca(t, ps) { var s = esc(t), p = ps.filter(function (x) { return x.length > 1; })[0]; if (!p) return s; var i = norm(s).indexOf(p); return i < 0 ? s : s.slice(0, i) + '<mark>' + s.slice(i, i + p.length) + '</mark>' + s.slice(i + p.length); }
   function pinta(ps) {
     act = res.length ? 0 : -1;
-    lista.innerHTML = res.length ? res.map(function (e, i) { return '<li role="option" id="bo-' + i + '" aria-selected="' + (i === act) + '"><a href="' + esc(e.u) + '"' + (e.x ? ' target="_blank" rel="noopener"' : '') + '><span class="bo-y">' + esc(e.y) + '</span><b>' + marca(e.t, ps) + '</b>' + (e.d ? '<small>' + esc(e.d.length > 110 ? e.d.slice(0, 108) + '…' : e.d) + '</small>' : '') + '</a></li>'; }).join('') : '<li class="bo-nada">Nada con esas palabras. Prueba con otra o mira las <a href="dudas.html">dudas</a>.</li>';
+    lista.innerHTML = res.length ? res.map(function (e, i) { return '<li role="option" data-k="' + ({ 'Herramienta': 'h', 'Página': 'p', 'Glosario': 'g', 'Duda': 'd', 'Mito': 'm', 'Guía': 'u', 'Empieza aquí': 'e', 'Boletín': 'b', 'Atajo': 'a' }[e.y] || 'p') + '" id="bo-' + i + '" aria-selected="' + (i === act) + '"><a href="' + esc(e.u) + '"' + (e.x ? ' target="_blank" rel="noopener"' : '') + '><span class="bo-y">' + esc(e.y) + '</span><b>' + marca(e.t, ps) + '</b>' + (e.d ? '<small>' + esc(e.d.length > 110 ? e.d.slice(0, 108) + '…' : e.d) + '</small>' : '') + '</a></li>'; }).join('') : '<li class="bo-nada">Nada con esas palabras. Prueba con otra o mira las <a href="dudas.html">dudas</a>.</li>';
     inp.setAttribute('aria-activedescendant', act >= 0 ? 'bo-0' : ''); D.getElementById('bo-n').textContent = ps.length ? res.length + (res.length === 1 ? ' resultado' : ' resultados') : 'Atajos';
   }
   function busca(q) {

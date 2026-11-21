@@ -3338,3 +3338,79 @@ html.letra-1 .sigue a b, html.letra-2 .sigue a b, html.letra-1 .sigue a small, h
 .hero .txt > .compartir-b { margin-top: 1.2rem; }
 @media print { .compartir-b, .qz, .plan-s { display: none !important; } }
 @media (prefers-reduced-motion: reduce) { .qz-barra i, .qz-b button, .pl-dias span, .mr-nota textarea, .aj-oir, .compartir-b { transition: none; } .qz-b button:hover:not(:disabled), .pl-dias input:checked + span, .compartir-b:active { transform: none; } }
+/* ===== 5 x 50 FUTURISTA - TANDA A (501-550): buscador, panel Aa, compartir e instalar ===== */
+/* Ventana del buscador como consola: borde de luz, rejilla, esquinas de visor */
+.busca-d { --bd-borde: linear-gradient(135deg, color-mix(in srgb, var(--marca-clara) 75%, transparent), color-mix(in srgb, var(--marca) 30%, transparent) 40%, color-mix(in srgb, var(--oro) 55%, transparent)); border: 1px solid transparent; background: linear-gradient(var(--sup), var(--sup)) padding-box, var(--bd-borde) border-box; }
+.busca-d::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: var(--rejilla); opacity: .35; mask-image: linear-gradient(180deg, #000, transparent 60%); -webkit-mask-image: linear-gradient(180deg, #000, transparent 60%); }
+.busca-d::after { content: ""; position: absolute; left: 10%; right: 10%; top: 0; height: 1px; background: var(--hilo); pointer-events: none; }
+.busca-d > * { position: relative; }
+.busca-d::backdrop { background: radial-gradient(120% 90% at 50% 10%, rgba(89, 62, 222, .35), rgba(10, 4, 34, .7) 70%); backdrop-filter: blur(6px) saturate(1.2); }
+.bd-cab { position: relative; }
+.bd-cab::after { content: ""; position: absolute; left: 1rem; right: 1rem; bottom: -1px; height: 2px; background: linear-gradient(90deg, var(--marca), var(--marca-clara), var(--oro)); transform: scaleX(0); transform-origin: left; transition: transform .45s cubic-bezier(.2, .7, .2, 1); }
+.busca-d:has(#bo-q:not(:placeholder-shown)) .bd-cab::after { transform: scaleX(1); }
+.bd-cab svg { filter: drop-shadow(0 0 6px color-mix(in srgb, var(--marca-clara) 60%, transparent)); transition: transform .35s cubic-bezier(.3, 1.6, .5, 1); }
+.busca-d:has(#bo-q:focus) .bd-cab svg { transform: rotate(-12deg) scale(1.08); }
+.bd-cab input { caret-color: var(--marca-clara); }
+.bd-cab input::placeholder { color: color-mix(in srgb, var(--tinta-2) 75%, transparent); }
+.bd-x { background: var(--fondo); box-shadow: 0 1px 0 var(--linea); }
+.bd-n { display: flex; align-items: center; gap: .5rem; }
+.bd-n::before { content: ""; width: .45rem; height: .45rem; border-radius: 50%; background: var(--verde); box-shadow: 0 0 8px var(--verde); }
+/* Resultados: color por tipo, barra de luz en el activo y entrada escalonada */
+.bd-l li { --k: var(--marca); }
+.bd-l li:has(.bo-y) { --k: var(--marca); }
+.bd-l .bo-y { color: var(--tinta); background: color-mix(in srgb, var(--k) 16%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--k) 35%, transparent); }
+.bd-l li a { position: relative; overflow: hidden; }
+.bd-l li[aria-selected="true"] a { background: linear-gradient(90deg, color-mix(in srgb, var(--k) 16%, transparent), transparent 85%); box-shadow: inset 3px 0 0 var(--k), 0 0 0 1px color-mix(in srgb, var(--k) 25%, transparent); }
+.bd-l li[aria-selected="true"] a::after { content: "\21B5"; position: absolute; right: .8rem; top: 50%; transform: translateY(-50%); font: 700 .8rem/1 var(--mono); color: var(--k); opacity: .8; }
+.bd-l li a:hover b { color: var(--acento); }
+@media (prefers-reduced-motion: no-preference) {
+  .bd-l li { animation: bd-li .28s cubic-bezier(.2, .7, .2, 1) both; }
+  .bd-l li:nth-child(2) { animation-delay: .02s; } .bd-l li:nth-child(3) { animation-delay: .04s; } .bd-l li:nth-child(4) { animation-delay: .06s; } .bd-l li:nth-child(5) { animation-delay: .08s; } .bd-l li:nth-child(n+6) { animation-delay: .1s; }
+}
+@keyframes bd-li { from { opacity: 0; translate: 0 6px; } }
+.bd-l mark { background: linear-gradient(transparent 55%, color-mix(in srgb, var(--oro) 55%, transparent) 55%); padding: 0; }
+.bd-pie { background: color-mix(in srgb, var(--fondo) 60%, transparent); font-family: var(--mono); font-size: .66rem; letter-spacing: .04em; text-transform: uppercase; }
+.bd-pie kbd { box-shadow: 0 2px 0 var(--linea); background: var(--sup); }
+.bd-ilus img { box-shadow: 0 0 0 1px color-mix(in srgb, var(--marca-clara) 30%, transparent); }
+/* Botones de la cabecera: anillo de luz */
+.busca-b, .ajustes-b { position: relative; }
+.busca-b::after, .ajustes-b::after { content: ""; position: absolute; inset: -3px; border-radius: 50%; background: conic-gradient(from 210deg, transparent, var(--marca-clara), transparent 40%); opacity: 0; transition: opacity .3s, transform .6s cubic-bezier(.2, .7, .2, 1); mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1px)); -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1px)); pointer-events: none; }
+.busca-b:hover::after, .ajustes-b:hover::after, .ajustes-b[aria-expanded="true"]::after { opacity: 1; transform: rotate(120deg); }
+.ajustes-b span { transition: letter-spacing .3s; }
+.ajustes-b:hover span { letter-spacing: .04em; }
+/* Panel de ajustes como cristal con borde de luz */
+.ajustes-p { border: 1px solid transparent; background: linear-gradient(var(--sup), var(--sup)) padding-box, linear-gradient(140deg, color-mix(in srgb, var(--marca-clara) 70%, transparent), transparent 45%, color-mix(in srgb, var(--oro) 45%, transparent)) border-box; overflow: hidden; }
+.ajustes-p::before { content: ""; position: absolute; inset: 0; background: var(--rejilla); opacity: .3; pointer-events: none; mask-image: linear-gradient(180deg, #000, transparent 70%); -webkit-mask-image: linear-gradient(180deg, #000, transparent 70%); }
+.ajustes-p > * { position: relative; }
+.aj-t { display: flex; align-items: center; gap: .5rem; }
+.aj-t::before { content: ""; width: .5rem; height: .5rem; border: 2px solid var(--acento); border-right-color: transparent; border-bottom-color: transparent; }
+.aj-t::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, color-mix(in srgb, var(--marca-clara) 50%, transparent), transparent); }
+.aj-seg { position: relative; background: var(--fondo); }
+.aj-seg button { position: relative; z-index: 1; transition: color .25s, background-color .25s; }
+.aj-seg button[aria-pressed="true"] { box-shadow: 0 0 14px -2px color-mix(in srgb, var(--marca) 80%, transparent); }
+.aj-fila input[type="checkbox"]:checked { box-shadow: 0 0 12px -2px var(--marca), inset 0 0 0 1px rgba(255, 255, 255, .2); }
+.aj-fila input[type="checkbox"]:checked::after { box-shadow: 0 0 8px rgba(255, 255, 255, .8); }
+.aj-fila { padding: .2rem 0; border-radius: .5rem; transition: background-color .2s; }
+.aj-fila:hover { background: color-mix(in srgb, var(--marca) 5%, transparent); }
+.aj-oir { position: relative; overflow: hidden; }
+.aj-oir[aria-pressed="true"] { box-shadow: 0 0 18px -4px var(--marca); }
+.aj-oir::after { content: ""; position: absolute; inset: 0; background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, .25) 50%, transparent 65%); translate: -120% 0; transition: translate .8s cubic-bezier(.2, .7, .2, 1); }
+.aj-oir:hover::after { translate: 120% 0; }
+.aj-img { box-shadow: 0 0 0 1px color-mix(in srgb, var(--marca-clara) 30%, transparent); }
+/* Compartir: cristal y onda al pulsar */
+.compartir-b { position: relative; overflow: hidden; backdrop-filter: blur(6px); background: rgba(255, 255, 255, .05); }
+.compartir-b svg { transition: transform .45s cubic-bezier(.3, 1.6, .5, 1); }
+.compartir-b:hover svg { transform: rotate(-18deg) scale(1.12); }
+.compartir-b::after { content: ""; position: absolute; left: 50%; top: 50%; width: 10px; height: 10px; margin: -5px; border-radius: 50%; background: rgba(164, 156, 255, .5); transform: scale(0); opacity: 0; pointer-events: none; }
+.compartir-b:active::after { animation: onda .5s ease-out; }
+@keyframes onda { 0% { transform: scale(0); opacity: .9; } 100% { transform: scale(18); opacity: 0; } }
+/* Aviso de instalar: borde que se enciende */
+.instala { position: relative; overflow: hidden; border: 1px solid transparent; background: linear-gradient(120deg, color-mix(in srgb, var(--marca) 10%, var(--sup)), var(--sup)) padding-box, linear-gradient(120deg, color-mix(in srgb, var(--marca-clara) 60%, transparent), color-mix(in srgb, var(--linea) 80%, transparent) 50%, color-mix(in srgb, var(--oro) 50%, transparent)) border-box; }
+.instala::after { content: ""; position: absolute; top: 0; bottom: 0; width: 40%; left: -40%; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .12), transparent); transition: left 1s cubic-bezier(.2, .7, .2, 1); pointer-events: none; }
+.instala:hover::after { left: 100%; }
+.instala-b { box-shadow: 0 0 18px -6px var(--marca); }
+.instala .sec-ic, .instala-img { transition: transform .4s cubic-bezier(.3, 1.6, .5, 1); }
+.instala:hover .sec-ic, .instala:hover .instala-img { transform: translateY(-3px) rotate(-4deg); }
+@media (prefers-reduced-motion: reduce) { .bd-cab::after, .bd-cab svg, .busca-b::after, .ajustes-b::after, .ajustes-b span, .aj-seg button, .aj-fila, .aj-oir::after, .compartir-b svg, .instala::after, .instala .sec-ic, .instala-img { transition: none; } .bd-l li, .compartir-b:active::after { animation: none; } .busca-d:has(#bo-q:focus) .bd-cab svg, .compartir-b:hover svg, .instala:hover .sec-ic, .instala:hover .instala-img, .busca-b:hover::after, .ajustes-b:hover::after { transform: none; } }
+.bd-l li[data-k="h"] { --k: var(--verde); } .bd-l li[data-k="g"] { --k: var(--oro); } .bd-l li[data-k="d"] { --k: var(--marca-clara); } .bd-l li[data-k="m"] { --k: var(--rojo); } .bd-l li[data-k="u"] { --k: color-mix(in srgb, var(--oro) 60%, var(--rojo)); } .bd-l li[data-k="e"] { --k: color-mix(in srgb, var(--verde) 50%, var(--marca)); } .bd-l li[data-k="b"] { --k: color-mix(in srgb, var(--marca) 60%, var(--tinta-2)); } .bd-l li[data-k="a"] { --k: var(--acento); }
+.bd-l li a { padding-right: 2.2rem; }
