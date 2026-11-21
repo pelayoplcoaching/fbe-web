@@ -17,6 +17,6 @@ for (const tema of ['dark', 'light']) {
 }
 const m = await b.newPage({ viewport: { width: 390, height: 844 } }); await m.goto('http://localhost:4399/index.html'); await m.waitForTimeout(400);
 await m.click('.menu summary'); await m.waitForTimeout(400); await m.screenshot({ path: `${SALIDA}/menu-movil.png` });
-ok(await m.evaluate(() => document.querySelectorAll('.menu .mm-h').length) === 4, 'menú del móvil con cuatro secciones');
+ok(await m.evaluate(() => [...document.querySelectorAll('.menu .mm-h')].map(x => x.textContent).join('|')) === 'Asesoría|Aprende|Herramientas|Por tema|Ayuda', 'menú del móvil con cinco secciones (Asesoría, Aprende, Herramientas, Por tema, Ayuda)');
 for (const w of [1000, 1100, 1180, 1400]) { const q = await b.newPage({ viewport: { width: w, height: 800 } }); await q.goto('http://localhost:4399/index.html'); await q.waitForTimeout(300); await q.click('.nav-b[aria-controls="nm-herr"]'); await q.waitForTimeout(300); const r = await q.evaluate(() => { const x = document.getElementById('nm-herr').getBoundingClientRect(); return [Math.round(x.left), Math.round(x.right), document.documentElement.scrollWidth]; }); ok(r[0] >= 0 && r[1] <= w && r[2] <= w, `desplegable dentro de la pantalla a ${w} px ${r}`); await q.close(); }
 console.log(mal ? 'FALLOS ' + mal : 'todo correcto'); await b.close(); s.close(); process.exit(0);

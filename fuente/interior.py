@@ -500,6 +500,7 @@ exec(open('herramientas.py', encoding='utf-8').read())  # cinco calculadoras de 
 exec(open('secciones.py', encoding='utf-8').read())  # Empieza aquí, Vídeos, Para profesionales y Mitos y evidencia (21/11/2026)
 exec(open('extras.py', encoding='utf-8').read())  # Glosario, archivo del boletín, Mis resultados, buscador y web instalable (21/11/2026)
 exec(open('fuentes.py', encoding='utf-8').read())  # Fuentes: todas las referencias, comprobadas en PubMed, y enlaces en herramientas, mitos y portada (21/11/2026, noche)
+exec(open('temas.py', encoding='utf-8').read())  # cinco páginas de tema: envejecer, medicación, dolor, nutrición y poco tiempo (21/11/2026, noche)
 exec(open('autoria.py', encoding='utf-8').read())  # firma y fecha en las páginas de salud y «Cómo trabajo la evidencia» (21/11/2026, noche)
 exec(open('extras2.py', encoding='utf-8').read())  # test de mitos, plan semanal con calendario, datos estructurados e imagen para compartir de cada página (21/11/2026)
 exec(open('siguiente.py', encoding='utf-8').read())  # «¿Y ahora qué?» bajo cada calculadora, según el resultado (21/11/2026, noche)
