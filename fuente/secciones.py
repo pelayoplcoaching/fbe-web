@@ -86,6 +86,7 @@ EA_PERF = [
 EA_TRES = [('Aprender', 'libro', [('guias.html', 'Guías'), ('newsletter.html', 'Newsletter'), ('videos.html', 'Vídeos'), ('mitos.html', 'Mitos y evidencia'), ('dudas.html', 'Dudas')]),
            ('Medir', 'grafica', [('herramientas.html', 'Todas las herramientas'), ('pauta-activa.html', 'Pauta Activa'), (CALC, 'Calculadora de proteína'), ('test-sppb.html', 'Test SPPB'), ('calculadora-1rm.html', 'Calculadora de 1RM')]),
            ('Trabajar conmigo', 'chat', [('programas.html', 'Programas'), ('puesta-a-punto.html', 'Puesta a punto'), (FORM, 'Pedir plaza'), ('quien-soy.html', 'Quién soy')])]
+EA_IMG_OK = _todas(*[f'ea-{p}' for p, _, _, _ in EA_PERF])  # bloque W10: una imagen por perfil, solo si estan las seis
 EA_JS = r'''(function(){var g=document.getElementById('ea-perfil');if(!g)return;var bs=[].slice.call(g.querySelectorAll('button')),rs=[].slice.call(document.querySelectorAll('.ea-ruta'));
 function pon(p,url){if(!rs.some(function(r){return r.dataset.p===p}))return false;bs.forEach(function(b){b.setAttribute('aria-pressed',b.dataset.p===p)});rs.forEach(function(r){r.hidden=r.dataset.p!==p});if(url){try{history.replaceState(null,'','#'+p)}catch(e){}}return true}
 bs.forEach(function(b){b.addEventListener('click',function(){pon(b.dataset.p,true)})});
@@ -95,7 +96,7 @@ pagina('empieza-aqui.html', 'Empieza aquí', 'Por dónde empezar en Fuerza Basad
 <section><div class="in">
   <div class="empieza sube"><div><h2>¿Cuál se parece más a ti?</h2><p>Elige uno. Puedes cambiar cuando quieras.</p></div>
     <div class="fases claras" id="ea-perfil" role="group" aria-label="Tu caso">{"".join(f'<button type="button" data-p="{p}" aria-pressed="{"true" if k == 0 else "false"}">{t}</button>' for k, (p, t, _, _) in enumerate(EA_PERF))}</div></div>
-  {"".join(f'<div class="ea-ruta sube" data-p="{p}"><h3>{t}</h3><p>{d}</p><ol class="ea-pasos">{"".join(ea_paso(n + 1, *x) for n, x in enumerate(xs))}</ol></div>' for p, t, d, xs in EA_PERF)}
+  {"".join(f'<div class="ea-ruta sube" data-p="{p}"><div class="ea-top"><div><h3>{t}</h3><p>{d}</p></div>{ilus(f"ea-{p}", "ea-img") if EA_IMG_OK else ""}</div><ol class="ea-pasos">{"".join(ea_paso(n + 1, *x) for n, x in enumerate(xs))}</ol></div>' for p, t, d, xs in EA_PERF)}
 </div></section>
 <section class="hoja"><div class="in"><div class="entrada sube"><h2>Todo lo que hay en la web</h2><p>En tres verbos, por si prefieres ir a tu aire.</p></div>
   <div class="ea-tres">{"".join(f'<div class="ea-col sube">{sec_ic(i)}<h3>{t}</h3><ul>{"".join(f"<li><a href=\"{u}\"{_ext(u)}>{n}</a></li>" for u, n in xs)}</ul></div>' for t, i, xs in EA_TRES)}</div>
@@ -173,7 +174,7 @@ pagina('profesionales.html', 'Para profesionales sanitarios', 'Para médicos, en
   <div class="sube"><div class="entrada"><h2>Sesiones, charlas y formación</h2></div><p class="pro-lead">Si organizas una sesión clínica, un curso o unas jornadas, puedo hablar de fuerza y medicación con casos reales. Cuéntame el público, el formato y la fecha, y te digo si puedo.</p>
     <ul class="pro-cred">{"".join(f"<li>{x}</li>" for x in PRO_CRED)}</ul>
     <div class="vid-cta"><a class="btn" href="{_MAIL_S}">Escribirme</a></div>{'<p class="sec-enl"><b>Entrevistas y formación</b><a href="medios.html">En los medios</a></p>' if len(MEDIOS) >= 2 else ''}</div>
-  <div class="sube"><h3 class="pro-h3">{sec_ic("micro")}Algunos temas</h3><ul class="pro-temas">{"".join(f"<li>{x}</li>" for x in PRO_TEMAS)}</ul></div>
+  <div class="sube">{ilus("pro-charlas", "pro-img")}<h3 class="pro-h3">{sec_ic("micro")}Algunos temas</h3><ul class="pro-temas">{"".join(f"<li>{x}</li>" for x in PRO_TEMAS)}</ul></div>
 </div></section>''', cta=f'<div class="cta"><a class="btn claro" href="{PA}" rel="noopener">Abrir Pauta Activa</a><a class="enl" href="#charlas">Charlas y formación</a></div>',
        cierre_t=('¿Y tú, entrenas?', 'Los sanitarios también tenemos guardias y poco tiempo. Cuéntame tu caso.'), fijo=_FIJO_PRO)
 
@@ -210,8 +211,9 @@ MITOS = [
      'Con las mismas series a la semana, repartirlas en uno, dos o tres días da un crecimiento muy parecido (revisión de 25 estudios). Entrenar más días ayuda sobre todo porque facilita hacer más series. Elige la frecuencia que puedas sostener.',
      'Schoenfeld BJ, Grgic J, Krieger J. J Sports Sci. 2019;37:1286-95.', ('volumen-semanal.html', 'Cuenta tus series por músculo')),
 ]
+MITO_IMG_OK = _todas(*[f'mito-{m[0]}' for m in MITOS])  # bloque W10: una imagen por mito, solo si estan las nueve
 def mito_html(id_, t, frase, ver, ver_t, tipo, txt, fuente, enl):
-    return (f'<article class="mito sube" id="{id_}" data-t="{t}" data-ver="{ver}"><details><summary><span class="mito-tipo">{tipo}</span>'
+    return (f'<article class="mito sube" id="{id_}" data-t="{t}" data-ver="{ver}"><details><summary>{ilus(f"mito-{id_}", "mito-img") if MITO_IMG_OK else ""}<span class="mito-tipo">{tipo}</span>'
             f'<span class="mito-frase">«{frase}»</span><span class="mito-abre">Qué dicen los estudios</span></summary>'
             f'<div class="mito-cuerpo"><p class="mito-ver"><b>{ver_t or MITO_VER[ver]}</b></p><p>{txt}</p><p class="mito-fuente"><b>Fuente</b> {fuente}</p>'
             f'<a class="mito-enl" href="{enl[0]}"{_ext(enl[0])}>{enl[1]}</a></div></details></article>')
