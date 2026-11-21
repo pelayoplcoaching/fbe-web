@@ -26,6 +26,13 @@
 <p class="supl-enl"><a class="btn claro" href="https://calculadoradeproteina.fuerzabasadaenevidencia.com/" rel="noopener">Calcula tu proteína</a></p>
 <button type="button" class="copiar-t" id="k-copiar" hidden><span>Copiar resultado</span></button></div>
 </div></div></section>
+<section class="ya-s" id="ya" hidden aria-labelledby="ya-h"><div class="in"><div class="ya-caja"><h2 class="ya-h" id="ya-h">¿Y ahora qué?</h2><div class="ya-rej" data-z="def" hidden><p class="ya-st">Para seguir:</p><div class="ya-ts"><a class="ya-t" href="https://calculadoradeproteina.fuerzabasadaenevidencia.com/" rel="noopener"><small>Herramienta</small><b>Calcula tu proteína</b></a><a class="ya-t" href="cintura-altura.html"><small>Herramienta</small><b>Cintura y altura</b></a><a class="ya-t" href="programas.html"><small>Con Pelayo</small><b>Un programa que se ajusta cada semana</b></a></div></div></div></div></section><script>(function(){var s=document.getElementById('ya'),res=document.querySelector('.tool-res');if(!s||!res)return;
+var cp=res.querySelector('.copiar-t:not(.guardar)'),rs=[].slice.call(s.querySelectorAll('.ya-rej'));
+function pinta(){var z=['z-alto','z-medio','z-bajo'].filter(function(c){return res.classList.contains(c)})[0]||'def',hay=z!=='def'||(cp?!cp.hidden:true);
+var r=rs.filter(function(x){return x.dataset.z===z})[0]||rs.filter(function(x){return x.dataset.z==='def'})[0]||null;
+s.hidden=!(hay&&r);rs.forEach(function(x){x.hidden=x!==r});s.dataset.z=z}
+var mo=new MutationObserver(pinta);mo.observe(res,{attributes:true,attributeFilter:['class']});if(cp)mo.observe(cp,{attributes:true,attributeFilter:['hidden']});pinta();})();</script>
+
 
 <section class="hoja"><div class="in"><div class="entrada sube"><h2>Cómo se interpreta</h2></div>
   <div class="tool-explica sube"><p>El gasto en reposo se calcula con la ecuación de <b>Mifflin-St Jeor</b>, la que mejor acierta en adultos según la revisión de Frankenfield y cols.: queda dentro de un margen del 10 % en la mayoría de las personas, aunque se equivoca más en algunas.</p>

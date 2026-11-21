@@ -4087,3 +4087,25 @@ html.contraste .bol-it > .bol-txt::before { display: none; }
 @media (min-width: 900px) { .hb-barra { grid-template-columns: minmax(0, 22rem) minmax(0, 1fr); align-items: center; } .hb-n { grid-column: 1 / -1; } }
 #hb-f button em { font-style: normal; margin-left: .4rem; padding: .12rem .38rem; border-radius: .35rem; background: color-mix(in srgb, var(--marca) 12%, transparent); font: 600 .7rem/1.2 var(--mono); font-variant-numeric: tabular-nums; }
 #hb-f button[aria-pressed="true"] em { background: rgba(255, 255, 255, .22); color: #fff; }
+/* ===== Y AHORA QUE (21/11/2026, noche): siguiente paso bajo cada calculadora ===== */
+.ya-s { padding-top: 0; }
+.ya-s[hidden] { display: none; }
+.ya-caja { --z: var(--marca-clara); position: relative; overflow: hidden; padding: clamp(1.1rem, 3vw, 1.6rem); border-radius: 1.4rem; border: 1px solid transparent; background: linear-gradient(var(--sup), var(--sup)) padding-box, linear-gradient(135deg, color-mix(in srgb, var(--z) 70%, transparent), color-mix(in srgb, var(--linea) 80%, transparent) 50%) border-box; box-shadow: var(--sombra-s); }
+.ya-s[data-z="z-alto"] .ya-caja { --z: var(--verde); } .ya-s[data-z="z-medio"] .ya-caja { --z: var(--oro); } .ya-s[data-z="z-bajo"] .ya-caja { --z: var(--rojo); }
+.ya-caja::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--z); box-shadow: 0 0 10px color-mix(in srgb, var(--z) 55%, transparent); }
+.ya-h { margin: 0 0 .2rem; font-size: clamp(1.2rem, 2.6vw, 1.5rem); display: flex; align-items: center; gap: .6rem; }
+.ya-h::before { content: ""; width: .55rem; height: .55rem; border-radius: 50%; background: var(--z); box-shadow: 0 0 0 3px color-mix(in srgb, var(--z) 22%, transparent), 0 0 10px var(--z); }
+.ya-rej[hidden] { display: none; }
+.ya-st { margin: 0 0 .9rem; color: var(--tinta-2); }
+.ya-ts { display: grid; gap: .7rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); }
+.ya-t { position: relative; display: grid; align-content: start; gap: .25rem; padding: .9rem 2.4rem .9rem 1rem; border-radius: 1rem; border: 1px solid var(--linea); background: var(--fondo); color: var(--tinta); text-decoration: none; transition: border-color .2s, box-shadow .2s, translate .25s cubic-bezier(.2, .7, .2, 1); }
+.ya-t small { font: 600 .64rem/1.2 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--acento); }
+.ya-t b { font-weight: 700; line-height: 1.3; }
+.ya-t::after { content: "\2192"; position: absolute; right: 1rem; top: 50%; translate: 0 -50%; color: var(--acento); font-weight: 800; transition: translate .25s cubic-bezier(.2, .7, .2, 1); }
+.ya-t:hover { border-color: color-mix(in srgb, var(--z) 60%, var(--linea)); box-shadow: 0 0 0 3px color-mix(in srgb, var(--z) 14%, transparent), 0 14px 30px -22px var(--z); translate: 0 -2px; }
+.ya-t:hover::after { translate: 4px -50%; }
+.ya-t:focus-visible { outline: 2px solid var(--marca); outline-offset: 3px; }
+@media (prefers-reduced-motion: no-preference) { .ya-s:not([hidden]) .ya-rej:not([hidden]) .ya-t { animation: ya-entra .4s cubic-bezier(.2, .7, .2, 1) backwards; } .ya-t:nth-child(2) { animation-delay: .06s; } .ya-t:nth-child(3) { animation-delay: .12s; } }
+@keyframes ya-entra { from { opacity: 0; translate: 0 8px; } }
+@media (prefers-reduced-motion: reduce) { .ya-t, .ya-t::after { transition: none; } .ya-t:hover { translate: none; } }
+@media print { .ya-s { display: none !important; } }

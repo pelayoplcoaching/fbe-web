@@ -29,6 +29,13 @@
 <p class="res-texto" id="r-r-txt"></p>
 <div class="discos-caja"><p class="tool-et" id="r-discos-et">Discos para el 1RM</p><svg class="discos" id="r-discos" viewBox="0 0 320 120" role="img" aria-label="Discos por lado de la barra"></svg><p class="res-texto discos-t" id="r-discos-t"></p></div></div>
 </div></div></section>
+<section class="ya-s" id="ya" hidden aria-labelledby="ya-h"><div class="in"><div class="ya-caja"><h2 class="ya-h" id="ya-h">¿Y ahora qué?</h2><div class="ya-rej" data-z="def" hidden><p class="ya-st">Para seguir:</p><div class="ya-ts"><a class="ya-t" href="volumen-semanal.html"><small>Herramienta</small><b>Cuenta tus series de la semana</b></a><a class="ya-t" href="mitos.html#fallo"><small>Mito</small><b>¿Hay que llegar al fallo para crecer?</b></a><a class="ya-t" href="programas.html"><small>Con Pelayo</small><b>Un programa que se ajusta cada semana</b></a></div></div></div></div></section><script>(function(){var s=document.getElementById('ya'),res=document.querySelector('.tool-res');if(!s||!res)return;
+var cp=res.querySelector('.copiar-t:not(.guardar)'),rs=[].slice.call(s.querySelectorAll('.ya-rej'));
+function pinta(){var z=['z-alto','z-medio','z-bajo'].filter(function(c){return res.classList.contains(c)})[0]||'def',hay=z!=='def'||(cp?!cp.hidden:true);
+var r=rs.filter(function(x){return x.dataset.z===z})[0]||rs.filter(function(x){return x.dataset.z==='def'})[0]||null;
+s.hidden=!(hay&&r);rs.forEach(function(x){x.hidden=x!==r});s.dataset.z=z}
+var mo=new MutationObserver(pinta);mo.observe(res,{attributes:true,attributeFilter:['class']});if(cp)mo.observe(cp,{attributes:true,attributeFilter:['hidden']});pinta();})();</script>
+
 <section class="tool-s"><div class="in"><div class="entrada sube"><h2>Con qué peso trabajar</h2><p>Busca la fila de las repeticiones que quieres hacer y la columna de las que quieres dejar en reserva. La casilla marcada es tu serie; toca cualquier otra para ver sus discos.</p></div>
 <div class="tabla-t-cab sube"><p class="tabla-t-cap" id="r-cap"></p><button type="button" class="copiar-t" id="r-copiar"><span>Copiar tabla</span></button></div>
 <div class="tabla-t-caja sube"><table class="tabla-t" id="r-tabla"><thead><tr><th scope="col">Repeticiones</th><th scope="col">Al fallo<small>RIR 0</small></th><th scope="col">1 en reserva<small>RIR 1</small></th><th scope="col">2 en reserva<small>RIR 2</small></th><th scope="col">3 en reserva<small>RIR 3</small></th></tr></thead><tbody></tbody></table></div></div></section>

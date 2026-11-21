@@ -8,7 +8,7 @@ for (const pag of pags) for (const w of [1280, 1100, 390]) {
   const r = await p.evaluate(() => {
     const out = [];
     const caja = (e) => { for (let a = e.parentElement; a && a !== document.body; a = a.parentElement) { const cs = getComputedStyle(a); if (['SECTION', 'MAIN', 'HEADER', 'FOOTER', 'NAV', 'FORM'].includes(a.tagName) && !a.className) continue; const bg = cs.backgroundColor !== 'rgba(0, 0, 0, 0)' || cs.backgroundImage !== 'none'; const bd = parseFloat(cs.borderLeftWidth) > 0 && parseFloat(cs.borderRightWidth) > 0; if ((bg || bd) && parseFloat(cs.borderTopLeftRadius) > 4) return a; } return null; };
-    for (const e of document.querySelectorAll('main *, header.hero *, footer *')) {
+    for (const e of document.querySelectorAll('main *, .hero *, footer *')) {
       if (e.closest('[aria-hidden="true"],[hidden],.cinta,.carril,.recetas,.tabla-t-caja,.tabla-marco,svg,dialog,.sr,.oculto')) continue;
       const hasText = [...e.childNodes].some(n => n.nodeType === 3 && n.textContent.trim()); if (!hasText) continue;
       const r = e.getBoundingClientRect(); if (!r.width || !r.height) continue;
