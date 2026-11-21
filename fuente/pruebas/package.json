@@ -1,0 +1,14 @@
+{
+  "name": "fbe-web-pruebas",
+  "private": true,
+  "type": "module",
+  "description": "Pruebas automáticas de la web de Fuerza Basada en Evidencia",
+  "scripts": {
+    "todas": "node todas.mjs",
+    "rapidas": "node todas.mjs rapidas",
+    "accesibilidad": "node accesibilidad.mjs"
+  },
+  "devDependencies": {
+    "axe-core": "^4.10.0"
+  }
+}

@@ -1,0 +1,17 @@
+import { chromium, servir, RAIZ, SALIDA, paginas } from './comun.mjs';
+await servir(RAIZ, 4312);
+const U = 'http://localhost:4312/'; const b = await chromium.launch(); const p = await b.newPage(); let mal = 0;
+const ok = (c, t) => { console.log((c ? '✔ ' : '✘ ') + t); if (!c) mal++; };
+await p.goto(U + 'glosario.html'); await p.fill('#glos-q', 'fuerza'); await p.waitForTimeout(200);
+ok(await p.locator('.term:not([hidden]) mark.res').count() > 3, 'glosario resalta');
+await p.fill('#glos-q', ''); await p.waitForTimeout(200);
+ok(await p.locator('mark.res').count() === 0, 'glosario limpia');
+ok((await p.textContent('#cafeina h3')) === 'Cafeína', 'texto intacto');
+await p.fill('#glos-q', 'cafeina'); await p.waitForTimeout(200);
+ok(await p.locator('#cafeina h3 mark.res').textContent() === 'Cafeína', 'resalta con tilde');
+await p.goto(U + 'boletin.html?q=creatina'); await p.waitForTimeout(300);
+ok(await p.locator('.bol-it:not([hidden]) mark.res').count() >= 5, 'boletin resalta desde ?q=');
+ok((await p.locator('.bol-mes:not([hidden]) .bol-c').first().textContent()) === '1', 'contador por mes');
+const errs = []; p.on('pageerror', e => errs.push(e.message)); await p.goto(U + 'glosario.html#sarcopenia'); await p.waitForTimeout(800);
+ok(await p.locator('.glos-letras a.aqui').count() === 1, 'letra activa'); ok(errs.length === 0, 'sin errores ' + errs.join());
+console.log(mal ? 'FALLOS ' + mal : 'todo correcto'); await b.close(); process.exit(0);

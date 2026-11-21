@@ -1,5 +1,4 @@
-import { chromium } from '/opt/npm-tools/node_modules/playwright/index.mjs';
-import { servir } from '/home/claude/app-atletas/test/servidor.mjs';
+import { chromium, servir } from './pruebas/comun.mjs';
 await servir((process.env.FBE_SAL || '..'), 4196);
 const b = await chromium.launch();
 const pags = ['index', 'quien-soy', 'programas', 'puesta-a-punto', 'guias', 'newsletter', 'dudas', '404'];
