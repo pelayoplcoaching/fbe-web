@@ -1,5 +1,5 @@
 (function () { var n = 0; [].forEach.call(document.querySelectorAll('.entrada'), function (e) { if (e.closest('.cierre, .lema-banda')) return; n++; e.setAttribute('data-n', (n < 10 ? '0' : '') + n); }); })();
-(function () { if (!window.matchMedia || !matchMedia('(pointer: fine)').matches || matchMedia('(prefers-reduced-motion: reduce)').matches) return; document.addEventListener('pointermove', function (e) { var c = e.target && e.target.closest && e.target.closest('.plan, .guia, .idea, .correo, .voz, .pegada'); if (!c) return; var r = c.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top; c.style.setProperty('--lx', x + 'px'); c.style.setProperty('--ly', y + 'px'); if (c.classList.contains('guia') || c.classList.contains('plan')) { c.style.setProperty('--ry', ((x / r.width - 0.5) * 4).toFixed(2) + 'deg'); c.style.setProperty('--rx', ((0.5 - y / r.height) * 4).toFixed(2) + 'deg'); } }, { passive: true }); })();
+(function () { if (!window.matchMedia || !matchMedia('(pointer: fine)').matches || matchMedia('(prefers-reduced-motion: reduce)').matches) return; document.addEventListener('pointermove', function (e) { if (document.documentElement.classList.contains('quieto')) return; var c = e.target && e.target.closest && e.target.closest('.plan, .guia, .idea, .correo, .voz, .pegada'); if (!c) return; var r = c.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top; c.style.setProperty('--lx', x + 'px'); c.style.setProperty('--ly', y + 'px'); if (c.classList.contains('guia') || c.classList.contains('plan')) { c.style.setProperty('--ry', ((x / r.width - 0.5) * 4).toFixed(2) + 'deg'); c.style.setProperty('--rx', ((0.5 - y / r.height) * 4).toFixed(2) + 'deg'); } }, { passive: true }); })();
 (function () {
   var D = document, quieto = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   function $(s) { return D.querySelector(s); } function $$(s) { return [].slice.call(D.querySelectorAll(s)); }
@@ -56,7 +56,7 @@
   function mueve(d) { if (!res.length) return; act = (act + d + res.length) % res.length; [].forEach.call(lista.children, function (li, i) { li.setAttribute('aria-selected', i === act); }); var li = lista.children[act]; inp.setAttribute('aria-activedescendant', li.id); li.scrollIntoView({ block: 'nearest' }); }
   function crea() {
     dlg = D.createElement('dialog'); dlg.className = 'busca-d'; dlg.setAttribute('aria-label', 'Buscar en la web');
-    dlg.innerHTML = '<div class="bd-cab"><svg viewBox="0 0 24 24" aria-hidden="true">' + LUPA + '</svg><input type="search" id="bo-q" placeholder="Busca: creatina, rodilla, proteína…" autocomplete="off" role="combobox" aria-expanded="true" aria-controls="bo-l" aria-label="Buscar en la web"><button type="button" class="bd-x" aria-label="Cerrar">Esc</button></div><p class="bd-n" id="bo-n" role="status"></p><ul class="bd-l" id="bo-l" role="listbox" aria-label="Resultados"></ul><p class="bd-pie"><span><kbd>↑</kbd><kbd>↓</kbd> moverte</span><span><kbd>Intro</kbd> abrir</span><span><kbd>Esc</kbd> cerrar</span></p>';
+    dlg.innerHTML = '<div class="bd-cab"><svg viewBox="0 0 24 24" aria-hidden="true">' + LUPA + '</svg><input type="search" id="bo-q" placeholder="Busca: creatina, rodilla, proteína…" autocomplete="off" role="combobox" aria-expanded="true" aria-controls="bo-l" aria-label="Buscar en la web"><button type="button" class="bd-x" aria-label="Cerrar">Esc</button></div>' + ((D.documentElement.getAttribute('data-fbe-img') || '').indexOf('busca') >= 0 ? '<div class="bd-ilus" aria-hidden="true"><img src="img/web-buscador.webp" alt="" decoding="async"></div>' : '') + '<p class="bd-n" id="bo-n" role="status"></p><ul class="bd-l" id="bo-l" role="listbox" aria-label="Resultados"></ul><p class="bd-pie"><span><kbd>↑</kbd><kbd>↓</kbd> moverte</span><span><kbd>Intro</kbd> abrir</span><span><kbd>Esc</kbd> cerrar</span></p>';
     D.body.appendChild(dlg); inp = dlg.querySelector('input'); lista = dlg.querySelector('ul');
     inp.addEventListener('input', function () { pide().then(function () { busca(inp.value); }); });
     inp.addEventListener('keydown', function (e) { if (e.key === 'ArrowDown') { e.preventDefault(); mueve(1); } else if (e.key === 'ArrowUp') { e.preventDefault(); mueve(-1); } else if (e.key === 'Enter' && act >= 0) { e.preventDefault(); var a = lista.children[act].querySelector('a'); if (a) a.click(); } else if (e.key === 'Escape') { e.preventDefault(); dlg.close(); } });
@@ -77,4 +77,28 @@
   }
   [].forEach.call(D.querySelectorAll('.instala-b'), function (bb) { bb.addEventListener('click', function () { if (!dif) return; dif.prompt(); dif.userChoice.then(function () { dif = null; ins(false); }); }); });
   addEventListener('appinstalled', function () { ins(false); });
+})();
+/* Ajustes de lectura: tamano del texto, contraste alto y sin animaciones (localStorage fbe-lectura; la clase se pone antes en la cabecera de cada pagina) */
+(function () {
+  var D = document, R = D.documentElement, K = 'fbe-lectura', a = {}, b, p;
+  try { a = JSON.parse(localStorage.getItem(K) || '{}') || {}; } catch (e) {}
+  function aplica() { R.classList.toggle('letra-1', a.l === 1); R.classList.toggle('letra-2', a.l === 2); R.classList.toggle('contraste', !!a.c); R.classList.toggle('quieto', !!a.q); }
+  function pinta() { if (!p) return; [].forEach.call(p.querySelectorAll('[data-l]'), function (x) { x.setAttribute('aria-pressed', String((a.l || 0) === +x.dataset.l)); }); [].forEach.call(p.querySelectorAll('[data-k]'), function (x) { x.checked = !!a[x.dataset.k]; }); b.classList.toggle('activo', !!(a.l || a.c || a.q)); }
+  function guarda() { try { if (a.l || a.c || a.q) localStorage.setItem(K, JSON.stringify(a)); else localStorage.removeItem(K); } catch (e) {} aplica(); pinta(); }
+  aplica();
+  var cab = D.querySelector('.cab .in'); if (!cab) return;
+  b = D.createElement('button'); b.type = 'button'; b.className = 'ajustes-b'; b.setAttribute('aria-label', 'Ajustes de lectura'); b.setAttribute('aria-expanded', 'false'); b.setAttribute('aria-controls', 'ajustes-p'); b.title = 'Ajustes de lectura'; b.innerHTML = '<span aria-hidden="true">Aa</span>';
+  var tema = D.getElementById('tema'); cab.insertBefore(b, tema && tema.parentNode === cab ? tema : null);
+  var img = (R.getAttribute('data-fbe-img') || '').indexOf('ajustes') >= 0 ? '<img class="aj-img" src="img/web-ajustes.webp" alt="" loading="lazy" decoding="async">' : '';
+  p = D.createElement('div'); p.className = 'ajustes-p'; p.id = 'ajustes-p'; p.setAttribute('role', 'dialog'); p.setAttribute('aria-label', 'Ajustes de lectura'); p.hidden = true;
+  p.innerHTML = img + '<p class="aj-t">Ajustes de lectura</p><div class="aj-fila"><span id="aj-l">Tamaño del texto</span><div class="aj-seg" role="group" aria-labelledby="aj-l"><button type="button" data-l="0">A</button><button type="button" data-l="1">A+</button><button type="button" data-l="2">A++</button></div></div><label class="aj-fila"><span>Contraste alto</span><input type="checkbox" role="switch" data-k="c"></label><label class="aj-fila"><span>Sin animaciones</span><input type="checkbox" role="switch" data-k="q"></label><div class="aj-pie"><button type="button" class="enl-b aj-reset">Volver a lo normal</button><span>Se guardan en este navegador.</span></div>';
+  D.body.appendChild(p);
+  function abre(v) { p.hidden = !v; b.setAttribute('aria-expanded', String(v)); if (v) { var r = b.getBoundingClientRect(); p.style.top = Math.round(r.bottom + 10) + 'px'; var w = p.offsetWidth; p.style.right = Math.round(Math.min(Math.max(8, innerWidth - r.right - 8), Math.max(8, innerWidth - w - 8))) + 'px'; } }
+  b.addEventListener('click', function () { abre(p.hidden); if (!p.hidden) { var f = p.querySelector('[aria-pressed="true"]') || p.querySelector('button'); if (f) f.focus(); } });
+  p.addEventListener('click', function (e) { var l = e.target.closest('[data-l]'); if (l) { a.l = +l.dataset.l; guarda(); } if (e.target.closest('.aj-reset')) { a = {}; guarda(); } });
+  p.addEventListener('change', function (e) { var k = e.target.dataset.k; if (k) { a[k] = e.target.checked; guarda(); } });
+  D.addEventListener('click', function (e) { if (!p.hidden && !p.contains(e.target) && !b.contains(e.target)) abre(false); });
+  D.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !p.hidden) { abre(false); b.focus(); } });
+  addEventListener('resize', function () { if (!p.hidden) abre(true); });
+  pinta();
 })();

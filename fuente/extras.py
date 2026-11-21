@@ -5,7 +5,7 @@
 #   cada envio enlaza a su vista web de MailerLite). Para anadir envios nuevos, anadir una linea a boletin.json.
 # - mis-resultados.html: junta lo que se guarda con «Guardar en Mis resultados» en las calculadoras (localStorage fbe-resultados).
 # - buscar.json: indice del buscador (lo usa luz.js). manifest.webmanifest y sw.js: web instalable y calculadoras sin conexion.
-import json as _json, hashlib as _hl, unicodedata as _ud, glob, os, re, html as _html
+import json as _json, hashlib as _hl, unicodedata as _ud, glob, os, re, shutil, html as _html
 
 I.update({
     'lupa': '<circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/>',
@@ -153,19 +153,28 @@ open(f'{SAL}/newsletter.html', 'w', encoding='utf-8').write(_p[:_j] + f'\n  <p c
 
 # ---------------------------------------------------------------------------------------------
 # Mis resultados
-INSTALA = '<div class="instala sube" hidden><div>' + sec_ic('carpeta') + '<p><b>Llévate las herramientas en el móvil.</b> Instálala como una app: funcionan también sin cobertura.</p></div><button type="button" class="btn peq instala-b">Instalar</button><p class="instala-ios" hidden>En iPhone: botón <b>Compartir</b> y después <b>Añadir a pantalla de inicio</b>.</p></div>'
-MR_JS = r'''(function(){var copiar=window.copiar||function(b,t){var s=b.querySelector('span'),o=s.textContent;function ok(){b.classList.add('hecho');s.textContent='Copiado';setTimeout(function(){b.classList.remove('hecho');s.textContent=o},1600)}if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(ok,function(){})};var K='fbe-resultados',L=document.getElementById('mr-lista'),V=document.getElementById('mr-vacio'),B=document.getElementById('mr-bots'),av=document.getElementById('mr-aviso'),des=null;
-function lee(){try{var o=JSON.parse(localStorage.getItem(K)||'{}');return o&&typeof o==='object'?o:{}}catch(e){return {}}}
+INSTALA = '<div class="instala sube" hidden><div>' + (ilus('web-instala', 'instala-img') or sec_ic('carpeta')) + '<p><b>Llévate las herramientas en el móvil.</b> Instálala como una app: funcionan también sin cobertura.</p></div><button type="button" class="btn peq instala-b">Instalar</button><p class="instala-ios" hidden>En iPhone: botón <b>Compartir</b> y después <b>Añadir a pantalla de inicio</b>.</p></div>'
+MR_JS = r'''(function(){var copiar=window.copiar||function(b,t){var s=b.querySelector('span'),o=s.textContent;function ok(){b.classList.add('hecho');s.textContent='Copiado';setTimeout(function(){b.classList.remove('hecho');s.textContent=o},1600)}if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(ok,function(){})};
+var K='fbe-resultados',L=document.getElementById('mr-lista'),V=document.getElementById('mr-vacio'),B=document.getElementById('mr-bots'),av=document.getElementById('mr-aviso'),des=null;
+function ent(v){return v&&v.h?v:{titulo:v&&v.titulo,h:v&&v.texto?[{t:v.t,texto:v.texto}]:[]}}
+function lee(){try{var o=JSON.parse(localStorage.getItem(K)||'{}');if(!o||typeof o!=='object')return {};Object.keys(o).forEach(function(k){o[k]=ent(o[k]);if(!o[k].h.length)delete o[k]});return o}catch(e){return {}}}
 function escribe(o){try{if(Object.keys(o).length)localStorage.setItem(K,JSON.stringify(o));else localStorage.removeItem(K)}catch(e){}}
 function esc(t){return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
-function todo(){var o=lee();return Object.keys(o).map(function(k){return [k,o[k]]}).sort(function(a,b){return (b[1].t||0)-(a[1].t||0)})}
-function pinta(){var a=todo();V.hidden=a.length>0;B.hidden=!a.length;L.innerHTML=a.map(function(x){var d=new Date(x[1].t||0);return '<article class="mr-it sube ya"><div class="mr-cab"><h3><a href="'+esc(x[0])+'">'+esc(x[1].titulo||x[0])+'</a></h3><time datetime="'+d.toISOString()+'">'+d.toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'})+' · '+d.toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'})+'</time></div><pre>'+esc(x[1].texto||'')+'</pre><div class="mr-pie"><a class="enl-h" href="'+esc(x[0])+'">Repetir</a><button type="button" class="copiar-t" data-k="'+esc(x[0])+'"><span>Copiar</span></button><button type="button" class="enl-b" data-borra="'+esc(x[0])+'">Borrar</button></div></article>'}).join('');
-  document.getElementById('mr-n').textContent=a.length?(a.length===1?'1 resultado guardado':a.length+' resultados guardados'):'Aún no has guardado nada'}
-L.addEventListener('click',function(e){var c=e.target.closest('.copiar-t'),b=e.target.closest('[data-borra]');var o=lee();if(c&&o[c.dataset.k])copiar(c,(o[c.dataset.k].titulo||'')+'\n'+o[c.dataset.k].texto);if(b){des=JSON.parse(JSON.stringify(o));delete o[b.dataset.borra];escribe(o);aviso('Borrado.');pinta()}});
+function fecha(t){var d=new Date(t||0);return d.toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'})+' · '+d.toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'})}
+function todo(){var o=lee();return Object.keys(o).map(function(k){return [k,o[k]]}).sort(function(a,b){return (b[1].h[0].t||0)-(a[1].h[0].t||0)})}
+function pinta(){var a=todo(),n=0;a.forEach(function(x){n+=x[1].h.length});V.hidden=a.length>0;B.hidden=!a.length;
+  L.innerHTML=a.map(function(x){var h=x[1].h,u=h[0];return '<article class="mr-it sube ya"><div class="mr-cab"><h3><a href="'+esc(x[0])+'">'+esc(x[1].titulo||x[0])+'</a></h3><time datetime="'+new Date(u.t||0).toISOString()+'">'+fecha(u.t)+'</time></div><pre>'+esc(u.texto||'')+'</pre>'
+    +(h.length>1?'<details class="mr-hist"><summary>Anteriores <em>'+(h.length-1)+'</em></summary><ol>'+h.slice(1).map(function(e,i){return '<li><time>'+fecha(e.t)+'</time><pre>'+esc(e.texto||'')+'</pre><button type="button" class="enl-b" data-borra-h="'+esc(x[0])+'" data-i="'+(i+1)+'">Borrar este</button></li>'}).join('')+'</ol></details>':'')
+    +'<div class="mr-pie"><a class="enl-h" href="'+esc(x[0])+'">Repetir</a><button type="button" class="copiar-t" data-k="'+esc(x[0])+'"><span>Copiar</span></button><button type="button" class="enl-b" data-borra="'+esc(x[0])+'">Borrar</button></div></article>'}).join('');
+  document.getElementById('mr-n').textContent=a.length?(n===1?'1 resultado guardado':n+' resultados guardados'):'Aún no has guardado nada'}
+L.addEventListener('click',function(e){var c=e.target.closest('.copiar-t'),b=e.target.closest('[data-borra]'),bh=e.target.closest('[data-borra-h]'),o=lee();
+  if(c&&o[c.dataset.k]){var h=o[c.dataset.k].h;copiar(c,(o[c.dataset.k].titulo||'')+'\n'+h[0].texto+(h.length>1?'\n\nAnteriores:\n'+h.slice(1).map(function(x){return new Date(x.t||0).toLocaleDateString('es-ES')+'\n'+x.texto}).join('\n\n'):''))}
+  if(b){des=JSON.parse(JSON.stringify(o));delete o[b.dataset.borra];escribe(o);aviso('Borrado.');pinta()}
+  if(bh&&o[bh.dataset.borraH]){des=JSON.parse(JSON.stringify(o));o[bh.dataset.borraH].h.splice(+bh.dataset.i,1);escribe(o);aviso('Borrado.');pinta()}});
 function aviso(t){av.innerHTML=t+' <button type="button" class="enl-b claro" id="mr-des">Deshacer</button>'}
 av.addEventListener('click',function(e){if(e.target.id==='mr-des'&&des){escribe(des);des=null;av.textContent='';pinta()}});
 document.getElementById('mr-imp').addEventListener('click',function(){window.print()});
-document.getElementById('mr-cop').addEventListener('click',function(){var t=todo().map(function(x){return (x[1].titulo||x[0])+' ('+new Date(x[1].t||0).toLocaleDateString('es-ES')+')\n'+x[1].texto}).join('\n\n');copiar(this,t)});
+document.getElementById('mr-cop').addEventListener('click',function(){var t=todo().map(function(x){return (x[1].titulo||x[0])+' ('+new Date(x[1].h[0].t||0).toLocaleDateString('es-ES')+')\n'+x[1].h[0].texto}).join('\n\n');copiar(this,t)});
 document.getElementById('mr-todo').addEventListener('click',function(){des=lee();escribe({});aviso('Todo borrado.');pinta()});
 addEventListener('storage',function(e){if(e.key===K)pinta()});
 pinta();})();'''
@@ -177,7 +186,7 @@ pagina('mis-resultados.html', 'Mis resultados', 'Tus resultados de las calculado
     <div class="mr-bots" id="mr-bots" hidden><button type="button" class="btn peq" id="mr-imp">Imprimir o guardar en PDF</button><button type="button" class="copiar-t" id="mr-cop"><span>Copiar todo</span></button><button type="button" class="enl-b" id="mr-todo">Borrar todo</button></div></div>
   <p class="vol-aviso" id="mr-aviso" role="status"></p>
   <div class="mr-lista" id="mr-lista"></div>
-  <div class="mr-vacio" id="mr-vacio"><p>Usa cualquier calculadora y pulsa <b>Guardar en Mis resultados</b>, junto a «Copiar». Aparecerá aquí con la fecha.</p><div class="herr-mas-rej">{_MR_H}</div></div>
+  <div class="mr-vacio" id="mr-vacio">{ilus('mr-vacio', 'mr-vacio-img')}<p>Usa cualquier calculadora y pulsa <b>Guardar en Mis resultados</b>, junto a «Copiar». Aparecerá aquí con la fecha. Si repites una prueba, se guardan las anteriores (hasta 12 por herramienta) para que veas tu evolución.</p><div class="herr-mas-rej">{_MR_H}</div></div>
   {INSTALA}
 </div></section>
 <script>{MR_JS}</script>''', padre=('herramientas.html', 'Herramientas'))
@@ -187,7 +196,7 @@ assert _a in _p
 _p = _p.replace(_a, f'<p class="sec-enl sube"><b>Lo tuyo</b><a href="mis-resultados.html">Mis resultados</a><a href="glosario.html">Glosario</a></p>\n  {INSTALA}\n  ' + _a, 1)
 open(f'{SAL}/herramientas.html', 'w', encoding='utf-8').write(_p)
 
-SEC_PAGS += ['glosario.html', 'boletin.html']
+SEC_PAGS += ['glosario.html', 'boletin.html'] + SEC_PAGS_H3
 
 # ---------------------------------------------------------------------------------------------
 # Indice del buscador (buscar.json): paginas y, dentro de ellas, dudas, mitos, guias, perfiles, terminos y envios del boletin
@@ -254,8 +263,17 @@ self.addEventListener('fetch', e => {
 '''
 _ver = _hl.sha1((_lee('fbe.css') + _lee('fbe.js') + _lee('buscar.json') + ''.join(_lee(u) for u in _PRE_SW if u.endswith('.html'))).encode('utf-8')).hexdigest()[:10]
 open(f'{SAL}/sw.js', 'w', encoding='utf-8').write(SW_JS.replace('__V__', _ver).replace('__PRE__', _json.dumps(_PRE_SW)))
+# Ilustraciones opcionales que pinta luz.js (buscador y ajustes de lectura): se copian si existen y se avisa con data-fbe-img
+_IMG_JS = [k for k, n in (('busca', 'web-buscador'), ('ajustes', 'web-ajustes')) if os.path.exists(f'web-img/{n}.webp')]
+for _k, _n in (('busca', 'web-buscador'), ('ajustes', 'web-ajustes')):
+    if _k in _IMG_JS: shutil.copy(f'web-img/{_n}.webp', f'{SAL}/img/{_n}.webp')
+# Ajustes de lectura antes de pintar (sin salto al cargar) y enlace al manifiesto en todas las paginas
+_LECT = "<script>try{var _a=JSON.parse(localStorage.getItem('fbe-lectura')||'{}')||{},_c=document.documentElement.classList;if(_a.l===1)_c.add('letra-1');if(_a.l===2)_c.add('letra-2');if(_a.c)_c.add('contraste');if(_a.q)_c.add('quieto')}catch(e){}</script>"
 _MAN = '<link rel="manifest" href="manifest.webmanifest">'
 for _f in glob.glob(f'{SAL}/*.html'):
     _t = open(_f, encoding='utf-8').read()
-    if _MAN not in _t and '</head>' in _t and 'http-equiv="refresh"' not in _t:
-        open(_f, 'w', encoding='utf-8').write(_t.replace('</head>', _MAN + '</head>', 1))
+    if '</head>' not in _t or 'http-equiv="refresh"' in _t: continue
+    _n = _t
+    if _MAN not in _n: _n = _n.replace('</head>', _MAN + _LECT + '</head>', 1)
+    if _IMG_JS and 'data-fbe-img=' not in _n: _n = re.sub(r'<html(\s|>)', lambda m: f'<html data-fbe-img="{" ".join(_IMG_JS)}"' + m.group(1), _n, count=1)
+    if _n != _t: open(_f, 'w', encoding='utf-8').write(_n)
