@@ -3273,6 +3273,113 @@ footer .legal a:hover { color: #fff; }
 .cierre .luego li { transition: background-color .25s, translate .3s; }
 .cierre .luego li:hover { background: rgba(255, 255, 255, .06); }
 @media (prefers-reduced-motion: reduce) { .metas button, .hero .flota, .franja li b, .rapido li svg, .serie button, .llama, .cifras li, .bento .caja, .bento .caja .ic, .alt-b button, .alt-r > svg, .bento .dorada::after, .galeria figure, .rc button, .ev-img, .cuatro li, .espera ol li, .espera ol li img, .sellos li, .encaje li, .priv li i, .caja-t .sn label span, .faq summary, .cierre .luego li { transition: none; } .metas button:hover, .metas button:active, .hero .flota:hover, .llama:hover, .cifras li:hover, .bento .caja:hover, .galeria figure:hover, .cuatro li:hover, .espera ol li:hover, .sellos li:hover, .encaje li:hover { translate: none; scale: none; transform: none; } .metas button[aria-pressed="true"]::before, .serie button[aria-pressed="true"], .rc button[aria-pressed="true"], .caja-t .sn input:checked + span, .veredicto:not([hidden]) { animation: none; } .faq details::details-content { transition: none; } }
+/* ===== OTRAS 5 x 50 MEJORAS EN GENERAL - TANDA 8 (351-400): Quien soy, Programas y Puesta a punto ===== */
+/* Quien soy: retrato y datos de cabecera */
+.retrato.xl img { transition: transform .8s cubic-bezier(.2, .7, .2, 1), filter .5s; }
+.retrato.xl:hover img { transform: scale(1.04); filter: saturate(1.08) contrast(1.03); }
+@media (prefers-reduced-motion: no-preference) { .hero.mini .retrato.xl { animation: retrato-entra .9s cubic-bezier(.2, .7, .2, 1) .1s both; } }
+@keyframes retrato-entra { from { opacity: 0; translate: 0 18px; rotate: 2deg; } }
+.hero.mini .datos li { transition: translate .25s cubic-bezier(.2, .7, .2, 1); }
+.hero.mini .datos li:hover { translate: 0 -2px; }
+.hero.mini .datos b { transition: text-shadow .3s; }
+.hero.mini .datos li:hover b { text-shadow: 0 0 1.2rem rgba(240, 198, 116, .7); }
+/* Quien soy: linea de tiempo que se dibuja al bajar */
+.linea { position: relative; }
+@supports (animation-timeline: view()) { @media (prefers-reduced-motion: no-preference) {
+  .linea::before { content: ""; position: absolute; left: -2px; top: 0; width: 2px; height: 100%; background: linear-gradient(var(--marca-clara), var(--oro)); transform-origin: top; animation: linea-dibuja linear both; animation-timeline: view(); animation-range: entry 20% cover 60%; box-shadow: 0 0 .7rem var(--marca-clara); }
+  .linea li::before { animation: punto-llega linear both; animation-timeline: view(); animation-range: entry 30% entry 80%; }
+} }
+@keyframes linea-dibuja { from { transform: scaleY(0); } }
+@keyframes punto-llega { from { scale: 0; } }
+.linea li { transition: translate .3s cubic-bezier(.2, .7, .2, 1); }
+.linea li:hover { translate: 4px 0; }
+.linea li h3 { transition: color .2s; }
+.linea li:hover h3 { color: var(--acento); }
+/* Quien soy: ficha de formacion */
+.pegada { transition: box-shadow .35s, border-color .35s; }
+.pegada:hover { box-shadow: var(--sombra), 0 0 0 1px color-mix(in srgb, var(--marca) 30%, transparent); }
+.redes a { transition: translate .25s cubic-bezier(.3, 1.4, .5, 1), background-color .2s, color .2s, border-color .2s; }
+.redes a:hover { translate: 0 -2px; }
+/* Quien soy: banda del lema con fondo que se desplaza */
+.lema-banda { overflow: hidden; }
+@supports (animation-timeline: view()) { @media (prefers-reduced-motion: no-preference) {
+  .lema-banda .lema-fondo { animation: fondo-desliza linear both; animation-timeline: view(); animation-range: cover; }
+  .lema-banda blockquote { animation: cita-asienta linear both; animation-timeline: view(); animation-range: entry 10% cover 45%; }
+} }
+@keyframes fondo-desliza { from { transform: scale(1.12) translateY(-4%); } to { transform: scale(1.12) translateY(4%); } }
+@keyframes cita-asienta { from { opacity: .2; letter-spacing: .04em; filter: blur(3px); } }
+/* Quien soy: tarjetas de Como trabajo y Con quien trabajo */
+.ciencia .idea .foto-i, .bento .caja .foto-c { transition: transform .7s cubic-bezier(.2, .7, .2, 1), filter .4s; }
+.ciencia .idea:hover .foto-i, .bento .caja:hover .foto-c { transform: scale(1.05); filter: brightness(1.07); }
+.ciencia .idea h3, .bento .caja h3 { transition: color .2s; }
+.ciencia .idea:hover h3, .bento .caja:hover h3 { color: var(--acento); }
+/* Testimonio ancho */
+.voz.ancha { transition: box-shadow .35s, border-color .35s; }
+.voz.ancha:hover { box-shadow: var(--sombra); }
+@media (prefers-reduced-motion: no-preference) { .voz.ancha.sube blockquote, .voz.ancha.sube > p { opacity: 0; translate: 0 10px; transition: opacity .6s .15s, translate .6s .15s cubic-bezier(.2, .7, .2, 1); } .voz.ancha.sube.ya blockquote, .voz.ancha.sube.ya > p { opacity: 1; translate: 0 0; } }
+.voz .cara { transition: transform .4s cubic-bezier(.3, 1.6, .5, 1); }
+.voz:hover .cara { transform: scale(1.08) rotate(-4deg); }
+/* Programas: selector */
+.elige .fases button { transition: background-color .2s, color .2s, border-color .2s, transform .2s cubic-bezier(.3, 1.4, .5, 1); }
+.elige .fases button:active { transform: scale(.95); }
+.elige-r { transition: color .3s; }
+/* Programas: tarjetas de plan */
+.grupo-t { display: flex; align-items: center; gap: .8rem; }
+.grupo-t::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, var(--linea), transparent); }
+@media (prefers-reduced-motion: no-preference) { .grupo-t.sube::after { transform: scaleX(0); transform-origin: left; transition: transform .9s .2s cubic-bezier(.2, .7, .2, 1); } .grupo-t.sube.ya::after { transform: none; } }
+.plan h3 .nivel i { transition: background-color .3s, transform .35s cubic-bezier(.3, 1.6, .5, 1); }
+.plan:hover h3 .nivel i.on { transform: scaleY(1.25); }
+@media (prefers-reduced-motion: no-preference) { .plan.sube .nivel i.on { transform: scaleY(0); transform-origin: bottom; } .plan.sube.ya .nivel i.on { transform: none; transition-delay: .3s; } .plan.sube.ya .nivel i.on + i.on { transition-delay: .4s; } .plan.sube.ya:hover .nivel i.on { transform: scaleY(1.25); transition-delay: 0s; } }
+.plan .ritmo span { transition: background-color .2s, color .2s; }
+.plan:hover .ritmo span { background: color-mix(in srgb, var(--marca) 14%, transparent); }
+.plan ul li { transition: translate .2s; }
+.plan ul li:hover { translate: 3px 0; }
+.plan .eti:not([hidden]) { animation: eti-entra .5s cubic-bezier(.3, 1.6, .5, 1); }
+@keyframes eti-entra { from { opacity: 0; transform: translateY(-6px) scale(.85); } }
+.plan.oro { overflow: hidden; position: relative; isolation: isolate; }
+.plan.oro::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(110deg, transparent 40%, rgba(240, 198, 116, .18) 50%, transparent 60%); translate: -110% 0; transition: translate 1.1s cubic-bezier(.2, .7, .2, 1); pointer-events: none; }
+.plan.oro:hover::after { translate: 110% 0; }
+.plan .comp { transition: color .2s, letter-spacing .3s; }
+.plan .comp:hover { letter-spacing: .12em; }
+/* Programas: aviso y tabla */
+.aviso { transition: box-shadow .3s, translate .3s; }
+.aviso:hover { box-shadow: var(--sombra-s); translate: 0 -2px; }
+.desliza { transition: opacity .3s; }
+.tabla-marco:hover .compara th.yo, .tabla-marco:hover .compara td.yo { background: color-mix(in srgb, var(--marca) 9%, transparent); }
+.compara th.yo, .compara td.yo { transition: background-color .3s; }
+/* Programas: lo que llevan todos */
+.tres .tres-img { transition: transform .7s cubic-bezier(.2, .7, .2, 1), filter .4s; }
+.tres li:hover .tres-img { transform: scale(1.05) rotate(-.5deg); filter: brightness(1.07); }
+.tres li { transition: translate .3s cubic-bezier(.2, .7, .2, 1); }
+.tres li h3 { transition: color .2s; }
+.tres li:hover h3 { color: var(--acento); }
+/* Bloque oscuro de llamada (.calc) */
+.calc { transition: box-shadow .35s, translate .35s; }
+.calc:hover { box-shadow: var(--sombra), 0 0 2.4rem -1rem var(--marca-clara); }
+/* Puesta a punto: precio */
+@media (prefers-reduced-motion: no-preference) { .sube .precio, .pegada .precio { animation: precio-entra .9s cubic-bezier(.2, .7, .2, 1) both; animation-timeline: view(); animation-range: entry 0% entry 60%; } }
+@supports not (animation-timeline: view()) { .sube .precio, .pegada .precio { animation: none; } }
+@keyframes precio-entra { from { opacity: 0; scale: .85; } }
+.pegada:hover .precio { filter: drop-shadow(0 0 1rem color-mix(in srgb, var(--marca-clara) 45%, transparent)); }
+.precio { transition: filter .4s; }
+/* Puesta a punto: analitica */
+#ana li { transition: translate .2s cubic-bezier(.3, 1.4, .5, 1), background-color .2s, border-color .2s; }
+#ana li:hover { translate: 0 -2px; border-color: var(--marca-clara); }
+@media (prefers-reduced-motion: no-preference) {
+  .sube #ana li { opacity: 0; scale: .85; transition: opacity .3s, scale .35s cubic-bezier(.3, 1.6, .5, 1), translate .2s; }
+  .sube.ya #ana li { opacity: 1; scale: 1; }
+  .sube.ya #ana li:nth-child(2) { transition-delay: .04s; } .sube.ya #ana li:nth-child(3) { transition-delay: .08s; } .sube.ya #ana li:nth-child(4) { transition-delay: .12s; } .sube.ya #ana li:nth-child(5) { transition-delay: .16s; } .sube.ya #ana li:nth-child(6) { transition-delay: .2s; } .sube.ya #ana li:nth-child(7) { transition-delay: .24s; } .sube.ya #ana li:nth-child(8) { transition-delay: .28s; } .sube.ya #ana li:nth-child(9) { transition-delay: .32s; }
+}
+/* Puesta a punto: foto ancha que se acerca al bajar */
+@supports (animation-timeline: view()) { @media (prefers-reduced-motion: no-preference) { img.banner { animation: banner-acerca linear both; animation-timeline: view(); animation-range: entry 0% cover 50%; } } }
+@keyframes banner-acerca { from { clip-path: inset(6% 4% round 2rem); opacity: .6; } to { clip-path: inset(0 0 round 1.6rem); opacity: 1; } }
+/* Puesta a punto: pasos con imagen */
+.cuatro .paso-img { transition: transform .7s cubic-bezier(.2, .7, .2, 1), filter .4s; }
+.cuatro li:hover .paso-img { transform: scale(1.06); filter: brightness(1.1); }
+.pasos.con-img .cuatro li { overflow: hidden; }
+/* Tabla de dos columnas */
+.compara.dosc tbody tr:hover td.yo { background: color-mix(in srgb, var(--marca) 14%, transparent); }
+@media (prefers-reduced-motion: reduce) { .retrato.xl img, .hero.mini .datos li, .linea li, .pegada, .redes a, .ciencia .idea .foto-i, .bento .caja .foto-c, .voz .cara, .elige .fases button, .plan h3 .nivel i, .plan ul li, .plan.oro::after, .aviso, .tres .tres-img, .tres li, .calc, #ana li, .cuatro .paso-img { transition: none; } .hero.mini .retrato.xl, .plan .eti:not([hidden]), .sube .precio, .pegada .precio { animation: none; } .retrato.xl:hover img, .hero.mini .datos li:hover, .linea li:hover, .redes a:hover, .ciencia .idea:hover .foto-i, .bento .caja:hover .foto-c, .voz:hover .cara, .plan ul li:hover, .aviso:hover, .tres li:hover .tres-img, .tres li:hover, #ana li:hover, .cuatro li:hover .paso-img { transform: none; translate: none; } }
 </style>
 <script>document.documentElement.classList.add('js');</script>
 <a class="salto" href="#semana">Saltar al contenido</a>
