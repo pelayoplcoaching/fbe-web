@@ -33,3 +33,48 @@
   function vigilar() { if (!D.getAnimations) return; var cajas = []; D.getAnimations().forEach(function (an) { var t = an.effect && an.effect.target; if (!t || !an.effect.getComputedTiming || an.effect.getComputedTiming().iterations !== Infinity) return; var c = t.closest('section, header, footer, .cinta, aside') || t; if (cajas.indexOf(c) < 0) cajas.push(c); }); cajas.forEach(function (c) { io.observe(c); }); }
   if (D.readyState === 'complete') setTimeout(vigilar, 800); else addEventListener('load', function () { setTimeout(vigilar, 800); });
 })();
+/* Buscador de toda la web (indice buscar.json, Ctrl+K o /), service worker (calculadoras sin conexion) e instalacion */
+(function () {
+  var D = document, idx = null, carga = null, dlg, inp, lista, act = -1, res = [], LUPA = '<circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/>';
+  function norm(t) { return String(t || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
+  function esc(t) { return String(t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function pide() { if (!carga) carga = fetch('buscar.json').then(function (r) { return r.json(); }).then(function (a) { idx = a.map(function (e) { e.nt = norm(e.t); e.nk = norm(e.k + ' ' + e.d + ' ' + e.y); return e; }); return idx; }).catch(function () { carga = null; return []; }); return carga; }
+  var SUG = [['empieza-aqui.html', 'Empieza aquí'], ['herramientas.html', 'Herramientas'], ['programas.html', 'Programas'], ['dudas.html', 'Dudas'], ['glosario.html', 'Glosario'], ['mis-resultados.html', 'Mis resultados']];
+  var PRI = { 'Herramienta': 0, 'Página': 1, 'Glosario': 2, 'Duda': 3, 'Mito': 4, 'Guía': 5, 'Empieza aquí': 6, 'Boletín': 7 };
+  function marca(t, ps) { var s = esc(t), p = ps.filter(function (x) { return x.length > 1; })[0]; if (!p) return s; var i = norm(s).indexOf(p); return i < 0 ? s : s.slice(0, i) + '<mark>' + s.slice(i, i + p.length) + '</mark>' + s.slice(i + p.length); }
+  function pinta(ps) {
+    act = res.length ? 0 : -1;
+    lista.innerHTML = res.length ? res.map(function (e, i) { return '<li role="option" id="bo-' + i + '" aria-selected="' + (i === act) + '"><a href="' + esc(e.u) + '"' + (e.x ? ' target="_blank" rel="noopener"' : '') + '><span class="bo-y">' + esc(e.y) + '</span><b>' + marca(e.t, ps) + '</b>' + (e.d ? '<small>' + esc(e.d.length > 110 ? e.d.slice(0, 108) + '…' : e.d) + '</small>' : '') + '</a></li>'; }).join('') : '<li class="bo-nada">Nada con esas palabras. Prueba con otra o mira las <a href="dudas.html">dudas</a>.</li>';
+    inp.setAttribute('aria-activedescendant', act >= 0 ? 'bo-0' : ''); D.getElementById('bo-n').textContent = ps.length ? res.length + (res.length === 1 ? ' resultado' : ' resultados') : 'Atajos';
+  }
+  function busca(q) {
+    var ps = norm(q).trim().split(/\s+/).filter(Boolean);
+    if (!ps.length) { res = SUG.map(function (s) { return { t: s[1], u: s[0], d: '', y: 'Atajo' }; }); return pinta([]); }
+    res = (idx || []).map(function (e) { var sc = 0; for (var i = 0; i < ps.length; i++) { var p = ps[i], a = e.nt.indexOf(p), b = e.nk.indexOf(p); if (a < 0 && b < 0) return null; sc += a === 0 ? 10 : a > 0 ? (e.nt.charAt(a - 1) === ' ' ? 7 : 4) : 1; } return { e: e, s: sc - (PRI[e.y] || 0) * 0.3 }; }).filter(Boolean).sort(function (x, y) { return y.s - x.s; }).slice(0, 24).map(function (x) { return x.e; });
+    pinta(ps);
+  }
+  function mueve(d) { if (!res.length) return; act = (act + d + res.length) % res.length; [].forEach.call(lista.children, function (li, i) { li.setAttribute('aria-selected', i === act); }); var li = lista.children[act]; inp.setAttribute('aria-activedescendant', li.id); li.scrollIntoView({ block: 'nearest' }); }
+  function crea() {
+    dlg = D.createElement('dialog'); dlg.className = 'busca-d'; dlg.setAttribute('aria-label', 'Buscar en la web');
+    dlg.innerHTML = '<div class="bd-cab"><svg viewBox="0 0 24 24" aria-hidden="true">' + LUPA + '</svg><input type="search" id="bo-q" placeholder="Busca: creatina, rodilla, proteína…" autocomplete="off" role="combobox" aria-expanded="true" aria-controls="bo-l" aria-label="Buscar en la web"><button type="button" class="bd-x" aria-label="Cerrar">Esc</button></div><p class="bd-n" id="bo-n" role="status"></p><ul class="bd-l" id="bo-l" role="listbox" aria-label="Resultados"></ul><p class="bd-pie"><span><kbd>↑</kbd><kbd>↓</kbd> moverte</span><span><kbd>Intro</kbd> abrir</span><span><kbd>Esc</kbd> cerrar</span></p>';
+    D.body.appendChild(dlg); inp = dlg.querySelector('input'); lista = dlg.querySelector('ul');
+    inp.addEventListener('input', function () { pide().then(function () { busca(inp.value); }); });
+    inp.addEventListener('keydown', function (e) { if (e.key === 'ArrowDown') { e.preventDefault(); mueve(1); } else if (e.key === 'ArrowUp') { e.preventDefault(); mueve(-1); } else if (e.key === 'Enter' && act >= 0) { e.preventDefault(); var a = lista.children[act].querySelector('a'); if (a) a.click(); } else if (e.key === 'Escape') { e.preventDefault(); dlg.close(); } });
+    dlg.querySelector('.bd-x').addEventListener('click', function () { dlg.close(); });
+    dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); else if (e.target.closest('a')) setTimeout(function () { dlg.close(); }, 0); });
+  }
+  function abre(q) { if (!dlg) crea(); if (!dlg.open) dlg.showModal(); inp.value = q || ''; pide().then(function () { busca(inp.value); }); inp.focus(); inp.select(); }
+  window.fbeBusca = abre;
+  var cab = D.querySelector('.cab .in'), tema = D.getElementById('tema');
+  if (cab) { var b = D.createElement('button'); b.type = 'button'; b.className = 'busca-b'; b.setAttribute('aria-label', 'Buscar en la web'); b.title = 'Buscar (Ctrl+K)'; b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true">' + LUPA + '</svg>'; cab.insertBefore(b, tema && tema.parentNode === cab ? tema : null); b.addEventListener('click', function () { abre(''); }); b.addEventListener('pointerenter', pide, { once: true }); }
+  D.addEventListener('keydown', function (e) { var t = e.target, escr = t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)); if ((e.key === 'k' || e.key === 'K') && (e.ctrlKey || e.metaKey)) { e.preventDefault(); abre(''); } else if (e.key === '/' && !escr && !e.ctrlKey && !e.metaKey && !e.altKey) { e.preventDefault(); abre(''); } });
+  if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });
+  var dif = null, ins = function (v) { [].forEach.call(D.querySelectorAll('.instala'), function (x) { x.hidden = !v; }); };
+  if (matchMedia('(display-mode: standalone)').matches || navigator.standalone) ins(false);
+  else {
+    addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); dif = e; ins(true); });
+    if (/iphone|ipad|ipod/i.test(navigator.userAgent)) [].forEach.call(D.querySelectorAll('.instala'), function (x) { x.hidden = false; var bb = x.querySelector('.instala-b'), p = x.querySelector('.instala-ios'); if (bb) bb.hidden = true; if (p) p.hidden = false; });
+  }
+  [].forEach.call(D.querySelectorAll('.instala-b'), function (bb) { bb.addEventListener('click', function () { if (!dif) return; dif.prompt(); dif.userChoice.then(function () { dif = null; ins(false); }); }); });
+  addEventListener('appinstalled', function () { ins(false); });
+})();

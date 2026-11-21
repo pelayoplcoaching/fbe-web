@@ -29,7 +29,7 @@ def tool_pagina(arch, titulo, desc, h1, sub, form, res, explica, fuentes, js, ex
     cuerpo = f'''
 <section class="tool-s"><div class="in"><div class="tool sube">
   <form class="tool-form" onsubmit="return false" novalidate>{form}</form>
-  <div class="tool-res" aria-live="polite">{fondo}{res}</div>
+  <div class="tool-res" aria-live="polite" data-herr="{arch}" data-titulo="{titulo}">{fondo}{res}</div>
 </div></div></section>
 {extra_sec}
 <section class="hoja"><div class="in"><div class="entrada sube"><h2>Cómo se interpreta</h2></div>
@@ -37,9 +37,15 @@ def tool_pagina(arch, titulo, desc, h1, sub, form, res, explica, fuentes, js, ex
   <h3 class="fuentes-h sube">De dónde salen los números</h3>{fuentes_t(fuentes)}
 </div></section>
 {CTA_PP}
-<script>{STEP_JS}{js}</script>'''
+<script>{STEP_JS}{js}{GUARDA_JS}</script>'''
     pagina(arch, titulo, desc, h1, sub, cuerpo, padre=PADRE_H)
 
+# «Guardar en Mis resultados»: aparece junto a «Copiar» y guarda el mismo texto en este navegador (localStorage fbe-resultados)
+GUARDA_JS = r'''(function(){var r=document.querySelector('.tool-res'),c=r&&r.querySelector('.copiar-t:not(.guardar)');if(!r||!c||!window.fbeCopia)return;
+var b=document.createElement('button');b.type='button';b.className='copiar-t guarda-r';b.innerHTML='<span>Guardar en Mis resultados</span>';c.insertAdjacentElement('afterend',b);
+var v=document.createElement('a');v.className='guarda-ver';v.href='mis-resultados.html';v.textContent='Ver mis resultados';v.hidden=true;b.insertAdjacentElement('afterend',v);
+function mira(){b.hidden=c.hidden}mira();new MutationObserver(mira).observe(c,{attributes:true,attributeFilter:['hidden']});
+b.addEventListener('click',function(){var t=window.fbeCopia();if(!t)return;var K='fbe-resultados',o={};try{o=JSON.parse(localStorage.getItem(K)||'{}')||{}}catch(e){}o[r.dataset.herr]={t:Date.now(),titulo:r.dataset.titulo,texto:t};var ok=true;try{localStorage.setItem(K,JSON.stringify(o))}catch(e){ok=false}var s=b.querySelector('span');b.classList.add('hecho');s.textContent=ok?'Guardado':'No se pudo guardar';v.hidden=!ok;setTimeout(function(){b.classList.remove('hecho');s.textContent='Guardar en Mis resultados'},1800)})})();'''
 # Botones +/- de los campos numericos (delegado: vale para filas que se anaden despues) y formato es-ES
 STEP_JS = r'''(function(){document.addEventListener('click',function(e){var b=e.target.closest('[data-paso]');if(!b)return;var i=document.getElementById(b.dataset.para)||b.parentNode.querySelector('input');if(!i)return;var p=parseFloat(b.dataset.paso),v=parseFloat(i.value);if(isNaN(v))v=parseFloat(i.min)||0;var mn=parseFloat(i.min),mx=parseFloat(i.max);v=Math.round((v+p)*100)/100;if(!isNaN(mn))v=Math.max(mn,v);if(!isNaN(mx))v=Math.min(mx,v);i.value=v;i.dispatchEvent(new Event('input',{bubbles:true}));});})();
 window.fmt=function(x,d){return Number(x).toLocaleString('es-ES',{minimumFractionDigits:d||0,maximumFractionDigits:d||0});};
@@ -113,7 +119,7 @@ function tic(){var t=(performance.now()-t0)/1000;
   if(q<=0){para(true);return}raf=requestAnimationFrame(tic)}
 $('s-empezar').addEventListener('click',function(){if(corre){para(false);return}corre=true;prev=0;reps.value=0;pinta();t0=performance.now()+3000;$('s-empezar').textContent='Parar';tic()});
 $('s-mas').addEventListener('click',function(){if(!corre)return;reps.value=(parseInt(reps.value,10)||0)+1;pinta();var b=$('s-mas');b.classList.remove('toque');void b.offsetWidth;b.classList.add('toque')});
-$('s-copiar').addEventListener('click',function(){copiar(this,copia)});
+$('s-copiar').addEventListener('click',function(){copiar(this,copia)});window.fbeCopia=function(){return copia};
 document.querySelector('.tool-form').addEventListener('input',pinta);document.querySelector('.tool-form').addEventListener('change',pinta);pinta();
 })();'''
 
@@ -191,7 +197,7 @@ tabla.addEventListener('focusin',function(e){cruz(e.target.closest('td'))});
 function elige(td){if(!td)return;var f=+td.dataset.f,c=+td.dataset.c;sel=sel&&sel[0]===f&&sel[1]===c?null:[f,c];pinta();var n=tabla.querySelector('td[data-f="'+f+'"][data-c="'+c+'"]');if(n)n.focus()}
 tabla.addEventListener('click',function(e){elige(e.target.closest('td'))});
 tabla.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();elige(e.target.closest('td'))}});
-$('r-copiar').addEventListener('click',function(){copiar(this,copia)});
+$('r-copiar').addEventListener('click',function(){copiar(this,copia)});window.fbeCopia=function(){return copia};
 document.querySelector('.tool-form').addEventListener('input',function(){sel=null;pinta()});document.querySelector('.tool-form').addEventListener('change',function(){sel=null;pinta()});pinta();
 })();'''
 
@@ -273,7 +279,7 @@ $('v-ejemplo').addEventListener('click',function(){filas.innerHTML='';[['sentadi
 $('v-vaciar').addEventListener('click',function(){var antes=lee();if(!antes.length)return;filas.innerHTML='';pinta();deshacer=antes;aviso('Semana vaciada. <button type="button" class="enl-b" id="v-deshacer">Deshacer</button>')});
 $('v-aviso').addEventListener('click',function(e){if(e.target.id==='v-deshacer'&&deshacer){deshacer.forEach(function(r){fila(r[0],r[1])});deshacer=null;pinta();aviso('Recuperada.')}});
 $('v-orden').addEventListener('click',function(){porSeries=!porSeries;this.setAttribute('aria-pressed',porSeries);this.textContent=porSeries?'Ordenar por zonas del cuerpo':'Ordenar por series';pinta()});
-$('v-copiar').addEventListener('click',function(){copiar(this,copia)});
+$('v-copiar').addEventListener('click',function(){copiar(this,copia)});window.fbeCopia=function(){return copia};
 var g=null;try{g=JSON.parse(localStorage.getItem(K)||'null')}catch(e){}
 if(Array.isArray(g)&&g.length)g.forEach(function(r){if(E[r[0]])fila(r[0],r[1])});else if(!Array.isArray(g)){fila('sentadilla',6);fila('banca',6);fila('remo',6)}
 pinta();
@@ -374,7 +380,7 @@ filas.addEventListener('input',pinta);
 filas.addEventListener('click',function(e){if(e.target.classList.contains('vol-quita')){e.target.closest('.caf-fila').remove();pinta()}});
 $('c-rapidos').addEventListener('click',function(e){var b=e.target.closest('[data-b]');if(!b)return;var T=lee().map(function(t){return mins(t.h)}).filter(function(m){return !isNaN(m)}),h=T.length?Math.min(Math.max.apply(null,T)+120,22*60):8*60;fila(b.dataset.b,hhmm(h),null,true);ordena();pinta()});
 $('c-dormir').addEventListener('input',pinta);$('c-embarazo').addEventListener('change',pinta);
-$('c-copiar').addEventListener('click',function(){copiar(this,copia)});
+$('c-copiar').addEventListener('click',function(){copiar(this,copia)});window.fbeCopia=function(){return copia};
 var g=null;try{g=JSON.parse(localStorage.getItem(K)||'null')}catch(e){}
 if(g&&Array.isArray(g.t)){g.t.forEach(function(t){if(BB[t.b])fila(t.b,t.h,t.mg)});if(g.d)$('c-dormir').value=g.d;$('c-embarazo').checked=!!g.e}else{fila('espresso','08:00');fila('filtro','11:00');fila('espresso','16:30')}
 pinta();
@@ -443,7 +449,7 @@ function pinta(){var reg=radio('q-regular'),enf=radio('q-enf'),s=sint.filter(fun
 document.querySelector('.tool-form').addEventListener('change',pinta);
 $('q-reset').addEventListener('click',function(){[].forEach.call(document.querySelectorAll('.tool-form input'),function(i){i.checked=false});pinta();document.querySelector('.tool-form').scrollIntoView({block:'start'})});
 $('q-ver').addEventListener('click',function(){document.querySelector('.tool-res').scrollIntoView({block:'start'})});
-$('q-copiar').addEventListener('click',function(){copiar(this,copia)});
+$('q-copiar').addEventListener('click',function(){copiar(this,copia)});window.fbeCopia=function(){return copia};
 pinta();
 })();'''
 
@@ -523,7 +529,7 @@ function pinta(){
   $('z-copiar').hidden=false;
   copia='Mis zonas de esfuerzo (FBE)\n'+(bb?'El pulso no me sirve de guía: esfuerzo percibido y prueba del habla.\n':'Pulso máximo: '+max+' lpm ('+(medido?'medido':'estimado con Tanaka')+')'+(hrr?' · reposo '+r+' lpm':'')+'\n')+filas.map(function(x){return x.z[1]+': '+(bb?'':x.lo+'–'+x.hi+' lpm · ')+'Borg '+x.z[6]+(x.z[7]?' ('+x.z[7].toLowerCase()+')':'')}).join('\n');
 }
-$('z-copiar').addEventListener('click',function(){copiar(this,copia)});
+$('z-copiar').addEventListener('click',function(){copiar(this,copia)});window.fbeCopia=function(){return copia};
 function enlaza(e){var r=e.target.closest&&e.target.closest('.zl'),k=r?r.dataset.z:'';document.querySelectorAll('#z-barra span').forEach(function(sp){sp.classList.toggle('on',!!k&&sp.classList.contains('zb-'+k))});document.querySelectorAll('.z-borg i').forEach(function(c){c.classList.toggle('on',!!k&&c.classList.contains('zb-'+k))})}
 $('z-lista').addEventListener('mouseover',enlaza);$('z-lista').addEventListener('mouseleave',enlaza);
 document.querySelector('.tool-form').addEventListener('input',pinta);document.querySelector('.tool-form').addEventListener('change',pinta);pinta();
@@ -598,7 +604,7 @@ function diario(){var a=lee(),c=$('d-diario');c.hidden=!a.length&&!deshacer;$('d
 $('d-guardar').addEventListener('click',function(){var a=lee();a.push({f:new Date().toISOString(),z:$('d-zona').value.trim().slice(0,40),d:+$('d-dur').value,s:+$('d-des').value,m:val('d-man'),k:estado});escribe(a.slice(-60));deshacer=null;$('d-aviso').innerHTML='';diario();var b=this,sp=b.querySelector('span');b.classList.add('hecho');sp.textContent='Guardado';setTimeout(function(){b.classList.remove('hecho');sp.textContent='Guardar en mi diario'},1600)});
 $('d-borrar').addEventListener('click',function(){deshacer=lee();escribe([]);$('d-aviso').innerHTML='Diario borrado. <button type="button" class="enl-b claro" id="d-deshacer">Deshacer</button>';diario()});
 $('d-aviso').addEventListener('click',function(e){if(e.target.id==='d-deshacer'&&deshacer){escribe(deshacer);deshacer=null;$('d-aviso').innerHTML='';diario()}});
-$('d-copiar').addEventListener('click',function(){copiar(this,copia)});
+$('d-copiar').addEventListener('click',function(){copiar(this,copia)});window.fbeCopia=function(){return copia};
 document.querySelector('.tool-form').addEventListener('input',pinta);document.querySelector('.tool-form').addEventListener('change',pinta);pinta();diario();
 })();'''
 
@@ -680,7 +686,7 @@ function pinta(){
 }
 $('p-reset').addEventListener('click',function(){[].forEach.call(document.querySelectorAll('.tool-form input'),function(i){if(i.type==='radio'||i.type==='checkbox')i.checked=false;else i.value=''});if(act)para(act,false);pinta();document.querySelector('.tool-form').scrollIntoView({block:'start'})});
 $('p-ver').addEventListener('click',function(){document.querySelector('.tool-res').scrollIntoView({block:'start'})});
-$('p-copiar').addEventListener('click',function(){copiar(this,copia)});
+$('p-copiar').addEventListener('click',function(){copiar(this,copia)});window.fbeCopia=function(){return copia};
 document.querySelector('.tool-form').addEventListener('input',pinta);document.querySelector('.tool-form').addEventListener('change',pinta);pinta();
 })();'''
 
@@ -747,7 +753,7 @@ function pinta(){
   $('o-plan').innerHTML=plan.map(function(x,i){return '<li'+(h===0&&i===0?' class="intro"':'')+'>'+x+'</li>'}).join('');
   copia='Mi parón de '+w+' semanas (FBE)\n'+items.map(function(x){return x[1]+'. '+x[2]}).join('\n')+'\nPlan mínimo:\n'+plan.filter(function(x,i){return !(h===0&&i===0)}).map(function(x){return '- '+x}).join('\n');
 }
-$('o-copiar').addEventListener('click',function(){copiar(this,copia)});
+$('o-copiar').addEventListener('click',function(){copiar(this,copia)});window.fbeCopia=function(){return copia};
 document.querySelector('.o-atajos').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;var i=$('o-sem');i.value=b.dataset.sem;i.dispatchEvent(new Event('input',{bubbles:true}))});
 document.querySelector('.tool-form').addEventListener('input',pinta);document.querySelector('.tool-form').addEventListener('change',pinta);pinta();
 })();'''
@@ -858,7 +864,7 @@ $('u-lista').addEventListener('click',function(e){var b=e.target.closest('.supl-
 $('u-q').addEventListener('input',lista);$('u-q').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();var b=$('u-lista').querySelector('.supl-it');if(b)b.click()}});
 document.querySelector('.tool-form').addEventListener('change',function(e){if(e.target.name==='u-g')lista()});
 $('u-peso').addEventListener('input',ficha);
-$('u-copiar').addEventListener('click',function(){copiar(this,copia)});
+$('u-copiar').addEventListener('click',function(){copiar(this,copia)});window.fbeCopia=function(){return copia};
 lista();ficha();
 })();'''.replace('__SUP__', json.dumps([list(s) for s in SUP], ensure_ascii=False)).replace('__G__', json.dumps(SUP_G, ensure_ascii=False))
 
