@@ -567,6 +567,10 @@ def _zonas(t, portada):
                 else: seg = seg[:m.start()] + '<h1 id="titulo"' + seg[m.start() + 3:]
             seg = '<div role="region" aria-labelledby="' + hid + '" class="hero' + seg[len('<header class="hero'):]
             t = t[:i] + seg + '</div>' + t[j + len('</header>'):]
+    if portada:  # la portada usa la misma hoja que el resto (fbe.css, en cache) en lugar de 520 KB de estilos dentro del HTML
+        t = _re.sub(r'<style>(?:(?!</style>).){100000,}</style>', '<link rel="stylesheet" href="fbe.css">', t, count=1, flags=_re.S)
+        # el movil de atras de la portada no se ve en movil: que no se descargue hasta que haga falta
+        t = _re.sub(r'(<div class="tel atras"[^>]*>(?:(?!<img).)*?<img)\b(?![^>]*loading=)', r'\1 loading="lazy"', t, count=1, flags=_re.S)
     if portada:  # paneles de la galeria de la app: el papel de panel va en un envoltorio, no en la imagen
         t = _re.sub(r'<img ([^>]*?)id="p(\d+)" role="tabpanel" aria-labelledby="t\2" (hidden )?([^>]*)>', lambda m: f'<div id="p{m.group(2)}" role="tabpanel" aria-labelledby="t{m.group(2)}" tabindex="0"{" hidden" if m.group(3) else ""}><img {m.group(1)}{m.group(4)}></div>', t)
     if portada and '<main' not in t:
@@ -584,6 +588,59 @@ def _zonas(t, portada):
 for _f in glob.glob(f'{SAL}/*.html'):
     _t = open(_f, encoding='utf-8').read()
     _n = _zonas(_t, os.path.basename(_f) == 'index.html')
+    if _n != _t: open(_f, 'w', encoding='utf-8').write(_n)
+# Imagenes a la medida: versiones de 160, 360, 640 y 960 px (solo las menores que el original) y srcset/sizes
+# segun el tamano real al que se pinta cada clase (medido en 390 y 1280 px). Asi el movil no baja imagenes de escritorio.
+_TAM = {'tool-tira-img': (100, 280), 'ilus': (360, 600), 'herr-mini-img': (320, 340), 'tool-fondo': (360, 530), 'mito-img': (330, 340),
+        'foto-g': (360, 400), 'ea-img': (360, 330), 'tarj-img': (130, 370), 'pa-cap': (360, 1120), 'paso-img': (300, 230), 'pub-img': (320, 240),
+        'ev-ilus': (320, 320), 'pa-para-ilus': (320, 320), 'tres-img': (360, 360), 'foto-i': (320, 320), 'espera-img': (340, 360), 'foto-b': (320, 330),
+        'herr-cap': (360, 600), 'pa-logo': (28, 28), 'foto-p': (360, 450), 'foto-c': (300, 230), 'pa-autor-foto': (110, 150), 'pro-logo': (66, 66),
+        'pro-guia': (90, 115), 'pro-img': (360, 460), 'banner': (360, 1120), 'lema-fondo': (440, 1440), 'vid-fondo': (360, 1120), 'pase': (300, 330),
+        'mr-vacio-img': (360, 420), 'instala-img': (150, 180), 'herr-img': (360, 620)}
+_TAM_P = {'retrato xl': (200, 370), 'retrato': (120, 180), 'tel atras': (310, 310), 'tel plano': (310, 310), 'tel': (310, 310), 'm dos': (80, 80), 'm': (240, 240), 'pos': (360, 900)}
+_PORTADA_HTML = [False]
+_VAR = {}
+def _variantes(nombre):
+    if nombre in _VAR: return _VAR[nombre]
+    from PIL import Image as _I
+    orig = f'{SAL}/img/{nombre}'; base = nombre[:-5]; res = []
+    try: im = _I.open(orig); nw, nh = im.size
+    except Exception: _VAR[nombre] = None; return None
+    os.makedirs(f'{SAL}/img/v', exist_ok=True)
+    for w in (96, 160, 360, 480, 640, 960):
+        if w >= nw * 0.92: continue
+        dest = f'{SAL}/img/v/{base}-{w}.webp'
+        if not os.path.exists(dest) or os.path.getmtime(dest) < os.path.getmtime(orig):
+            im2 = im.convert('RGBA' if im.mode in ('RGBA', 'LA', 'P') else 'RGB').resize((w, max(1, round(nh * w / nw))), _I.LANCZOS)
+            im2.save(dest, 'WEBP', quality=80, method=6)
+        res.append(w)
+    _VAR[nombre] = (res, nw); return _VAR[nombre]
+def _srcset(m):
+    tag = m.group(0)
+    if 'srcset=' in tag: return tag
+    src = _re.search(r'\bsrc="img/([^"/]+\.webp)"', tag)
+    if not src: return tag
+    v = _variantes(src.group(1))
+    if not v or not v[0]: return tag
+    ws, nw = v; base = src.group(1)[:-5]
+    cls = (_re.search(r'\bclass="([^"]*)"', tag) or [None, ''])[1].split()
+    mv, dv = next((_TAM[c] for c in cls if c in _TAM), (None, None))
+    if mv is None:  # sin clase propia: se mira la clase del contenedor (retrato, marcos de movil de la portada...)
+        prev = _re.findall(r'<[a-z0-9]+\b[^>]*?class="([^"]*)"[^>]*>', m.string[max(0, m.start() - 400):m.start()])
+        pc = prev[-1].strip() if prev else ''
+        mv, dv = _TAM_P.get(pc, (None, None))
+    if mv is None: mv, dv = (310, 310) if _PORTADA_HTML[0] else (min(nw, 400), min(nw, 1200))
+    # en el movil hacen falta como poco 2 px de imagen por punto: se quitan las versiones que se quedarian cortas
+    ws = [w for w in ws if w >= min(mv, dv) or w >= 96]
+    sset = ', '.join(f'img/v/{base}-{w}.webp {w}w' for w in ws) + f', img/{base}.webp {nw}w'
+    return tag[:-1].rstrip('/').rstrip() + f' srcset="{sset}" sizes="(max-width: 700px) {mv}px, {dv}px">'
+for _f in glob.glob(f'{SAL}/*.html'):
+    _t = open(_f, encoding='utf-8').read(); _PORTADA_HTML[0] = os.path.basename(_f) == 'index.html'
+    _n = _re.sub(r'<img\b[^>]*>', _srcset, _t)
+    _n = _re.sub(r'(<img class="herr-cap"[^>]*?)loading="lazy"', r'\1loading="eager"', _n, count=1)
+    # la primera imagen grande del contenido no se carga en diferido si la pagina no tiene ilustracion de cabecera (es la mayor que se ve al entrar)
+    if 'class="ilus"' not in _n:
+        _n = _re.sub(r'(<main id="contenido">(?:(?!<img).)*?<img\b[^>]*?)loading="lazy"', r'\1loading="eager"', _n, count=1, flags=_re.S)
     if _n != _t: open(_f, 'w', encoding='utf-8').write(_n)
 # CSS sin comentarios (mas ligero)
 _c = open(f'{SAL}/fbe.css', encoding='utf-8').read()

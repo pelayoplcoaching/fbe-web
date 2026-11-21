@@ -4024,3 +4024,6 @@ html.contraste .bol-it > .bol-txt::before { display: none; }
 .mitos-cif .v-r b { color: var(--acento); }
 /* Los envoltorios de zonas no cambian el aspecto */
 .arriba-n { display: contents; }
+/* Rendimiento: la entrada del texto de la portada empieza casi visible (no a 0), asi el navegador da por pintado el texto principal desde el primer momento */
+@keyframes entra-lcp { from { opacity: .01; transform: translateY(28px); } }
+.js .hero .txt > * { animation-name: entra-lcp; }
