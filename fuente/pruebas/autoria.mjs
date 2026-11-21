@@ -18,7 +18,9 @@ for (const f of con) {
 ok(mal === 0, 'cada firma con fecha, autor, enlace a Quién soy y datos para buscadores (sin «revisado por»)');
 const ev = fs.readFileSync(RAIZ + '/evidencia.html', 'utf8');
 ok(['Quién está detrás', 'De dónde salen las cifras', 'Cómo compruebo cada fuente', 'Qué no es esta web'].every(x => ev.includes(x)), 'evidencia.html con sus cuatro partes');
-ok(!/conflicto|patrocin|afiliad/i.test(ev), 'sin declaraciones que solo puede hacer Pelayo (conflictos, patrocinios)');
+// Declaraciones: solo las que hizo Pelayo el 21/11/2026, con sus palabras
+ok(ev.includes('No cobro de marcas ni uso enlaces de afiliado') && ev.includes('Los preparo con ayuda de herramientas digitales y los reviso yo') && ev.includes('Hospital Universitario La Paz / Carlos III / Cantoblanco'), 'declaraciones de Pelayo (marcas y afiliados, cómo se preparan los textos, hospital)');
+ok(!/conflicto|patrocin|revisado por/i.test(ev), 'sin otras declaraciones (conflictos, patrocinios, «revisado por»)');
 ok(fs.readFileSync(RAIZ + '/index.html', 'utf8').includes('href="evidencia.html"'), 'enlazada desde el pie');
 ok(fs.readFileSync(RAIZ + '/sitemap.xml', 'utf8').includes('evidencia.html'), 'en el sitemap');
 console.log(mal ? 'FALLOS ' + mal : 'todo correcto');

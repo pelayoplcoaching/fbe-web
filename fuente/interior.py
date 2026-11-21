@@ -535,6 +535,7 @@ exec(open('temas.py', encoding='utf-8').read())  # cinco páginas de tema: envej
 exec(open('siguiente.py', encoding='utf-8').read())  # «¿Y ahora qué?» bajo cada calculadora, según el resultado (21/11/2026, noche)
 exec(open('chequeo.py', encoding='utf-8').read())  # «Chequeo de 10 minutos»: ruta guiada por cuatro herramientas y resumen por áreas (21/11/2026, noche)
 exec(open('compartir.py', encoding='utf-8').read())  # «Compartir resultado»: imagen hecha en el navegador, sin datos personales (21/11/2026, noche)
+exec(open('recetas.py', encoding='utf-8').read())  # «Recetas con proteína»: las diez de muestra del recetario, con filtros y «Tu día» (21/11/2026, noche)
 exec(open('autoria.py', encoding='utf-8').read())  # firma y fecha en las páginas de salud y «Cómo trabajo la evidencia» (21/11/2026, noche)
 exec(open('evolucion.py', encoding='utf-8').read())  # «Mi evolución» (gráficas) e «Informe para tu médico» en Mis resultados (21/11/2026, noche)
 exec(open('extras2.py', encoding='utf-8').read())  # test de mitos, plan semanal con calendario, datos estructurados e imagen para compartir de cada página (21/11/2026)

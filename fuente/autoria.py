@@ -1,14 +1,16 @@
 # Firma, fecha y «Cómo trabajo la evidencia» (21/11/2026, noche). Lo ejecuta interior.py después de fuentes.py y antes de extras2.py.
 # 1. evidencia.html: qué fuentes se usan, cómo se comprueban y qué no es esta web. Solo lo que ya es verdad en la web
-#    (formación de Quién soy, fuentes de fuentes.json, aviso del pie). Sin declaración de conflictos de interés ni de
-#    cómo se escriben los textos: eso solo lo puede decir Pelayo (pendiente de preguntarle).
+#    (formación de Quién soy, fuentes de fuentes.json, aviso del pie) y lo que dijo Pelayo el 21/11/2026: su hospital
+#    («Hospital Universitario La Paz/Carlos III/Cantoblanco»), que no cobra de marcas ni usa enlaces de afiliado, y que
+#    prepara los textos con ayuda de herramientas digitales y los revisa él.
 # 2. Firma bajo la entradilla de las páginas de salud: autor de la web, fecha de la última actualización del contenido
 #    y, si la página cita estudios, fecha de comprobación de sus fuentes. No dice «revisado por»: nadie más revisa los textos.
 # FECHAS: cambiar la de una página cuando cambie su contenido (no al regenerar).
 _MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre']
 def fecha_es(iso): a, m, d = iso.split('-'); return f'{int(d)} de {_MESES[int(m) - 1]} de {a}'
 FECHAS = {u: '2026-11-21' for u in [u for u, *_ in HERR_MAS] + ['pauta-activa.html', 'mitos.html', 'glosario.html', 'empieza-aqui.html', 'fuentes.html', 'profesionales.html', 'evidencia.html'] + globals().get('TEMAS_PAGS', []) + globals().get('CHQ_PAGS', [])}
-PERSONA = {'@type': 'Person', 'name': 'Pelayo Fernández Cidón', 'url': WEB + 'quien-soy.html', 'jobTitle': 'Médico especialista en Medicina Interna y entrenador'}
+HOSPITAL = 'Hospital Universitario La Paz / Carlos III / Cantoblanco'  # como lo escribió Pelayo el 21/11/2026
+PERSONA = {'@type': 'Person', 'name': 'Pelayo Fernández Cidón', 'url': WEB + 'quien-soy.html', 'jobTitle': 'Médico especialista en Medicina Interna y entrenador', 'worksFor': {'@type': 'Hospital', 'name': HOSPITAL, 'address': {'@type': 'PostalAddress', 'addressLocality': 'Madrid', 'addressCountry': 'ES'}}}
 
 # ---- Foto pequeña para la firma (sale de la foto real de Quién soy; si no está, la firma va sin foto) ----
 _FOTO = 'web-img/foto-pelayo.webp'
@@ -27,7 +29,7 @@ SEC_SIG['evidencia.html'] = (('quien-soy.html', 'Quién soy'), ('fuentes.html', 
 pagina('evidencia.html', 'Cómo trabajo la evidencia', 'Qué fuentes usa la web de Fuerza Basada en Evidencia, cómo se comprueba cada cifra y qué no es esta web.',
        'Cómo trabajo la evidencia.', 'Qué fuentes uso, cómo compruebo cada cifra y qué no es esta web. Para que sepas de dónde sale lo que lees y lo que calculas aquí.', f'''
 <section><div class="in dos">
-  <div class="sube"><div class="entrada"><h2>Quién está detrás</h2><p>Esta web es mía. Soy Pelayo Fernández Cidón, médico especialista en Medicina Interna y entrenador.</p></div>
+  <div class="sube"><div class="entrada"><h2>Quién está detrás</h2><p>Esta web es mía. Soy Pelayo Fernández Cidón, médico especialista en Medicina Interna en el {HOSPITAL} (Madrid) y entrenador.</p></div>
     <ul class="marcas"><li>Especialista en Medicina Interna</li><li>Experto universitario en entrenamiento de fuerza</li><li>Máster en nutrición clínica</li><li>Más de 15 años entrenando fuerza</li></ul>
     <p class="sec-enl"><b>Más sobre mí</b><a href="quien-soy.html">Quién soy</a><a href="medios.html">En los medios</a></p></div>
   <aside class="ev-foto sube">{ilus("foto-pelayo", "ev-retrato") if os.path.exists(_FOTO) else ""}</aside>
@@ -49,7 +51,14 @@ pagina('evidencia.html', 'Cómo trabajo la evidencia', 'Qué fuentes usa la web 
   <p class="ev-ej sube"><b>Un ejemplo de este mes:</b> el análisis de Pelland y cols. sobre cuántas series hacer se citaba como preprint (2024). Ya está publicado en Sports Medicine y la web cita esa versión, que mantiene el recuento que usa el <a href="volumen-semanal.html">contador de volumen</a>.</p>
   <p class="sec-enl sube"><b>Compruébalo tú</b><a href="fuentes.html">Las {len(FUENTES)} fuentes</a><a href="mitos.html">Mitos y evidencia</a></p>
 </div></section>
-<section class="hoja" id="limites"><div class="in"><div class="entrada sube"><h2>Qué no es esta web</h2></div>
+<section class="hoja" id="textos"><div class="in"><div class="entrada sube"><h2>Cómo preparo los textos y de qué vive esto</h2></div>
+  <div class="ev-dos sube">
+    <div><h3>Los textos</h3><p>Los preparo con ayuda de herramientas digitales y los reviso yo. Cada cifra pasa por la comprobación de fuentes de arriba antes de publicarse.</p></div>
+    <div><h3>Sin marcas ni afiliados</h3><p>No cobro de marcas ni uso enlaces de afiliado. Lo que vendo aquí es mi trabajo: la asesoría (<a href="programas.html">Programas</a> y <a href="puesta-a-punto.html">Puesta a punto</a>) y las <a href="guias.html">guías</a>.</p></div>
+    <div><h3>Las herramientas, gratis</h3><p>Las calculadoras, los mitos y el glosario son gratis y no piden cuenta. Lo que escribes en las calculadoras se queda en tu navegador.</p></div>
+  </div>
+</div></section>
+<section id="limites"><div class="in"><div class="entrada sube"><h2>Qué no es esta web</h2></div>
   <ul class="ev-no sube">
     <li><b>No sustituye a tu médico</b><span>Ni la web ni la asesoría sustituyen a tu médico ni a un tratamiento.</span></li>
     <li><b>Las herramientas no diagnostican</b><span>Estiman y orientan. Úsalas para saber por dónde empezar y para ver si progresas.</span></li>
