@@ -2608,3 +2608,89 @@ footer .legal a:hover { color: #fff; }
 .mas-d a { transition: color .2s, letter-spacing .3s; }
 .mas-d a:hover { letter-spacing: .12em; }
 @media (prefers-reduced-motion: reduce) { .autor-foto .foto-p, .barra-f .fases button, .guia .portada b, .guia .portada span, .temas-g span, .guia .btn::before, .correo .de .cara, .correo .foto-b, .herr .herr-img img, .herr-et img, .herr-mini-img, .indice a, .busca .lupa::before, .ancla { transition: none; } .dentro[open] li, #halla:not(:empty) { animation: none; } .dentro::details-content { transition: none; } .autor-foto:hover .foto-p, .guia:hover .temas-g span, .correo:hover .de .cara, .correo:hover .foto-b, .herr:hover .herr-img img, .herr:hover .herr-et img, .herr-mini:hover .herr-mini-img, .indice a:hover, .ancla:hover { transform: none; translate: none; } .busca:focus-within .lupa::before { scale: none; rotate: none; } }
+.progreso-barra i { transition: width .5s cubic-bezier(.2, .7, .2, 1), box-shadow .3s; box-shadow: 0 0 10px color-mix(in srgb, var(--marca-clara) 70%, transparent); }
+.progreso-txt b { display: inline-block; transition: transform .3s cubic-bezier(.3, 1.6, .5, 1), color .2s; }
+.progreso-f:has(#f-listos) .progreso-txt b { font-variant-numeric: tabular-nums; }
+.bloque-f b { transition: color .3s, letter-spacing .3s; }
+.formu .campo { transition: background-color .3s; border-radius: .9rem; }
+.formu .campo:focus-within > label { color: var(--acento); }
+.formu .campo > label { transition: color .2s; }
+.formu .campo input, .formu .campo textarea, .formu .campo select { transition: border-color .2s, box-shadow .25s, background-color .2s; }
+.formu .campo input:focus, .formu .campo textarea:focus, .formu .campo select:focus { box-shadow: 0 0 0 4px color-mix(in srgb, var(--marca) 16%, transparent); }
+.formu .campo input:user-valid:not([type="checkbox"]):not([type="radio"]), .formu .campo textarea:user-valid { border-color: color-mix(in srgb, var(--verde) 60%, var(--linea)); }
+.formu .campo input:user-invalid, .formu .campo textarea:user-invalid { border-color: var(--rojo); box-shadow: 0 0 0 3px color-mix(in srgb, var(--rojo) 14%, transparent); }
+.formu .campo:has(input:user-invalid) > label { color: var(--rojo); }
+.chips-f label span { transition: background-color .2s, color .2s, border-color .2s, transform .2s cubic-bezier(.3, 1.6, .5, 1), box-shadow .2s; }
+.chips-f label:hover span { transform: translateY(-2px); }
+.chips-f label:active span { transform: scale(.95); }
+.chips-f input:checked + span { animation: serie-ok .35s cubic-bezier(.3, 1.6, .5, 1); box-shadow: 0 .5rem 1.2rem -.6rem color-mix(in srgb, var(--marca) 70%, transparent); }
+.acepta { transition: background-color .25s; border-radius: .7rem; }
+.acepta:has(input:checked) { background: color-mix(in srgb, var(--verde) 7%, transparent); }
+.acepta input { transition: transform .2s cubic-bezier(.3, 1.6, .5, 1); }
+.acepta input:checked { transform: scale(1.1); }
+.envio-f .btn.grande { position: relative; overflow: hidden; }
+.envio-f .btn.grande::before { content: ""; position: absolute; inset: 0; background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, .3) 50%, transparent 65%); translate: -120% 0; transition: translate .9s cubic-bezier(.2, .7, .2, 1); pointer-events: none; }
+.envio-f .btn.grande:hover::before, .formu:has(.progreso-f) .envio-f .btn.grande:focus-visible::before { translate: 120% 0; }
+.tarjeta-p { transition: box-shadow .3s, translate .3s cubic-bezier(.2, .7, .2, 1), border-color .3s; }
+.tarjeta-p:hover { box-shadow: var(--sombra-s); translate: 0 -2px; }
+@media (prefers-reduced-motion: no-preference) {
+  .sube .pasitos li, .tarjeta-p .pasitos li { animation: pasito-entra .5s cubic-bezier(.2, .7, .2, 1) both; }
+  .sube .pasitos li:nth-child(2), .tarjeta-p .pasitos li:nth-child(2) { animation-delay: .12s; } .sube .pasitos li:nth-child(3), .tarjeta-p .pasitos li:nth-child(3) { animation-delay: .24s; } .sube .pasitos li:nth-child(4) { animation-delay: .36s; }
+  .pasitos li::before { animation: pasito-num .5s cubic-bezier(.3, 1.6, .5, 1) both; }
+  .pasitos li:nth-child(2)::before { animation-delay: .14s; } .pasitos li:nth-child(3)::before { animation-delay: .28s; } .pasitos li:nth-child(4)::before { animation-delay: .42s; }
+}
+@keyframes pasito-entra { from { opacity: 0; translate: 0 8px; } }
+@keyframes pasito-num { from { scale: 0; } }
+@media (prefers-reduced-motion: no-preference) { .caja-s { animation: caja-s-entra .7s cubic-bezier(.2, .7, .2, 1) .1s both; } }
+@keyframes caja-s-entra { from { opacity: 0; scale: .96; translate: 0 10px; } }
+.tarj-s { transition: translate .3s cubic-bezier(.2, .7, .2, 1), box-shadow .3s, border-color .3s; }
+.tarj-s:hover { translate: 0 -4px; box-shadow: var(--sombra); }
+.tarj-s img { transition: transform .7s cubic-bezier(.2, .7, .2, 1), filter .4s; }
+.tarj-s:hover img { transform: scale(1.05); filter: brightness(1.07); }
+.tarj-s .tarj-t b { transition: color .2s; }
+.tarj-s:hover .tarj-t b { color: var(--acento); }
+.tarj-s:active { scale: .98; }
+.dos-pasos > li, .pasos-g.con-iconos > li { transition: translate .3s cubic-bezier(.2, .7, .2, 1), box-shadow .3s; }
+.dos-pasos > li:hover, .pasos-g.con-iconos > li:hover { translate: 0 -3px; box-shadow: var(--sombra-s); }
+@media (prefers-reduced-motion: no-preference) {
+  .sube .chips.analitica li, .chips.analitica.sube li { opacity: 0; scale: .85; transition: opacity .3s, scale .35s cubic-bezier(.3, 1.6, .5, 1); }
+  .sube.ya .chips.analitica li, .chips.analitica.sube.ya li { opacity: 1; scale: 1; }
+  .ya .chips.analitica li:nth-child(3n+2), .chips.analitica.ya li:nth-child(3n+2) { transition-delay: .05s; } .ya .chips.analitica li:nth-child(3n), .chips.analitica.ya li:nth-child(3n) { transition-delay: .1s; }
+}
+.nota-g { transition: border-color .3s; }
+.indice-p a { transition: color .2s, padding-left .25s, background-color .2s; }
+.indice-p a:hover { padding-left: .3rem; }
+.indice-p a.act { padding-left: .3rem; }
+.ficha-resp { transition: box-shadow .3s, border-color .3s; }
+.ficha-resp:hover { box-shadow: var(--sombra-s); }
+.copiar-c { transition: background-color .2s, color .2s, transform .2s cubic-bezier(.3, 1.6, .5, 1); }
+.copiar-c:active { transform: scale(.92); }
+.prosa-priv h2 { transition: color .2s; }
+.prosa-priv h2:target { color: var(--acento); }
+li.ambar { transition: background-color .25s; border-radius: .5rem; }
+li.ambar:hover { background: color-mix(in srgb, var(--oro) 10%, transparent); }
+.num404 { transition: letter-spacing .5s cubic-bezier(.2, .7, .2, 1), filter .4s; cursor: default; }
+.num404:hover { letter-spacing: .08em; filter: drop-shadow(0 0 1.5rem rgba(164, 156, 255, .7)); }
+@media (prefers-reduced-motion: no-preference) { .t-404 h1 { animation: h404 .8s cubic-bezier(.2, .7, .2, 1) .15s both; } .t-404 .sub, .t-404 .cta { animation: h404 .8s cubic-bezier(.2, .7, .2, 1) .3s both; } }
+@keyframes h404 { from { opacity: 0; translate: 0 12px; } }
+.t-404 .cta .enl { transition: color .2s, letter-spacing .3s; }
+.t-404 .cta .enl:hover { letter-spacing: .03em; }
+.tool-campo > label { transition: color .2s; }
+.tool-campo:focus-within > label { color: var(--acento); }
+.num-paso button { transition: background-color .2s, color .2s, transform .2s cubic-bezier(.3, 1.6, .5, 1); }
+.num-paso button:active { transform: scale(.88); }
+.num-paso:focus-within { box-shadow: 0 0 0 4px color-mix(in srgb, var(--marca) 14%, transparent); border-radius: .9rem; }
+.seg-t label span { transition: background-color .2s, color .2s, border-color .2s, transform .2s cubic-bezier(.3, 1.4, .5, 1); }
+.seg-t label:active span { transform: scale(.96); }
+.seg-t input:checked + span { animation: seg-ok .3s cubic-bezier(.3, 1.6, .5, 1); }
+@keyframes seg-ok { 50% { transform: scale(1.04); } }
+.tool-fig img { transition: transform .7s cubic-bezier(.2, .7, .2, 1), filter .4s; }
+.tool-fig { overflow: hidden; }
+.tool-fig:hover img { transform: scale(1.05); filter: brightness(1.08); }
+.tool-fig figcaption b { transition: color .2s; }
+.tool-fig:hover figcaption b { color: var(--oro); }
+@media (prefers-reduced-motion: no-preference) { .tool-tira.sube .tool-fig { opacity: 0; translate: 0 14px; transition: opacity .5s, translate .5s cubic-bezier(.2, .7, .2, 1); } .tool-tira.sube.ya .tool-fig { opacity: 1; translate: 0 0; } .tool-tira.sube.ya .tool-fig:nth-child(2) { transition-delay: .1s; } .tool-tira.sube.ya .tool-fig:nth-child(3) { transition-delay: .2s; } }
+.fuentes-t li { transition: color .2s; }
+.fuentes-t li:hover { color: var(--tinta); }
+.tool-explica b { background: linear-gradient(color-mix(in srgb, var(--marca-clara) 28%, transparent), color-mix(in srgb, var(--marca-clara) 28%, transparent)) left 88% / 100% .32em no-repeat; }
+@media (prefers-reduced-motion: reduce) { .progreso-barra i, .progreso-txt b, .formu .campo, .chips-f label span, .acepta input, .envio-f .btn.grande::before, .tarjeta-p, .tarj-s, .tarj-s img, .dos-pasos > li, .pasos-g.con-iconos > li, .indice-p a, .copiar-c, .num404, .num-paso button, .seg-t label span, .tool-fig img { transition: none; } .chips-f input:checked + span, .caja-s, .pasitos li, .pasitos li::before, .t-404 h1, .t-404 .sub, .t-404 .cta, .seg-t input:checked + span { animation: none; } .chips-f label:hover span, .chips-f label:active span, .acepta input:checked, .tarjeta-p:hover, .tarj-s:hover, .tarj-s:hover img, .tarj-s:active, .dos-pasos > li:hover, .pasos-g.con-iconos > li:hover, .copiar-c:active, .num-paso button:active, .seg-t label:active span, .tool-fig:hover img { transform: none; translate: none; scale: none; } }
