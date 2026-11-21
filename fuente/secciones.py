@@ -139,12 +139,17 @@ pagina('videos.html', 'Vídeos', 'Los vídeos de Fuerza Basada en Evidencia en Y
 # ---------------------------------------------------------------------------------------------
 # 3. Para profesionales sanitarios: Pauta Activa en consulta, herramientas con fuente, recursos para pacientes y charlas
 _PM = PA_PARA[1]
-PRO_HERR = [('revision-medica.html', 'Cribado antes del ejercicio', 'Algoritmo del ACSM 2015 (Riebe), con texto para copiar y llevar al médico.'),
-            ('test-sppb.html', 'Test SPPB guiado', 'Guralnik 1994 y 2000, punto de corte de EWGSOP2 y niveles de Vivifrail.'),
-            ('test-silla.html', 'Test de la silla en 30 segundos', 'Valores normales de Rikli y Jones (1999) y umbral de autonomía (2013).'),
-            ('zonas-pulso.html', 'Zonas de pulso con medicación', 'Tanaka, tramos del ACSM y aviso cuando un fármaco invalida el pulso como guía.'),
-            ('semaforo-dolor.html', 'Semáforo del dolor', 'Modelo de Thomeé (1997) y Silbernagel (2007), con diario.'),
-            ('suplementos.html', 'Suplementos con evidencia', 'Grupos del AIS y dosis del consenso del COI de 2018.')]
+PRO_HERR = [('revision-medica.html', 'Cribado antes del ejercicio', 'Algoritmo del ACSM 2015 (Riebe), con texto para copiar y llevar al médico.', 'ACSM 2015'),
+            ('test-sppb.html', 'Test SPPB guiado', 'Guralnik 1994 y 2000, punto de corte de EWGSOP2 y niveles de Vivifrail.', 'Guralnik · EWGSOP2'),
+            ('test-silla.html', 'Test de la silla en 30 segundos', 'Valores normales de Rikli y Jones (1999) y umbral de autonomía (2013).', 'Rikli y Jones'),
+            ('zonas-pulso.html', 'Zonas de pulso con medicación', 'Tanaka, tramos del ACSM y aviso cuando un fármaco invalida el pulso como guía.', 'Tanaka · ACSM'),
+            ('semaforo-dolor.html', 'Semáforo del dolor', 'Modelo de Thomeé (1997) y Silbernagel (2007), con diario.', 'Thomeé · Silbernagel'),
+            ('suplementos.html', 'Suplementos con evidencia', 'Grupos del AIS y dosis del consenso del COI de 2018.', 'AIS · COI 2018')]
+PRO_FORMATOS = ['Sesión clínica', 'Curso', 'Jornadas']  # 5x50 (tanda 2): los mismos formatos que nombra el texto
+_SOBRE = '<svg class="vid-mini" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.5 7l8.5 6 8.5-6"/></svg>'
+PRO_JS = r'''(function(){var q=matchMedia('(prefers-reduced-motion: reduce)').matches;
+document.querySelectorAll('.pro-copia').forEach(function(b){b.addEventListener('click',function(){var u=new URL(b.dataset.u,location.href).href,s=b.querySelector('span'),t=s.textContent;function ok(){b.classList.add('hecho');s.textContent='Copiado';setTimeout(function(){b.classList.remove('hecho');s.textContent=t},1600)}if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(u).then(ok,function(){prompt('Copia el enlace:',u)});else prompt('Copia el enlace:',u)})});
+var cs=document.querySelectorAll('.pro-cif b[data-v]');if(q||!('IntersectionObserver' in window))return;cs.forEach(function(b){b.textContent='0'});var io=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;io.unobserve(e.target);var b=e.target,v=+b.dataset.v,t0=performance.now();(function paso(t){var k=Math.min(1,(t-t0)/900);b.textContent=Math.round(v*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(paso)})(t0)})},{threshold:.4});cs.forEach(function(b){io.observe(b)});})();'''
 PRO_TEMAS = ['Fuerza en el paciente crónico y polimedicado: por dónde empezar.',
              'Fármacos y ejercicio: qué cambia el pulso, la tensión o la glucosa durante el esfuerzo.',
              'Valoración funcional en consulta: SPPB y test de la silla.',
@@ -155,33 +160,39 @@ PRO_CRED = ['Especialista en Medicina Interna', 'Experto universitario en entren
 _G0 = G[0]
 _MAIL_S = (MAILTO + '?subject=' + _up.quote('Sesión o formación')) if MAILTO else FORM
 _FIJO_PRO = f'<a class="arriba" id="arriba" href="#contenido" aria-label="Volver arriba">{ico("sube")}</a>\n<div class="fijo" id="fijo"><a class="sec" href="pauta-activa.html">Pauta Activa</a><a class="btn claro" href="#charlas">Charlas</a></div>'
-def pro_tarj(u, t, d):
+def pro_tarj(u, t, d, fu):
     sl, i, _, _ = HM[u]
-    return f'<a class="herr-mini" href="{u}">{ilus(f"herr-{sl}", "herr-mini-img") or f"<i class=\"ic\">{ico(i)}</i>"}<b>{t}</b><span>{d}</span></a>'
+    return f'<a class="herr-mini pro-herr" href="{u}">{ilus(f"herr-{sl}", "herr-mini-img") or f"<i class=\"ic\">{ico(i)}</i>"}<b>{t}</b><span>{d}</span><em class="pro-fuente">{fu}</em></a>'
+def pro_li(u, n):
+    return f'<li><a href="{u}">{n}</a><button type="button" class="pro-copia" data-u="{u}" aria-label="Copiar el enlace de {n}"><span>Copiar enlace</span></button></li>'
+PRO_IND = [('#pauta', 'Pauta Activa'), ('#herramientas', 'Herramientas'), ('#pacientes', 'Para tus pacientes'), ('#charlas', 'Charlas y formación')]
 pagina('profesionales.html', 'Para profesionales sanitarios', 'Para médicos, enfermería, farmacia y fisioterapia: Pauta Activa en consulta, herramientas con la fuente al pie y charlas sobre fuerza y medicación.',
        'Para profesionales sanitarios.', 'Soy médico internista. Esto es lo que te puede servir en la consulta, y cómo escribirme si quieres una sesión o una charla para tu equipo.', f'''
-<section id="pauta"><div class="in pro-dos">
-  <div class="sube"><div class="entrada"><h2>Pauta Activa en tu consulta</h2></div><p class="pro-lead">{_PM[2]}</p>
-    <ul class="marcas">{"".join(f"<li>{x}</li>" for x in _PM[3])}</ul>
+<section id="pauta"><div class="in"><nav class="pro-indice sube" aria-label="En esta página"><b>En esta página</b>{"".join(f'<a href="{h}">{t}</a>' for h, t in PRO_IND)}</nav></div><div class="in pro-dos">
+  <div class="sube">{ilus("pa-logo", "pro-logo")}<div class="entrada"><h2>Pauta Activa en tu consulta</h2></div><p class="pro-lead">{_PM[2]}</p>
+    <ul class="marcas pro-marcas">{"".join(f"<li>{x}</li>" for x in _PM[3])}</ul>
     <div class="vid-cta"><a class="btn" href="{PA}" rel="noopener">Abrir Pauta Activa</a><a class="btn hueco" href="pauta-activa.html">Ver qué hace</a></div></div>
-  <div class="sube"><ul class="pro-cif">{"".join(f"<li><b>{n}</b><span>{t}</span></li>" for n, t in PA_CIF)}</ul><p class="pro-nota">{PA_NO[0][0]} {PA_NO[0][1]}</p></div>
+  <div class="sube"><ul class="pro-cif">{"".join(f"<li><b data-v=\"{n}\">{n}</b><span>{t}</span></li>" for n, t in PA_CIF)}</ul><p class="pro-nota">{PA_NO[0][0]} {PA_NO[0][1]}</p></div>
 </div></section>
-<section class="hoja" id="herramientas"><div class="in"><div class="entrada sube"><h2>Herramientas con la fuente al pie</h2><p>Gratis y en el navegador: no se envía ningún dato del paciente. Cada una cita de dónde salen sus números.</p></div>
+<section class="hoja" id="herramientas"><div class="in"><div class="entrada sube"><h2>Herramientas con la fuente al pie</h2><p>Cada una cita de dónde salen sus números.</p></div>
+  <p class="pro-priv sube">{ico("candado")}<span>Gratis y en el navegador: no se envía ningún dato del paciente.</span></p>
   <div class="herr-mas-rej sube">{"".join(pro_tarj(*x) for x in PRO_HERR)}</div>
 </div></section>
-<section><div class="in"><div class="entrada sube"><h2>Para tus pacientes</h2><p>Lo que puedes recomendar en la consulta.</p></div>
+<section id="pacientes"><div class="in"><div class="entrada sube"><h2>Para tus pacientes</h2><p>Lo que puedes recomendar en la consulta. Copia el enlace y pásaselo.</p></div>
   <div class="pro-pac">
-    <div class="ea-col sube">{sec_ic("libro")}<h3>Para aprender por su cuenta</h3><ul><li><a href="herramientas.html">Herramientas</a></li><li><a href="mitos.html">Mitos y evidencia</a></li><li><a href="videos.html">Vídeos</a></li><li><a href="newsletter.html">Newsletter</a></li></ul></div>
-    <div class="ea-col sube">{sec_ic("check")}<h3>Si necesitan un plan individual</h3><ul><li><a href="puesta-a-punto.html">Puesta a punto</a>: consulta y plan de 12 semanas, con lectura de su analítica.</li><li><a href="programas.html">Asesoría</a>: plan de fuerza y nutrición en la app, revisado cada semana.</li></ul></div>
+    <div class="ea-col sube">{sec_ic("libro")}<h3>Para aprender por su cuenta</h3><ul class="pro-lista">{pro_li("herramientas.html", "Herramientas")}{pro_li("mitos.html", "Mitos y evidencia")}{pro_li("videos.html", "Vídeos")}{pro_li("newsletter.html", "Newsletter")}</ul></div>
+    <div class="ea-col sube">{sec_ic("check")}<h3>Si necesitan un plan individual</h3><ul class="pro-planes"><li><a href="puesta-a-punto.html">Puesta a punto</a>: consulta y plan de 12 semanas, con lectura de su analítica.</li><li><a href="programas.html">Asesoría</a>: plan de fuerza y nutrición en la app, revisado cada semana.</li></ul></div>
   </div>
 </div></section>
-<section class="hoja"><div class="in"><div class="calc sube"><div><h3>¿Tú también haces guardias?</h3><p>La guía «{_G0[0]}» es para {_G0[2][0].lower() + _G0[2][1:-1]}: {_G0[1].split(": ", 1)[1]}</p></div><div><a class="btn claro" href="guias.html">Ver la guía</a></div></div></div></section>
+<section class="hoja"><div class="in"><div class="calc sube pro-guardias">{ilus(GIMG[0], "pro-guia")}<div><h3>¿Tú también haces guardias?</h3><p>La guía «{_G0[0]}» es para {_G0[2][0].lower() + _G0[2][1:-1]}: {_G0[1].split(": ", 1)[1]}</p></div><div><a class="btn claro" href="guias.html">Ver la guía</a></div></div></div></section>
 <section id="charlas"><div class="in pro-dos">
   <div class="sube"><div class="entrada"><h2>Sesiones, charlas y formación</h2></div><p class="pro-lead">Si organizas una sesión clínica, un curso o unas jornadas, puedo hablar de fuerza y medicación con casos reales. Cuéntame el público, el formato y la fecha, y te digo si puedo.</p>
+    <ul class="pro-formatos">{"".join(f"<li>{x}</li>" for x in PRO_FORMATOS)}</ul>
     <ul class="pro-cred">{"".join(f"<li>{x}</li>" for x in PRO_CRED)}</ul>
-    <div class="vid-cta"><a class="btn" href="{_MAIL_S}">Escribirme</a></div>{'<p class="sec-enl"><b>Entrevistas y formación</b><a href="medios.html">En los medios</a></p>' if len(MEDIOS) >= 2 else ''}</div>
+    <div class="vid-cta"><a class="btn" href="{_MAIL_S}">{_SOBRE}Escribirme</a></div>{'<p class="sec-enl"><b>Entrevistas y formación</b><a href="medios.html">En los medios</a></p>' if len(MEDIOS) >= 2 else ''}</div>
   <div class="sube">{ilus("pro-charlas", "pro-img")}<h3 class="pro-h3">{sec_ic("micro")}Algunos temas</h3><ul class="pro-temas">{"".join(f"<li>{x}</li>" for x in PRO_TEMAS)}</ul></div>
-</div></section>''', cta=f'<div class="cta"><a class="btn claro" href="{PA}" rel="noopener">Abrir Pauta Activa</a><a class="enl" href="#charlas">Charlas y formación</a></div>',
+</div></section>
+<script>{PRO_JS}</script>''', cta=f'<div class="cta"><a class="btn claro" href="{PA}" rel="noopener">Abrir Pauta Activa</a><a class="enl" href="#charlas">Charlas y formación</a></div>',
        cierre_t=('¿Y tú, entrenas?', 'Los sanitarios también tenemos guardias y poco tiempo. Cuéntame tu caso.'), fijo=_FIJO_PRO)
 
 # ---------------------------------------------------------------------------------------------
@@ -251,25 +262,27 @@ pagina('mitos.html', 'Mitos y evidencia', 'Nueve mitos de gimnasio y de consulta
 #    (YouTube no se puede leer desde aquí); los de prensa y SEMI son los publicados (el de AS, comprobado con la captura que mandó Pelayo el 21/11/2026).
 MEDIO_ACC = {'Prensa': ('libro', 'Leer la noticia'), 'Podcast': ('micro', 'Ver la entrevista'), 'Formación': ('fonendo', 'Ver la minipíldora')}
 MEDIO_T = [('', 'Todo'), ('Prensa', 'Prensa'), ('Podcast', 'Podcasts'), ('Formación', 'Formación')]
-MEDIOS_JS = r'''(function(){var f=document.getElementById('medios-f');if(!f)return;var ms=[].slice.call(document.querySelectorAll('.medio'));
-f.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;f.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',x===b)});var t=b.dataset.t;ms.forEach(function(m){m.hidden=!!t&&m.dataset.t!==t})});})();'''
+MEDIOS_JS = r'''(function(){var f=document.getElementById('medios-f');if(!f)return;var ms=[].slice.call(document.querySelectorAll('.medio')),n=document.getElementById('medios-n');
+f.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;f.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',x===b)});var t=b.dataset.t,k=0;ms.forEach(function(m){var v=!t||m.dataset.t===t;if(v&&m.hidden){m.classList.remove('medio-entra');void m.offsetWidth;m.classList.add('medio-entra')}m.hidden=!v;if(v)k++});if(n)n.textContent=k+(k===1?' aparici\u00f3n':' apariciones')});})();'''
+MEDIO_K = {'Prensa': 'pr', 'Podcast': 'po', 'Formación': 'fo'}
+def _dominio(u): return _up.urlparse(u).netloc.replace('www.', '')
 def medio_html(m, tp, t, u, fch):
     i, acc = MEDIO_ACC[tp]
-    return (f'<a class="medio sube" data-t="{tp}" href="{u}" target="_blank" rel="noopener"><span class="medio-cab">{sec_ic(i)}<span class="mito-tipo">{tp}</span></span>'
-            f'<b>{t}</b><span class="medio-de">{m}{" · " + fch if fch else ""}</span><span class="medio-acc">{acc}</span></a>')
+    return (f'<a class="medio sube k-{MEDIO_K[tp]}" data-t="{tp}" href="{u}" target="_blank" rel="noopener"><span class="medio-cab">{sec_ic(i)}<span class="mito-tipo">{tp}</span>{f"<span class=\"medio-fecha\">{fch}</span>" if fch else ""}</span>'
+            f'<b>{t}</b><span class="medio-de">{m}<small>{_dominio(u)}</small></span><span class="medio-acc">{acc}<span class="oculto"> (se abre en una pestaña nueva)</span></span></a>')
 if len(MEDIOS) >= 2:
     _nt = {k: sum(1 for x in MEDIOS if x[1] == k) for k in MEDIO_ACC}
     pagina('medios.html', 'En los medios', 'Prensa, podcasts y formación con Pelayo Fernández Cidón, médico internista y entrenador: AS, Vozpópuli, Libertad Digital, podcasts y minipíldoras de la SEMI.',
            'En los medios.', 'Noticias, entrevistas y formación en las que he participado, con el enlace a cada una.', f'''
 <section><div class="in">
-  <div class="empieza sube"><div><h2>{len(MEDIOS)} apariciones</h2><p>{_nt["Prensa"]} en prensa, {_nt["Podcast"]} podcasts y {_nt["Formación"]} de formación para sanitarios.</p></div>
-    <div class="fases claras" id="medios-f" role="group" aria-label="Filtrar por tipo">{"".join(f'<button type="button" data-t="{v}" aria-pressed="{"true" if not v else "false"}">{t}</button>' for v, t in MEDIO_T)}</div></div>
-  <div class="medios">{"".join(medio_html(*x) for x in MEDIOS)}</div>
+  <div class="empieza sube"><div><h2 id="medios-n" role="status">{len(MEDIOS)} apariciones</h2><ul class="medios-cif"><li><b>{_nt["Prensa"]}</b>en prensa</li><li><b>{_nt["Podcast"]}</b>podcasts</li><li><b>{_nt["Formación"]}</b>de formación</li></ul></div>
+    <div class="fases claras" id="medios-f" role="group" aria-label="Filtrar por tipo">{"".join(f'<button type="button" data-t="{v}" aria-pressed="{"true" if not v else "false"}">{t}<em>{len(MEDIOS) if not v else _nt[v]}</em></button>' for v, t in MEDIO_T)}</div></div>
+  <div class="medios" id="lista">{"".join(medio_html(*x) for x in MEDIOS)}</div>
 </div></section>
-<section class="hoja"><div class="in"><div class="calc sube"><div><h3>¿Quieres entrevistarme o que dé una charla?</h3><p>Escríbeme con el medio, el tema y la fecha. Para sanitarios, mira también la página de profesionales.</p></div><div><a class="btn claro" href="{(MAILTO + '?subject=' + _up.quote('Entrevista o charla')) if MAILTO else FORM}">Escribirme</a></div></div>
+<section class="hoja"><div class="in"><div class="calc sube medios-calc">{sec_ic("micro")}<div><h3>¿Quieres entrevistarme o que dé una charla?</h3><p>Escríbeme con el medio, el tema y la fecha. Para sanitarios, mira también la página de profesionales.</p></div><div><a class="btn claro" href="{(MAILTO + '?subject=' + _up.quote('Entrevista o charla')) if MAILTO else FORM}">Escribirme</a></div></div>
   <p class="sec-enl sube"><b>Sigue por aquí</b><a href="profesionales.html">Para profesionales</a><a href="videos.html">Mis vídeos</a><a href="quien-soy.html">Quién soy</a></p>
 </div></section>
-<script>{MEDIOS_JS}</script>''', cierre_t=('¿Y si lo aplicamos a tu caso?', 'Cuéntame tu caso en el formulario. Te respondo yo.'))
+<script>{MEDIOS_JS}</script>''', cta=f'<div class="cta"><a class="btn claro" href="#lista">Ver las apariciones</a><a class="enl" href="{(MAILTO + '?subject=' + _up.quote('Entrevista o charla')) if MAILTO else FORM}">Escribirme</a></div>', cierre_t=('¿Y si lo aplicamos a tu caso?', 'Cuéntame tu caso en el formulario. Te respondo yo.'))
 SEC_PAGS = ['empieza-aqui.html', 'videos.html', 'mitos.html', 'profesionales.html'] + (['medios.html'] if len(MEDIOS) >= 2 else [])
 
 # ---------------------------------------------------------------------------------------------
