@@ -139,3 +139,13 @@ rm sitio.py web-fbe-equipo.html sitio-inicio.html
 - D (651-700): OMS (banda 150-300 en la barra), cintura/altura (escala de cristal y aguja), prensión (corte como láser y «mejor» en el intento más alto, clase `g-mejor` de herramientas3.py) y calorías (barra de 0 a 4500 kcal, que antes no tenía estilo; rango en una línea).
 - E (701-750): capa general: anillo de enfoque al pasar el ratón por tarjetas (`outline`, solo con ratón), línea de luz y sombra de la barra superior ligadas al scroll, títulos de sección que entran enfocándose, destello al llegar a un ancla, pie con pilotos, miga, preguntas abiertas, filas de tablas, barra de desplazamiento en Safari, `kbd`, `abbr`, `mark`. Con contraste alto se quitan las texturas de los paneles nuevos.
 - Ojo: `.btn::after` es la flecha de los botones y `.btn::before` su brillo (estilo4.css): no usarlos para otra cosa.
+
+## Otras 5 x 50 futuristas (21/11/2026, 751-1000)
+- CSS al final de futuro.css («5 x 50 FUTURISTA - TANDA F..J»). Mismas reglas: nada continuo, todo se apaga con «reducir movimiento» y con «sin animaciones».
+- F: marco de todas las calculadoras (piloto de estado en la etiqueta del resultado, `p.tool-et:first-of-type`; icono del veredicto según z-alto/medio/bajo; cifra con halo; teclas con pulsación; fuentes como citas [1]; rail con nodos en «Cómo se interpreta») y detalles de silla, 1RM, volumen, cafeína y revisión. Arreglado: el botón «+1 de pie» se partía en dos líneas en móvil.
+- G: zonas de pulso, semáforo del dolor (luces de cristal), SPPB, parón, suplementos, tarjetas grandes de Herramientas (borde que se enciende) y Pauta Activa (cifras con halo, pantallas con reflejo).
+- H: Empieza aquí, Vídeos (anillo en el botón de reproducir), Profesionales (índice de cristal), Medios y Mitos (halo del color de cada tipo).
+- I: portada (columna FBE de la comparativa, solo en tablas con `th.yo` en la 2.ª columna), Quién soy, Programas (borde de luz en «¿Cuál te encaja?»), Puesta a punto. Arreglado: «pago único, IVA incluido» se salía de la tarjeta del precio entre 980 y 1280 px (ahora baja de línea).
+- J: Guías, Newsletter, Dudas, Pedir plaza, gracias, privacidad y 404 (una sacudida de señal al cargar, que sustituye al barrido continuo que tenía).
+- Peso: el final de interior.py compacta espacios de fbe.css (81 → 79 KB comprimido). Comprobado con capturas antes/después de 18 páginas: mismo resultado. Las reglas sin usar son solo el 0,2 % (análisis en /tmp/b/css/muertas.py), así que no compensa recortar más.
+- Prueba nueva /tmp/b/caja.mjs: textos que se salen de su tarjeta (no solo de la pantalla), a 1280, 1100 y 390 px.

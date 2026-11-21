@@ -3971,3 +3971,47 @@ html.contraste .bol-it > .bol-txt::before { display: none; }
 @media print { .cifras li b, .pegada .precio, .elige-r #elige-t { filter: none; } .cierre h2, .lema-banda blockquote p { text-shadow: none; } }
 .pegada .precio { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: .6rem; row-gap: .35rem; }
 .pegada .precio small { white-space: normal; min-width: 0; }
+/* ===== 5 x 50 FUTURISTA - TANDA J (951-1000): Guias, Newsletter, Dudas, Pedir plaza, gracias, privacidad y 404 ===== */
+/* Guias: precio del boton como lectura y temas con piloto */
+.guia .btn > span { box-shadow: 0 0 12px -4px rgba(255, 255, 255, .6); }
+.temas-g span { transition: box-shadow .2s, border-color .2s; }
+.guia:hover .temas-g span { box-shadow: 0 0 12px -6px currentColor; }
+.barra-f { position: relative; }
+.barra-f::after { content: ""; position: absolute; left: 0; right: 0; bottom: -.6rem; height: 1px; background: linear-gradient(90deg, color-mix(in srgb, var(--marca-clara) 45%, transparent), transparent 70%); pointer-events: none; }
+/* Newsletter: ultimos envios con halo al pasar y lista de lo que llega con marcador encendido */
+.correo:hover { box-shadow: var(--sombra), 0 22px 44px -30px var(--marca); }
+.marcas li::marker { color: var(--acento); }
+/* Dudas: indice con la seccion activa encendida y buscador con brillo */
+.indice a.aqui, .indice a[aria-current] { box-shadow: inset 3px 0 0 var(--marca), 0 0 18px -10px var(--marca); }
+.indice a.aqui span, .indice a[aria-current] span { background: var(--marca); color: #fff; box-shadow: 0 0 10px -2px var(--marca); }
+.dudas .busca input:focus, .lista-d .busca input:focus, .busca input:focus { box-shadow: 0 0 0 4px color-mix(in srgb, var(--marca) 18%, transparent), 0 0 22px -8px var(--marca); }
+.grupo-d > h2 { text-shadow: 0 0 0 transparent; transition: text-shadow .3s; }
+.grupo-d:hover > h2 { text-shadow: 0 0 22px color-mix(in srgb, var(--marca-clara) 35%, transparent); }
+/* Pedir plaza: barra de progreso con punta de luz, bloques con rail y tarjetas de objetivo encendidas */
+.progreso-barra i { position: relative; box-shadow: 0 0 12px color-mix(in srgb, var(--marca-clara) 70%, transparent); }
+.progreso-barra i::after { content: ""; position: absolute; right: -3px; top: 50%; width: 7px; height: 7px; margin-top: -3.5px; border-radius: 50%; background: #fff; box-shadow: 0 0 8px #fff; }
+.progreso-barra i[style*="width: 0"]::after, .progreso-barra i[style="width:0%"]::after { display: none; }
+.tarjeta-p:has(input:checked) { box-shadow: 0 0 0 3px color-mix(in srgb, var(--marca) 16%, transparent), 0 0 22px -8px var(--marca); }
+.chips-f label:has(input:checked) span, .chips-f input:checked + span { box-shadow: 0 0 0 3px color-mix(in srgb, var(--marca) 14%, transparent), 0 0 16px -6px var(--marca); }
+.formu .campo input:focus, .formu .campo textarea:focus { box-shadow: 0 0 0 4px color-mix(in srgb, var(--marca) 16%, transparent), 0 0 22px -8px var(--marca); }
+.como-sigue li::before, .pasitos li::before { box-shadow: 0 0 10px -2px var(--marca); }
+/* Gracias: tarjetas con borde que se enciende */
+.tarj-s:hover { box-shadow: var(--sombra), 0 22px 44px -30px var(--marca); }
+.tarj-img { transition: transform .6s cubic-bezier(.2, .7, .2, 1), filter .4s; }
+.tarj-s:hover .tarj-img { transform: scale(1.04); filter: brightness(1.06); }
+/* Privacidad: indice con numero encendido y ficha del responsable con rail */
+.indice-p a.aqui::before { text-shadow: 0 0 8px color-mix(in srgb, var(--marca-clara) 80%, transparent); }
+.ficha-resp { position: relative; overflow: hidden; }
+.ficha-resp::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: linear-gradient(180deg, var(--marca-clara), var(--marca)); box-shadow: 0 0 10px var(--marca-clara); }
+.prosa-priv h2 { scroll-margin-top: 6rem; }
+/* 404: una sola sacudida de senal al cargar */
+@media (prefers-reduced-motion: no-preference) { .num404 { animation-name: senal-404; animation-duration: .9s; animation-timing-function: steps(1, end); animation-delay: .35s; animation-iteration-count: 1; animation-fill-mode: none; } }
+@keyframes senal-404 {
+  0% { text-shadow: -4px 0 rgba(255, 90, 110, .8), 4px 0 rgba(95, 211, 160, .8); translate: 2px 0; }
+  15% { text-shadow: 3px 0 rgba(255, 90, 110, .8), -3px 0 rgba(95, 211, 160, .8); translate: -2px 0; }
+  30% { text-shadow: -2px 0 rgba(255, 90, 110, .7), 2px 0 rgba(95, 211, 160, .7); translate: 1px 0; clip-path: inset(10% 0 55% 0); }
+  45% { text-shadow: 0 0 3rem rgba(124, 106, 253, .55); translate: 0 0; clip-path: none; }
+  60% { text-shadow: 2px 0 rgba(255, 90, 110, .6), -2px 0 rgba(95, 211, 160, .6); translate: -1px 0; }
+  75%, 100% { text-shadow: 0 0 3rem rgba(124, 106, 253, .55); translate: 0 0; }
+}
+@media (prefers-reduced-motion: reduce) { .temas-g span, .grupo-d > h2, .tarj-img { transition: none; } .tarj-s:hover .tarj-img { transform: none; } }

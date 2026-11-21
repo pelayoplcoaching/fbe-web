@@ -546,4 +546,9 @@ for _f in glob.glob(f'{SAL}/*.html'):
 _c = open(f'{SAL}/fbe.css', encoding='utf-8').read()
 _c2 = _re.sub(r'/\*.*?\*/', '', _c, flags=_re.S)
 _c2 = _re.sub(r'\n\s*\n+', '\n', _c2)
+# compactar espacios (unos 3 KB menos comprimido): saltos de linea, espacios junto a llaves y puntos y coma, y tras los dos puntos de cada declaracion
+_c2 = _re.sub(r'\s*\n\s*', ' ', _c2)
+_c2 = _re.sub(r'\s*([{};])\s*', r'\1', _c2)
+_c2 = _c2.replace(';}', '}')
+_c2 = _re.sub(r'([{;][\w-]+):\s+', r'\1:', _c2)
 open(f'{SAL}/fbe.css', 'w', encoding='utf-8').write(_c2)
