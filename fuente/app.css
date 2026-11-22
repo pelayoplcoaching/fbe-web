@@ -335,3 +335,12 @@ html.tmp-abierto .cab, html.tmp-abierto .tabs, html.tmp-abierto .fijo { display:
 .ten-tomas .tool-fila { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .6rem; }
 .ten-tomas .num-paso button { display: none; }
 .ten-tomas .tool-campo label { font-size: .68rem; }
+
+/* ---------- Repaso en movil (22/11/2026) ---------- */
+.rec .rec-cap { padding-right: 2.6rem; }
+@media (max-width: 560px) {
+  .chq-paso { grid-template-columns: auto minmax(0, 1fr); align-items: start; gap: .6rem .8rem; padding: 1rem; }
+  .chq-paso > :nth-child(n+3) { grid-column: 1 / -1; }
+  .chq-paso .chq-a { letter-spacing: .05em; font-size: .66rem; }
+  .chq-paso h3 { font-size: 1.05rem; }
+}

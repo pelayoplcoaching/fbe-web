@@ -20,7 +20,7 @@ def _tab_de(arch):
     if arch in ('mi-panel.html', 'ayuda.html', 'sin-conexion.html'): return 'panel'
     if arch in ('pedir-plaza.html', 'programas.html', 'puesta-a-punto.html'): return 'plaza'
     return ''
-_TABS = [('inicio', 'index.html', 'casa', 'Inicio'), ('herr', 'herramientas.html', 'cajas', 'Herramientas'), ('aprende', 'aprende.html', 'birrete', 'Aprende'), ('panel', 'mi-panel.html', 'panel', 'Mi panel'), ('plaza', FORM, 'mas', 'Plaza')]
+_TABS = [('inicio', 'index.html', 'casa', 'Inicio'), ('herr', 'herramientas.html', 'cajas', 'Herramientas'), ('aprende', 'aprende.html', 'birrete', 'Aprende'), ('panel', 'mi-panel.html', 'panel', 'Mi panel'), ('plaza', FORM, 'mas', 'Pedir plaza')]
 def tabs_html(arch):
     act = _tab_de(arch)
     return ('<nav class="tabs" id="tabs" aria-label="Secciones">' + ''.join(
@@ -106,6 +106,11 @@ if 'class="ea-hecho"' not in _e:
     _e = _rp.sub(r'(<ol class="ea-pasos">)(.*?)</ol>', _ea_ol, _e, flags=_rp.S)
     _e = _e.replace('<script src="fbe.js"></script>', f'<script src="fbe.js"></script><script>{EA_PROG_JS}</script>', 1)
     open(f'{SAL}/empieza-aqui.html', 'w', encoding='utf-8').write(_e)
+
+# Aviso «Instalar» también en Mi panel (el mismo de Herramientas y Mis resultados)
+_pn = open(f'{SAL}/mi-panel.html', encoding='utf-8').read()
+if 'class="instala' not in _pn and '<p class="pn-pie' in _pn:
+    open(f'{SAL}/mi-panel.html', 'w', encoding='utf-8').write(_pn.replace('<p class="pn-pie', INSTALA + '<p class="pn-pie', 1))
 
 # ---------------------------------------------------------------------------------------------
 # 5. Buscador: Mi panel y acciones rápidas

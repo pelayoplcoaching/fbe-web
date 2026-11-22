@@ -58,6 +58,20 @@ SIGUE = {
         'z-alto': [('Herramienta', 'Test de la silla en 30 segundos', 'test-silla.html'), ('Herramienta', 'Test SPPB', 'test-sppb.html'), _SG_P['mr']],
         'z-medio': [('Glosario', 'Qué es la sarcopenia', 'glosario.html#sarcopenia'), ('Empieza aquí', 'Ruta para mayores de 60', _SG_EA + 'mayores'), _SG_P['pp']],
         'z-bajo': [('Glosario', 'Qué es la sarcopenia', 'glosario.html#sarcopenia'), ('Empieza aquí', 'Ruta para mayores de 60', _SG_EA + 'mayores'), _SG_P['pp']]},
+    'semana-activa.html': {
+        'z-alto': [('Herramienta', 'Pasos al día', 'pasos.html'), ('Herramienta', 'Temporizador de descansos', 'temporizador.html'), _SG_P['mr']],
+        'z-medio': [('Herramienta', '¿Llegas a lo mínimo de la OMS?', 'actividad-oms.html'), ('Empieza aquí', 'Ruta si entrenas sin plan', _SG_EA + 'sinplan'), _SG_P['prog']],
+        'z-bajo': [('Herramienta', '¿Necesito revisión médica?', 'revision-medica.html'), ('Empieza aquí', 'Ruta para empezar de cero', _SG_EA + 'cero'), _SG_P['pp']]},
+    'pasos.html': {
+        'z-alto': [('Herramienta', 'Mi semana activa', 'semana-activa.html'), ('Herramienta', 'Zonas de pulso y esfuerzo', 'zonas-pulso.html'), _SG_P['mr']],
+        'z-medio': [('Herramienta', 'Mi semana activa', 'semana-activa.html'), ('Herramienta', '¿Llegas a lo mínimo de la OMS?', 'actividad-oms.html'), _SG_P['prog']]},
+    'tension.html': {
+        'z-alto': [('Herramienta', 'Mi semana activa', 'semana-activa.html'), ('Herramienta', 'Zonas de pulso y esfuerzo', 'zonas-pulso.html'), _SG_P['mr']],
+        'z-medio': [('Herramienta', 'Pauta Activa: tu medicación y el ejercicio', 'pauta-activa.html'), ('Herramienta', '¿Necesito revisión médica?', 'revision-medica.html'), _SG_P['pp']],
+        'z-bajo': [('Herramienta', 'Pauta Activa: tu medicación y el ejercicio', 'pauta-activa.html'), ('Herramienta', '¿Necesito revisión médica?', 'revision-medica.html'), _SG_P['pp']]},
+    'equilibrio.html': {
+        'z-alto': [('Herramienta', 'Test de la silla en 30 segundos', 'test-silla.html'), ('Herramienta', 'Test SPPB', 'test-sppb.html'), _SG_P['mr']],
+        'z-bajo': [('Herramienta', 'Test SPPB', 'test-sppb.html'), ('Empieza aquí', 'Ruta para mayores de 60', _SG_EA + 'mayores'), _SG_P['pp']]},
     'calorias.html': {
         'def': [('Herramienta', 'Calcula tu proteína', CALC), ('Herramienta', 'Cintura y altura', 'cintura-altura.html'), _SG_P['prog']]},
 }
