@@ -17,6 +17,14 @@ I.update({
 
 # ---------------------------------------------------------------------------------------------
 # 15. Temporizador de descansos e intervalos (sin cifras de salud)
+def _marcas(n, cada=5, r1=45.5, r2=43, r3=40.5):
+    import math
+    o = []
+    for i in range(n):
+        a = math.radians(i * 360 / n - 90); r = r3 if i % cada == 0 else r2
+        o.append(f'<line{" class=\"mg\"" if i % cada == 0 else ""} x1="{60 + r1 * math.cos(a):.2f}" y1="{60 + r1 * math.sin(a):.2f}" x2="{60 + r * math.cos(a):.2f}" y2="{60 + r * math.sin(a):.2f}"/>')
+    return '<g class="tmp-marcas">' + ''.join(o) + '</g>'
+def _grad(i): return f'<defs><linearGradient id="{i}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" class="tmp-s1"/><stop offset="1" class="tmp-s2"/></linearGradient></defs>'
 TMP_FORM = (seg('t-modo', 'Modo', [('d', 'Descanso entre series'), ('i', 'Intervalos')], 'd', 'tmp-modo')
     + f'''<div id="t-pd"><div class="tmp-chips" role="group" aria-label="Descanso">{"".join(f'<button type="button" data-s="{s}">{t}</button>' for s, t in [(45, "45 s"), (60, "1 min"), (90, "1:30"), (120, "2 min"), (180, "3 min"), (300, "5 min")])}</div>
 {campo_num("t-seg", "Descanso", 90, 5, 900, 5, "El que marque tu plan. El temporizador solo lo cuenta.", ud="s")}</div>
@@ -24,12 +32,14 @@ TMP_FORM = (seg('t-modo', 'Modo', [('d', 'Descanso entre series'), ('i', 'Interv
 <div class="tmp-ops"><label><input type="checkbox" id="t-son" checked><span>Sonido</span></label><label><input type="checkbox" id="t-vib" checked><span>Vibración</span></label><label><input type="checkbox" id="t-luz" checked><span>Pantalla encendida</span></label></div>
 <p class="tool-nota">Funciona sin conexión. Si instalas la web en el móvil, lo tienes a un toque.</p>''')
 TMP_RES = '''<p class="tool-et" id="t-et">Listo</p>
-<div class="tmp-reloj" id="t-reloj"><svg viewBox="0 0 120 120" aria-hidden="true"><circle class="tmp-pista" cx="60" cy="60" r="52"/><circle class="tmp-arco" id="t-arco" cx="60" cy="60" r="52" pathLength="100" transform="rotate(-90 60 60)"/></svg>
+<div class="tmp-reloj" id="t-reloj"><svg viewBox="0 0 120 120" aria-hidden="true">[[GRAD]][[MARCAS]]<circle class="tmp-pista" cx="60" cy="60" r="52"/><circle class="tmp-arco" id="t-arco" cx="60" cy="60" r="52" pathLength="100" transform="rotate(-90 60 60)" style="stroke:url(#t-g)"/><circle class="tmp-punta" id="t-punta" cx="60" cy="8" r="3.4"/></svg>
 <div class="tmp-num"><b id="t-num" role="timer">1:30</b><span id="t-fase"></span></div></div>
+<div class="tmp-rondas" id="t-rondas" aria-hidden="true" hidden></div>
 <p class="tmp-serie" id="t-serie"></p>
 <div class="tmp-bot"><button type="button" class="tmp-ir" id="t-ir">Empezar</button><button type="button" class="tmp-b2" id="t-mas">+15 s</button><button type="button" class="tmp-b2" id="t-cero">Reiniciar</button></div>
 <button type="button" class="tmp-gym" id="t-gym" aria-pressed="false">Pantalla completa</button>
 <p class="oculto" id="t-voz" aria-live="assertive"></p>'''
+TMP_RES = TMP_RES.replace('[[GRAD]]', _grad('t-g')).replace('[[MARCAS]]', _marcas(60))
 TMP_JS = r'''(function(){
 var $=function(i){return document.getElementById(i)},K='fbe-temporizador',cfg={m:'d',s:90,tr:30,ds:30,ro:8,son:1,vib:1,luz:1};
 try{var g=JSON.parse(localStorage.getItem(K)||'{}')||{};Object.keys(cfg).forEach(function(k){if(g[k]!=null)cfg[k]=g[k]})}catch(e){}
@@ -47,7 +57,9 @@ function pinta(){
   $('t-pd').hidden=cfg.m!=='d';$('t-pi').hidden=cfg.m!=='i';chips();
   var q=est==='listo'?durDe(cfg.m==='d'?'descanso':'trabajo'):queda,t=est==='listo'?q:total;
   $('t-num').textContent=mmss(q);$('t-arco').style.strokeDashoffset=(t>0?100-Math.max(0,Math.min(1,q/t))*100:0);
-  caja.dataset.est=est;caja.dataset.fase=fase;
+  caja.dataset.est=est;caja.dataset.fase=fase;caja.dataset.ult=est==='corre'&&q<=3.05?'1':'';
+  $('t-punta').style.transform='rotate('+((t>0?Math.max(0,Math.min(1,q/t)):1)*360).toFixed(1)+'deg)';
+  var rd=$('t-rondas');rd.hidden=cfg.m!=='i'||cfg.ro>24;if(!rd.hidden){var hh='';for(var ri=1;ri<=cfg.ro;ri++)hh+='<i class="'+(est==='fin'||(est!=='listo'&&ri<ronda)?'ok':(est!=='listo'&&ri===ronda?'act':''))+'"></i>';rd.innerHTML=hh}
   $('t-et').textContent=est==='listo'?'Listo':est==='pausa'?'En pausa':est==='fin'?(cfg.m==='d'?'¡A por la siguiente serie!':'¡Terminado!'):(fase==='trabajo'?'Trabajo':'Descanso');
   $('t-fase').textContent=cfg.m==='i'&&est!=='listo'?'Ronda '+Math.min(ronda,cfg.ro)+' de '+cfg.ro:(cfg.m==='i'?cfg.ro+' rondas':'');
   $('t-serie').textContent=cfg.m==='d'&&series?(series===1?'1 descanso hecho':series+' descansos hechos'):'';
@@ -111,7 +123,7 @@ SEM_FORM = (f'''<div class="sem-nav"><button type="button" id="s-ant" aria-label
 <ul class="sem-lista" id="s-lista" aria-label="Lo apuntado esta semana"></ul>
 <p class="tool-nota">Se guarda solo en este dispositivo. La fuerza cuenta por días, no por minutos.</p>''')
 SEM_RES = f'''<p class="tool-et">Tu semana, frente al mínimo de la OMS</p>
-<div class="sem-anillos" aria-hidden="true"><svg viewBox="0 0 120 120"><circle class="an-p" cx="60" cy="60" r="50"/><circle class="an-a an-1" id="s-a1" cx="60" cy="60" r="50" pathLength="100" transform="rotate(-90 60 60)"/><circle class="an-p" cx="60" cy="60" r="36"/><circle class="an-a an-2" id="s-a2" cx="60" cy="60" r="36" pathLength="100" transform="rotate(-90 60 60)"/></svg></div>
+<div class="sem-anillos" aria-hidden="true"><svg viewBox="0 0 120 120"><defs><linearGradient id="s-g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" class="an-s1a"/><stop offset="1" class="an-s1b"/></linearGradient><linearGradient id="s-g2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" class="an-s2a"/><stop offset="1" class="an-s2b"/></linearGradient></defs><circle class="an-p" cx="60" cy="60" r="50"/><circle class="an-a an-1" id="s-a1" cx="60" cy="60" r="50" pathLength="100" transform="rotate(-90 60 60)" style="stroke:url(#s-g1)"/><circle class="an-p" cx="60" cy="60" r="35"/><circle class="an-a an-2" id="s-a2" cx="60" cy="60" r="35" pathLength="100" transform="rotate(-90 60 60)" style="stroke:url(#s-g2)"/><path class="an-ok" d="M49 61l8 8 15-17"/></svg></div>
 <div class="res-grande"><b id="s-r">0</b><span>min equivalentes</span></div>
 <ul class="sem-ley"><li class="k1"><b id="s-l1">0 de 150 min</b> de actividad aeróbica</li><li class="k2"><b id="s-l2">0 de 2 días</b> de fuerza</li></ul>
 <p class="res-veredicto" id="s-tit"></p>
@@ -132,7 +144,8 @@ function pinta(){
   var l=sem(off),k=clave(l),s=suma(k),res=document.querySelector('.tool-res'),fin=new Date(l);fin.setDate(fin.getDate()+6);
   $('s-sem').textContent=off===0?'Esta semana':off===-1?'La semana pasada':'Semana del '+l.getDate()+' '+MS[l.getMonth()];$('s-sig').disabled=off>=0;
   var L=(D[k]||[]).slice().sort(function(a,b){return a.d-b.d});
-  $('s-lista').innerHTML=L.length?L.map(function(e){var i=(D[k]||[]).indexOf(e);return '<li><span><b>'+DL[e.d]+'</b> · '+(e.t==='f'?'fuerza':(e.t==='m'?'moderada':'vigorosa')+', '+e.n+' min')+'</span><button type="button" data-i="'+i+'" aria-label="Quitar: '+DL[e.d]+', '+(e.t==='f'?'fuerza':e.n+' minutos')+'">×</button></li>'}).join(''):'<li class="sem-vacia">Todavía no has apuntado nada esta semana.</li>';
+  $('s-lista').innerHTML=L.length?L.map(function(e){var i=(D[k]||[]).indexOf(e);return '<li data-t="'+e.t+'"><span><b>'+DL[e.d]+'</b> · '+(e.t==='f'?'fuerza':(e.t==='m'?'moderada':'vigorosa')+', '+e.n+' min')+'</span><button type="button" data-i="'+i+'" aria-label="Quitar: '+DL[e.d]+', '+(e.t==='f'?'fuerza':e.n+' minutos')+'">×</button></li>'}).join(''):'<li class="sem-vacia">Todavía no has apuntado nada esta semana.</li>';
+  [].forEach.call(document.querySelectorAll('.sem-dias label'),function(lb,i){var ts={};L.forEach(function(e){if(e.d===i)ts[e.t]=1});var pp=lb.querySelector('.sem-p');if(!pp){pp=document.createElement('i');pp.className='sem-p';pp.setAttribute('aria-hidden','true');lb.appendChild(pp)}pp.innerHTML=['m','v','f'].filter(function(x){return ts[x]}).map(function(x){return '<i class="k'+x+'"></i>'}).join('')});
   $('s-r').textContent=fmt(s.eq);$('s-a1').style.strokeDashoffset=100-Math.min(100,s.eq/150*100);$('s-a2').style.strokeDashoffset=100-Math.min(100,s.f/2*100);
   $('s-l1').textContent=fmt(s.eq)+' de 150 min';$('s-l2').textContent=s.f+' de 2 días';
   res.classList.remove('z-alto','z-medio','z-bajo');var tit,txt;
@@ -202,10 +215,10 @@ function pinta(){
   $('p-ctx').hidden=!cad;if(cad)$('p-ctx').textContent=cad>=100?'Tu ritmo, '+cad+' pasos por minuto: a partir de 100, andar ya cuenta como actividad moderada.':'Tu ritmo, '+cad+' pasos por minuto: por debajo de 100, que es el ritmo que suele corresponder a una intensidad moderada.';
   copia='Pasos al día (FBE): '+fmt(p)+' · '+cat+' (franja para '+gr+': '+fmt(a)+'-'+fmt(b)+', Paluch 2022)'+(cad?'\nCadencia: '+cad+' pasos/min':'');
 }
-$('p-toca').addEventListener('click',function(){var t=performance.now();if(ts.length&&t-ts[ts.length-1]>3000)ts=[];ts.push(t);if(ts.length>24)ts.shift();
+$('p-toca').addEventListener('click',function(){var t=performance.now();if(ts.length&&t-ts[ts.length-1]>3000)ts=[];ts.push(t);if(ts.length>24)ts.shift();this.style.setProperty('--n',Math.min(10,ts.length));this.classList.remove('toque');void this.offsetWidth;this.classList.add('toque');
   if(ts.length>=10){var d=[];for(var i=1;i<ts.length;i++)d.push(ts[i]-ts[i-1]);d.sort(function(a,b){return a-b});var md=d[Math.floor(d.length/2)];cad=Math.round(60000/md);$('p-cad').textContent=cad+' pasos por minuto';$('p-borra').hidden=false;pinta()}
   else $('p-cad').textContent='Sigue: '+ts.length+' de 10';});
-$('p-borra').addEventListener('click',function(){ts=[];cad=0;$('p-cad').textContent='Sin medir';this.hidden=true;pinta()});
+$('p-borra').addEventListener('click',function(){ts=[];cad=0;$('p-cad').textContent='Sin medir';$('p-toca').style.setProperty('--n',0);this.hidden=true;pinta()});
 $('p-copiar').addEventListener('click',function(){copiar(this,copia)});window.fbeCopia=function(){return $('p-copiar').hidden?'':copia};
 document.querySelector('.tool-form').addEventListener('input',pinta);pinta();
 })();'''
@@ -235,6 +248,8 @@ TEN_FORM = (seg('x-mom', 'Momento', [('m', 'Mañana'), ('n', 'Tarde-noche')], 'm
 TEN_RES = f'''<p class="tool-et" id="x-et">Tu media en casa</p>
 <div class="res-grande"><b id="x-r">–</b><span>mmHg</span></div>
 <p class="res-chip" id="x-cat" hidden></p>
+<div class="ten-escala" id="x-esc" aria-hidden="true" hidden><i class="ten-b1"><span>&lt;120/70</span></i><i class="ten-b2"><span>120/70</span></i><i class="ten-b3"><span>135/85</span></i><b class="ten-m" id="x-m"></b></div>
+<ol class="ten-dias" id="x-dias" aria-hidden="true" hidden><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ol>
 <p class="ten-prog" id="x-prog"></p>
 <p class="res-veredicto" id="x-tit"></p>
 <p class="res-texto" id="x-txt"></p>
@@ -250,11 +265,13 @@ function tanda(){if(!L.length)return[];var ult=Math.max.apply(null,L.map(functio
 function pinta(){
   var T=tanda(),res=document.querySelector('.tool-res');res.classList.remove('z-alto','z-medio','z-bajo');
   var dias={};T.forEach(function(x){(dias[dia(x.t)]=dias[dia(x.t)]||[]).push(x)});var ks=Object.keys(dias).sort(),nd=ks.length;
-  $('x-lista').innerHTML=T.length?ks.slice().reverse().map(function(k){return '<li class="ten-dia"><span><b>'+fecha(k)+'</b> · '+dias[k].sort(function(a,b){return a.t-b.t}).map(function(x){return (x.m==='m'?'mañana ':'tarde ')+x.s+'/'+x.d}).join(' · ')+'</span><button type="button" data-k="'+k+'" aria-label="Quitar las tomas del '+fecha(k)+'">×</button></li>'}).join(''):'<li class="sem-vacia">Todavía no has apuntado ninguna toma.</li>';
+  $('x-lista').innerHTML=T.length?ks.slice().reverse().map(function(k){return '<li class="ten-dia"><span><b>'+fecha(k)+'</b> · '+dias[k].sort(function(a,b){return a.t-b.t}).map(function(x){return '<i class="ten-t t'+x.m+'">'+(x.m==='m'?'mañana ':'tarde ')+x.s+'/'+x.d+'</i>'}).join(' · ')+'</span><button type="button" data-k="'+k+'" aria-label="Quitar las tomas del '+fecha(k)+'">×</button></li>'}).join(''):'<li class="sem-vacia">Todavía no has apuntado ninguna toma.</li>';
   $('x-copiar').hidden=$('x-impr').hidden=$('x-nueva').hidden=!T.length;
+  $('x-esc').hidden=$('x-dias').hidden=!T.length;[].forEach.call($('x-dias').children,function(li,i){li.className=i<nd?(nd>=3?'ok':'si'):''});
   if(!T.length){$('x-r').textContent='–';$('x-cat').hidden=true;$('x-prog').textContent='';$('x-tit').textContent='Apunta tus tomas de la mañana y de la tarde-noche.';$('x-txt').textContent='Con 3 días ya hay una media orientativa; lo ideal son 7.';$('x-alerta').hidden=true;return}
   var s=Math.round(T.reduce(function(a,x){return a+x.s},0)/T.length),d=Math.round(T.reduce(function(a,x){return a+x.d},0)/T.length);
   $('x-r').textContent=s+'/'+d;destella($('x-r'));
+  var tr=function(v,a,b,c,e){return v<b?Math.max(0,(v-a)/(b-a))*33.3:v<c?33.3+(v-b)/(c-b)*33.3:66.6+Math.min(1,(v-c)/(e-c))*33.4};$('x-m').style.left=Math.max(2,Math.min(98,Math.max(tr(s,90,120,135,170),tr(d,50,70,85,110)))).toFixed(1)+'%';$('x-esc').classList.toggle('prov',nd<3);
   $('x-prog').textContent=nd+(nd===1?' día':' días')+' con tomas · '+T.length+' tomas'+(nd<3?' · faltan '+(3-nd)+(3-nd===1?' día':' días')+' para el mínimo':nd<7?' · lo ideal, 7 días':'');
   var cat,tit,txt;
   if(nd<3){cat='Media provisional';tit='Sigue apuntando';txt='La guía europea pide al menos 3 días de tomas, mañana y tarde-noche, para dar una media por buena. De momento es solo orientativa.'}
@@ -296,12 +313,14 @@ tool_pagina('tension.html', 'Tensión en casa: tu semana de tomas',
 # ---------------------------------------------------------------------------------------------
 # 19. Equilibrio a una pierna, 10 segundos (Araujo 2022)
 EQ_FORM = (f'''<p class="tool-aviso">Hazlo cerca de una pared o de una silla firme, y mejor con alguien al lado. Si te mareas o tienes una lesión reciente, no lo hagas.</p>
+<div class="eq-fig" aria-hidden="true"><svg viewBox="0 0 120 150"><path class="eq-suelo" d="M30 143h60"/><circle cx="60" cy="19" r="11"/><path d="M60 30v52M60 42L50 74M60 42l10 32M60 82v56M60 138h13"/><path class="eq-libre" d="M60 82l11 22-8 17"/></svg></div>
 <ol class="eq-pasos"><li>De pie, apoya el empeine del pie libre en la parte de atrás de la otra pierna.</li><li>Brazos pegados al cuerpo y la mirada al frente.</li><li>Aguanta 10 segundos sin mover el pie de apoyo ni soltar el otro.</li><li>Tienes hasta tres intentos, con la pierna que quieras.</li></ol>
 <div class="eq-ctl"><button type="button" class="sem-add" id="e-ir">Empezar (cuenta atrás de 3)</button><button type="button" class="eq-fallo" id="e-fallo" hidden>He apoyado el pie</button></div>
+<p class="eq-dots" id="e-dots" aria-hidden="true"><i class="act"></i><i></i><i></i></p>
 <p class="eq-int" id="e-int" aria-live="polite">Intento 1 de 3</p>
 <button type="button" class="pas-borra" id="e-cero" hidden>Empezar de nuevo</button>''')
 EQ_RES = f'''<p class="tool-et">Equilibrio a una pierna</p>
-<div class="tmp-reloj eq-reloj"><svg viewBox="0 0 120 120" aria-hidden="true"><circle class="tmp-pista" cx="60" cy="60" r="52"/><circle class="tmp-arco" id="e-arco" cx="60" cy="60" r="52" pathLength="100" transform="rotate(-90 60 60)"/></svg><div class="tmp-num"><b id="e-num" role="timer">10</b><span id="e-fase">segundos</span></div></div>
+<div class="tmp-reloj eq-reloj"><svg viewBox="0 0 120 120" aria-hidden="true">{_grad('e-g')}{_marcas(10, 1, r3=39.5)}<circle class="tmp-pista" cx="60" cy="60" r="52"/><circle class="tmp-arco" id="e-arco" cx="60" cy="60" r="52" pathLength="100" transform="rotate(-90 60 60)" style="stroke:url(#e-g)"/></svg><div class="tmp-num"><b id="e-num" role="timer">10</b><span id="e-fase">segundos</span></div></div>
 <div class="res-grande eq-grande" hidden><b id="e-r">–</b><span>segundos</span></div>
 <p class="res-chip" id="e-cat" hidden></p>
 <p class="res-veredicto" id="e-tit">Lee los pasos y pulsa «Empezar».</p>
@@ -311,18 +330,19 @@ EQ_RES = f'''<p class="tool-et">Equilibrio a una pierna</p>
 EQ_JS = r'''(function(){
 var $=function(i){return document.getElementById(i)},est='listo',n=1,ini=0,tic=0,mejor=0,copia='',ac=null,res=document.querySelector('.tool-res');
 function pita(f,d){try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume();var o=ac.createOscillator(),g=ac.createGain(),t=ac.currentTime;o.frequency.value=f;o.connect(g);g.connect(ac.destination);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.3,t+.02);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.start(t);o.stop(t+d+.03)}catch(e){}}
-function fin(ok,seg){clearInterval(tic);tic=0;mejor=Math.max(mejor,seg);$('e-fallo').hidden=true;
+var hist=[];function puntos(){[].forEach.call($('e-dots').children,function(x,i){x.className=hist[i]||(i===hist.length&&hist.indexOf('ok')<0?'act':'')})}
+function fin(ok,seg){clearInterval(tic);tic=0;mejor=Math.max(mejor,seg);$('e-fallo').hidden=true;hist.push(ok?'ok':'mal');puntos();res.dataset.est='';
   if(ok){est='hecho';res.classList.add('z-alto');$('e-r').textContent='10';$('e-cat').hidden=false;$('e-cat').textContent='Conseguido'+(n>1?' al intento '+n:'');$('e-tit').textContent='Diez segundos a una pierna';$('e-txt').textContent='En el estudio, 8 de cada 10 personas de 51 a 75 años lo consiguieron. Repítelo cada pocos meses: el equilibrio empeora deprisa a partir de mediados de los 50, y se entrena.';$('e-ir').hidden=true;$('e-int').textContent='';pita(1320,.6);if(navigator.vibrate)try{navigator.vibrate([200,100,200])}catch(e){}}
   else if(n>=3){est='hecho';res.classList.add('z-bajo');$('e-r').textContent=fmt(mejor,1);$('e-cat').hidden=false;$('e-cat').textContent='No completado en tres intentos';$('e-tit').textContent='Una señal para trabajar el equilibrio';$('e-txt').textContent='En el estudio, no completar los 10 segundos se asoció a más riesgo de muerte en los 7 años siguientes, también tras tener en cuenta la edad, el sexo, el peso y las enfermedades. Es una asociación, no una condena: la fuerza y el equilibrio se entrenan a cualquier edad. Coméntalo con tu médico si además te has caído en el último año.';$('e-ir').hidden=true;$('e-int').textContent=''}
   else{est='listo';n++;$('e-int').textContent='Intento '+n+' de 3 · has aguantado '+fmt(seg,1)+' s';$('e-ir').textContent='Otro intento (cuenta atrás de 3)';$('e-ir').hidden=false;$('e-num').textContent='10';$('e-arco').style.strokeDashoffset=0;$('e-tit').textContent='Descansa un momento y prueba otra vez.';return}
   $('e-cero').hidden=false;document.querySelector('.eq-grande').hidden=false;$('e-copiar').hidden=false;$('e-voz').textContent=$('e-tit').textContent;
   copia='Equilibrio a una pierna (FBE): '+(ok?'10 segundos conseguidos'+(n>1?' al intento '+n:''):'no completado en tres intentos (mejor: '+fmt(mejor,1)+' s)')+' · prueba de Araujo 2022';
 }
-function corre(){est='corre';ini=performance.now();$('e-fallo').hidden=false;$('e-tit').textContent='Aguanta…';pita(1100,.2);tic=setInterval(function(){var s=(performance.now()-ini)/1000;$('e-num').textContent=Math.max(0,Math.ceil(10-s));$('e-arco').style.strokeDashoffset=Math.min(100,s*10);if(s>=10)fin(true,10)},100)}
+function corre(){est='corre';res.dataset.est='corre';ini=performance.now();$('e-fallo').hidden=false;$('e-tit').textContent='Aguanta…';pita(1100,.2);tic=setInterval(function(){var s=(performance.now()-ini)/1000;$('e-num').textContent=Math.max(0,Math.ceil(10-s));$('e-arco').style.strokeDashoffset=Math.min(100,s*10);if(s>=10)fin(true,10)},100)}
 $('e-ir').addEventListener('click',function(){if(est!=='listo')return;est='prep';this.hidden=true;var c=3;$('e-num').textContent=c;$('e-fase').textContent='prepárate';$('e-tit').textContent='Colócate…';pita(660,.12);
   tic=setInterval(function(){c--;if(c>0){$('e-num').textContent=c;pita(660,.12)}else{clearInterval(tic);$('e-fase').textContent='segundos';$('e-num').textContent='10';corre()}},1000)});
 $('e-fallo').addEventListener('click',function(){if(est==='corre')fin(false,Math.round((performance.now()-ini)/100)/10)});
-$('e-cero').addEventListener('click',function(){clearInterval(tic);est='listo';n=1;mejor=0;copia='';res.classList.remove('z-alto','z-bajo');this.hidden=true;$('e-ir').hidden=false;$('e-ir').textContent='Empezar (cuenta atrás de 3)';$('e-int').textContent='Intento 1 de 3';$('e-cat').hidden=true;$('e-copiar').hidden=true;document.querySelector('.eq-grande').hidden=true;$('e-num').textContent='10';$('e-arco').style.strokeDashoffset=0;$('e-tit').textContent='Lee los pasos y pulsa «Empezar».';$('e-txt').textContent=''});
+$('e-cero').addEventListener('click',function(){clearInterval(tic);est='listo';n=1;mejor=0;copia='';hist=[];puntos();res.classList.remove('z-alto','z-bajo');this.hidden=true;$('e-ir').hidden=false;$('e-ir').textContent='Empezar (cuenta atrás de 3)';$('e-int').textContent='Intento 1 de 3';$('e-cat').hidden=true;$('e-copiar').hidden=true;document.querySelector('.eq-grande').hidden=true;$('e-num').textContent='10';$('e-arco').style.strokeDashoffset=0;$('e-tit').textContent='Lee los pasos y pulsa «Empezar».';$('e-txt').textContent=''});
 $('e-copiar').addEventListener('click',function(){copiar(this,copia)});window.fbeCopia=function(){return copia};
 })();'''
 tool_pagina('equilibrio.html', 'Equilibrio a una pierna: la prueba de los 10 segundos',

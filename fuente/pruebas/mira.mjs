@@ -1,10 +1,10 @@
 // Capturas para repasar el diseño: página entera en móvil (o al ancho que se pida), troceada en columnas en una sola imagen.
-// Uso: node pruebas/mira.mjs <pagina>[#ancla] ... [--oscuro] [--w=390] [--alto=1000] [--max=5] [--vacio] [--esc=0.62] [--vista=Y: solo la pantalla, bajada Y px]
+// Uso: node pruebas/mira.mjs <pagina>[#ancla] ... [--oscuro] [--w=390] [--alto=1000] [--max=5] [--vacio] [--esc=0.62] [--vista=Y: solo la pantalla, bajada Y px] [--js="codigo que se ejecuta antes de capturar"] [--espera=ms] [--sel=selector: solo ese elemento]
 // Sale en /tmp/mira/<pagina>-<claro|oscuro>.png. Siembra datos de ejemplo (no son de nadie) salvo con --vacio.
 import { chromium, servir, RAIZ } from './comun.mjs';
 import { execFileSync } from 'child_process';
 import fs from 'fs';
-const A = process.argv.slice(2); const op = k => { const a = A.find(x => x.startsWith('--' + k)); return a ? (a.includes('=') ? a.split('=')[1] : true) : null; };
+const A = process.argv.slice(2); const op = k => { const a = A.find(x => x.startsWith('--' + k + '=') || x === '--' + k); return a ? (a.includes('=') ? a.slice(a.indexOf('=') + 1) : true) : null; };
 const pags = A.filter(x => !x.startsWith('--')); const oscuro = !!op('oscuro'); const W = +(op('w') || 390); const ALTO = +(op('alto') || 1000); const MAX = +(op('max') || 5); const ESC = +(op('esc') || 0.62);
 fs.mkdirSync('/tmp/mira', { recursive: true });
 const s = await servir(RAIZ, 4455); const b = await chromium.launch(); const U = 'http://localhost:4455/';
@@ -29,8 +29,10 @@ for (const pg of pags) {
   const p = await c.newPage(); await p.goto(U + nom + (nom.includes('.') ? '' : '.html') + (ancla ? '#' + ancla : '')); await p.waitForTimeout(700);
   await p.evaluate(() => { document.documentElement.style.scrollBehavior = 'auto'; document.querySelectorAll('.sube').forEach(e => e.classList.add('ya')); document.querySelectorAll('section.lenta').forEach(e => { e.style.contentVisibility = 'visible'; }); document.querySelectorAll('img[loading=lazy]').forEach(i => { i.loading = 'eager'; }); });
   await p.waitForTimeout(500);
+  if (op('js')) { await p.evaluate(op('js')); await p.waitForTimeout(+(op('espera') || 900)); }
   let y0 = 0; if (ancla) y0 = await p.evaluate(a => { const e = document.getElementById(a); return e ? Math.max(0, e.getBoundingClientRect().top + scrollY - 70) : 0; }, ancla);
   const png = `/tmp/mira/_${nom}.png`;
+  if (op('sel')) { const ss = `/tmp/mira/${nom}-sel-${oscuro ? 'oscuro' : 'claro'}.png`; await p.addStyleTag({ content: '.aviso-app{display:none!important}' }); await p.locator(op('sel')).first().screenshot({ path: ss }); console.log(ss); await c.close(); continue; }
   if (op('vista') !== null) { const Y = +op('vista'); await p.evaluate(y => scrollTo(0, y), Y); await p.waitForTimeout(600); const sv = `/tmp/mira/${nom}-vista${Y}-${oscuro ? 'oscuro' : 'claro'}${W !== 390 ? '-' + W : ''}.png`; await p.screenshot({ path: sv }); console.log(sv); await c.close(); continue; }
   await p.screenshot({ path: png, fullPage: true });
   const sal = `/tmp/mira/${nom}${ancla ? '-' + ancla : ''}-${oscuro ? 'oscuro' : 'claro'}${W !== 390 ? '-' + W : ''}.png`;

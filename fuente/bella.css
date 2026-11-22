@@ -348,3 +348,149 @@ html.vt-tema .tabs, html.vt-tema .tab-luz { view-transition-name: none !importan
 .herr-mini:is([href="temporizador.html"], [href="semana-activa.html"], [href="pasos.html"], [href="tension.html"], [href="equilibrio.html"]) > .ic svg { position: absolute; left: .75rem; bottom: .7rem; width: 1rem; height: 1rem; opacity: .85; }
 .herr-mini:is([href="temporizador.html"], [href="semana-activa.html"], [href="pasos.html"], [href="tension.html"], [href="equilibrio.html"]):hover > .ic::before { transform: scale(1.06); }
 .ap-rej > .ap-t:first-child b, .ap-rej > .ap-t:first-child span { padding-right: 3.2rem; }
+
+/* ---------- BLOQUE D (31-40): las cinco herramientas nuevas ---------- */
+/* 31. Temporizador: esfera con 60 marcas, trazo con degradado y color por estado */
+.tmp-reloj { width: min(100%, 16.5rem); filter: drop-shadow(0 1.2rem 1.6rem color-mix(in srgb, var(--noche) 60%, transparent)); }
+.tmp-reloj::before { content: ""; position: absolute; inset: 9%; border-radius: 50%; background: radial-gradient(circle at 50% 28%, color-mix(in srgb, var(--marca) 42%, transparent), transparent 70%), color-mix(in srgb, var(--noche) 55%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--marca-clara) 22%, transparent), inset 0 .6rem 1.6rem color-mix(in srgb, var(--noche) 70%, transparent); }
+.tmp-reloj svg { position: relative; }
+.tmp-pista { stroke: color-mix(in srgb, #fff 10%, transparent); stroke-width: 6; }
+.tmp-arco { stroke-width: 6; filter: drop-shadow(0 0 3px var(--marca-clara)); }
+.tmp-s1 { stop-color: var(--lavanda); transition: stop-color .3s; } .tmp-s2 { stop-color: var(--marca-clara); transition: stop-color .3s; }
+.tool[data-fase="trabajo"] .tmp-s1 { stop-color: color-mix(in srgb, var(--verde) 35%, #fff); } .tool[data-fase="trabajo"] .tmp-s2 { stop-color: color-mix(in srgb, var(--verde) 72%, #fff); }
+.tool[data-ult="1"] .tmp-s1, .tool[data-ult="1"] .tmp-s2 { stop-color: var(--oro); }
+.tool[data-est="fin"] .tmp-s1 { stop-color: #fff; } .tool[data-est="fin"] .tmp-s2 { stop-color: var(--oro); }
+.tmp-marcas line { stroke: color-mix(in srgb, #fff 26%, transparent); stroke-width: .7; stroke-linecap: round; }
+.tmp-marcas .mg { stroke: color-mix(in srgb, #fff 62%, transparent); stroke-width: 1.1; }
+.tmp-punta { fill: #fff; transform-box: view-box; transform-origin: 50% 50%; transition: transform .25s linear, opacity .3s; filter: drop-shadow(0 0 2.5px var(--marca-clara)); }
+.tool[data-est="fin"] .tmp-punta { opacity: 0; }
+.tmp-num b { text-shadow: 0 0 1.6rem color-mix(in srgb, var(--marca-clara) 60%, transparent); transition: color .3s; }
+.tool[data-ult="1"] .tmp-num b, .tool[data-est="fin"] .tmp-num b { color: var(--oro); text-shadow: 0 0 1.6rem color-mix(in srgb, var(--oro) 60%, transparent); }
+/* 32. Atajos como teclas de reloj, puntos de rondas e interruptores */
+.tmp-chips { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .45rem; }
+.tmp-chips button { padding: .72rem .3rem; border-radius: .95rem; font-family: var(--mono); font-size: .95rem; font-variant-numeric: tabular-nums; background: linear-gradient(180deg, var(--sup), var(--fondo)); box-shadow: 0 2px 0 var(--linea); transition: transform .12s, box-shadow .12s, border-color .2s, background-color .2s, color .2s; }
+.tmp-chips button:active { transform: translateY(2px); box-shadow: 0 0 0 var(--linea); }
+.tmp-chips button[aria-pressed="true"] { background: linear-gradient(135deg, var(--marca), var(--marca-2)); box-shadow: 0 2px 0 var(--marca-h), 0 .6rem 1rem -.5rem var(--marca); }
+.tmp-rondas { display: flex; flex-wrap: wrap; justify-content: center; gap: .32rem; max-width: 15rem; margin: 0 auto; }
+.tmp-rondas i { width: .6rem; height: .6rem; border-radius: 50%; background: color-mix(in srgb, #fff 14%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, #fff 26%, transparent); }
+.tmp-rondas i.ok { background: color-mix(in srgb, var(--verde) 68%, #fff); box-shadow: none; }
+.tmp-rondas i.act { background: #fff; box-shadow: 0 0 0 3px color-mix(in srgb, #fff 22%, transparent), 0 0 .7rem #fff; }
+.tmp-ops { gap: .45rem; }
+.tmp-ops label { padding: .5rem .8rem .5rem .6rem; border-radius: 99px; border: 1px solid var(--linea); background: var(--fondo); font-size: .9rem; transition: border-color .2s, background-color .2s; }
+.tmp-ops label:has(input:checked) { border-color: color-mix(in srgb, var(--acento) 55%, var(--linea)); background: color-mix(in srgb, var(--acento) 9%, transparent); }
+.tmp-ir { min-width: 10.5rem; padding: .95rem 1.6rem; font-size: 1.08rem; background: linear-gradient(180deg, #fff, var(--lavanda)); }
+.tool[data-est="corre"] .tmp-ir { background: transparent; color: #fff; box-shadow: inset 0 0 0 2px color-mix(in srgb, #fff 70%, transparent); }
+.tmp-b2, .tmp-gym { -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+/* 33. Pantalla completa en negro puro */
+.tool.tmp-full, .tool.tmp-full .tool-res { background: #000 !important; }
+.tool.tmp-full .tool-res::before, .tool.tmp-full .tool-res::after { display: none !important; }
+.tool.tmp-full .tmp-reloj { width: min(88vw, 62vh); filter: none; }
+.tool.tmp-full .tmp-reloj::before { background: radial-gradient(circle at 50% 30%, color-mix(in srgb, var(--marca) 26%, transparent), transparent 70%); }
+.tool.tmp-full .tmp-num b { font-size: min(20vw, 15vh); }
+.tool.tmp-full .tmp-b2, .tool.tmp-full .tmp-gym { background: transparent; }
+.tool.tmp-full .tmp-rondas { max-width: 80vw; }
+/* 34. Mi semana activa: tira de dias con puntos y selector con color */
+.sem-nav { padding: .3rem; border-radius: 99px; background: var(--fondo); border: 1px solid var(--linea); }
+.sem-nav button { width: 2.4rem; height: 2.4rem; border: 0; background: var(--sup); box-shadow: var(--sombra-s); transition: transform .15s; }
+.sem-nav button:not(:disabled):active { transform: scale(.92); }
+.sem-dias > div { gap: .35rem; }
+.sem-dias label { display: grid; justify-items: center; gap: .32rem; }
+.sem-dias label > span { width: 100%; height: 2.9rem; border-radius: .9rem; font-family: var(--mono); }
+.sem-dias input:checked + span { background: linear-gradient(135deg, var(--marca), var(--marca-2)); box-shadow: 0 .5rem 1rem -.5rem var(--marca); }
+.sem-p { display: flex; justify-content: center; gap: .16rem; min-height: .44rem; }
+.sem-p i { width: .44rem; height: .44rem; border-radius: 50%; background: var(--acento); }
+.sem-p i.kv { background: var(--ambar); } .sem-p i.kf { border-radius: .12rem; background: var(--verde); }
+.sem-tipo label { --c: var(--acento); }
+.sem-tipo label:nth-child(2) { --c: var(--ambar); } .sem-tipo label:nth-child(3) { --c: var(--verde); }
+.sem-tipo label span { display: flex; align-items: center; justify-content: center; gap: .4rem; }
+.sem-tipo label span::before { content: ""; flex: none; width: .6rem; height: .6rem; border-radius: 50%; background: var(--c); }
+.sem-tipo label:nth-child(3) span::before { border-radius: .16rem; }
+.sem-tipo label input:checked + span { background: var(--c); border-color: var(--c); color: var(--sup); box-shadow: 0 .5rem 1rem -.5rem var(--c); }
+.sem-tipo label input:checked + span::before { background: var(--sup); }
+/* 35. Registro con barra de color por tipo */
+.sem-lista li { position: relative; overflow: hidden; padding: .65rem .55rem .65rem 1.1rem; border-radius: .95rem; }
+.sem-lista li[data-t] { --c: var(--acento); background: linear-gradient(100deg, color-mix(in srgb, var(--c) 10%, var(--fondo)), var(--fondo) 60%); }
+.sem-lista li[data-t="v"] { --c: var(--ambar); } .sem-lista li[data-t="f"] { --c: var(--verde); }
+.sem-lista li[data-t]::before, .sem-lista li.ten-dia::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--c, var(--acento)); }
+.sem-lista button { background: transparent; color: var(--tinta-2); transition: background-color .2s, color .2s; }
+.sem-lista button:hover { background: color-mix(in srgb, var(--rojo) 14%, transparent); color: var(--rojo); }
+.sem-lista li.sem-vacia { padding: .9rem 1rem; border: 1.5px dashed color-mix(in srgb, var(--acento) 35%, var(--linea)); background: color-mix(in srgb, var(--acento) 4%, transparent); }
+.sem-add { background: linear-gradient(135deg, var(--marca), var(--marca-2)); }
+/* 36. Anillos con degradado, sello al cerrar y doce semanas con objetivo */
+.sem-anillos { width: min(100%, 13.5rem); filter: drop-shadow(0 1rem 1.4rem color-mix(in srgb, var(--noche) 55%, transparent)); }
+.an-p { stroke: color-mix(in srgb, #fff 9%, transparent); stroke-width: 11; }
+.an-a { stroke-width: 11; }
+.an-s1a { stop-color: var(--lavanda); } .an-s1b { stop-color: var(--marca-clara); }
+.an-s2a { stop-color: color-mix(in srgb, var(--verde) 30%, #fff); } .an-s2b { stop-color: color-mix(in srgb, var(--verde) 72%, #fff); }
+.an-ok { fill: none; stroke: #fff; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 40; stroke-dashoffset: 40; transition: stroke-dashoffset .5s .45s cubic-bezier(.2, .7, .2, 1); }
+.tool-res.z-alto .an-ok { stroke-dashoffset: 0; }
+.sem-ley li::before { box-shadow: 0 0 .6rem currentColor; }
+.sem-ley li.k2::before { background: color-mix(in srgb, var(--verde) 68%, #fff); }
+.sem-racha { display: inline-flex; align-items: center; gap: .4rem; }
+.sem-racha::before { content: ""; width: .95rem; height: .95rem; background: var(--oro); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3c1 3 4 5 4 9a4 4 0 0 1-8 0c0-1.4.6-2.4 1.4-3.2C9.8 10.6 11 9 12 3z'/%3E%3Cpath d='M6 15a6 6 0 0 0 12 0'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3c1 3 4 5 4 9a4 4 0 0 1-8 0c0-1.4.6-2.4 1.4-3.2C9.8 10.6 11 9 12 3z'/%3E%3Cpath d='M6 15a6 6 0 0 0 12 0'/%3E%3C/svg%3E") center / contain no-repeat; }
+.sem-barras { gap: .3rem; height: 6rem; }
+.sem-barras i::before { content: ""; position: absolute; inset: 0; border-radius: .35rem; background: color-mix(in srgb, #fff 5%, transparent); }
+.sem-barras i b { border-radius: .35rem .35rem .12rem .12rem; background: linear-gradient(180deg, color-mix(in srgb, var(--marca-clara) 75%, transparent), color-mix(in srgb, var(--marca-clara) 30%, transparent)); }
+.sem-barras i.ok b { background: linear-gradient(180deg, color-mix(in srgb, var(--verde) 45%, #fff), color-mix(in srgb, var(--verde) 80%, #fff)); }
+.sem-barras i.act b { box-shadow: 0 0 0 2px #fff, 0 0 .9rem color-mix(in srgb, #fff 55%, transparent); }
+.sem-150::after { content: "150"; position: absolute; right: 0; top: -.95rem; padding: 0 .2rem; font: 600 .6rem/1 var(--mono); color: color-mix(in srgb, #fff 78%, transparent); }
+/* 37. Pasos: escala con franja objetivo y boton de cadencia redondo con onda */
+.pas-escala { height: 1.3rem; margin: 1.7rem 0 1.7rem; background: repeating-linear-gradient(90deg, transparent 0 calc(100% / 6 - 1px), color-mix(in srgb, #fff 28%, transparent) calc(100% / 6 - 1px) calc(100% / 6)), color-mix(in srgb, #fff 10%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, #fff 16%, transparent); }
+.pas-franja { background: linear-gradient(90deg, color-mix(in srgb, var(--verde) 60%, #fff), color-mix(in srgb, var(--verde) 85%, #fff)); opacity: .85; box-shadow: 0 0 1rem color-mix(in srgb, var(--verde) 60%, transparent); }
+.pas-franja::after { content: "objetivo"; position: absolute; left: 50%; bottom: calc(100% + .38rem); transform: translateX(-50%); font: 600 .6rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; color: color-mix(in srgb, var(--verde) 45%, #fff); }
+.pas-marca { top: -.45rem; bottom: -.45rem; width: 4px; margin-left: -2px; }
+.pas-cad { justify-items: center; border-radius: 1.2rem; text-align: center; }
+.pas-cad .tool-et, .pas-cad .tool-nota { justify-self: stretch; text-align: left; }
+.pas-toca { --n: 0; position: relative; width: 9.6rem; height: 9.6rem; margin: .7rem 0 .5rem; padding: 1.1rem; border: 0; border-radius: 50%; background: radial-gradient(circle at 50% 32%, color-mix(in srgb, var(--acento) 22%, var(--sup)), var(--sup) 76%); box-shadow: 0 0 0 1px color-mix(in srgb, var(--acento) 30%, var(--linea)), 0 0 0 .55rem color-mix(in srgb, var(--acento) 7%, transparent), 0 0 0 1.1rem color-mix(in srgb, var(--acento) 4%, transparent), var(--sombra-s); font-size: .98rem; line-height: 1.2; }
+.pas-toca:active { background: radial-gradient(circle at 50% 32%, color-mix(in srgb, var(--acento) 34%, var(--sup)), var(--sup) 80%); }
+.pas-toca::before { content: ""; position: absolute; inset: -.34rem; border-radius: 50%; background: conic-gradient(var(--verde) calc(var(--n) * 36deg), transparent 0); -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 3.5px)); mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 3.5px)); pointer-events: none; }
+.pas-toca::after { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 2px solid var(--acento); opacity: 0; pointer-events: none; }
+.pas-toca.toque::after { animation: pas-onda .5s ease-out; }
+@keyframes pas-onda { from { opacity: .7; transform: scale(1); } to { opacity: 0; transform: scale(1.35); } }
+.pas-cad-r { padding: .5rem .85rem; border-radius: .7rem; background: var(--noche); color: color-mix(in srgb, var(--verde) 40%, #fff); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--marca-clara) 30%, transparent); font-variant-numeric: tabular-nums; }
+/* 38. Tension: lectura tipo tensiometro, escala de tres tramos, tira de dias y tomas con sol y luna */
+.pag-tension .tool-res .res-grande { position: relative; align-self: stretch; padding: 1.5rem 1.1rem .85rem; border-radius: 1.15rem; background: linear-gradient(180deg, color-mix(in srgb, #000 42%, transparent), color-mix(in srgb, #000 22%, transparent)); box-shadow: inset 0 0 0 1px color-mix(in srgb, #fff 14%, transparent), inset 0 .6rem 1.4rem color-mix(in srgb, #000 38%, transparent); }
+.pag-tension .tool-res .res-grande::before { content: "SYS / DIA"; position: absolute; left: 1.1rem; top: .65rem; font: 600 .6rem/1 var(--mono); letter-spacing: .14em; color: color-mix(in srgb, #fff 55%, transparent); }
+.pag-tension .tool-res .res-grande::after { content: ""; position: absolute; right: 1rem; top: .55rem; width: 1.05rem; height: 1.05rem; background: color-mix(in srgb, var(--rojo) 55%, #fff); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 20.5C5 15.6 3 12 3 8.8A4.8 4.8 0 0 1 12 6.5 4.8 4.8 0 0 1 21 8.8c0 3.2-2 6.8-9 11.7z'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 20.5C5 15.6 3 12 3 8.8A4.8 4.8 0 0 1 12 6.5 4.8 4.8 0 0 1 21 8.8c0 3.2-2 6.8-9 11.7z'/%3E%3C/svg%3E") center / contain no-repeat; }
+.pag-tension .tool-res .res-grande b { color: color-mix(in srgb, var(--verde) 38%, #fff); text-shadow: 0 0 1.4rem color-mix(in srgb, var(--verde) 55%, transparent); font-variant-numeric: tabular-nums; }
+.ten-escala { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3px; margin: .9rem 0 1.5rem; }
+.ten-escala[hidden], .ten-dias[hidden] { display: none; }
+.ten-escala i { position: relative; height: .7rem; border-radius: 99px; }
+.ten-b1 { background: color-mix(in srgb, var(--verde) 70%, #fff); } .ten-b2 { background: var(--oro); } .ten-b3 { background: color-mix(in srgb, var(--rojo) 62%, #fff); }
+.ten-escala i span { position: absolute; left: 0; top: 1.05rem; font: 600 .6rem/1 var(--mono); font-style: normal; white-space: nowrap; color: color-mix(in srgb, #fff 72%, transparent); }
+.ten-b2 span, .ten-b3 span { transform: translateX(-50%); }
+.ten-m { position: absolute; top: -.36rem; width: 5px; height: 1.42rem; margin-left: -2.5px; border-radius: 3px; background: #fff; box-shadow: 0 0 0 2px color-mix(in srgb, var(--noche) 80%, transparent), 0 0 .8rem #fff; transition: left .5s cubic-bezier(.2, .7, .2, 1), opacity .3s; }
+.ten-escala.prov .ten-m { opacity: .5; }
+.ten-dias { list-style: none; margin: 0; padding: 0; display: flex; gap: .3rem; }
+.ten-dias li { flex: 1; height: .5rem; border-radius: 99px; background: color-mix(in srgb, #fff 12%, transparent); }
+.ten-dias li:nth-child(3) { margin-right: .45rem; }
+.ten-dias li.si { background: var(--marca-clara); } .ten-dias li.ok { background: color-mix(in srgb, var(--verde) 68%, #fff); }
+.ten-t { display: inline-flex; align-items: center; gap: .3rem; font-style: normal; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.ten-t::before { content: ""; flex: none; width: .95rem; height: .95rem; background: var(--ambar); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='4'/%3E%3Cpath d='M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6L7 7M17 17l1.4 1.4M18.4 5.6L17 7M7 17l-1.4 1.4'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='4'/%3E%3Cpath d='M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6L7 7M17 17l1.4 1.4M18.4 5.6L17 7M7 17l-1.4 1.4'/%3E%3C/svg%3E") center / contain no-repeat; }
+.ten-t.tn::before { background: var(--acento); -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z'/%3E%3C/svg%3E"); mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z'/%3E%3C/svg%3E"); }
+.ten-mom label:nth-child(1) span::before, .ten-mom label:nth-child(2) span::before { content: ""; display: inline-block; width: 1rem; height: 1rem; margin-right: .4rem; vertical-align: -.16rem; background: currentColor; }
+.ten-mom label:nth-child(1) span::before { -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='4'/%3E%3Cpath d='M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6L7 7M17 17l1.4 1.4M18.4 5.6L17 7M7 17l-1.4 1.4'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='4'/%3E%3Cpath d='M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6L7 7M17 17l1.4 1.4M18.4 5.6L17 7M7 17l-1.4 1.4'/%3E%3C/svg%3E") center / contain no-repeat; }
+.ten-mom label:nth-child(2) span::before { -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z'/%3E%3C/svg%3E") center / contain no-repeat; }
+/* 39. Equilibrio: figura dibujada, esfera de diez marcas e intentos */
+.eq-fig { width: 7rem; margin: .9rem auto .2rem; padding: .6rem .45rem .35rem; border-radius: 1rem; background: linear-gradient(color-mix(in srgb, var(--acento) 8%, transparent) 1px, transparent 1px) 0 0 / .9rem .9rem, linear-gradient(90deg, color-mix(in srgb, var(--acento) 8%, transparent) 1px, transparent 1px) 0 0 / .9rem .9rem, color-mix(in srgb, var(--acento) 5%, var(--sup)); border: 1px solid color-mix(in srgb, var(--acento) 24%, var(--linea)); }
+.eq-fig svg { display: block; width: 100%; height: auto; fill: none; stroke: var(--tinta); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+.eq-fig circle { fill: var(--sup); }
+.eq-fig .eq-libre { stroke: var(--acento); }
+.eq-fig .eq-suelo { stroke: var(--linea); stroke-width: 3; }
+.eq-ctl { clear: both; }
+.eq-dots { display: flex; gap: .45rem; margin: .95rem 0 0; }
+.eq-dots i { width: 2.3rem; height: .5rem; border-radius: 99px; background: var(--linea); transition: background-color .3s; }
+.eq-dots i.act { background: var(--acento); box-shadow: 0 0 0 3px color-mix(in srgb, var(--acento) 18%, transparent); }
+.eq-dots i.ok { background: var(--verde); } .eq-dots i.mal { background: var(--rojo); }
+.eq-int { margin-top: .55rem; }
+.eq-reloj { width: min(100%, 13rem); }
+.tool-res[data-est="corre"] .tmp-s1, .tool-res.z-alto .eq-reloj .tmp-s1 { stop-color: color-mix(in srgb, var(--verde) 35%, #fff); }
+.tool-res[data-est="corre"] .tmp-s2, .tool-res.z-alto .eq-reloj .tmp-s2 { stop-color: color-mix(in srgb, var(--verde) 72%, #fff); }
+.tool-res.z-bajo .eq-reloj .tmp-s1, .tool-res.z-bajo .eq-reloj .tmp-s2 { stop-color: color-mix(in srgb, var(--rojo) 60%, #fff); }
+.eq-fallo { padding: 1.05rem; font-size: 1.02rem; transition: transform .15s, background-color .2s; }
+.eq-fallo:active { transform: scale(.97); background: color-mix(in srgb, var(--rojo) 20%, transparent); }
+/* 40. Acabado comun: botones secundarios y movimiento */
+.pas-borra { box-shadow: 0 2px 0 var(--linea); transition: transform .12s, box-shadow .12s, border-color .2s; }
+.pas-borra:active { transform: translateY(2px); box-shadow: 0 0 0 var(--linea); }
+@media (prefers-reduced-motion: reduce) { .tmp-punta, .an-ok, .ten-m, .tmp-s1, .tmp-s2, .eq-dots i { transition: none; } .pas-toca.toque::after { animation: none; } }
+.quieto .tmp-punta, .quieto .an-ok, .quieto .ten-m { transition: none !important; } .quieto .pas-toca.toque::after { animation: none !important; }
