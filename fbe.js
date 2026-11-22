@@ -173,12 +173,24 @@
   var TIPO = D.querySelector('.tool-res') ? 'Herramienta' : 'Página';
 
   /* ---- avisos (toast) ---- */
-  var caja = null, cola = [];
-  function toast(txt, bt, fn, ms) {
+  var caja = null;
+  var AV_IC = { logro: '<path d="M8 3h8v5a4 4 0 0 1-8 0zM8 5H5a3 3 0 0 0 3 4M16 5h3a3 3 0 0 1-3 4M12 12v4M8.5 20h7M10 16h4v4h-4z"/>', fav: '<path d="M12 3.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z"/>',
+    red: '<path d="M3 3l18 18M8.5 16.5a5 5 0 0 1 7 0M5 13a10 10 0 0 1 3.5-2.3M19 13a10 10 0 0 0-5-2.7M2 9.5a15 15 0 0 1 4-2.8M22 9.5a15 15 0 0 0-11-4.3"/><circle cx="12" cy="20" r=".6"/>',
+    ok: '<path d="M5 12.5l4.5 4.5L19 7.5"/>', nueva: '<path d="M20 12a8 8 0 1 1-2.3-5.6M20 4v5h-5"/>', info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.6v.1"/>' };
+  function quieto() { return R.classList.contains('quieto') || !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches); }
+  function confeti(t) {
+    if (quieto()) return; var c = D.createElement('span'); c.className = 'confeti'; c.setAttribute('aria-hidden', 'true');
+    for (var i = 0; i < 16; i++) { var p = D.createElement('i'), a = (i / 16) * Math.PI * 2 + (i % 2 ? .22 : -.16), r = 44 + (i * 37 % 42); p.style.setProperty('--x', Math.round(Math.cos(a) * r) + 'px'); p.style.setProperty('--y', Math.round(Math.sin(a) * r * .7 - 34) + 'px'); p.style.setProperty('--g', (120 + i * 97 % 360) + 'deg'); p.style.animationDelay = (i % 4) * 30 + 'ms'; p.dataset.c = i % 4; c.appendChild(p); }
+    t.appendChild(c); setTimeout(function () { c.remove(); }, 1500);
+  }
+  function toast(txt, bt, fn, ms, k, tit) {
     if (!caja) { caja = D.createElement('div'); caja.className = 'aviso-app'; caja.setAttribute('role', 'status'); caja.setAttribute('aria-live', 'polite'); D.body.appendChild(caja); }
-    var t = D.createElement('div'); t.className = 'aviso-t'; var s = D.createElement('span'); s.textContent = txt; t.appendChild(s);
+    var t = D.createElement('div'); t.className = 'aviso-t'; k = AV_IC[k] ? k : 'info'; t.dataset.k = k;
+    var ic = D.createElement('i'); ic.className = 'aviso-ic'; ic.setAttribute('aria-hidden', 'true'); ic.innerHTML = '<svg viewBox="0 0 24 24">' + AV_IC[k] + '</svg>'; t.appendChild(ic);
+    var s = D.createElement('span'); if (tit) { var sm = D.createElement('small'); sm.textContent = tit; s.appendChild(sm); } s.appendChild(D.createTextNode(txt)); t.appendChild(s);
     if (bt) { var b = D.createElement('button'); b.type = 'button'; b.textContent = bt; b.addEventListener('click', function () { t.remove(); if (fn) fn(); }); t.appendChild(b); }
-    caja.appendChild(t); if (ms !== 0) setTimeout(function () { t.remove(); }, ms || 4500); return t;
+    caja.appendChild(t); if (ms !== 0) { t.classList.add('con-tiempo'); t.style.setProperty('--ms', (ms || 4500) + 'ms'); setTimeout(function () { t.remove(); }, ms || 4500); }
+    if (k === 'logro') confeti(t); return t;
   }
 
   /* ---- historial: seguir donde lo dejaste ---- */
@@ -194,7 +206,7 @@
   function botonFav(u, t, k, clase, largo) {
     var b = D.createElement('button'); b.type = 'button'; b.className = clase; b.innerHTML = ESTRELLA + '<span' + (largo ? '' : ' class="oculto"') + '></span>';
     function pinta() { var on = esFav(u); b.setAttribute('aria-pressed', String(on)); b.querySelector('span').textContent = largo ? (on ? 'Guardado' : 'Guardar') : (on ? 'Quitar de favoritos: ' : 'Guardar en favoritos: ') + t; }
-    b.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); var on = cambiaFav(u, t, k); pinta(); b.classList.remove('late'); void b.offsetWidth; b.classList.add('late'); if (on && !lee('fbe-fav-visto', 0)) { pon('fbe-fav-visto', 1); toast('Guardado. Tus favoritos están en Mi panel.', 'Ver', function () { location.href = 'mi-panel.html#pn-fav'; }); } });
+    b.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); var on = cambiaFav(u, t, k); pinta(); b.classList.remove('late'); void b.offsetWidth; b.classList.add('late'); if (on && !lee('fbe-fav-visto', 0)) { pon('fbe-fav-visto', 1); toast('Tus favoritos están en Mi panel.', 'Ver', function () { location.href = 'mi-panel.html#pn-fav'; }, 4500, 'fav', 'Guardado'); } });
     pinta(); return b;
   }
   var txt = D.querySelector('.hero.mini .txt');
@@ -237,10 +249,12 @@
       semana: ks.length > 0, racha3: mejor >= 3, mitos: lee('fbe-mitos', []).length >= 9, ruta: Object.keys(ru).some(function (k) { return ru[k] && ru[k].ok; }),
       favoritos: favs().length >= 3, datos: !!lee('fbe-perfil', {}).edad, explorador: lee('fbe-vistas', []).length >= 8, instalada: APP };
   }
+  function punto() { var tp = D.querySelector('#tabs [data-t="panel"]'); if (!tp) return; if (PAG === 'mi-panel.html') { try { localStorage.removeItem('fbe-punto'); } catch (e) { } tp.classList.remove('punto'); } else tp.classList.toggle('punto', !!lee('fbe-punto', 0)); }
+  punto();
   function logros() {
     var e = estado(), G = lee('fbe-logros', {}), nuevos = [];
     LOGROS.forEach(function (l) { if (e[l[0]] && !G[l[0]]) { G[l[0]] = Date.now(); nuevos.push(l[1]); } });
-    if (nuevos.length) { pon('fbe-logros', G); if (PAG !== 'mi-panel.html') toast('Logro: ' + nuevos[0] + (nuevos.length > 1 ? ' y ' + (nuevos.length - 1) + ' más' : ''), 'Ver', function () { location.href = 'mi-panel.html#pn-logros'; }, 6000); }
+    if (nuevos.length) { pon('fbe-logros', G); if (PAG !== 'mi-panel.html') { pon('fbe-punto', 1); punto(); toast(nuevos[0] + (nuevos.length > 1 ? ' y ' + (nuevos.length - 1) + ' más' : ''), 'Ver', function () { location.href = 'mi-panel.html#pn-logros'; }, 6000, 'logro', nuevos.length > 1 ? 'Logros conseguidos' : 'Logro conseguido'); } }
     return G;
   }
   setTimeout(logros, 900); addEventListener('fbe-semana', function () { setTimeout(logros, 50); });
@@ -276,11 +290,18 @@
     [].forEach.call(D.querySelectorAll('.cab .logo'), function (a) { a.setAttribute('href', 'mi-panel.html'); });
   }
 
+  /* ---- el titulo de la pagina sube a la barra al bajar (movil) ---- */
+  (function () {
+    var ci = D.querySelector('.cab .in'), lg = ci && ci.querySelector('.logo'); if (!lg || !h1 || !D.querySelector('.hero.mini') || !('IntersectionObserver' in window) || !(APP || D.body.classList.contains('con-tabs'))) return;
+    var b = D.createElement('b'); b.className = 'cab-tit'; b.setAttribute('aria-hidden', 'true'); b.textContent = NOM.split(/[:·]/)[0].trim(); lg.insertAdjacentElement('afterend', b);
+    new IntersectionObserver(function (es) { var e = es[0]; R.classList.toggle('tit-ver', !e.isIntersecting && e.boundingClientRect.top < 80); }, { rootMargin: '-70px 0px 0px 0px' }).observe(h1);
+  })();
+
   /* ---- sin conexion y version nueva ---- */
   var sinRed = null;
-  function red() { if (!navigator.onLine && !sinRed) sinRed = toast('Sin conexión. Las herramientas siguen funcionando.', '', null, 0); else if (navigator.onLine && sinRed) { sinRed.remove(); sinRed = null; toast('Vuelves a tener conexión.', '', null, 2500); } R.classList.toggle('sin-red', !navigator.onLine); }
+  function red() { if (!navigator.onLine && !sinRed) sinRed = toast('Las herramientas siguen funcionando.', '', null, 0, 'red', 'Sin conexión'); else if (navigator.onLine && sinRed) { sinRed.remove(); sinRed = null; toast('Vuelves a tener conexión.', '', null, 2500, 'ok'); } R.classList.toggle('sin-red', !navigator.onLine); }
   addEventListener('offline', red); addEventListener('online', red); if (navigator.onLine === false) red();
-  if ('serviceWorker' in navigator && navigator.serviceWorker.controller) { var avisado = false; navigator.serviceWorker.addEventListener('controllerchange', function () { if (avisado) return; avisado = true; toast('Hay una versión nueva de la web.', 'Actualizar', function () { location.reload(); }, 0); }); }
+  if ('serviceWorker' in navigator && navigator.serviceWorker.controller) { var avisado = false; navigator.serviceWorker.addEventListener('controllerchange', function () { if (avisado) return; avisado = true; toast('Hay una versión nueva de la web.', 'Actualizar', function () { location.reload(); }, 0, 'nueva'); }); }
 
   window.fbe = { lee: lee, pon: pon, pag: PAG, app: APP, toast: toast, favs: favs, esFav: esFav, cambiaFav: cambiaFav, botonFav: botonFav, favItems: favItems, LOGROS: LOGROS, logros: logros, estado: estado, semOk: semOk };
 })();

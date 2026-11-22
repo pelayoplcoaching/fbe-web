@@ -24,7 +24,7 @@ _TABS = [('inicio', 'index.html', 'casa', 'Inicio'), ('herr', 'herramientas.html
 def tabs_html(arch):
     act = _tab_de(arch)
     return ('<nav class="tabs" id="tabs" aria-label="Secciones">' + ''.join(
-        f'<a href="{u}" data-t="{k}"{" class=\"tabs-plaza\"" if k == "plaza" else ""}{" aria-current=\"true\"" if k == act else ""}>{ico(i)}<span>{t}</span></a>' for k, u, i, t in _TABS) + '</nav>')
+        f'<a href="{u}" data-t="{k}"{" class=\"tabs-plaza\"" if k == "plaza" else ""}{" aria-current=\"true\"" if k == act else ""}>{"<i class=\"tab-luz\" aria-hidden=\"true\"></i>" if k == act else ""}{ico(i)}<span>{t}</span></a>' for k, u, i, t in _TABS) + '</nav>')
 _RSS = '<link rel="alternate" type="application/rss+xml" title="Fuerza Basada en Evidencia: novedades" href="feed.xml">'
 for _f in _gp.glob(f'{SAL}/*.html'):
     _b = _op.path.basename(_f); _t = open(_f, encoding='utf-8').read()

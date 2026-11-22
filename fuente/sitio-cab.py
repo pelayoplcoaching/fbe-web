@@ -112,9 +112,9 @@ if all(os.path.exists(f'web-img/{n}.webp') for n, _ in _ES):
         cam(fin, fin.replace('</p></li>', '</p>' + _img_w(n, 'espera-img') + '</li>'))
 cam('<title>Web FBE Equipo</title>', '<title>Sitio FBE</title>')
 h += '<script>' + open('luz.js', encoding='utf-8').read() + '\n' + open('app.js', encoding='utf-8').read() + '</script>'
-cam('</style>\n<script>document.documentElement', open('sitio.css', encoding='utf-8').read() + open('futuro.css', encoding='utf-8').read() + open('app.css', encoding='utf-8').read() + '</style>\n<script>document.documentElement')
+cam('</style>\n<script>document.documentElement', open('sitio.css', encoding='utf-8').read() + open('futuro.css', encoding='utf-8').read() + open('app.css', encoding='utf-8').read() + open('bella.css', encoding='utf-8').read() + '</style>\n<script>document.documentElement')
 open('sitio-inicio.html', 'w', encoding='utf-8').write(h)
-CSS = css + open('sitio.css', encoding='utf-8').read() + open('futuro.css', encoding='utf-8').read() + open('app.css', encoding='utf-8').read()
+CSS = css + open('sitio.css', encoding='utf-8').read() + open('futuro.css', encoding='utf-8').read() + open('app.css', encoding='utf-8').read() + open('bella.css', encoding='utf-8').read()
 os.makedirs(SAL, exist_ok=True)
 open(f'{SAL}/fbe.css', 'w', encoding='utf-8').write(CSS); open(f'{SAL}/fbe.js', 'w', encoding='utf-8').write(open('mini.js', encoding='utf-8').read() + '\n' + open('luz.js', encoding='utf-8').read() + '\n' + open('app.js', encoding='utf-8').read())
 open(f'{SAL}/index.html', 'w', encoding='utf-8').write('<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">' + h.replace('<title>Sitio FBE</title>', '<title>FBE · Tu plan, tu comida, tu coach</title>').replace('<style>', '</head><body style="margin:0"><style>', 1) + '</body></html>')
