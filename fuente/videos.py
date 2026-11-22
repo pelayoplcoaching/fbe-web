@@ -43,7 +43,8 @@ def vid_card(v, href=None, ancla=True):
     ext = '' if href else ' target="_blank" rel="noopener"'
     g = ' · '.join(VID_GD[x] for x in v['g'])
     ida = f' id="v-{v["id"]}"' if ancla else ''
-    return (f'<li class="vc" data-g="{" ".join(v["g"])}" data-f="{v["f"]}" data-s="{vid_seg(v["d"])}" data-t="{_html.escape(_vnorm(v["t"] + " " + g))}">'
+    nv = ' data-nuevo="1"' if v['id'] == max(VIDS, key=lambda x: x['f'])['id'] else ''
+    return (f'<li class="vc"{nv} data-g="{" ".join(v["g"])}" data-f="{v["f"]}" data-s="{vid_seg(v["d"])}" data-t="{_html.escape(_vnorm(v["t"] + " " + g))}">'
             f'<a class="vc-a"{ida} href="{u}" data-v="{v["id"]}"{ext}>'
             f'<span class="vc-img"><img src="{vid_mini(v["id"])}" alt="" width="320" height="180" loading="lazy" decoding="async" referrerpolicy="no-referrer"><span class="vc-dur">{v["d"]}</span><span class="vc-play">{_PLAY}</span></span>'
             f'<span class="vc-tx"><time datetime="{v["f"]}">{vid_fecha(v["f"])}</time><b>{_html.escape(v["t"])}</b><span class="vc-g">{g}</span></span></a></li>')
@@ -81,7 +82,7 @@ function marca(id){[].forEach.call(rej.querySelectorAll('a[data-v]'),function(a)
 function juega(v,s){var f=document.createElement('iframe');f.src='https://www.youtube-nocookie.com/embed/'+v.id+'?rel=0&autoplay=1'+(s?'&start='+s:'');f.title=v.t;f.allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';f.allowFullscreen=true;f.referrerPolicy='strict-origin-when-cross-origin';var d=document.createElement('div');d.className='vid-marco vid-on';d.id='vid';d.appendChild(f);document.getElementById('vid').replaceWith(d);}
 var X={},fx=document.getElementById('vid-ficha');try{X=JSON.parse(document.getElementById('vid-x').textContent)}catch(e){}
 function ficha(id){if(!fx)return;var v=datos(id),x=X[id]||{},h='';if(!v){fx.hidden=true;return}
- if(x.r&&x.r.length)h+='<div class="vf-rel"><p class="vf-et">Pruébalo tú</p><div class="vf-chips">'+x.r.map(function(r){return '<a class="vf-chip" href="'+esc(r[0])+'"'+(/^http/.test(r[0])?' rel="noopener"':'')+'><small>'+esc(r[2])+'</small><b>'+esc(r[1])+'</b></a>'}).join('')+'</div></div>';
+ if(x.r&&x.r.length)h+='<div class="vf-rel"><p class="vf-et">Pruébalo tú</p><div class="vf-chips">'+x.r.map(function(r){return '<a class="vf-chip" href="'+esc(r[0])+'"'+(/^http/.test(r[0])?' rel="noopener"':'')+'><i class="pn-ki" data-k="'+esc(r[2])+'" aria-hidden="true"></i><small>'+esc(r[2])+'</small><b>'+esc(r[1])+'</b></a>'}).join('')+'</div></div>';
  if(x.g)h+='<a class="vf-guia" href="'+esc(x.g[0])+'" target="_blank" rel="noopener"><small>La guía de este vídeo</small><b>'+esc(x.g[1])+'</b></a>';
  if(x.c&&x.c.length)h+='<details class="vf-caps"'+(x.c.length<=9?' open':'')+'><summary>Capítulos <span>'+x.c.length+'</span></summary><ol>'+x.c.map(function(c){return '<li><button type="button" data-s="'+c[0]+'"><time>'+esc(c[1])+'</time><span>'+esc(c[2])+'</span></button></li>'}).join('')+'</ol></details>';
  fx.dataset.v=id;fx.innerHTML=h;fx.hidden=!h}
