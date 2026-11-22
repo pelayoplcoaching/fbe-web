@@ -69,7 +69,7 @@ def _tm_fuentes(x):
 def _tm_dmy(iso): a, m, d = iso.split('-'); return f'{d}/{m}/{a}'
 # Vídeos de cada tema (de VIDS, videos.py): por tema de la página Vídeos o elegidos a mano. Hasta 4, del más reciente.
 VID_TM = {'envejecer': ('envejecer',), 'dolor': ('dolor',), 'nutricion': ('nutricion', 'suplementos'),
-          'medicacion': ['OGkpWToqQhA', 'u9TQ0LDN97k', '2-2uJmOwLdg', 'DY3y0rTOQqc', 'pGxgFQDW0zs'],
+          'medicacion': ['9Dy_ncFGwK8', 'OGkpWToqQhA', 'u9TQ0LDN97k', '2-2uJmOwLdg', 'DY3y0rTOQqc', 'pGxgFQDW0zs'],
           'poco-tiempo': ['srEyEaiMisE', 'V_F0dKynTys', 'mPEMAS5oBFA', 'ld7J5pJd8Aw', '_MJvHGn3ZXM']}
 def _tm_vids(x):
     c = VID_TM.get(x['id'])
