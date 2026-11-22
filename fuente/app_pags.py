@@ -159,7 +159,7 @@ _NC = {k: sum(1 for x in _NOV if x['k'] == k) for k in 'vbw'}
 SEC_SIG['novedades.html'] = (('aprende.html', 'Aprende'), ('videos.html', 'Vídeos'))
 pagina('novedades.html', 'Novedades', 'Lo último de Fuerza Basada en Evidencia: vídeos nuevos, envíos del boletín y herramientas y secciones de la web, por fecha. Con canal RSS.',
        'Lo último.', 'Vídeos nuevos, envíos del boletín y cambios de la web, del más reciente al más antiguo.', f'''
-<section><div class="in">
+<section><div class="in"><h2 class="oculto">Todas las novedades</h2>
   <div class="nov-cab sube"><div class="vid-chips" id="nov-f" role="group" aria-label="Tipo"><button type="button" data-k="" aria-pressed="true">Todo <span>{len(_NOV)}</span></button><button type="button" data-k="v" aria-pressed="false">Vídeos <span>{_NC["v"]}</span></button><button type="button" data-k="b" aria-pressed="false">Boletín <span>{_NC["b"]}</span></button><button type="button" data-k="w" aria-pressed="false">Web <span>{_NC["w"]}</span></button></div>
     <p class="vid-cuenta" aria-live="polite">Mostrando <span id="nov-n">30 de {len(_NOV)}</span></p></div>
   <ol class="nov-l sube" id="nov-l">{_nov_html()}</ol>

@@ -695,3 +695,16 @@ _c2 = _re.sub(r'\s*([{};])\s*', r'\1', _c2)
 _c2 = _c2.replace(';}', '}')
 _c2 = _re.sub(r'([{;][\w-]+):\s+', r'\1:', _c2)
 open(f'{SAL}/fbe.css', 'w', encoding='utf-8').write(_c2)
+# Versión en la dirección de la hoja de estilos y del guion (22/11/2026): el service worker guarda fbe.css y fbe.js y los
+# sirve de la caché; sin esto, quien ya tenía la web guardada veía la página nueva con el estilo viejo hasta recargar.
+import hashlib as _hv
+_VA = _hv.sha1((open(f'{SAL}/fbe.css', encoding='utf-8').read() + open(f'{SAL}/fbe.js', encoding='utf-8').read()).encode('utf-8')).hexdigest()[:8]
+for _f in glob.glob(f'{SAL}/*.html'):
+    _t = open(_f, encoding='utf-8').read()
+    _n = _re.sub(r'href="fbe\.css(\?v=[0-9a-f]+)?"', f'href="fbe.css?v={_VA}"', _t)
+    _n = _re.sub(r'src="fbe\.js(\?v=[0-9a-f]+)?"', f'src="fbe.js?v={_VA}"', _n)
+    if _n != _t: open(_f, 'w', encoding='utf-8').write(_n)
+_sw = open(f'{SAL}/sw.js', encoding='utf-8').read()
+_sw = _sw.replace('"fbe.css"', f'"fbe.css?v={_VA}"').replace('"fbe.js"', f'"fbe.js?v={_VA}"')
+assert f'fbe.css?v={_VA}' in _sw and f'fbe.js?v={_VA}' in _sw
+open(f'{SAL}/sw.js', 'w', encoding='utf-8').write(_sw)
