@@ -39,6 +39,8 @@ AP_SEC = [('empieza-aqui.html', 'brujula', 'Empieza aquí', 'Seis rutas según t
           ('fuentes.html', 'lupa', 'Fuentes', 'De dónde sale cada número de la web.'),
           ('evidencia.html', 'fonendo', 'Cómo trabajo la evidencia', 'Cómo elijo y compruebo los estudios.'),
           ('novedades.html', 'rayo', 'Novedades', 'Lo último: vídeos, envíos y herramientas.')] + ([('medios.html', 'micro', 'En los medios', 'Entrevistas y pódcast.')] if len(MEDIOS) >= 2 else [])
+_AP_N = {'empieza-aqui.html': len(EA_PERF), 'videos.html': len(VIDS), 'mitos.html': len(MITOS), 'recetas.html': _RECN, 'boletin.html': len(_BOLJ), 'fuentes.html': len(_ja.load(open('fuentes.json', encoding='utf-8'))['fuentes'])}
+AP_JS = r'''(function(){var ru;try{ru=JSON.parse(localStorage.getItem('fbe-rutas'))||{}}catch(e){ru={}}[].forEach.call(document.querySelectorAll('.ap-ruta[data-p]'),function(a){var r=ru[a.dataset.p],n=+a.dataset.n;if(!r||!r.h||!r.h.length)return;var he=r.h.filter(function(i){return i<n}).length;if(!he)return;a.style.setProperty('--p',he/n);a.classList.add(he>=n?'hecha':'en-marcha');a.querySelector('span').textContent=he+' de '+n+' pasos'})})();'''
 def _ap_tema(u, t):
     i = ilus('web-' + u[:-5], 'ap-tema-img')
     return f'<a class="ap-tema" href="{u}">{i}<b>{t}</b></a>'
@@ -46,14 +48,15 @@ SEC_SIG['aprende.html'] = (('index.html', 'Inicio'), ('herramientas.html', 'Herr
 pagina('aprende.html', 'Aprende', 'Todo lo que hay para aprender en Fuerza Basada en Evidencia: rutas para empezar, vídeos con capítulos, mitos con su estudio, glosario, recetas, guías y el boletín, ordenado por temas.',
        'Aprende, a tu ritmo.', 'Rutas para empezar, vídeos, mitos con su estudio, glosario, recetas y el boletín. Todo lo de aprender, en una pantalla.', f'''
 <section><div class="in"><div class="entrada sube"><h2>¿Por dónde empiezo?</h2><p>Elige tu caso y te marco los pasos.</p></div>
-  <div class="ap-rutas sube">{"".join(f'<a class="ap-ruta" href="empieza-aqui.html#{p}"><i class="ea-bi">{ico(EA_ICO[p])}</i><b>{t}</b><span>{len(xs)} pasos</span></a>' for p, t, _, xs in EA_PERF)}</div>
+  <div class="ap-rutas sube">{"".join(f'<a class="ap-ruta" href="empieza-aqui.html#{p}" data-p="{p}" data-n="{len(xs)}">{ilus("ea-" + p, "ap-ruta-img") or f"<i class=\"ea-bi\">{ico(EA_ICO[p])}</i>"}<b>{t}</b><span>{len(xs)} pasos</span><em class="ap-ruta-b" aria-hidden="true"></em></a>' for p, t, _, xs in EA_PERF)}</div>
+  <script>{AP_JS}</script>
 </div></section>
 <section class="hoja"><div class="in"><div class="entrada sube"><h2>Lo último</h2><p>El vídeo y el envío más recientes.</p></div>
   <div class="ap-ult sube">{_ULT_V}{_ULT_B}</div>
   <p class="sec-enl sube"><b>¿Quieres ver todo lo nuevo?</b><a href="novedades.html">Novedades</a><a href="videos.html">Todos los vídeos</a></p>
 </div></section>
 <section><div class="in"><div class="entrada sube"><h2>Todo lo que hay</h2><p>Cada sección, a un toque.</p></div>
-  <div class="ap-rej sube">{"".join(f'<a class="ap-t" href="{u}"><i class="ic">{_aic(i)}</i><b>{t}</b><span>{d}</span></a>' for u, i, t, d in AP_SEC)}</div>
+  <div class="ap-rej sube">{"".join(f'<a class="ap-t" href="{u}"><i class="ic">{_aic(i)}</i>{f"<em class=\"ap-n\" aria-hidden=\"true\">{_AP_N[u]}</em>" if u in _AP_N else ""}<b>{t}</b><span>{d}</span></a>' for u, i, t, d in AP_SEC)}</div>
 </div></section>
 <section class="hoja"><div class="in"><div class="entrada sube"><h2>Por tema</h2><p>Lo que hay sobre cada asunto, junto: herramientas, mitos, vídeos y lecturas.</p></div>
   <div class="ap-temas sube">{"".join(_ap_tema(u, t) for u, t in TEMAS_MENU)}</div>
@@ -160,7 +163,8 @@ function pinta(){var n=0,tot=0;is.forEach(function(li){var ok=!k||li.dataset.k==
  ms.forEach(function(m){var e=m.nextElementSibling,hay=false;while(e&&!e.classList.contains('nov-mes')){if(!e.hidden)hay=true;e=e.nextElementSibling}m.hidden=!hay});
  M.hidden=n>=tot;N.textContent=n+' de '+tot}
 C.addEventListener('click',function(e){var b=e.target.closest('button[data-k]');if(!b)return;k=b.dataset.k;ver=30;[].forEach.call(C.querySelectorAll('button'),function(x){x.setAttribute('aria-pressed',String(x===b))});pinta()});
-M.addEventListener('click',function(){ver+=30;pinta()});pinta()})();'''
+M.addEventListener('click',function(){ver+=30;pinta()});pinta();
+var ult='',mx='';try{ult=localStorage.getItem('fbe-nov-visto')||''}catch(e){}is.forEach(function(li){var f=li.querySelector('time').getAttribute('datetime');if(f>mx)mx=f;if(ult&&f>ult)li.classList.add('nuevo')});try{localStorage.setItem('fbe-nov-visto',mx)}catch(e){}})();'''
 _NC = {k: sum(1 for x in _NOV if x['k'] == k) for k in 'vbw'}
 SEC_SIG['novedades.html'] = (('aprende.html', 'Aprende'), ('videos.html', 'Vídeos'))
 pagina('novedades.html', 'Novedades', 'Lo último de Fuerza Basada en Evidencia: vídeos nuevos, envíos del boletín y herramientas y secciones de la web, por fecha. Con canal RSS.',
@@ -196,9 +200,9 @@ pagina('ayuda.html', 'Cómo usar la app', 'Cómo instalar Fuerza Basada en Evide
        'La web, en tu móvil como una app.', 'Cómo instalarla, qué funciona sin conexión y qué pasa con lo que guardas: se queda en tu dispositivo.', f'''
 <section id="instalar"><div class="in"><div class="entrada sube"><h2>Instalarla</h2><p>No pasa por ninguna tienda y no ocupa casi nada. Se abre a pantalla completa, con su icono.</p></div>
   <div class="ay-tres sube">
-    <div class="ay-c"><h3>iPhone y iPad</h3><ol><li>Abre la web en Safari.</li><li>Toca «Compartir».</li><li>Elige «Añadir a pantalla de inicio».</li></ol></div>
-    <div class="ay-c"><h3>Android</h3><ol><li>Abre la web en Chrome.</li><li>Toca el menú de los tres puntos.</li><li>Elige «Instalar aplicación» o «Añadir a pantalla de inicio».</li></ol></div>
-    <div class="ay-c"><h3>Ordenador</h3><ol><li>Abre la web en Chrome o Edge.</li><li>Pulsa el icono de instalar de la barra de direcciones.</li><li>Confirma con «Instalar».</li></ol></div>
+    <div class="ay-c"><div class="ay-dib" aria-hidden="true"><svg viewBox="0 0 120 80"><rect x="42" y="4" width="36" height="72" rx="7"/><path d="M54 9h12"/><path d="M48 20h24M48 27h16M48 34h20" opacity=".45"/><rect class="ay-r" x="51" y="54" width="18" height="15" rx="3"/><path class="ay-r" d="M60 46v15M55 51l5-5 5 5"/></svg></div><h3>iPhone y iPad</h3><ol><li>Abre la web en Safari.</li><li>Toca «Compartir».</li><li>Elige «Añadir a pantalla de inicio».</li></ol></div>
+    <div class="ay-c"><div class="ay-dib" aria-hidden="true"><svg viewBox="0 0 120 80"><rect x="42" y="4" width="36" height="72" rx="7"/><path d="M47 13h14" opacity=".45"/><circle class="ay-r" cx="72" cy="11" r="1.5"/><circle class="ay-r" cx="72" cy="16" r="1.5"/><circle class="ay-r" cx="72" cy="21" r="1.5"/><rect class="ay-r" x="50" y="27" width="24" height="27" rx="3"/><path class="ay-r" d="M55 35h14M55 41h10M55 47h12"/></svg></div><h3>Android</h3><ol><li>Abre la web en Chrome.</li><li>Toca el menú de los tres puntos.</li><li>Elige «Instalar aplicación» o «Añadir a pantalla de inicio».</li></ol></div>
+    <div class="ay-c"><div class="ay-dib" aria-hidden="true"><svg viewBox="0 0 120 80"><rect x="12" y="8" width="96" height="56" rx="6"/><path d="M12 22h96"/><rect x="20" y="12" width="64" height="6" rx="3" opacity=".45"/><rect class="ay-r" x="89" y="10.5" width="11" height="9" rx="2"/><path class="ay-r" d="M94.5 12.5v4.5M92.5 15l2 2 2-2"/><path d="M44 74h32M60 64v10"/><path d="M24 34h40M24 42h28M24 50h34" opacity=".45"/></svg></div><h3>Ordenador</h3><ol><li>Abre la web en Chrome o Edge.</li><li>Pulsa el icono de instalar de la barra de direcciones.</li><li>Confirma con «Instalar».</li></ol></div>
   </div>
 </div></section>
 <section class="hoja" id="sin-conexion"><div class="in"><div class="entrada sube"><h2>Sin conexión</h2><p>En el gimnasio no siempre hay cobertura. Por eso las herramientas se quedan guardadas.</p></div>
@@ -228,7 +232,7 @@ pagina('ayuda.html', 'Cómo usar la app', 'Cómo instalar Fuerza Basada en Evide
 SEC_SIG['sin-conexion.html'] = (('mi-panel.html', 'Mi panel'), ('herramientas.html', 'Herramientas'))
 pagina('sin-conexion.html', 'Sin conexión', 'Ahora no hay conexión. Las herramientas de Fuerza Basada en Evidencia siguen funcionando.',
        'Ahora no hay conexión.', 'Esta página no estaba guardada en tu dispositivo. Las herramientas sí: funcionan sin red.', f'''
-<section><div class="in"><div class="entrada sube"><h2>Lo que puedes usar ahora</h2></div>
+<section><div class="in"><div class="sc-dib sube" aria-hidden="true"><svg viewBox="0 0 240 110"><path class="sc-t" d="M34 38a42 42 0 0 0 0 42M206 38a42 42 0 0 1 0 42M16 26a64 64 0 0 0 0 66M224 26a64 64 0 0 1 0 66"/><path d="M74 88h94a25 25 0 0 0 3-50 37 37 0 0 0-71-7 28 28 0 0 0-26 57z"/><path class="sc-r" d="M72 16l98 84"/></svg></div><div class="entrada sube"><h2>Lo que puedes usar ahora</h2></div>
   <div class="ap-rej sube">{"".join(f'<a class="ap-t" href="{u}"><i class="ic">{_aic(i)}</i><b>{t}</b><span>{d}</span></a>' for u, i, t, d in [("temporizador.html", "crono", "Temporizador", "Descansos e intervalos."), ("semana-activa.html", "anillos", "Mi semana activa", "Apunta lo de hoy."), ("herramientas.html", "cajas", "Todas las herramientas", "Calculadoras y pruebas."), ("mi-panel.html", "panel", "Mi panel", "Lo tuyo."), ("mis-resultados.html", "grafica", "Mis resultados", "Tus resultados guardados."), ("glosario.html", "libro", "Glosario", "Cada término, en dos líneas.")])}</div>
   <p class="sec-enl sube"><b>¿Ya tienes red?</b><button type="button" class="pn-b" onclick="location.reload()">Volver a intentarlo</button></p>
 </div></section>''', extra='<meta name="robots" content="noindex">')
