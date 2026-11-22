@@ -7,7 +7,7 @@ await p.goto('http://localhost:4400/herramientas.html'); await p.waitForTimeout(
 const vis = () => p.evaluate(() => [...document.querySelectorAll('.hb-grupo .herr-mini')].filter(a => !a.hidden && !a.closest('.hb-grupo').hidden).length);
 const total = await vis(); ok(total >= 14, 'todas visibles al entrar: ' + total);
 ok(await p.evaluate(() => document.querySelectorAll('.hb-grupo').length) === 4, 'cuatro grupos');
-await p.click('#hb-f button[data-g="evalua"]'); ok(await vis() === 4, 'filtro Evalúa: 4');
+await p.click('#hb-f button[data-g="evalua"]'); ok(await vis() === 5, 'filtro Evalúa: 5');
 await p.click('#hb-f button[data-g=""]'); await p.fill('#hb-q', 'mayores'); await p.waitForTimeout(100);
 const n = await vis(); ok(n >= 1 && n < total, 'buscar «mayores» filtra: ' + n);
 await p.fill('#hb-q', 'cafeina'); ok(await vis() === 1, 'buscar sin tilde encuentra Cafeína');

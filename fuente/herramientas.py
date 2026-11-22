@@ -34,7 +34,7 @@ def tool_pagina(arch, titulo, desc, h1, sub, form, res, explica, fuentes, js, ex
 {extra_sec}
 <section class="hoja"><div class="in"><div class="entrada sube"><h2>Cómo se interpreta</h2></div>
   {tira_h}<div class="tool-explica sube">{explica}</div>
-  <h3 class="fuentes-h sube">De dónde salen los números</h3>{fuentes_t(fuentes)}
+  {'<h3 class="fuentes-h sube">De dónde salen los números</h3>' + fuentes_t(fuentes) if fuentes else ''}
 </div></section>
 {CTA_PP}
 <script>{STEP_JS}{js}{GUARDA_JS}</script>'''
@@ -892,17 +892,20 @@ HERR_MAS += [('zonas-pulso.html', 'pulso', 'pulso', 'Zonas de pulso y esfuerzo',
     ('suplementos.html', 'suplementos', 'capsula', 'Suplementos con evidencia', 'Grupo de evidencia, dosis para tu peso y qué vigilar.')]
 
 exec(open('herramientas3.py', encoding='utf-8').read())  # actividad de la OMS, cintura y altura, fuerza de prensión (21/11/2026)
+exec(open('herramientas4.py', encoding='utf-8').read())  # temporizador, semana activa, pasos, tensión en casa y equilibrio (22/11/2026)
 _h = open(f'{SAL}/herramientas.html', encoding='utf-8').read()
 # Herramientas por objetivo (21/11/2026, noche): grupos con filtro y buscador. Mismo reparto que el menu (HERR_MENU de sitio-cab.py).
-_HB_G = [('evalua', 'Evalúa tu forma física', ['test-silla.html', 'test-sppb.html', 'prension.html', 'cintura-altura.html']),
-         ('planifica', 'Planifica tu entrenamiento', ['calculadora-1rm.html', 'volumen-semanal.html', 'zonas-pulso.html', 'actividad-oms.html', 'paron.html']),
+_HB_G = [('evalua', 'Evalúa tu forma física', ['test-silla.html', 'test-sppb.html', 'prension.html', 'equilibrio.html', 'cintura-altura.html']),
+         ('planifica', 'Planifica tu entrenamiento', ['calculadora-1rm.html', 'volumen-semanal.html', 'temporizador.html', 'zonas-pulso.html', 'actividad-oms.html', 'semana-activa.html', 'pasos.html', 'paron.html']),
          ('come', 'Come y suplementa', ['calorias.html', 'cafeina.html', 'suplementos.html']),
-         ('seguro', 'Entrena seguro', ['revision-medica.html', 'semaforo-dolor.html'])]
+         ('seguro', 'Entrena seguro', ['revision-medica.html', 'semaforo-dolor.html', 'tension.html'])]
 _HB_K = {'test-silla.html': 'piernas mayores caidas levantarse', 'calculadora-1rm.html': 'fuerza maxima peso repeticiones rir cargas', 'volumen-semanal.html': 'series semana musculo hipertrofia',
          'cafeina.html': 'cafe te energetica dormir sueno', 'revision-medica.html': 'medico corazon riesgo cribado empezar', 'zonas-pulso.html': 'frecuencia cardiaca cardio borg reloj betabloqueantes',
          'semaforo-dolor.html': 'lesion tendon rodilla molestia', 'test-sppb.html': 'mayores padres equilibrio marcha fragilidad', 'paron.html': 'vacaciones descanso perder musculo',
          'suplementos.html': 'creatina proteina beta alanina', 'actividad-oms.html': 'minutos semana caminar recomendaciones', 'cintura-altura.html': 'grasa abdominal barriga perimetro',
-         'prension.html': 'dinamometro mano sarcopenia agarre', 'calorias.html': 'mantenimiento comer energia dieta kcal'}
+         'prension.html': 'dinamometro mano sarcopenia agarre', 'calorias.html': 'mantenimiento comer energia dieta kcal',
+         'temporizador.html': 'cronometro descanso series intervalos tabata emom reloj gimnasio', 'semana-activa.html': 'registro diario anillos racha minutos oms habito',
+         'pasos.html': 'caminar andar 10000 cadencia podometro', 'tension.html': 'hipertension presion arterial tensiometro sistolica diastolica medir', 'equilibrio.html': 'pierna caidas mayores estabilidad pata coja'}
 import unicodedata as _ud
 def _hb_norm(t): return ''.join(c for c in _ud.normalize('NFD', t.lower()) if _ud.category(c) != 'Mn')
 _HB_D = {u: (u, sl, i, t, d) for u, sl, i, t, d in HERR_MAS}

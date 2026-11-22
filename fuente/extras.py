@@ -210,7 +210,7 @@ assert _a in _p
 _p = _p.replace(_a, f'<p class="sec-enl sube"><b>Lo tuyo</b><a href="mis-resultados.html">Mis resultados</a><a href="glosario.html">Glosario</a></p>\n  {INSTALA}\n  ' + _a, 1)
 open(f'{SAL}/herramientas.html', 'w', encoding='utf-8').write(_p)
 
-SEC_PAGS += ['glosario.html', 'boletin.html'] + SEC_PAGS_H3
+SEC_PAGS += ['glosario.html', 'boletin.html'] + SEC_PAGS_H3 + SEC_PAGS_H4
 
 # ---------------------------------------------------------------------------------------------
 # Indice del buscador (buscar.json): paginas y, dentro de ellas, dudas, mitos, guias, perfiles, terminos y envios del boletin
@@ -243,7 +243,7 @@ for _g in GLOS:
 for _b in BOL:
     _IDX.append({'t': _b['asunto'], 'u': _b['u'], 'd': _b['tema'], 'k': '', 'y': 'Boletín', 'x': 1})
 for _v in VIDS:
-    _IDX.append({'t': _v['t'], 'u': f'videos.html#v-{_v["id"]}', 'd': f'{vid_fecha(_v["f"])} · {_v["d"]} · ' + ' · '.join(VID_GD[g] for g in _v['g']), 'k': 'video youtube', 'y': 'Vídeo'})
+    _IDX.append({'t': _v['t'], 'u': f'videos.html#v-{_v["id"]}', 'd': f'{vid_fecha(_v["f"])} · {_v["d"]} · ' + ' · '.join(VID_GD[g] for g in _v['g']), 'k': 'video youtube ' + ' '.join(c[2] for c in VID_X.get(_v['id'], {}).get('c', [])), 'y': 'Vídeo'})
 open(f'{SAL}/buscar.json', 'w', encoding='utf-8').write(_json.dumps(_IDX, ensure_ascii=False, separators=(',', ':')))
 print('buscador:', len(_IDX), 'entradas')
 

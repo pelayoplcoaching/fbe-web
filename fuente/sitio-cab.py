@@ -23,10 +23,10 @@ APRENDE = [('empieza-aqui.html', 'Empieza aquí', 'Tu ruta según tu caso'), ('g
            ('mitos.html', 'Mitos y evidencia', 'Qué dicen los estudios'), ('glosario.html', 'Glosario', 'Cada término en dos líneas'),
            ('recetas.html', 'Recetas con proteína', 'Diez del recetario de la app'),
            ('videos.html', 'Vídeos', 'El canal de YouTube'), ('profesionales.html', 'Para profesionales', 'Sanitarios y charlas')]
-HERR_MENU = [('Evalúa tu forma física', [('test-silla.html', 'Test de la silla'), ('test-sppb.html', 'Test SPPB'), ('prension.html', 'Fuerza de prensión'), ('cintura-altura.html', 'Cintura y altura')]),
-             ('Planifica tu entrenamiento', [('calculadora-1rm.html', 'Calculadora de 1RM'), ('volumen-semanal.html', 'Volumen semanal'), ('zonas-pulso.html', 'Zonas de pulso'), ('actividad-oms.html', '¿Llegas a la OMS?'), ('paron.html', '¿Cuánto pierdo si paro?')]),
+HERR_MENU = [('Evalúa tu forma física', [('test-silla.html', 'Test de la silla'), ('test-sppb.html', 'Test SPPB'), ('prension.html', 'Fuerza de prensión'), ('equilibrio.html', 'Equilibrio a una pierna'), ('cintura-altura.html', 'Cintura y altura')]),
+             ('Planifica tu entrenamiento', [('calculadora-1rm.html', 'Calculadora de 1RM'), ('volumen-semanal.html', 'Volumen semanal'), ('temporizador.html', 'Temporizador'), ('zonas-pulso.html', 'Zonas de pulso'), ('actividad-oms.html', '¿Llegas a la OMS?'), ('semana-activa.html', 'Mi semana activa'), ('pasos.html', 'Pasos al día'), ('paron.html', '¿Cuánto pierdo si paro?')]),
              ('Come y suplementa', [('calorias.html', 'Calorías de mantenimiento'), (CALC, 'Calculadora de proteína'), ('cafeina.html', 'Cafeína y sueño'), ('suplementos.html', 'Suplementos con evidencia')]),
-             ('Entrena seguro', [('revision-medica.html', '¿Necesito revisión médica?'), ('semaforo-dolor.html', 'Semáforo del dolor'), ('pauta-activa.html', 'Pauta Activa: medicación')])]
+             ('Entrena seguro', [('revision-medica.html', '¿Necesito revisión médica?'), ('semaforo-dolor.html', 'Semáforo del dolor'), ('tension.html', 'Tensión en casa'), ('pauta-activa.html', 'Pauta Activa: medicación')])]
 _FLECHA = '<svg class="nav-fl" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1.5l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
 def _cur(u, act): return ' class="aqui" aria-current="page"' if u == act else ''
 TEMAS_MENU = [('tema-envejecer.html', 'Envejecer con fuerza'), ('tema-medicacion.html', 'Medicación y enfermedad'), ('tema-dolor.html', 'Dolor y molestias'), ('tema-nutricion.html', 'Nutrición y suplementos'), ('tema-poco-tiempo.html', 'Poco tiempo')]  # páginas de tema (temas.py)
@@ -111,11 +111,11 @@ if all(os.path.exists(f'web-img/{n}.webp') for n, _ in _ES):
     for n, fin in _ES:
         cam(fin, fin.replace('</p></li>', '</p>' + _img_w(n, 'espera-img') + '</li>'))
 cam('<title>Web FBE Equipo</title>', '<title>Sitio FBE</title>')
-h += '<script>' + open('luz.js', encoding='utf-8').read() + '</script>'
-cam('</style>\n<script>document.documentElement', open('sitio.css', encoding='utf-8').read() + open('futuro.css', encoding='utf-8').read() + '</style>\n<script>document.documentElement')
+h += '<script>' + open('luz.js', encoding='utf-8').read() + '\n' + open('app.js', encoding='utf-8').read() + '</script>'
+cam('</style>\n<script>document.documentElement', open('sitio.css', encoding='utf-8').read() + open('futuro.css', encoding='utf-8').read() + open('app.css', encoding='utf-8').read() + '</style>\n<script>document.documentElement')
 open('sitio-inicio.html', 'w', encoding='utf-8').write(h)
-CSS = css + open('sitio.css', encoding='utf-8').read() + open('futuro.css', encoding='utf-8').read()
+CSS = css + open('sitio.css', encoding='utf-8').read() + open('futuro.css', encoding='utf-8').read() + open('app.css', encoding='utf-8').read()
 os.makedirs(SAL, exist_ok=True)
-open(f'{SAL}/fbe.css', 'w', encoding='utf-8').write(CSS); open(f'{SAL}/fbe.js', 'w', encoding='utf-8').write(open('mini.js', encoding='utf-8').read() + '\n' + open('luz.js', encoding='utf-8').read())
+open(f'{SAL}/fbe.css', 'w', encoding='utf-8').write(CSS); open(f'{SAL}/fbe.js', 'w', encoding='utf-8').write(open('mini.js', encoding='utf-8').read() + '\n' + open('luz.js', encoding='utf-8').read() + '\n' + open('app.js', encoding='utf-8').read())
 open(f'{SAL}/index.html', 'w', encoding='utf-8').write('<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">' + h.replace('<title>Sitio FBE</title>', '<title>FBE · Tu plan, tu comida, tu coach</title>').replace('<style>', '</head><body style="margin:0"><style>', 1) + '</body></html>')
 

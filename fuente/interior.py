@@ -529,6 +529,7 @@ pagina('pauta-activa.html', 'Pauta Activa', 'Pauta Activa · Medicación y Ejerc
 {CTA_PP}''', f'<div class="cta"><a class="btn claro" href="{PA}" rel="noopener">Abrir Pauta Activa</a><a class="enl" href="#que-hace">Qué hace</a></div>', fijo=FIJO_PA, extra=PA_LD, lado=f'<div class="pa-hero">{PA_TEL("vistazo", "Pauta Activa en el móvil")}</div>', padre=('herramientas.html', 'Herramientas'))
 exec(open('herramientas.py', encoding='utf-8').read())  # cinco calculadoras de Herramientas (21/11/2026)
 exec(open('secciones.py', encoding='utf-8').read())  # Empieza aquí, Vídeos, Para profesionales y Mitos y evidencia (21/11/2026)
+exec(open('app_pags.py', encoding='utf-8').read())  # la web como app (1): Aprende, Mi panel, Novedades y RSS, Ayuda y Sin conexión (22/11/2026)
 exec(open('extras.py', encoding='utf-8').read())  # Glosario, archivo del boletín, Mis resultados, buscador y web instalable (21/11/2026)
 exec(open('fuentes.py', encoding='utf-8').read())  # Fuentes: todas las referencias, comprobadas en PubMed, y enlaces en herramientas, mitos y portada (21/11/2026, noche)
 exec(open('temas.py', encoding='utf-8').read())  # cinco páginas de tema: envejecer, medicación, dolor, nutrición y poco tiempo (21/11/2026, noche)
@@ -541,6 +542,7 @@ exec(open('autoria.py', encoding='utf-8').read())  # firma y fecha en las págin
 exec(open('evolucion.py', encoding='utf-8').read())  # «Mi evolución» (gráficas) e «Informe para tu médico» en Mis resultados (21/11/2026, noche)
 exec(open('extras2.py', encoding='utf-8').read())  # test de mitos, plan semanal con calendario, datos estructurados e imagen para compartir de cada página (21/11/2026)
 exec(open('datos.py', encoding='utf-8').read())  # datos para buscadores que faltaban: organización, perfil, mitos (ClaimReview), herramientas y recetas (21/11/2026, noche)
+exec(open('app.py', encoding='utf-8').read())  # la web como app (2): pestañas, vídeos enlazados, «Esta semana», rutas con progreso, acciones del buscador, manifiesto y service worker (22/11/2026)
 open(f'{SAL}/sitemap.xml', 'w', encoding='utf-8').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join(f'  <url><loc>{WEB}{u}</loc></url>\n' for u in [''] + [u for u, _ in PAGS] + ['pauta-activa.html', 'test-silla.html', 'calculadora-1rm.html', 'volumen-semanal.html', 'cafeina.html', 'revision-medica.html', 'zonas-pulso.html', 'semaforo-dolor.html', 'test-sppb.html', 'paron.html', 'suplementos.html'] + SEC_PAGS + (['privacidad.html'] if os.environ.get('FBE_CORREO') else [])) + '</urlset>\n')
 open(f'{SAL}/robots.txt', 'w', encoding='utf-8').write(f'User-agent: *\nAllow: /\nSitemap: {WEB}sitemap.xml\n')
 p = open(f'{SAL}/index.html', encoding='utf-8').read()
@@ -637,7 +639,7 @@ _TAM = {'tool-tira-img': (100, 280), 'ilus': (360, 600), 'herr-mini-img': (320, 
         'ev-ilus': (320, 320), 'pa-para-ilus': (320, 320), 'tres-img': (360, 360), 'foto-i': (320, 320), 'espera-img': (340, 360), 'foto-b': (320, 330),
         'herr-cap': (360, 600), 'pa-logo': (28, 28), 'foto-p': (360, 450), 'foto-c': (300, 230), 'pa-autor-foto': (110, 150), 'pro-logo': (66, 66),
         'pro-guia': (90, 115), 'pro-img': (360, 460), 'banner': (360, 1120), 'lema-fondo': (440, 1440), 'vid-fondo': (360, 1120), 'pase': (300, 330),
-        'mr-vacio-img': (360, 420), 'instala-img': (150, 180), 'herr-img': (360, 620)}
+        'mr-vacio-img': (360, 420), 'instala-img': (150, 180), 'herr-img': (360, 620), 'ap-tema-img': (170, 240)}
 _TAM_P = {'retrato xl': (200, 370), 'retrato': (120, 180), 'tel atras': (310, 310), 'tel plano': (310, 310), 'tel': (310, 310), 'm dos': (80, 80), 'm': (240, 240), 'pos': (360, 900)}
 _PORTADA_HTML = [False]
 _VAR = {}

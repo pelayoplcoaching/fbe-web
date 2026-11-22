@@ -673,6 +673,62 @@
    "url_t": "Web de la OMS",
    "pat": "Organización Mundial de la Salud\\. Directrices",
    "nota": "Documento completo; el artículo que lo presenta es el de Bull y cols. (2020)."
+  },
+  {
+   "id": "paluch2022",
+   "au": "Paluch AE, Bajpai S, Bassett DR y cols.",
+   "a": 2022,
+   "ti": "Daily steps and all-cause mortality: a meta-analysis of 15 international cohorts",
+   "rev": "Lancet Public Health. 2022;7(3):e219-e228",
+   "t": "meta",
+   "pmid": "35247352",
+   "doi": "10.1016/S2468-2667(21)00302-9",
+   "url": "",
+   "url_t": "",
+   "pat": "Paluch AE",
+   "nota": "Comprobada el 22/11/2026."
+  },
+  {
+   "id": "tudorlocke2018",
+   "au": "Tudor-Locke C, Han H, Aguiar EJ y cols.",
+   "a": 2018,
+   "ti": "How fast is fast enough? Walking cadence (steps/min) as a practical estimate of intensity in adults: a narrative review",
+   "rev": "Br J Sports Med. 2018;52(12):776-788",
+   "t": "rev",
+   "pmid": "29858465",
+   "doi": "10.1136/bjsports-2017-097628",
+   "url": "",
+   "url_t": "",
+   "pat": "Tudor-Locke C",
+   "nota": "Comprobada el 22/11/2026."
+  },
+  {
+   "id": "araujo2022",
+   "au": "Araujo CG, de Souza e Silva CG, Laukkanen JA y cols.",
+   "a": 2022,
+   "ti": "Successful 10-second one-legged stance performance predicts survival in middle-aged and older individuals",
+   "rev": "Br J Sports Med. 2022;56(17):975-980",
+   "t": "obs",
+   "pmid": "35728834",
+   "doi": "10.1136/bjsports-2021-105360",
+   "url": "",
+   "url_t": "",
+   "pat": "Araujo CG",
+   "nota": "Comprobada el 22/11/2026."
+  },
+  {
+   "id": "mcevoy2024",
+   "au": "McEvoy JW, McCarthy CP, Bruno RM y cols.",
+   "a": 2024,
+   "ti": "2024 ESC Guidelines for the management of elevated blood pressure and hypertension",
+   "rev": "Eur Heart J. 2024;45(38):3912-4018",
+   "t": "guia",
+   "pmid": "39210715",
+   "doi": "10.1093/eurheartj/ehae178",
+   "url": "",
+   "url_t": "",
+   "pat": "McEvoy JW",
+   "nota": "Guía europea de cardiología. Comprobada el 22/11/2026: umbrales en casa (tabla 5) y cómo medirse (apartado 5.2.3)."
   }
  ]
 }

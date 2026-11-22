@@ -8,7 +8,7 @@ await p.goto(U + 'quien-soy.html'); await p.waitForTimeout(300);
 ok(await p.locator('.cab .busca-b').count() === 1, 'botón de la lupa en la cabecera');
 await p.keyboard.press('Control+k'); await p.waitForTimeout(300);
 ok(await p.evaluate(() => !!document.querySelector('.busca-d[open]')), 'Ctrl+K abre el buscador');
-ok((await p.locator('.bd-l li').count()) === 6, 'sin texto: 6 atajos');
+ok((await p.locator('.bd-l li').count()) === 7, 'sin texto: 7 atajos');
 await p.keyboard.type('creatina'); await p.waitForTimeout(400);
 const tipos = await p.evaluate(() => [...document.querySelectorAll('.bd-l .bo-y')].map(e => e.textContent));
 ok(tipos.length >= 5 && tipos.includes('Mito') && tipos.includes('Glosario') && tipos.includes('Boletín'), 'creatina: ' + tipos.length + ' resultados (' + [...new Set(tipos)].join(', ') + ')');

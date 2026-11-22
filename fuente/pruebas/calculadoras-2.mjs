@@ -67,5 +67,5 @@ await p.click('.supl-it[data-id="bicarbonato"]'); ok((await tx(p, '#u-calc')).in
 await radio(p, 'u-g', 'D'); ok((await p.locator('.supl-it').count()) === 9, 'filtro D: 9 entradas');
 ok(!p.errs.length, 'sin errores ' + p.errs.join('|')); await p.context().close();
 // herramientas
-p = await pag('herramientas.html'); ok((await p.locator('.herr-mini').count()) === 14, 'Herramientas: 14 tarjetas'); await p.context().close();
+p = await pag('herramientas.html'); ok((await p.locator('.herr-mini').count()) === 19, 'Herramientas: 19 tarjetas'); await p.context().close();
 console.log(fallos ? fallos + ' FALLOS' : 'todo correcto'); await b.close(); process.exit(0);

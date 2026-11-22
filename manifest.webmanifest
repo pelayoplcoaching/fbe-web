@@ -3,12 +3,19 @@
  "short_name": "FBE",
  "lang": "es",
  "dir": "ltr",
- "description": "Fuerza y nutrición con un médico internista que también entrena. Herramientas que funcionan sin conexión.",
- "start_url": "./",
+ "id": "./",
+ "description": "Herramientas de fuerza y salud con su fuente, temporizador, tu semana activa y los vídeos de un médico internista que también entrena. Funciona sin conexión y todo se guarda en tu dispositivo.",
+ "start_url": "mi-panel.html",
  "scope": "./",
  "display": "standalone",
+ "orientation": "any",
  "background_color": "#140B3A",
  "theme_color": "#140B3A",
+ "categories": [
+  "health",
+  "fitness",
+  "education"
+ ],
  "icons": [
   {
    "src": "icono-192.png",
@@ -29,16 +36,57 @@
  ],
  "shortcuts": [
   {
+   "name": "Temporizador",
+   "url": "temporizador.html"
+  },
+  {
+   "name": "Mi semana activa",
+   "url": "semana-activa.html"
+  },
+  {
    "name": "Herramientas",
    "url": "herramientas.html"
   },
   {
    "name": "Mis resultados",
    "url": "mis-resultados.html"
+  }
+ ],
+ "screenshots": [
+  {
+   "src": "img/app/1-herramientas.jpg",
+   "sizes": "1080x1919",
+   "type": "image/jpeg",
+   "form_factor": "narrow",
+   "label": "Herramientas con su fuente"
   },
   {
-   "name": "Glosario",
-   "url": "glosario.html"
+   "src": "img/app/2-temporizador.jpg",
+   "sizes": "1080x1919",
+   "type": "image/jpeg",
+   "form_factor": "narrow",
+   "label": "Temporizador para el gimnasio"
+  },
+  {
+   "src": "img/app/3-semana.jpg",
+   "sizes": "1080x1919",
+   "type": "image/jpeg",
+   "form_factor": "narrow",
+   "label": "Mi semana activa"
+  },
+  {
+   "src": "img/app/4-aprende.jpg",
+   "sizes": "1080x1919",
+   "type": "image/jpeg",
+   "form_factor": "narrow",
+   "label": "Aprende, por temas"
+  },
+  {
+   "src": "img/app/5-ordenador.jpg",
+   "sizes": "1920x1080",
+   "type": "image/jpeg",
+   "form_factor": "wide",
+   "label": "La web en el ordenador"
   }
  ]
 }

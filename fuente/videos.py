@@ -49,6 +49,26 @@ def vid_card(v, href=None, ancla=True):
             f'<span class="vc-tx"><time datetime="{v["f"]}">{vid_fecha(v["f"])}</time><b>{_html.escape(v["t"])}</b><span class="vc-g">{g}</span></span></a></li>')
 
 
+# Capítulos, guía y páginas relacionadas de cada vídeo (videos-extra.json: lo de la descripción de YouTube, leído el 22/11/2026)
+_VXJ = _jsv.load(open('videos-extra.json', encoding='utf-8'))
+_REL_T = {u: (t, 'Herramienta') for u, _sl, _i, t, _d in HERR_MAS}
+_REL_T.update({'pauta-activa.html': ('Pauta Activa', 'Herramienta'), 'chequeo.html': ('Chequeo de 10 minutos', 'Herramienta'), 'mitos.html': ('Mitos y evidencia', 'Mitos'),
+               'mitos.html#artrosis': ('El mito de la artrosis de rodilla', 'Mito'), 'mitos.html#creatina': ('El mito de la creatina', 'Mito'), 'mitos.html#proteina-rinon': ('El mito de la proteína y el riñón', 'Mito'),
+               'recetas.html': ('Recetas con proteína', 'Recetas'), 'CALC': ('Calculadora de proteína', 'Herramienta')})
+_REL_T.update({u: (t, 'Tema') for u, t in TEMAS_MENU})
+def vid_rel(i):
+    """Páginas de la web relacionadas con un vídeo: [(url, título, tipo)]."""
+    return [(CALC if u == 'CALC' else u,) + _REL_T[u] for u in _VXJ.get(i, {}).get('r', []) if u in _REL_T]
+def vid_caps(v):
+    out = []
+    for c in _VXJ.get(v['id'], {}).get('c', []):
+        t, _, ti = c.partition(' '); sg = vid_seg(t)
+        if sg < vid_seg(v['d']): out.append([sg, t.lstrip('0').replace(':', ':', 1) if not t.startswith('00:') else '0:' + t[3:], ti.rstrip('.')])
+    return out
+def vid_guia(i):
+    e = _VXJ.get(i, {})
+    return [f'https://{e["g"]}.fuerzabasadaenevidencia.com/', e.get('gt', 'La guía del vídeo')] if e.get('g') else None
+VID_X = {v['id']: {k: x for k, x in (('c', vid_caps(v)), ('g', vid_guia(v['id'])), ('r', [list(r) for r in vid_rel(v['id'])])) if x} for v in VIDS}
 _V0 = VIDS[0]
 _VH = sum(vid_seg(v['d']) for v in VIDS)
 _VCNT = {k: sum(k in v['g'] for v in VIDS) for k, _ in VID_G}
@@ -58,14 +78,22 @@ var PLAY='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 5.8v12.4L19 
 function esc(t){return String(t).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
 function datos(id){var a=rej.querySelector('a[data-v="'+id+'"]');if(!a)return null;return{id:id,t:a.querySelector('b').textContent,f:a.querySelector('time').textContent,d:a.querySelector('.vc-dur').textContent};}
 function marca(id){[].forEach.call(rej.querySelectorAll('a[data-v]'),function(a){if(a.dataset.v===id)a.setAttribute('aria-current','true');else a.removeAttribute('aria-current');});}
-function juega(v){var f=document.createElement('iframe');f.src='https://www.youtube-nocookie.com/embed/'+v.id+'?rel=0&autoplay=1';f.title=v.t;f.allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';f.allowFullscreen=true;f.referrerPolicy='strict-origin-when-cross-origin';var d=document.createElement('div');d.className='vid-marco vid-on';d.id='vid';d.appendChild(f);document.getElementById('vid').replaceWith(d);}
-function pon(id,auto,chip){var v=datos(id);if(!v)return;marca(id);
+function juega(v,s){var f=document.createElement('iframe');f.src='https://www.youtube-nocookie.com/embed/'+v.id+'?rel=0&autoplay=1'+(s?'&start='+s:'');f.title=v.t;f.allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';f.allowFullscreen=true;f.referrerPolicy='strict-origin-when-cross-origin';var d=document.createElement('div');d.className='vid-marco vid-on';d.id='vid';d.appendChild(f);document.getElementById('vid').replaceWith(d);}
+var X={},fx=document.getElementById('vid-ficha');try{X=JSON.parse(document.getElementById('vid-x').textContent)}catch(e){}
+function ficha(id){if(!fx)return;var v=datos(id),x=X[id]||{},h='';if(!v){fx.hidden=true;return}
+ if(x.r&&x.r.length)h+='<div class="vf-rel"><p class="vf-et">Pruébalo tú</p><div class="vf-chips">'+x.r.map(function(r){return '<a class="vf-chip" href="'+esc(r[0])+'"'+(/^http/.test(r[0])?' rel="noopener"':'')+'><small>'+esc(r[2])+'</small><b>'+esc(r[1])+'</b></a>'}).join('')+'</div></div>';
+ if(x.g)h+='<a class="vf-guia" href="'+esc(x.g[0])+'" target="_blank" rel="noopener"><small>La guía de este vídeo</small><b>'+esc(x.g[1])+'</b></a>';
+ if(x.c&&x.c.length)h+='<details class="vf-caps"'+(x.c.length<=9?' open':'')+'><summary>Capítulos <span>'+x.c.length+'</span></summary><ol>'+x.c.map(function(c){return '<li><button type="button" data-s="'+c[0]+'"><time>'+esc(c[1])+'</time><span>'+esc(c[2])+'</span></button></li>'}).join('')+'</ol></details>';
+ fx.dataset.v=id;fx.innerHTML=h;fx.hidden=!h}
+if(fx)fx.addEventListener('click',function(e){var b=e.target.closest('button[data-s]');if(!b)return;var v=datos(fx.dataset.v);if(!v)return;marca(v.id);juega(v,+b.dataset.s);[].forEach.call(fx.querySelectorAll('button[data-s]'),function(x){x.classList.toggle('act',x===b)});var r=dest.getBoundingClientRect();if(r.top<0||r.bottom>innerHeight)dest.scrollIntoView({block:'center'})});
+function pon(id,auto,chip){var v=datos(id);if(!v)return;marca(id);ficha(id);
  dest.innerHTML='<a class="vid-marco vid-real" id="vid" href="https://www.youtube.com/watch?v='+v.id+'" data-v="'+v.id+'" target="_blank" rel="noopener"><img class="vid-fondo" src="https://i.ytimg.com/vi/'+v.id+'/maxresdefault.jpg" alt="" width="1280" height="720" referrerpolicy="no-referrer"><span class="vid-chip">'+esc(chip)+'</span><span class="vid-boton">'+PLAY+'</span><span class="vid-txt"><b>'+esc(v.t)+'</b><small>'+esc(v.f)+' · '+esc(v.d)+'</small></span></a>';
  if(auto)juega(v);}
 dest.addEventListener('error',function(e){var i=e.target;if(i.tagName==='IMG'&&/maxres/.test(i.src))i.src=i.src.replace('maxresdefault','hqdefault');},true);
 dest.addEventListener('click',function(e){var a=e.target.closest('#vid[data-v]');if(!a)return;e.preventDefault();var v=datos(a.dataset.v);if(v){marca(v.id);juega(v);}});
 rej.addEventListener('click',function(e){var a=e.target.closest('a[data-v]');if(!a||e.ctrlKey||e.metaKey||e.shiftKey||e.button)return;e.preventDefault();pon(a.dataset.v,true,'Reproduciendo');try{history.replaceState(null,'','#v-'+a.dataset.v);}catch(_){}
  var r=dest.getBoundingClientRect();if(r.top<0||r.bottom>innerHeight)dest.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches||document.documentElement.classList.contains('quieto')?'auto':'smooth',block:'center'});});
+ficha(dest.querySelector('#vid[data-v]').dataset.v);
 var m=location.hash.match(/^#v-([\w-]{11})$/);if(m&&datos(m[1])){pon(m[1],false,'Elegido');setTimeout(function(){dest.scrollIntoView({block:'center'});},60);}
 var lis=[].slice.call(rej.children),g='',q='',o='n',chips=document.getElementById('vid-chips'),inp=document.getElementById('vid-f'),sel=document.getElementById('vid-o'),cnt=document.getElementById('vid-n'),nada=document.getElementById('vid-nada');
 function norm(t){return t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');}
@@ -92,9 +120,10 @@ pagina('videos.html', 'Vídeos', 'Los vídeos de Fuerza Basada en Evidencia en Y
        'Lo que publico en YouTube.', f'Fuerza, nutrición y salud, explicadas por un médico internista. Los {len(VIDS)} vídeos del canal, por temas, para verlos aquí mismo.', f'''
 <section><div class="in">
   <div class="vid-dest sube" id="vid-dest">{_DEST_V}</div>
+  <div class="vid-ficha sube" id="vid-ficha" hidden></div>
   <div class="vid-cta sube"><a class="btn vid-ir" href="#todos">Ver todos los vídeos</a><a class="btn hueco" href="{YT}"{_ext(YT)}>Ir al canal</a><a class="btn hueco vid-sus" href="{YT}?sub_confirmation=1"{_ext(YT)}>{_CAMPANA}Suscribirme</a></div>
 </div></section>
-<section class="hoja" id="todos"><div class="in"><div class="entrada sube"><h2>Todos los vídeos</h2><p>{len(VIDS)} vídeos, unas {round(_VH / 3600)} horas en total. Elige un tema o busca por palabras; al pulsar uno, se ve arriba.</p></div>
+<section class="hoja" id="todos"><div class="in"><div class="entrada sube"><h2>Todos los vídeos</h2><p>{len(VIDS)} vídeos, unas {round(_VH / 3600)} horas en total. Elige un tema o busca por palabras; al pulsar uno, se ve arriba, con sus capítulos.</p></div>
   <div class="vid-filtros sube">
     <div class="vid-chips" id="vid-chips" role="group" aria-label="Tema">{_CHIPS_V}</div>
     <div class="vid-fila"><div class="vid-q">{_LUPA}<label class="oculto" for="vid-f">Buscar entre los vídeos</label><input id="vid-f" type="search" placeholder="Rodilla, creatina, azúcar…" autocomplete="off"></div><label class="oculto" for="vid-o">Ordenar</label><select id="vid-o"><option value="n">Más recientes</option><option value="a">Más antiguos</option><option value="c">Más cortos</option></select></div>
@@ -117,4 +146,5 @@ pagina('videos.html', 'Vídeos', 'Los vídeos de Fuerza Basada en Evidencia en Y
   <div class="vid-redes sube"><b>También estoy en</b>{"".join(f'<a href="{u}" target="_blank" rel="noopener">{t}</a>' for t, u in REDES if t != 'YouTube')}</div>
 </div></section>
 <section><div class="in"><div class="calc sube"><div><h3>¿Prefieres leerlo?</h3><p>En el boletín te llega una idea cada semana sobre fuerza, nutrición y salud.</p></div><div><a class="btn claro" href="newsletter.html">Ver el boletín</a></div></div></div></section>
+<script type="application/json" id="vid-x">{_jsv.dumps(VID_X, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")}</script>
 <script>{VID_JS}</script>''', cta='<div class="cta"><a class="btn claro" href="#vid-dest">Ver el último</a><a class="enl" href="#todos">Todos, por temas</a></div>', extra=_VLD)

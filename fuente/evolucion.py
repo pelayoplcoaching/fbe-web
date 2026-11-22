@@ -9,7 +9,7 @@
 # min: por debajo de esa cifra, bajar ya no es mejorar (cintura/altura < 0,4 no es el rango saludable de NICE).
 # du: cómo se nombra la unidad en el cambio (singular, plural) cuando la de la herramienta no sirve («+2 de 12»).
 # Las zonas de pulso no entran: su cifra (la FC máxima) solo cambia con la edad.
-EVO_CFG = {'test-silla.html': {'m': 1, 'du': ['vez', 'veces']}, 'calculadora-1rm.html': {'m': 1}, 'prension.html': {'m': 1},
+EVO_CFG = {'test-silla.html': {'m': 1, 'du': ['vez', 'veces']}, 'semana-activa.html': {'m': 1}, 'pasos.html': {'m': 1}, 'calculadora-1rm.html': {'m': 1}, 'prension.html': {'m': 1},
            'test-sppb.html': {'m': 1, 'du': ['punto', 'puntos']}, 'actividad-oms.html': {'m': 1},
            'cintura-altura.html': {'m': -1, 'min': 0.4}, 'calorias.html': {'m': 0}, 'cafeina.html': {'m': 0}}
 # Fuentes de cada herramienta para el informe (las de su lista «De dónde salen los números», desde fuentes.json)

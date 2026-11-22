@@ -35,7 +35,7 @@ await p.click('#mr-todo'); await p.waitForTimeout(100); ok((await p.locator('.mr
 await p.setInputFiles('#mr-imp-f', cop); await p.waitForTimeout(300); ok((await p.locator('.mr-it').count()) === 1 && (await p.inputValue('[data-nota]')) === 'Prueba de nota', 'recuperar la copia (con la nota)');
 console.log('Escuchar y compartir');
 await p.goto(U + 'glosario.html'); await p.waitForTimeout(300);
-ok(await p.locator('.hero .compartir-b').count() === 1, 'botón Compartir en la cabecera');
+ok(await p.locator('.hero .compartir-b:not(.fav-b)').count() === 1, 'botón Compartir en la cabecera');
 await p.evaluate(() => { delete navigator.share; }); await p.click('.compartir-b'); await p.waitForTimeout(200);
 ok((await p.evaluate(() => navigator.clipboard.readText())).endsWith('glosario.html'), 'sin menú de compartir, copia el enlace');
 await p.click('.ajustes-b'); ok(await p.locator('.aj-oir').count() === 1, 'botón Escuchar en el panel');
