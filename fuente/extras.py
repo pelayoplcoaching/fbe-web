@@ -242,6 +242,8 @@ for _g in GLOS:
     _IDX.append({'t': _g[1], 'u': f'glosario.html#{_g[0]}', 'd': _g[3], 'k': '', 'y': 'Glosario'})
 for _b in BOL:
     _IDX.append({'t': _b['asunto'], 'u': _b['u'], 'd': _b['tema'], 'k': '', 'y': 'Boletín', 'x': 1})
+for _v in VIDS:
+    _IDX.append({'t': _v['t'], 'u': f'videos.html#v-{_v["id"]}', 'd': f'{vid_fecha(_v["f"])} · {_v["d"]} · ' + ' · '.join(VID_GD[g] for g in _v['g']), 'k': 'video youtube', 'y': 'Vídeo'})
 open(f'{SAL}/buscar.json', 'w', encoding='utf-8').write(_json.dumps(_IDX, ensure_ascii=False, separators=(',', ':')))
 print('buscador:', len(_IDX), 'entradas')
 

@@ -67,6 +67,25 @@ def _tm_fuentes(x):
     fs = [f for f in FU_L if any(u.split('#')[0] in pags or u in pags for u, _ in FU_USO[f['id']])]
     return fs
 def _tm_dmy(iso): a, m, d = iso.split('-'); return f'{d}/{m}/{a}'
+# Vídeos de cada tema (de VIDS, videos.py): por tema de la página Vídeos o elegidos a mano. Hasta 4, del más reciente.
+VID_TM = {'envejecer': ('envejecer',), 'dolor': ('dolor',), 'nutricion': ('nutricion', 'suplementos'),
+          'medicacion': ['OGkpWToqQhA', 'u9TQ0LDN97k', '2-2uJmOwLdg', 'DY3y0rTOQqc', 'pGxgFQDW0zs'],
+          'poco-tiempo': ['srEyEaiMisE', 'V_F0dKynTys', 'mPEMAS5oBFA', 'ld7J5pJd8Aw', '_MJvHGn3ZXM']}
+def _tm_vids(x):
+    c = VID_TM.get(x['id'])
+    if not c: return []
+    if isinstance(c, tuple): return [v for v in VIDS if set(v['g']) & set(c)]
+    d = {v['id']: v for v in VIDS}
+    return sorted([d[i] for i in c if i in d], key=lambda v: v['f'], reverse=True)
+def _tm_vid_p(x):
+    n = len(_tm_vids(x))
+    return 'Vídeos del canal sobre este tema. Al pulsar uno, se ve en la página Vídeos.' if n else 'Búsquedas en el canal sobre este tema.'
+def _tm_vid(x):
+    vs = _tm_vids(x)
+    if not vs: return ''
+    c = VID_TM[x['id']]
+    mas = (f'<p class="sec-enl sube"><b>Hay {len(vs)}</b><a href="videos.html?t={c[0]}#todos">Verlos todos</a></p>' if isinstance(c, tuple) and len(c) == 1 and len(vs) > 4 else '')
+    return f'<ul class="vid-rej tm-vids sube">' + ''.join(vid_card(v, href=f'videos.html#v-{v["id"]}', ancla=False) for v in vs[:4]) + '</ul>' + mas
 def _tm_pagina(x):
     ea = _EA_D.get(x['ea']) if x['ea'] else None
     pasos = ea[2] if ea else x['pasos']
@@ -101,8 +120,8 @@ def _tm_pagina(x):
 </div></section>
 {f'<section id="guias"><div class="in"><div class="entrada sube"><h2>Guías para ir más lejos</h2></div><div class="tm-guias sube">{guias}</div></div></section>' if guias else ''}
 {bol_html}
-<section class="tm-vid" id="videos-tema"><div class="in"><div class="entrada sube"><h2>En el canal de YouTube</h2><p>Búsquedas en el canal sobre este tema.</p></div>
-  <ul class="vid-temas sube">{"".join(f'<li><a href="{YT}/search?query={_up.quote(v)}" target="_blank" rel="noopener">{v}</a></li>' for v in x["vid"])}</ul>
+<section class="tm-vid" id="videos-tema"><div class="in"><div class="entrada sube"><h2>En el canal de YouTube</h2><p>{_tm_vid_p(x)}</p></div>
+  {_tm_vid(x)}<p class="tm-vb sube">Buscar más en el canal</p><ul class="vid-temas sube">{"".join(f'<li><a href="{YT}/search?query={_up.quote(v)}" target="_blank" rel="noopener">{v}</a></li>' for v in x["vid"])}</ul>
 </div></section>
 <section class="hoja" id="fuentes-tema"><div class="in"><div class="entrada sube"><h2>Las fuentes de este tema</h2><p>Las {len(fs)} referencias que usan las herramientas y los mitos de esta página, comprobadas en PubMed o en la web oficial.</p></div>
   <ol class="tm-fu sube">{"".join(f'<li><a class="tm-f" href="fuentes.html#f-{f["id"]}"><span class="fu-tipo">{FU_T[f["t"]][0].split(" o ")[0].split(",")[0]}</span><b lang="en">{f["ti"]}</b><small>{f["au"]} {f["a"] or ""}</small></a></li>' for f in fs)}</ol>
