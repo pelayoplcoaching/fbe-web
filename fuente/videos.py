@@ -60,8 +60,9 @@ function datos(id){var a=rej.querySelector('a[data-v="'+id+'"]');if(!a)return nu
 function marca(id){[].forEach.call(rej.querySelectorAll('a[data-v]'),function(a){if(a.dataset.v===id)a.setAttribute('aria-current','true');else a.removeAttribute('aria-current');});}
 function juega(v){var f=document.createElement('iframe');f.src='https://www.youtube-nocookie.com/embed/'+v.id+'?rel=0&autoplay=1';f.title=v.t;f.allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';f.allowFullscreen=true;f.referrerPolicy='strict-origin-when-cross-origin';var d=document.createElement('div');d.className='vid-marco vid-on';d.id='vid';d.appendChild(f);document.getElementById('vid').replaceWith(d);}
 function pon(id,auto,chip){var v=datos(id);if(!v)return;marca(id);
- dest.innerHTML='<a class="vid-marco vid-real" id="vid" href="https://www.youtube.com/watch?v='+v.id+'" data-v="'+v.id+'" target="_blank" rel="noopener"><img class="vid-fondo" src="https://i.ytimg.com/vi/'+v.id+'/hqdefault.jpg" alt="" width="480" height="360" referrerpolicy="no-referrer"><span class="vid-chip">'+esc(chip)+'</span><span class="vid-boton">'+PLAY+'</span><span class="vid-txt"><b>'+esc(v.t)+'</b><small>'+esc(v.f)+' · '+esc(v.d)+'</small></span></a>';
+ dest.innerHTML='<a class="vid-marco vid-real" id="vid" href="https://www.youtube.com/watch?v='+v.id+'" data-v="'+v.id+'" target="_blank" rel="noopener"><img class="vid-fondo" src="https://i.ytimg.com/vi/'+v.id+'/maxresdefault.jpg" alt="" width="1280" height="720" referrerpolicy="no-referrer"><span class="vid-chip">'+esc(chip)+'</span><span class="vid-boton">'+PLAY+'</span><span class="vid-txt"><b>'+esc(v.t)+'</b><small>'+esc(v.f)+' · '+esc(v.d)+'</small></span></a>';
  if(auto)juega(v);}
+dest.addEventListener('error',function(e){var i=e.target;if(i.tagName==='IMG'&&/maxres/.test(i.src))i.src=i.src.replace('maxresdefault','hqdefault');},true);
 dest.addEventListener('click',function(e){var a=e.target.closest('#vid[data-v]');if(!a)return;e.preventDefault();var v=datos(a.dataset.v);if(v){marca(v.id);juega(v);}});
 rej.addEventListener('click',function(e){var a=e.target.closest('a[data-v]');if(!a||e.ctrlKey||e.metaKey||e.shiftKey||e.button)return;e.preventDefault();pon(a.dataset.v,true,'Reproduciendo');try{history.replaceState(null,'','#v-'+a.dataset.v);}catch(_){}
  var r=dest.getBoundingClientRect();if(r.top<0||r.bottom>innerHeight)dest.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches||document.documentElement.classList.contains('quieto')?'auto':'smooth',block:'center'});});
@@ -84,7 +85,7 @@ _VLD = '<script type="application/ld+json">' + _jsv.dumps({'@context': 'https://
 _CHIPS_V = f'<button type="button" data-g="" aria-pressed="true">Todos <span>{len(VIDS)}</span></button>' + ''.join(
     f'<button type="button" data-g="{k}" aria-pressed="false">{t} <span>{_VCNT[k]}</span></button>' for k, t in VID_G if _VCNT[k] >= 2)
 _DEST_V = (f'<a class="vid-marco vid-real" id="vid" href="https://www.youtube.com/watch?v={_V0["id"]}" data-v="{_V0["id"]}" target="_blank" rel="noopener">'
-           f'<img class="vid-fondo" src="{vid_mini(_V0["id"], "hq")}" alt="" width="480" height="360" referrerpolicy="no-referrer" fetchpriority="high">'
+           f'<img class="vid-fondo" src="https://i.ytimg.com/vi/{_V0["id"]}/maxresdefault.jpg" onerror="this.onerror=null;this.src=\'{vid_mini(_V0["id"], "hq")}\'" alt="" width="1280" height="720" referrerpolicy="no-referrer" fetchpriority="high">'
            f'<span class="vid-chip">Último vídeo</span><span class="vid-boton">{_PLAY}</span>'
            f'<span class="vid-txt"><b>{_html.escape(_V0["t"])}</b><small>{vid_fecha(_V0["f"])} · {_V0["d"]}</small></span></a>')
 pagina('videos.html', 'Vídeos', 'Los vídeos de Fuerza Basada en Evidencia en YouTube: fuerza, nutrición y salud explicadas por un médico internista, por temas.',
