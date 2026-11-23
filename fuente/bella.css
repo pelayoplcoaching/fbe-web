@@ -666,3 +666,9 @@ html.vt-tema .tabs, html.vt-tema .tab-luz { view-transition-name: none !importan
 .quieto .plan.tf.tf-cambia .tf-eur b, .quieto .plan.tf.tf-cambia .tf-mas { animation: none; }
 @media print { .tf-per, .tf-aviso { display: none; } }
 @media (max-width: 560px) { .tf-tabla { min-width: 0; } .tf-tabla th, .tf-tabla td { padding: .8rem .35rem; } .tf-tabla tbody th { padding-left: .7rem; font-size: .95rem; } .tf-tabla tbody th small { font-size: .72rem; } .tf-tabla td b { font-size: .95rem; } .tf-tabla td s { font-size: .74rem; } .tf-tabla thead th { font-size: .62rem; letter-spacing: .02em; } .tf-tabla thead th small { display: block; } }
+
+/* ===== Barra de arriba (23/11/2026): el boton «Pedir plaza» se encogia y el texto se salia a partir de 1400 px ===== */
+/* El nombre largo junto al logo no cabe con siete apartados a ningun ancho (la barra mide 1160 px como mucho): queda solo para lectores de pantalla. */
+.cab .logo span { display: block; position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0; }
+.cab .in > .btn, .cab .in > button, .cab .in > .logo { flex: none; }
+.cab .in > .btn { white-space: nowrap; }
