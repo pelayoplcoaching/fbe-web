@@ -712,3 +712,17 @@ html.vt-tema .tabs, html.vt-tema .tab-luz { view-transition-name: none !importan
 }
 html.contraste .tray-g, html.contraste .coleg { box-shadow: none; background: var(--sup); }
 @media print { .tray-g { box-shadow: none; break-inside: avoid; } }
+.tray-mas { margin-top: 1.2rem; border-radius: 1.2rem; border: 1px solid var(--linea); background: color-mix(in srgb, var(--sup) 70%, transparent); }
+.tray-mas summary { cursor: pointer; list-style: none; display: flex; align-items: center; gap: .6rem; padding: 1rem 1.3rem; font-weight: 650; color: var(--tinta); border-radius: 1.2rem; }
+.tray-mas summary::-webkit-details-marker { display: none; }
+.tray-mas summary small { font-family: var(--mono); font-size: .72rem; font-weight: 600; padding: .1rem .45rem; border-radius: .4rem; color: var(--acento); background: color-mix(in srgb, var(--marca) 12%, transparent); }
+.tray-mas summary::after { content: "+"; margin-left: auto; font-family: var(--mono); font-size: 1.1rem; color: var(--acento); }
+.tray-mas[open] summary::after { content: "\2212"; }
+.tray-mas summary:focus-visible { outline: 2px solid var(--marca-clara); outline-offset: 2px; }
+.tray-mas ol { list-style: none; margin: 0; padding: 0 1.3rem 1.1rem; display: grid; gap: .95rem; }
+.tray-mas li { display: grid; grid-template-columns: 5.4rem minmax(0, 1fr); gap: .2rem .9rem; align-items: baseline; padding-top: .95rem; border-top: 1px solid var(--linea); }
+.tray-mas li b { display: block; font-weight: 650; color: var(--tinta); line-height: 1.35; }
+.tray-mas li small { display: block; margin-top: .2rem; color: var(--tinta-2); font-size: .88rem; line-height: 1.45; }
+@media (max-width: 520px) { .tray-mas li { grid-template-columns: minmax(0, 1fr); } .tray-mas summary { padding: .95rem 1.1rem; } .tray-mas ol { padding: 0 1.1rem 1rem; } }
+@media (hover: hover) { .tray-mas summary:hover { background: var(--lila); } }
+@media print { .tray-mas ol { display: grid; } }
