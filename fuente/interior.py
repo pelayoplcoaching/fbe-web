@@ -209,8 +209,17 @@ pagina('guias.html', 'Guías', 'Guías prácticas y descargables sobre entrenami
 # ===== newsletter =====
 PLAYA = ilus('foto-playa', 'foto-p').replace('alt=""', 'alt="Pelayo en la playa"')
 if PLAYA: PLAYA = f'<figure class="autor-foto">{PLAYA}<figcaption><b>Quién te escribe</b>Pelayo, fuera del hospital y del gimnasio.</figcaption></figure>'
-BIMG = ['boletin-habito', 'boletin-cafeina', 'boletin-pulsaciones']
-ENV = [('El hábito que movió mis marcadores', 'Lo que descubrí que les afectaba más que entrenar más duro.'), ('700 mg de cafeína sin darme cuenta', 'Cómo un médico llega ahí, y qué hice después.'), ('46 pulsaciones en reposo', 'Sin ser perfecto en nada. Qué hice y qué no.')]
+# «Lo ultimo que he enviado» (Boletin): los tres envios mas recientes de boletin.json (23/11/2026; antes, tres fijos).
+# Imagen: web-img/boletin-<fecha>.webp si existe; si no, la ilustracion de su tema (BOL_IMG); si no hay, sin imagen.
+BOL_IMG = {'2026-11-22': 'herr-tension', '2026-11-15': 'herr-dolor', '2026-11-08': 'revision-2'}
+_ULT = sorted(json.load(open('boletin.json', encoding='utf-8')), key=lambda b: b['f'], reverse=True)[:3]
+_MESC = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic']
+def _ult_card(b):
+    img = ilus(f"boletin-{b['f']}", 'foto-b') or (ilus(BOL_IMG[b['f']], 'foto-b') if b['f'] in BOL_IMG else '')
+    y, m, dd = b['f'].split('-')
+    return (f'<article class="correo sube">{img}<p class="de"><span class="cara peq">PF</span><span><b>Pelayo, de FBE</b>'
+            f'<small>{int(dd)} {_MESC[int(m) - 1]} {y} · Asunto</small></span></p><h3>{b["asunto"]}</h3><p>{b["tema"]}</p>'
+            f'<p class="leer"><a href="{b["u"]}" target="_blank" rel="noopener">Leer el correo</a></p></article>')
 pagina('newsletter.html', 'Boletín', 'El boletín semanal de Fuerza Basada en Evidencia: entrenamiento, nutrición y salud, sin mitos.', 'Lo que sí funciona. Cada semana, en tu correo.', 'Entrenamiento, nutrición y salud con base científica. Sin mitos y sin adornos, para entrenar mejor, comer con cabeza y vivir con energía.', f'''
 <section><div class="in dos alta">
   <div class="sube" id="alta"><div class="entrada" style="margin-bottom:1.5rem"><h2>Apúntate</h2><p>Un correo a la semana. Te das de baja cuando quieras.</p></div>
@@ -218,7 +227,7 @@ pagina('newsletter.html', 'Boletín', 'El boletín semanal de Fuerza Basada en E
   <div class="sube"><h3 style="margin-bottom:1.2rem">Qué te llega</h3><ul class="marcas" style="font-size:1.08rem;gap:.9rem"><li><strong>Una idea por correo</strong>, para aplicarla esa semana.</li><li><strong>Lo que me pasa a mí</strong>: lo que pruebo, lo que mido y en qué me equivoco.</li><li><strong>La evidencia detrás</strong>, sin tecnicismos de más.</li></ul>{PLAYA}</div>
 </div></section>
 <section class="hoja"><div class="in"><div class="entrada sube"><h2>Lo último que he enviado</h2></div>
-  <div class="boletin">{''.join(f'<article class="correo sube">{ilus(BIMG[ENV.index((t, d))], "foto-b")}<p class="de"><span class="cara peq">PF</span><span><b>Pelayo, de FBE</b><small>Asunto</small></span></p><h3>{t}</h3><p>{d}</p></article>' for t, d in ENV)}</div>
+  <div class="boletin">{''.join(_ult_card(b) for b in _ULT)}</div>
 </div></section>
 <script>(function(w,d,e,u,f,l,n){{w[f]=w[f]||function(){{(w[f].q=w[f].q||[]).push(arguments);}},l=d.createElement(e),l.async=1,l.src=u,n=d.getElementsByTagName(e)[0],n.parentNode.insertBefore(l,n);}})(window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');ml('account','1626427');</script>''', f'<div class="cta"><a class="btn claro" href="#alta">Suscribirme</a></div>')
 

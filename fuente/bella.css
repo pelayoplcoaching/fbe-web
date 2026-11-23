@@ -726,3 +726,8 @@ html.contraste .tray-g, html.contraste .coleg { box-shadow: none; background: va
 @media (max-width: 520px) { .tray-mas li { grid-template-columns: minmax(0, 1fr); } .tray-mas summary { padding: .95rem 1.1rem; } .tray-mas ol { padding: 0 1.1rem 1rem; } }
 @media (hover: hover) { .tray-mas summary:hover { background: var(--lila); } }
 @media print { .tray-mas ol { display: grid; } }
+
+/* ===== BOLETIN: ULTIMOS ENVIOS AUTOMATICOS (23/11/2026) ===== */
+.correo .leer { margin: .9rem 0 0; }
+.correo .leer a { font-weight: 650; color: var(--acento); text-underline-offset: .2em; }
+.correo .leer a::after { content: " \2197"; }
