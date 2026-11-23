@@ -2,6 +2,8 @@
 # Regenera toda la web (escribe en la carpeta de arriba) y repone el modo pruebas (noindex y robots).
 # Uso: bash fuente/generar.sh        -> web en pruebas (noindex)
 #      FBE_PUBLICAR=1 bash fuente/generar.sh  -> web indexable (solo al pasar al dominio)
+# Desde el paso al dominio (23/11/2026) hay un CNAME en la raiz: entonces publica siempre (sin noindex),
+# salvo que se pida FBE_PRUEBAS=1.
 set -e
 cd "$(dirname "$0")"
 cat sitio-cab.py interior.py > sitio.py && python3 sitio.py >/dev/null; rm -f sitio.py web-fbe-equipo.html sitio-inicio.html
@@ -9,6 +11,7 @@ F=${FBE_FUENTE:-/tmp/fnt/node_modules/@fontsource-variable/archivo/files/archivo
 if [ ! -f "$F" ]; then (mkdir -p /tmp/fnt && cd /tmp/fnt && npm i @fontsource-variable/archivo --silent >/dev/null 2>&1) || true; fi
 if [ -f "$F" ]; then FBE_FUENTE="$F" node og.mjs; else node og.mjs; fi
 cd ..
+if [ -f CNAME ] && [ "${FBE_PRUEBAS:-}" != "1" ]; then FBE_PUBLICAR=1; echo "Dominio ($(cat CNAME)): web publicada, sin noindex"; fi
 if [ "${FBE_PUBLICAR:-}" != "1" ]; then
   printf 'User-agent: *\nDisallow: /\n' > robots.txt
   for f in *.html; do grep -q 'name="robots" content="noindex"' "$f" || sed -i '0,/<meta charset="utf-8">/s//<meta charset="utf-8"><meta name="robots" content="noindex">/' "$f"; done
