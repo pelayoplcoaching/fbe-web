@@ -631,7 +631,7 @@ html.vt-tema .tabs, html.vt-tema .tab-luz { view-transition-name: none !importan
 .tf-aviso { min-height: 1.4rem; margin: -.6rem 0 1.2rem; font-family: var(--mono); font-size: .8rem; letter-spacing: .03em; color: var(--acento); }
 .plan.tf { display: flex; flex-direction: column; gap: .9rem; overflow: hidden; }
 .plan.tf ul { flex: 1; }
-.plan.tf .tf-img { display: block; width: calc(100% + 3.2rem); max-width: none; margin: -1.6rem -1.6rem .2rem; aspect-ratio: 16 / 9; object-fit: cover; -webkit-mask-image: linear-gradient(#000 62%, transparent); mask-image: linear-gradient(#000 62%, transparent); }
+.plan.tf .tf-img { display: block; flex: none; height: auto; width: calc(100% + 3.2rem); max-width: none; margin: -1.6rem -1.6rem .2rem; aspect-ratio: 16 / 9; object-fit: cover; -webkit-mask-image: linear-gradient(#000 78%, transparent); mask-image: linear-gradient(#000 78%, transparent); }
 .tf-para { margin: 0; color: var(--tinta-2); font-size: .97rem; }
 .tf-eur { margin: .3rem 0 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: .1rem .6rem; }
 .tf-eur b { font-stretch: 122%; font-weight: 780; font-size: clamp(2.5rem, 5vw, 3.3rem); line-height: 1; letter-spacing: -.01em; font-variant-numeric: tabular-nums; color: var(--tinta); white-space: nowrap; }
