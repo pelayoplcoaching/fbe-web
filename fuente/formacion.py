@@ -3,7 +3,8 @@
 # (Universidad Europea de Madrid, curso 2025-2026, expedido el 14/10/2026) y de su carnet del Colegio de Medicos de Madrid.
 # Solo lo que tiene que ver con la salud o el entrenamiento. Fuera a proposito: datos personales del CV, comunicaciones a
 # congresos sobre infecciosas, el voluntariado, el TFG, cursos cortos (2 h), lo que esta pendiente (Comision de Nutricion)
-# y el curso de RCP para atletas (el CV no deja claro si lo dio o lo recibio: preguntado a Pelayo).
+# el curso de RCP para atletas y los estudios en marcha (ecografia nutricional, programa de ejercicio en miopatias):
+# Pelayo pidio el 23/11/2026 que no salgan.
 # Se ejecuta despues de app_pags.py (usa los iconos fonendo y birrete) y antes de datos.py (que usa FORM_LD).
 import html as _html_f
 
@@ -32,8 +33,6 @@ TRAY = [
     ('birrete', 'Docencia e investigación', [
         ('Actual', 'Colaborador docente de la Facultad de Medicina', 'Universidad Autónoma de Madrid (ECOE)'),
         ('Actual', 'Docente y referente de ecografía clínica', 'Hospital Carlos III'),
-        ('En curso', 'Estudio de ecografía nutricional', 'Pacientes de la Unidad de Rehabilitación Funcional del Hospital Carlos III'),
-        ('En curso', 'Diseño de un programa de ejercicio físico para pacientes con miopatías', 'Estudio preliminar, como colaborador'),
         ('2022', 'Coautor de un estudio sobre trombosis en pacientes ingresados por COVID-19', f'<a href="{_DOI_COVID}" target="_blank" rel="noopener">J Ultrasound Med. 2022;41(7):1689-98</a>'),
     ]),
 ]
