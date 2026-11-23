@@ -15,8 +15,8 @@ I.update({
 
 # «Anterior / Siguiente» de las paginas que no estan en el menu
 SEC_SIG = {'empieza-aqui.html': (('index.html', 'Inicio'), ('quien-soy.html', 'Quién soy')),
-           'mitos.html': (('guias.html', 'Guías'), ('newsletter.html', 'Newsletter')),
-           'videos.html': (('newsletter.html', 'Newsletter'), ('herramientas.html', 'Herramientas')),
+           'mitos.html': (('guias.html', 'Guías'), ('newsletter.html', 'Boletín')),
+           'videos.html': (('newsletter.html', 'Boletín'), ('herramientas.html', 'Herramientas')),
            'profesionales.html': (('herramientas.html', 'Herramientas'), ('pauta-activa.html', 'Pauta Activa')),
            'medios.html': (('quien-soy.html', 'Quién soy'), ('videos.html', 'Vídeos'))}
 _sigue_h = sigue
@@ -84,7 +84,7 @@ EA_PERF = [
         ('volumen-semanal.html', _h('volumen-semanal.html'), 'Ajusta tus series', 'Cuántas series por músculo para volver sin pasarte.'),
         ('programas.html', 'pesa', 'Vuelve con un plan', 'Lo ajusto cada semana según cómo responde tu cuerpo.')]),
 ]
-EA_TRES = [('Aprender', 'libro', [('guias.html', 'Guías'), ('newsletter.html', 'Newsletter'), ('videos.html', 'Vídeos'), ('mitos.html', 'Mitos y evidencia'), ('dudas.html', 'Dudas')]),
+EA_TRES = [('Aprender', 'libro', [('guias.html', 'Guías'), ('newsletter.html', 'Boletín'), ('videos.html', 'Vídeos'), ('mitos.html', 'Mitos y evidencia'), ('dudas.html', 'Dudas')]),
            ('Medir', 'grafica', [('herramientas.html', 'Todas las herramientas'), ('pauta-activa.html', 'Pauta Activa'), (CALC, 'Calculadora de proteína'), ('test-sppb.html', 'Test SPPB'), ('calculadora-1rm.html', 'Calculadora de 1RM')]),
            ('Trabajar conmigo', 'chat', [('programas.html', 'Programas'), ('puesta-a-punto.html', 'Puesta a punto'), (FORM, 'Pedir plaza'), ('quien-soy.html', 'Quién soy')])]
 EA_IMG_OK = _todas(*[f'ea-{p}' for p, _, _, _ in EA_PERF])  # bloque W10: una imagen por perfil, solo si estan las seis
@@ -155,7 +155,7 @@ pagina('profesionales.html', 'Para profesionales sanitarios', 'Para médicos, en
 </div></section>
 <section id="pacientes"><div class="in"><div class="entrada sube"><h2>Para tus pacientes</h2><p>Lo que puedes recomendar en la consulta. Copia el enlace y pásaselo.</p></div>
   <div class="pro-pac">
-    <div class="ea-col sube">{sec_ic("libro")}<h3>Para aprender por su cuenta</h3><ul class="pro-lista">{pro_li("herramientas.html", "Herramientas")}{pro_li("mitos.html", "Mitos y evidencia")}{pro_li("videos.html", "Vídeos")}{pro_li("newsletter.html", "Newsletter")}</ul></div>
+    <div class="ea-col sube">{sec_ic("libro")}<h3>Para aprender por su cuenta</h3><ul class="pro-lista">{pro_li("herramientas.html", "Herramientas")}{pro_li("mitos.html", "Mitos y evidencia")}{pro_li("videos.html", "Vídeos")}{pro_li("newsletter.html", "Boletín")}</ul></div>
     <div class="ea-col sube">{sec_ic("check")}<h3>Si necesitan un plan individual</h3><ul class="pro-planes"><li><a href="puesta-a-punto.html">Puesta a punto</a>: consulta y plan de 12 semanas, con lectura de su analítica.</li><li><a href="programas.html">Asesoría</a>: plan de fuerza y nutrición en la app, revisado cada semana.</li></ul></div>
   </div>
 </div></section>
@@ -253,6 +253,7 @@ pagina('mitos.html', 'Mitos y evidencia', 'Nueve mitos de gimnasio y de consulta
     <li><b>Metaanálisis</b><span>Junta los resultados de muchos estudios sobre la misma pregunta. Pesa más que un estudio suelto.</span></li>
     <li><b>Ensayo</b><span>Compara dos grupos asignados al azar. Si es pequeño o corto, la conclusión es más provisional.</span></li>
     <li><b>Guía clínica</b><span>Recomendaciones de un grupo de expertos que revisa toda la evidencia disponible.</span></li>
+    <li><b>Revisión de expertos</b><span>Especialistas en el tema repasan los estudios publicados y responden a preguntas concretas. Útil, pero pesa menos que un metaanálisis.</span></li>
   </ol>
   <h3 class="mitos-sub sube">Y el veredicto, en tres colores</h3>
   <ul class="mitos-leyenda sube"><li class="v-f"><b>Falso</b><span>Los estudios dicen lo contrario de lo que afirma el mito.</span></li><li class="v-a"><b>A medias</b><span>Tiene parte de verdad, pero con matices importantes.</span></li><li class="v-n"><b>No demostrado</b><span>No hay pruebas de que sea así; los estudios son pocos o pequeños.</span></li></ul>
@@ -297,7 +298,7 @@ def _parchea(arch, a, b):
     open(f'{SAL}/{arch}', 'w', encoding='utf-8').write(p.replace(a, b, 1))
 _parchea('index.html', '<li>Mitos del fitness</li></ul>', '<li>Mitos del fitness</li></ul>\n  <p class="sec-enl sube"><b>¿Aún no eres atleta?</b><a href="empieza-aqui.html">Empieza aquí</a><a href="mitos.html">Mitos y evidencia</a><a href="videos.html">Vídeos</a></p>')
 _parchea('herramientas.html', '<p class="herr-nota sube">', '<p class="sec-enl sube"><b>¿No sabes cuál usar?</b><a href="empieza-aqui.html">Empieza aquí</a><b>¿Eres sanitario?</b><a href="profesionales.html">Para profesionales</a></p>\n  <p class="herr-nota sube">')
-_parchea('guias.html', '<div class="calc sube" style="margin-top:3rem">', '<p class="sec-enl sube" style="margin-top:2.5rem"><b>Gratis para aprender</b><a href="mitos.html">Mitos y evidencia</a><a href="videos.html">Vídeos</a><a href="newsletter.html">Newsletter</a></p><div class="calc sube" style="margin-top:3rem">')
+_parchea('guias.html', '<div class="calc sube" style="margin-top:3rem">', '<p class="sec-enl sube" style="margin-top:2.5rem"><b>Gratis para aprender</b><a href="mitos.html">Mitos y evidencia</a><a href="videos.html">Vídeos</a><a href="newsletter.html">Boletín</a></p><div class="calc sube" style="margin-top:3rem">')
 _parchea('quien-soy.html', f'<a class="caja sube" href="{YT}" target="_blank" rel="noopener">', '<a class="caja sube" href="videos.html">')
 _parchea('pauta-activa.html', f'{_PM[2]}</p>', f'{_PM[2]} <a href="profesionales.html">Más para profesionales</a></p>')
 if len(MEDIOS) >= 2:

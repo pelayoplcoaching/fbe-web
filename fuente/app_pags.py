@@ -34,7 +34,7 @@ AP_SEC = [('empieza-aqui.html', 'brujula', 'Empieza aquí', 'Seis rutas según t
           ('glosario.html', 'libro', 'Glosario', 'Cada término, explicado en dos líneas.'),
           ('recetas.html', 'plato', 'Recetas con proteína', f'{_RECN} recetas del recetario de la app.'),
           ('guias.html', 'carpeta', 'Guías', 'Para descargar y aplicar.'),
-          ('newsletter.html', 'sobre', 'Newsletter', 'Una idea cada semana, en tu correo.'),
+          ('newsletter.html', 'sobre', 'Boletín', 'Una idea cada semana, en tu correo.'),
           ('boletin.html', 'calendario', 'Archivo del boletín', f'Los {len(_BOLJ)} envíos, para leer cuando quieras.'),
           ('fuentes.html', 'lupa', 'Fuentes', 'De dónde sale cada número de la web.'),
           ('evidencia.html', 'fonendo', 'Cómo trabajo la evidencia', 'Cómo elijo y compruebo los estudios.'),

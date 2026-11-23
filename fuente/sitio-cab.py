@@ -17,11 +17,11 @@ def _ent(t): return ''.join('&#%d;' % ord(ch) if ch in '@.' else ch for ch in t)
 PRIV = 'privacidad.html' if os.environ.get('FBE_CORREO') else 'https://fbe-politica_de_privacidad.mailerpage.io'
 TERM = 'https://storage.googleapis.com/mailerlite-uploads-prod/1626427/HiBsw8Jed1HGMWBAioHtfU42FmBM9BSXBGOiafMN.pdf'
 REDES = [('Instagram', 'https://www.instagram.com/fuerzabasadaenevidencia/'), ('YouTube', 'https://www.youtube.com/@FuerzaBasadaEnEvidencia'), ('X', 'https://x.com/PelayoPLcoach'), ('Threads', 'https://www.threads.com/@fuerzabasadaenevidencia')]
-PAGS = [('quien-soy.html', 'Quién soy'), ('programas.html', 'Programas'), ('puesta-a-punto.html', 'Puesta a punto'), ('guias.html', 'Guías'), ('newsletter.html', 'Newsletter'), ('herramientas.html', 'Herramientas'), ('dudas.html', 'Dudas')]
+PAGS = [('quien-soy.html', 'Quién soy'), ('programas.html', 'Programas'), ('puesta-a-punto.html', 'Puesta a punto'), ('guias.html', 'Guías'), ('newsletter.html', 'Boletín'), ('herramientas.html', 'Herramientas'), ('dudas.html', 'Dudas')]
 def nav_simple(act=''): return ''.join(f'<a href="{u}"{" class=\"aqui\" aria-current=\"page\"" if u == act else ""}>{t}</a>' for u, t in PAGS)
 # Menu (21/11/2026, noche): Aprende y Herramientas como desplegables; antes media web solo se encontraba en el pie.
 APRENDE = [('empieza-aqui.html', 'Empieza aquí', 'Tu ruta según tu caso'), ('guias.html', 'Guías', 'Para descargar y aplicar'),
-           ('newsletter.html', 'Newsletter', 'Un correo a la semana'), ('boletin.html', 'Archivo del boletín', 'Todos los envíos'),
+           ('newsletter.html', 'Boletín', 'Un correo a la semana'), ('boletin.html', 'Archivo del boletín', 'Todos los envíos'),
            ('mitos.html', 'Mitos y evidencia', 'Qué dicen los estudios'), ('glosario.html', 'Glosario', 'Cada término en dos líneas'),
            ('recetas.html', 'Recetas con proteína', 'Diez del recetario de la app'),
            ('videos.html', 'Vídeos', 'El canal de YouTube'), ('profesionales.html', 'Para profesionales', 'Sanitarios y charlas')]
@@ -58,7 +58,7 @@ ESCRIBE = ('mailto:' + _ent(os.environ['FBE_CORREO'])) if os.environ.get('FBE_CO
 PIE = f'''<footer><div class="in">
   <div><div class="marca"><i>{LOBO}</i>Fuerza Basada en Evidencia</div><p>Asesoría online de fuerza y nutrición, por Pelayo Fernández Cidón. La asesoría no sustituye a tu médico ni a un tratamiento.</p><div class="redes">{''.join(f'<a href="{u}" target="_blank" rel="noopener">{t}</a>' for t, u in REDES)}</div></div>
   <div><b>El sitio</b><a href="index.html">Inicio</a><a href="empieza-aqui.html">Empieza aquí</a><a href="aprende.html">Aprende</a>{''.join(f'<a href="{u}">{t}</a>' for u, t in PAGS[:3])}<a href="profesionales.html">Profesionales sanitarios</a><a href="medios.html">En los medios</a><a href="evidencia.html">Cómo trabajo la evidencia</a></div>
-  <div><b>Recursos</b><a href="guias.html">Guías</a><a href="newsletter.html">Newsletter</a><a href="herramientas.html">Herramientas</a><a href="videos.html">Vídeos</a><a href="mitos.html">Mitos y evidencia</a><a href="fuentes.html">Fuentes</a><a href="glosario.html">Glosario</a><a href="recetas.html">Recetas</a><a href="mis-resultados.html">Mis resultados</a><a href="mi-panel.html">Mi panel</a><a href="novedades.html">Novedades</a><a href="ayuda.html">Cómo usar la app</a><a href="dudas.html">Dudas</a></div>
+  <div><b>Recursos</b><a href="guias.html">Guías</a><a href="newsletter.html">Boletín</a><a href="herramientas.html">Herramientas</a><a href="videos.html">Vídeos</a><a href="mitos.html">Mitos y evidencia</a><a href="fuentes.html">Fuentes</a><a href="glosario.html">Glosario</a><a href="recetas.html">Recetas</a><a href="mis-resultados.html">Mis resultados</a><a href="mi-panel.html">Mi panel</a><a href="novedades.html">Novedades</a><a href="ayuda.html">Cómo usar la app</a><a href="dudas.html">Dudas</a></div>
   <div><b>¿Ya eres atleta?</b><a href="{APP}">Entrar en la app</a><a href="{FORM}">Pedir plaza</a><a href="{ESCRIBE}">Escribirme</a></div>
   <div class="legal"><span>© 2026 Fuerza Basada en Evidencia, por Pelayo Fernández Cidón</span><span><a href="{PRIV}" style="display:inline">Privacidad</a> · <a href="{TERM}" style="display:inline">Términos y condiciones</a></span></div>
 </div></footer>'''

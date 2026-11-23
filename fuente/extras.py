@@ -149,7 +149,7 @@ pagina('boletin.html', 'Archivo del boletín', f'Los {len(BOL)} envíos del bole
   <p class="bol-nota sube">Cada correo se abre en su versión web, tal como llegó a los suscriptores.</p>
   <div class="calc sube bol-calc">{sec_ic("sobre")}<div><h3>Recibe el siguiente</h3><p>Un correo a la semana. Te das de baja cuando quieras.</p></div><div><a class="btn claro" href="newsletter.html">Apuntarme</a></div></div>
 </div></section>
-<script>{BOL_JS}</script>''', padre=('newsletter.html', 'Newsletter'), cierre_t=('¿Quieres que lo apliquemos a tu caso?', 'Cuéntame tu caso en el formulario. Te respondo yo.'))
+<script>{BOL_JS}</script>''', padre=('newsletter.html', 'Boletín'), cierre_t=('¿Quieres que lo apliquemos a tu caso?', 'Cuéntame tu caso en el formulario. Te respondo yo.'))
 _p = open(f'{SAL}/newsletter.html', encoding='utf-8').read()
 _i = _p.index('<div class="boletin">'); _j = _p.index('</div>\n</div></section>', _i) + len('</div>')
 open(f'{SAL}/newsletter.html', 'w', encoding='utf-8').write(_p[:_j] + f'\n  <p class="sec-enl sube"><b>Todos los envíos</b><a href="boletin.html">Archivo del boletín ({len(BOL)})</a></p>' + _p[_j:])
@@ -203,7 +203,7 @@ pagina('mis-resultados.html', 'Mis resultados', 'Tus resultados de las calculado
   <div class="mr-vacio" id="mr-vacio">{ilus('mr-vacio', 'mr-vacio-img')}<p>Usa cualquier calculadora y pulsa «Guardar en Mis resultados», junto a «Copiar». Aparecerá aquí con la fecha. Si repites una prueba, se guardan las anteriores (hasta 12 por herramienta) para que veas tu evolución.</p><div class="herr-mas-rej">{_MR_H}</div></div>
   {INSTALA}
 </div></section>
-<script>{MR_JS}</script>''', padre=('herramientas.html', 'Herramientas'))
+<script>{MR_JS}</script>''', padre=('herramientas.html', 'Herramientas'), extra='<meta name="robots" content="noindex">')  # datos de cada persona: fuera de los buscadores
 _p = open(f'{SAL}/herramientas.html', encoding='utf-8').read()
 _a = '<p class="herr-nota sube">'
 assert _a in _p

@@ -88,7 +88,7 @@ pagina('quien-soy.html', 'Quién soy', 'Pelayo Fernández Cidón, médico intern
 <section class="hoja"><div class="in"><div class="entrada sube"><h2>Lo que publico</h2><p>Si todavía no quieres una asesoría, empieza por aquí.</p></div>
   <div class="bento">
     <a class="caja sube" href="guias.html">{PUB_IMG('web-guias', 'libro')}<h3>Guías</h3><p>Nueve guías prácticas para descargar.</p></a>
-    <a class="caja sube" href="newsletter.html">{PUB_IMG('web-newsletter', 'chat')}<h3>Newsletter</h3><p>Un correo a la semana.</p></a>
+    <a class="caja sube" href="newsletter.html">{PUB_IMG('web-newsletter', 'chat')}<h3>Boletín</h3><p>Un correo a la semana.</p></a>
     <a class="caja sube" href="{CALC}">{PUB_IMG('web-calculadora', 'plato')}<h3>Calculadora de proteína</h3><p>Gratis, con reparto por comidas.</p></a>
     <a class="caja sube" href="{dict(REDES)['YouTube']}" target="_blank" rel="noopener">{PUB_IMG('pub-youtube', 'video')}<h3>YouTube</h3><p>Vídeos sobre fuerza, nutrición y salud.</p></a>
   </div></div></section>''', BTN + datos(('15+', 'años entrenando fuerza'), ('2020', 'el año en que nace FBE')), extra=LDP, lado=f'<div class="retrato xl">PF<img src="{FOTO}" alt="Pelayo Fernández Cidón" width="720" height="900" fetchpriority="high" decoding="async" onerror="this.remove()"></div>')
@@ -211,7 +211,7 @@ PLAYA = ilus('foto-playa', 'foto-p').replace('alt=""', 'alt="Pelayo en la playa"
 if PLAYA: PLAYA = f'<figure class="autor-foto">{PLAYA}<figcaption><b>Quién te escribe</b>Pelayo, fuera del hospital y del gimnasio.</figcaption></figure>'
 BIMG = ['boletin-habito', 'boletin-cafeina', 'boletin-pulsaciones']
 ENV = [('El hábito que movió mis marcadores', 'Lo que descubrí que les afectaba más que entrenar más duro.'), ('700 mg de cafeína sin darme cuenta', 'Cómo un médico llega ahí, y qué hice después.'), ('46 pulsaciones en reposo', 'Sin ser perfecto en nada. Qué hice y qué no.')]
-pagina('newsletter.html', 'Newsletter', 'El boletín semanal de Fuerza Basada en Evidencia: entrenamiento, nutrición y salud, sin mitos.', 'Lo que sí funciona. Cada semana, en tu correo.', 'Entrenamiento, nutrición y salud con base científica. Sin mitos y sin adornos, para entrenar mejor, comer con cabeza y vivir con energía.', f'''
+pagina('newsletter.html', 'Boletín', 'El boletín semanal de Fuerza Basada en Evidencia: entrenamiento, nutrición y salud, sin mitos.', 'Lo que sí funciona. Cada semana, en tu correo.', 'Entrenamiento, nutrición y salud con base científica. Sin mitos y sin adornos, para entrenar mejor, comer con cabeza y vivir con energía.', f'''
 <section><div class="in dos alta">
   <div class="sube" id="alta"><div class="entrada" style="margin-bottom:1.5rem"><h2>Apúntate</h2><p>Un correo a la semana. Te das de baja cuando quieras.</p></div>
     <div class="ml-caja"><div class="ml-embedded" data-form="IpOp9n"></div><noscript>Activa JavaScript para ver el formulario.</noscript><p style="margin-top:.8rem;font-size:.92rem;color:var(--tinta-2)">¿No ves el formulario? <a href="https://preview.mailerlite.io/forms/1626427/204678811842774100/share">Ábrelo en otra pestaña</a>.</p></div><p style="margin-top:1rem;font-size:.92rem;color:var(--tinta-2)">Uso tu correo solo para enviarte el boletín. <a href="{PRIV}">Política de privacidad</a>.</p></div>
@@ -320,7 +320,7 @@ for _vieja, _nueva in [('faq', 'dudas.html'), ('newsletter-semanal', 'newsletter
 # Gracias del boletin: a esta pagina redirige el formulario de MailerLite «Boletín · Newsletter (web)». Siempre noindex y fuera del sitemap.
 open(f'{SAL}/gracias-boletin.html', 'w', encoding='utf-8').write(f"""{cabeza('gracias-boletin.html', 'Ya estás dentro', 'Gracias por apuntarte al boletín de Fuerza Basada en Evidencia.', '<meta name="robots" content="noindex">')}
 {cabecera()}
-<header class="hero mini t-newsletter" id="inicio">{ANILLOS}{ilus("web-gracias-boletin") or ilus("web-newsletter")}<div class="in"><div class="txt"><span class="miga"><a href="index.html">Inicio</a> / <a href="newsletter.html">Newsletter</a> / Gracias</span>{SELLO}<h1>Ya estás dentro.</h1><p class="sub">Gracias por apuntarte. En unos minutos te llega mi correo de bienvenida.</p></div></div></header>
+<header class="hero mini t-newsletter" id="inicio">{ANILLOS}{ilus("web-gracias-boletin") or ilus("web-newsletter")}<div class="in"><div class="txt"><span class="miga"><a href="index.html">Inicio</a> / <a href="newsletter.html">Boletín</a> / Gracias</span>{SELLO}<h1>Ya estás dentro.</h1><p class="sub">Gracias por apuntarte. En unos minutos te llega mi correo de bienvenida.</p></div></div></header>
 <main id="contenido">
 <section><div class="in"><div class="entrada sube"><h2>Para que no se pierda</h2></div>
   <ol class="pasos-g en-linea sube">
@@ -366,7 +366,7 @@ FORM_P = f"""<form class="formu sube" id="plaza" action="{PLAZA_ENVIO}" method="
   <div class="envio-f"><button class="btn grande" type="submit" id="f-enviar">Enviar</button><small><span class="oblig" aria-hidden="true">*</span> Obligatorio</small></div>
 </form>"""
 LADO_P = f"""<aside class="plaza-lado sube">
-  <div class="tarjeta-p"><img class="foto-p" src="{FOTO}" alt="Pelayo Fernández Cidón" width="160" height="200" loading="lazy"><p><b>Te respondo yo.</b> Cuéntame tu caso en el formulario.</p></div>
+  <div class="tarjeta-p"><img class="foto-p" src="{FOTO}" alt="Pelayo Fernández Cidón" width="160" height="200" loading="lazy"><p><b>Pelayo Fernández Cidón</b> Médico internista y prescriptor de ejercicio físico.</p></div>
   <div class="tarjeta-p como-sigue"><p class="etq-p">Cómo sigue</p>{PASITOS.format(x="")}</div>
   <div class="tarjeta-p"><p><b>¿Dudas antes de pedir plaza?</b></p><p><a href="programas.html">Ver los programas</a> · <a href="dudas.html">Dudas frecuentes</a>{f' · <a href="mailto:{CORREO_P}">Escribirme</a>' if CORREO_P else ''}</p></div>
 </aside>"""
