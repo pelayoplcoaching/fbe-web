@@ -1,5 +1,5 @@
 // Service worker de Fuerza Basada en Evidencia: guarda las calculadoras para usarlas sin conexion.
-const V = 'fbe-6c35d5cd7a';
+const V = 'fbe-e9552326df';
 const PRE = ["./", "fbe.css?v=3bda928c", "fbe.js?v=3bda928c", "img/archivo.woff2", "favicon.svg", "icono-192.png", "manifest.webmanifest", "buscar.json", "herramientas.html", "mis-resultados.html", "glosario.html", "test-silla.html", "calculadora-1rm.html", "volumen-semanal.html", "cafeina.html", "revision-medica.html", "zonas-pulso.html", "semaforo-dolor.html", "test-sppb.html", "paron.html", "suplementos.html", "actividad-oms.html", "cintura-altura.html", "prension.html", "calorias.html", "temporizador.html", "semana-activa.html", "pasos.html", "tension.html", "equilibrio.html", "mi-panel.html", "aprende.html", "ayuda.html", "sin-conexion.html", "chequeo.html", "empieza-aqui.html"];
 self.addEventListener('install', e => { e.waitUntil(caches.open(V).then(c => c.addAll(PRE)).then(() => self.skipWaiting())); });
 self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k.startsWith('fbe-') && k !== V).map(k => caches.delete(k)))).then(() => self.clients.claim())); });

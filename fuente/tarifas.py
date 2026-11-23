@@ -22,7 +22,7 @@ def tf_plan(p):
     return (f'<article class="plan tf n{niv}{" oro" if k == "eliteplus" else ""} sube" id="{k}" data-q="{TARIFA[k]}">{img}<h3>{n}{barras}</h3>'
             f'<p class="ritmo"><span>{g}</span><span>Revisión semanal</span></p><p class="tf-para">{TF_PARA[k]}</p>'
             f'<p class="tf-eur"><b class="tf-v">{_eur(TARIFA[k])}</b><small class="tf-u">al trimestre</small></p>'
-            f'<p class="tf-mas"><s class="tf-s" hidden></s><span class="tf-m">equivale a {"unos " if TARIFA[k] % 3 else ""}{_eur(TARIFA[k] / 3)} al mes</span></p>'
+            f'<p class="tf-mas"><s class="tf-s" hidden></s><span class="tf-m">IVA incluido</span></p>'
             f'<ul>{"".join(f"<li>{x}</li>" for x in items)}</ul><a class="btn peq" href="{FORM}">Empezar con {n}</a></article>')
 def _tf_celda(k, per):
     v, lleno = _tf_precio(k, per)
@@ -34,7 +34,7 @@ TF_TABLA = ('<div class="tabla-marco sube" tabindex="0" role="region" aria-label
 TF_JS = '''<script>(function(){var D=document,P={t:[1,1,3,'al trimestre'],s:[2,.9,6,'al semestre'],a:[4,.8,12,'al año']},g=D.getElementById('tf-per'),tb=D.getElementById('tf-tabla');if(!g)return;
 function eur(n){return String(Math.round(n)).replace(/\\B(?=(\\d{3})+$)/g,'.')+' €'}
 function pinta(k){var p=P[k];[].forEach.call(g.querySelectorAll('button'),function(b){b.setAttribute('aria-pressed',b.dataset.p===k)});
-[].forEach.call(D.querySelectorAll('.plan.tf'),function(c){var q=+c.dataset.q,lleno=q*p[0],v=lleno*p[1],m=v/p[2],s=c.querySelector('.tf-s');c.querySelector('.tf-v').textContent=eur(v);c.querySelector('.tf-u').textContent=p[3];s.hidden=v===lleno;s.textContent=eur(lleno);c.querySelector('.tf-m').textContent='equivale a '+(m%1?'unos ':'')+eur(m)+' al mes';c.classList.remove('tf-cambia');void c.offsetWidth;c.classList.add('tf-cambia')});
+[].forEach.call(D.querySelectorAll('.plan.tf'),function(c){var q=+c.dataset.q,lleno=q*p[0],v=lleno*p[1],s=c.querySelector('.tf-s');c.querySelector('.tf-v').textContent=eur(v);c.querySelector('.tf-u').textContent=p[3];s.hidden=v===lleno;s.textContent=eur(lleno);c.classList.remove('tf-cambia');void c.offsetWidth;c.classList.add('tf-cambia')});
 if(tb)tb.dataset.p=k;var a=D.getElementById('tf-aviso');if(a)a.textContent=k==='t'?'':(k==='s'?'Semestral: un 10 % menos que dos trimestres.':'Anual: un 20 % menos que cuatro trimestres.')}
 g.addEventListener('click',function(e){var b=e.target.closest('button');if(b)pinta(b.dataset.p)})})();</script>'''
 _tf_cuerpo = f'''
