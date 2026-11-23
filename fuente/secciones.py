@@ -131,7 +131,7 @@ PRO_TEMAS = ['Fuerza en el paciente crónico y polimedicado: por dónde empezar.
              'Ejercicio en la persona mayor y prevención de la fragilidad.',
              'Proteína y masa muscular con la edad.',
              'Dolor persistente: cómo dosificar la carga.']
-PRO_CRED = ['Especialista en Medicina Interna', 'Experto universitario en entrenamiento de fuerza', 'Máster en nutrición clínica', 'Más de 15 años entrenando fuerza']
+PRO_CRED = FORMACION + [f'Colegiado n.º {COLEGIADO} (Madrid)']
 _G0 = G[0]
 _MAIL_S = (MAILTO + '?subject=' + _up.quote('Sesión o formación')) if MAILTO else FORM
 _FIJO_PRO = f'<a class="arriba" id="arriba" href="#contenido" aria-label="Volver arriba">{ico("sube")}</a>\n<div class="fijo" id="fijo"><a class="sec" href="pauta-activa.html">Pauta Activa</a><a class="btn claro" href="#charlas">Charlas</a></div>'
@@ -161,7 +161,7 @@ pagina('profesionales.html', 'Para profesionales sanitarios', 'Para médicos, en
 </div></section>
 <section class="hoja"><div class="in"><div class="calc sube pro-guardias">{ilus(GIMG[0], "pro-guia")}<div><h3>¿Tú también haces guardias?</h3><p>La guía «{_G0[0]}» es para {_G0[2][0].lower() + _G0[2][1:-1]}: {_G0[1].split(": ", 1)[1]}</p></div><div><a class="btn claro" href="guias.html">Ver la guía</a></div></div></div></section>
 <section id="charlas"><div class="in pro-dos">
-  <div class="sube"><div class="entrada"><h2>Sesiones, charlas y formación</h2></div><p class="pro-lead">Si organizas una sesión clínica, un curso o unas jornadas, puedo hablar de fuerza y medicación con casos reales. Cuéntame el público, el formato y la fecha, y te digo si puedo.</p>
+  <div class="sube"><div class="entrada"><h2>Sesiones, charlas y formación</h2></div><p class="pro-lead">Si organizas una sesión clínica, un curso o unas jornadas, puedo hablar de fuerza y medicación con casos reales. Cuéntame el público, el formato y la fecha, y te digo si puedo.</p><p class="pro-doc">Ya doy docencia a estudiantes de Medicina de la Universidad Autónoma de Madrid y formación práctica en ecografía clínica en el Hospital Carlos III. <a href="quien-soy.html#formacion">Trayectoria y formación</a></p>
     <ul class="pro-formatos">{"".join(f"<li>{x}</li>" for x in PRO_FORMATOS)}</ul>
     <ul class="pro-cred">{"".join(f"<li>{x}</li>" for x in PRO_CRED)}</ul>
     <div class="vid-cta"><a class="btn" href="{_MAIL_S}">{_SOBRE}Escribirme</a></div>{'<p class="sec-enl"><b>Entrevistas y formación</b><a href="medios.html">En los medios</a></p>' if len(MEDIOS) >= 2 else ''}</div>

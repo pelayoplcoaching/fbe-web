@@ -10,6 +10,7 @@ _MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agost
 def fecha_es(iso): a, m, d = iso.split('-'); return f'{int(d)} de {_MESES[int(m) - 1]} de {a}'
 FECHAS = {u: '2026-11-21' for u in [u for u, *_ in HERR_MAS] + ['pauta-activa.html', 'mitos.html', 'glosario.html', 'empieza-aqui.html', 'fuentes.html', 'profesionales.html', 'evidencia.html'] + globals().get('TEMAS_PAGS', []) + globals().get('CHQ_PAGS', [])}
 FECHAS.update({u: '2026-11-22' for u in SEC_PAGS_H4})  # herramientas del 22/11/2026
+FECHAS.update({'evidencia.html': '2026-11-23', 'profesionales.html': '2026-11-23'})  # formacion y colegiado del CV
 HOSPITAL = 'Hospital Universitario La Paz / Carlos III / Cantoblanco'  # como lo escribió Pelayo el 21/11/2026
 PERSONA = {'@type': 'Person', 'name': 'Pelayo Fernández Cidón', 'url': WEB + 'quien-soy.html', 'jobTitle': 'Médico especialista en Medicina Interna y entrenador', 'worksFor': {'@type': 'Hospital', 'name': HOSPITAL, 'address': {'@type': 'PostalAddress', 'addressLocality': 'Madrid', 'addressCountry': 'ES'}}}
 
@@ -31,8 +32,8 @@ pagina('evidencia.html', 'Cómo trabajo la evidencia', 'Qué fuentes usa la web 
        'Cómo trabajo la evidencia.', 'Qué fuentes uso, cómo compruebo cada cifra y qué no es esta web. Para que sepas de dónde sale lo que lees y lo que calculas aquí.', f'''
 <section><div class="in dos">
   <div class="sube"><div class="entrada"><h2>Quién está detrás</h2><p>Esta web es mía. Soy Pelayo Fernández Cidón, médico especialista en medicina interna en el {HOSPITAL} (Madrid) y prescriptor de ejercicio físico.</p></div>
-    <ul class="marcas"><li>Especialista en Medicina Interna</li><li>Experto universitario en entrenamiento de fuerza</li><li>Máster en nutrición clínica</li><li>Más de 15 años entrenando fuerza</li></ul>
-    <p class="sec-enl"><b>Más sobre mí</b><a href="quien-soy.html">Quién soy</a><a href="medios.html">En los medios</a></p></div>
+    <ul class="marcas">{FORM_LI}</ul><p class="coleg">{ico("medalla")}<span>Médico colegiado n.º <b>{COLEGIADO}</b><small>{COLEGIO}</small></span></p>
+    <p class="sec-enl"><b>Más sobre mí</b><a href="quien-soy.html">Quién soy</a><a href="quien-soy.html#formacion">Trayectoria y formación</a><a href="medios.html">En los medios</a></p></div>
   <aside class="ev-foto sube">{ilus("foto-pelayo", "ev-retrato") if os.path.exists(_FOTO) else ""}</aside>
 </div></section>
 <section class="hoja" id="cifras"><div class="in"><div class="entrada sube"><h2>De dónde salen las cifras</h2><p>Cada número de las herramientas, de los mitos y de la portada lleva su fuente al pie. Están todas juntas, {len(FUENTES)}, en <a href="fuentes.html">Fuentes</a>.</p></div>

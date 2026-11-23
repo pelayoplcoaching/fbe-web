@@ -1,6 +1,13 @@
 import re, json, os, shutil
 TARIFA = {'performance': 300, 'elite': 600, 'eliteplus': 1000}   # euros por trimestre, IVA incluido (tarifas del 01/09/2026 al 31/08/2027)
 DESDE = min(TARIFA.values())
+# Formacion y colegiacion (CV de enero de 2026 + diploma de la Universidad Europea del 14/10/2026 + carnet del ICOMEM; 23/11/2026)
+COLEGIADO = '282875610'
+COLEGIO = 'Ilustre Colegio Oficial de Médicos de Madrid'
+FORMACION = ['Especialista en Medicina Interna', 'Experto universitario en entrenamiento de fuerza', 'Máster en nutrición clínica',
+             'Experto universitario en nutrición clínica', 'Más de 15 años entrenando fuerza']
+FORM_LI = ''.join(f'<li>{x}</li>' for x in FORMACION)
+COLEG_T = f'Médico colegiado n.º {COLEGIADO} ({COLEGIO})'
 src = open('landing5.py', encoding='utf-8').read()
 src = src[:src.rindex("open('web-fbe-equipo.html'")]
 exec(src)
@@ -56,7 +63,7 @@ def cabecera(act=''):
 </div></div>'''
 ESCRIBE = ('mailto:' + _ent(os.environ['FBE_CORREO'])) if os.environ.get('FBE_CORREO') else FORM
 PIE = f'''<footer><div class="in">
-  <div><div class="marca"><i>{LOBO}</i>Fuerza Basada en Evidencia</div><p>Asesoría online de fuerza y nutrición, por Pelayo Fernández Cidón. La asesoría no sustituye a tu médico ni a un tratamiento.</p><div class="redes">{''.join(f'<a href="{u}" target="_blank" rel="noopener">{t}</a>' for t, u in REDES)}</div></div>
+  <div><div class="marca"><i>{LOBO}</i>Fuerza Basada en Evidencia</div><p>Asesoría online de fuerza y nutrición, por Pelayo Fernández Cidón, médico colegiado n.º {COLEGIADO} en Madrid. La asesoría no sustituye a tu médico ni a un tratamiento.</p><div class="redes">{''.join(f'<a href="{u}" target="_blank" rel="noopener">{t}</a>' for t, u in REDES)}</div></div>
   <div><b>El sitio</b><a href="index.html">Inicio</a><a href="empieza-aqui.html">Empieza aquí</a><a href="aprende.html">Aprende</a>{''.join(f'<a href="{u}">{t}</a>' for u, t in PAGS[:3])}<a href="profesionales.html">Profesionales sanitarios</a><a href="medios.html">En los medios</a><a href="evidencia.html">Cómo trabajo la evidencia</a></div>
   <div><b>Recursos</b><a href="guias.html">Guías</a><a href="newsletter.html">Boletín</a><a href="herramientas.html">Herramientas</a><a href="videos.html">Vídeos</a><a href="mitos.html">Mitos y evidencia</a><a href="fuentes.html">Fuentes</a><a href="glosario.html">Glosario</a><a href="recetas.html">Recetas</a><a href="mis-resultados.html">Mis resultados</a><a href="mi-panel.html">Mi panel</a><a href="novedades.html">Novedades</a><a href="ayuda.html">Cómo usar la app</a><a href="dudas.html">Dudas</a></div>
   <div><b>¿Ya eres atleta?</b><a href="{APP}">Entrar en la app</a><a href="{FORM}">Pedir plaza</a><a href="{ESCRIBE}">Escribirme</a></div>
@@ -90,7 +97,7 @@ cam('De escribirme a tu primera sesión, tres pasos.', 'De escribirme a tu prime
 viejo = 'Sí. Hay atletas que solo llevan entrenamiento, otros solo nutrición y otros las dos cosas. La app enseña únicamente lo que tengas contratado.'
 assert h.count(viejo) == 2
 h = h.replace(viejo, 'El entrenamiento se puede contratar solo. La nutrición por separado es poco habitual: casi siempre va junto al entrenamiento, que es donde más rinde. Puedes consultarlo e individualizamos según tu caso.')
-cam('Llevo más de quince años entrenando fuerza y desde 2020 dirijo FBE, Fuerza Basada en Evidencia.</p>', 'Tengo un experto universitario en entrenamiento de fuerza y un máster en nutrición clínica. Llevo más de quince años entrenando y desde 2020 dirijo FBE, Fuerza Basada en Evidencia.</p>\n      <p><a href="quien-soy.html">Mi historia, entera</a></p>')
+cam('Llevo más de quince años entrenando fuerza y desde 2020 dirijo FBE, Fuerza Basada en Evidencia.</p>', 'Tengo un experto universitario en entrenamiento de fuerza y, en nutrición clínica, un máster y un experto universitario. Llevo más de quince años entrenando y desde 2020 dirijo FBE, Fuerza Basada en Evidencia.</p>\n      <p><a href="quien-soy.html">Mi historia, entera</a></p>')
 cam('<li><b>Te escribo yo</b>Con lo que te propondría y lo que cuesta.</li>', '<li><b>Hacemos una videollamada</b>Veinte minutos, gratis, para ver tu caso.</li>')
 cam('<small>Orientativo, para adultos sanos que entrenan fuerza. Si tienes enfermedad renal u otra patología, consulta antes con tu médico.</small></div>', f'<small>Orientativo y para riñones sanos. Con enfermedad renal, diabetes de años o dudas, consúltalo antes con tu médico, con una analítica. <a href="{CALC}">Abre la calculadora completa</a>, con edad y reparto por comidas.</small></div>')
 cam('<p>Mueve el peso y mira el rango que se usa como referencia al entrenar fuerza: de 1,6 a 2,2 g por kilo y día.</p>', '<p>Elige tu fase, mueve el peso y mira tu rango diario.</p>')

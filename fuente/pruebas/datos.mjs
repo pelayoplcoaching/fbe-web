@@ -11,7 +11,7 @@ const org = graph.find(o => o['@type'] === 'Organization'), web = graph.find(o =
 ok(org && org.logo.endsWith('icono-512.png') && org.sameAs.length >= 4 && web && web.publisher['@id'] === org['@id'], 'portada: organización y sitio web');
 ok(graph.some(o => o['@type'] === 'FAQPage'), 'portada: sigue su FAQ');
 const qs = ld('quien-soy.html'), prof = qs.find(o => o['@type'] === 'ProfilePage');
-ok(prof && prof.mainEntity['@type'] === 'Person' && prof.mainEntity.worksFor.some(w => w['@type'] === 'Hospital' && w.name.includes('La Paz')) && prof.mainEntity.hasCredential.length === 3, 'Quién soy: perfil con hospital y credenciales');
+ok(prof && prof.mainEntity['@type'] === 'Person' && prof.mainEntity.worksFor.some(w => w['@type'] === 'Hospital' && w.name.includes('La Paz')) && prof.mainEntity.hasCredential.length >= 5 && prof.mainEntity.hasCredential.some(c => c.identifier === '282875610'), 'Quién soy: perfil con hospital, credenciales y número de colegiado');
 ok(!qs.some(o => o['@type'] === 'Person'), 'Quién soy: sin la persona repetida');
 const mi = ld('mitos.html').find(o => o['@type'] === 'ItemList');
 ok(mi && mi.itemListElement.length === 9 && mi.itemListElement.every(x => x.item['@type'] === 'ClaimReview' && x.item.reviewRating.alternateName && x.item.url.includes('mitos.html#')), 'Mitos: nueve ClaimReview con veredicto');
