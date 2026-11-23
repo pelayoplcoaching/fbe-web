@@ -14,4 +14,4 @@ for (const w of [761, 800, 900, 980, 1024, 1100, 1160, 1224, 1280, 1366, 1400, 1
   }
   await p.close();
 }
-await b.close(); s.close(); console.log(mal ? `${mal} fallos` : 'la barra de arriba cabe a todos los anchos'); process.exit(mal ? 1 : 0);
+await b.close(); s.close(); console.log(mal ? `${mal} fallos` : 'todo correcto: la barra de arriba cabe a todos los anchos'); process.exit(mal ? 1 : 0);
