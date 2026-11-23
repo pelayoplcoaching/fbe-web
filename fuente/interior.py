@@ -639,7 +639,7 @@ _TAM = {'tool-tira-img': (100, 280), 'ilus': (360, 600), 'herr-mini-img': (320, 
         'ev-ilus': (320, 320), 'pa-para-ilus': (320, 320), 'tres-img': (360, 360), 'foto-i': (320, 320), 'espera-img': (340, 360), 'foto-b': (320, 330),
         'herr-cap': (360, 600), 'pa-logo': (28, 28), 'foto-p': (360, 450), 'foto-c': (300, 230), 'pa-autor-foto': (110, 150), 'pro-logo': (66, 66),
         'pro-guia': (90, 115), 'pro-img': (360, 460), 'banner': (360, 1120), 'lema-fondo': (440, 1440), 'vid-fondo': (360, 1120), 'pase': (300, 330),
-        'mr-vacio-img': (360, 420), 'instala-img': (150, 180), 'herr-img': (360, 620), 'ap-tema-img': (240, 240), 'ap-ruta-img': (96, 96)}
+        'mr-vacio-img': (360, 420), 'instala-img': (150, 180), 'herr-img': (360, 620), 'ap-tema-img': (240, 240), 'ap-ruta-img': (96, 96), 'pn-cielo-img': (480, 960), 'ap-t-img': (240, 480)}
 _TAM_P = {'retrato xl': (200, 370), 'retrato': (120, 180), 'tel atras': (310, 310), 'tel plano': (310, 310), 'tel': (310, 310), 'm dos': (80, 80), 'm': (240, 240), 'pos': (360, 900)}
 _PORTADA_HTML = [False]
 _VAR = {}

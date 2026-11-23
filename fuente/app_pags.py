@@ -56,7 +56,7 @@ pagina('aprende.html', 'Aprende', 'Todo lo que hay para aprender en Fuerza Basad
   <p class="sec-enl sube"><b>¿Quieres ver todo lo nuevo?</b><a href="novedades.html">Novedades</a><a href="videos.html">Todos los vídeos</a></p>
 </div></section>
 <section><div class="in"><div class="entrada sube"><h2>Todo lo que hay</h2><p>Cada sección, a un toque.</p></div>
-  <div class="ap-rej sube">{"".join(f'<a class="ap-t" href="{u}"><i class="ic">{_aic(i)}</i>{f"<em class=\"ap-n\" aria-hidden=\"true\">{_AP_N[u]}</em>" if u in _AP_N else ""}<b>{t}</b><span>{d}</span></a>' for u, i, t, d in AP_SEC)}</div>
+  <div class="ap-rej sube">{"".join(f'<a class="ap-t" href="{u}"><i class="ic">{_aic(i)}</i>{f"<em class=\"ap-n\" aria-hidden=\"true\">{_AP_N[u]}</em>" if u in _AP_N else ""}{ilus("ap-empieza", "ap-t-img") if u == "empieza-aqui.html" else ""}<b>{t}</b><span>{d}</span></a>' for u, i, t, d in AP_SEC)}</div>
 </div></section>
 <section class="hoja"><div class="in"><div class="entrada sube"><h2>Por tema</h2><p>Lo que hay sobre cada asunto, junto: herramientas, mitos, vídeos y lecturas.</p></div>
   <div class="ap-temas sube">{"".join(_ap_tema(u, t) for u, t in TEMAS_MENU)}</div>
@@ -100,15 +100,22 @@ $('pn-fav-l').addEventListener('click',function(e){var b=e.target.closest('butto
   if([e,p,a].some(function(x){return x!==null&&isNaN(x)})){m.textContent='Revisa los números: edad de 14 a 100, peso de 30 a 250 kg y altura de 120 a 220 cm.';m.className='pn-msg mal';return}
   P={};if(e!==null)P.edad=Math.round(e);if(p!==null)P.peso=p;if(a!==null)P.altura=Math.round(a);if(s)P.sexo=s.value;F.pon('fbe-perfil',P);m.textContent=Object.keys(P).length?'Guardado en este dispositivo. Las calculadoras se rellenarán solas.':'No hay nada que guardar.';m.className='pn-msg ok';pinta();setTimeout(logros,200)});
  $('pn-borra').addEventListener('click',function(){P={};try{localStorage.removeItem('fbe-perfil')}catch(e){}m.textContent='Datos borrados.';m.className='pn-msg ok';pinta()});pinta()})();
-function logros(){var G=F.logros(),n=0;$('pn-log-l').innerHTML=F.LOGROS.map(function(l){var ok=G[l[0]];if(ok)n++;return '<li class="'+(ok?'ok':'')+'" data-l="'+esc(l[0])+'"><i aria-hidden="true"></i><b>'+esc(l[1])+'</b><span>'+esc(l[2])+'</span>'+(ok?'<small>Conseguido el '+fecha(ok)+'</small>':'')+'</li>'}).join('');$('pn-log-n').textContent=n+' de '+F.LOGROS.length;$('pn-log-a').style.setProperty('--p',n/F.LOGROS.length)}
+function logros(){var G=F.logros(),n=0;$('pn-log-l').innerHTML=F.LOGROS.map(function(l){var ok=G[l[0]];if(ok)n++;return '<li class="'+(ok?'ok':'')+'" data-l="'+esc(l[0])+'"><i aria-hidden="true"'+($('pn-log-l').dataset.img?' class="con-img" style="background-image:url(img/logro-'+esc(l[0])+'.webp)"':'')+'></i><b>'+esc(l[1])+'</b><span>'+esc(l[2])+'</span>'+(ok?'<small>Conseguido el '+fecha(ok)+'</small>':'')+'</li>'}).join('');$('pn-log-n').textContent=n+' de '+F.LOGROS.length;$('pn-log-a').style.setProperty('--p',n/F.LOGROS.length)}
 logros();
 if(location.hash&&document.querySelector(location.hash))setTimeout(function(){document.querySelector(location.hash).scrollIntoView({block:'start'})},80);
 })();'''
+_CIELOS = ('alba', 'dia', 'tarde', 'noche')
+_CIELO_OK = _todas(*[f'cielo-{h}' for h in _CIELOS])
+_CIELO = ''.join(ilus(f'cielo-{h}', 'pn-cielo-img').replace('<img ', f'<img data-h="{h}" ', 1) for h in _CIELOS) if _CIELO_OK else ''
+_LOG_IDS = ('resultado', 'chequeo', 'semana', 'racha3', 'mitos', 'ruta', 'favoritos', 'datos', 'explorador', 'instalada')   # los mismos de LOGROS (app.js)
+_LOG_OK = _todas(*[f'logro-{i}' for i in _LOG_IDS])
+if _LOG_OK:
+    for _li in _LOG_IDS: ilus(f'logro-{_li}')
 SEC_SIG['mi-panel.html'] = (('herramientas.html', 'Herramientas'), ('aprende.html', 'Aprende'))
 pagina('mi-panel.html', 'Mi panel', 'Tu inicio personal en Fuerza Basada en Evidencia: sigue donde lo dejaste, tu semana, tus resultados, tus favoritos y tus datos. Todo guardado solo en tu dispositivo.',
        'Tu panel.', 'Lo tuyo, en un sitio: dónde lo dejaste, tu semana, tus resultados y tus favoritos. Se guarda solo en este dispositivo.', f'''
 <section class="pn-s"><div class="in">
-  <div class="pn-hola sube"><div class="pn-cielo" id="pn-cielo" data-h="dia"><i class="pn-astro" aria-hidden="true"></i><p class="pn-saludo" id="pn-saludo">Hola</p><h2 class="pn-h">¿Qué toca hoy?</h2><p class="pn-hoy" id="pn-hoy"></p></div>
+  <div class="pn-hola sube"><div class="pn-cielo{" con-foto" if _CIELO_OK else ""}" id="pn-cielo" data-h="dia">{_CIELO}<i class="pn-astro" aria-hidden="true"></i><p class="pn-saludo" id="pn-saludo">Hola</p><h2 class="pn-h">¿Qué toca hoy?</h2><p class="pn-hoy" id="pn-hoy"></p></div>
     <div class="pn-acc">{"".join(f'<a href="{u}"><i class="ic">{_aic(i)}</i><b>{t}</b></a>' for u, i, t in _PN_ACC)}</div></div>
   <div class="pn-rej">
     <article class="pn-t sube" id="pn-sigue" hidden><h3>Sigue donde lo dejaste</h3><ul class="pn-l" id="pn-sigue-l"></ul></article>
@@ -122,7 +129,7 @@ pagina('mi-panel.html', 'Mi panel', 'Tu inicio personal en Fuerza Basada en Evid
       <div class="pn-campo"><label for="pn-peso">Peso (kg)</label><input id="pn-peso" type="number" inputmode="decimal" min="30" max="250" step="0.5" autocomplete="off"></div>
       <div class="pn-campo"><label for="pn-alt">Altura (cm)</label><input id="pn-alt" type="number" inputmode="numeric" min="120" max="220" autocomplete="off"></div></div>
       <div class="pn-bots"><button type="button" class="pn-b" id="pn-guarda">Guardar</button><button type="button" class="pn-b2" id="pn-borra" hidden>Borrar mis datos</button></div><p class="pn-msg" id="pn-msg" role="status"></p></article>
-    <article class="pn-t pn-logros sube" id="pn-logros"><h3>Logros <span class="pn-log-c"><i class="pn-log-a" id="pn-log-a" aria-hidden="true"></i><small id="pn-log-n"></small></span></h3><ul class="pn-log" id="pn-log-l"></ul></article>
+    <article class="pn-t pn-logros sube" id="pn-logros"><h3>Logros <span class="pn-log-c"><i class="pn-log-a" id="pn-log-a" aria-hidden="true"></i><small id="pn-log-n"></small></span></h3><ul class="pn-log" id="pn-log-l"{" data-img=\"1\"" if _LOG_OK else ""}></ul></article>
     <article class="pn-t pn-ult sube" id="pn-ult"><h3>Lo último</h3>{_ULT_V}{_ULT_B}<a class="pn-mas" href="novedades.html">Todas las novedades</a></article>
   </div>
   <p class="pn-pie sube">Todo lo de esta página vive solo en tu navegador. <a href="ayuda.html#datos">Cómo hacer una copia o borrarlo</a>.</p>

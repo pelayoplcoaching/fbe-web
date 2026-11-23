@@ -595,3 +595,19 @@ html.vt-tema .tabs, html.vt-tema .tab-luz { view-transition-name: none !importan
 }
 .quieto .tabs svg, .quieto .tabs a::after, .quieto .pn-acc a, .quieto .ap-tema img, .quieto .vf-chip, .quieto .vf-guia, .quieto .ea-hecho, .quieto .ea-hecho svg path, .quieto .ea-hecho svg polyline, .quieto .nov-i a, .quieto .cab-tit, .quieto .cab .logo, .quieto .herr-mini > .ic::before { transition: none !important; }
 .quieto .fav-b.late, .quieto .fav-i.late { animation: none !important; }
+
+/* ---------- Huecos de imagen del bloque W13 ampliado (entran solos si existen los archivos) ---------- */
+/* Cielos del saludo de Mi panel: cielo-alba, cielo-dia, cielo-tarde y cielo-noche (solo si estan los cuatro) */
+.pn-cielo-img { display: none; position: absolute; z-index: -2; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 100% 60%; }
+.pn-cielo[data-h="alba"] .pn-cielo-img[data-h="alba"], .pn-cielo[data-h="dia"] .pn-cielo-img[data-h="dia"], .pn-cielo[data-h="tarde"] .pn-cielo-img[data-h="tarde"], .pn-cielo[data-h="noche"] .pn-cielo-img[data-h="noche"] { display: block; }
+.pn-cielo.con-foto { background: var(--noche); min-height: 9.5rem; display: grid; align-content: end; }
+.pn-cielo.con-foto .pn-astro, .pn-cielo.con-foto[data-h="noche"]::before { display: none; }
+.pn-cielo.con-foto::after { inset: 0; left: 0; right: 0; bottom: 0; height: auto; border-radius: 0; background: linear-gradient(90deg, color-mix(in srgb, var(--noche) 84%, transparent) 0%, color-mix(in srgb, var(--noche) 46%, transparent) 52%, transparent 88%), linear-gradient(to top, color-mix(in srgb, var(--noche) 50%, transparent), transparent 60%); }
+/* Medallas ilustradas de los logros: logro-<id> (solo si estan las diez) */
+.pn-log li i.con-img { border: 0; background-color: transparent; background-position: center; background-size: cover; filter: grayscale(1) opacity(.42); }
+.pn-log li i.con-img::after { display: none; }
+.pn-log li.ok i.con-img { filter: none; box-shadow: 0 0 0 3px var(--oro-s), 0 0 0 4.5px color-mix(in srgb, var(--oro) 75%, transparent), 0 .6rem 1rem -.4rem color-mix(in srgb, var(--oro) 85%, transparent); }
+/* Ilustracion de la tecla grande de Aprende: ap-empieza */
+.ap-t-img { position: absolute; z-index: -1; top: 0; right: 0; width: 58%; height: 100%; object-fit: cover; object-position: 60% 50%; -webkit-mask: linear-gradient(90deg, transparent, #000 62%); mask: linear-gradient(90deg, transparent, #000 62%); opacity: .92; }
+.ap-t:has(.ap-t-img) .ap-n { display: none; }
+.ap-rej > .ap-t:first-child:has(.ap-t-img) b, .ap-rej > .ap-t:first-child:has(.ap-t-img) span { padding-right: 34%; }
