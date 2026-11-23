@@ -55,7 +55,7 @@ def ea_paso(n, u, ic_, t, d):
 def _h(u): return HM[u][1]
 EA_PERF = [
     ('cero', 'Nunca he entrenado fuerza', 'Lo básico, sin prisa. Primero, comprobar que puedes empezar por tu cuenta.', [
-        ('revision-medica.html', _h('revision-medica.html'), '¿Necesito pasar por el médico?', 'Unas preguntas del algoritmo del ACSM y te dice si puedes empezar ya o conviene consultar antes.'),
+        ('revision-medica.html', _h('revision-medica.html'), '¿Necesito pasar por el médico?', 'Unas preguntas del algoritmo del ACSM te dicen si puedes empezar ya o conviene consultar antes.'),
         ('guias.html', 'libro', 'Elige una guía para empezar', 'La rutina minimalista parte de dos días por semana; la de recomposición está pensada para quien empieza.'),
         (CALC, 'plato', 'Calcula tu proteína', 'Tu rango diario según tu peso y tu fase, con reparto por comidas.'),
         ('programas.html', 'pesa', 'O que te lo monte yo', 'Un plan a tu medida dentro de la app, revisado cada semana.')]),
@@ -94,7 +94,7 @@ function pon(p,url){if(!rs.some(function(r){return r.dataset.p===p}))return fals
 bs.forEach(function(b){b.addEventListener('click',function(){pon(b.dataset.p,true);if(innerWidth<760){var r=document.querySelector('.ea-ruta[data-p="'+b.dataset.p+'"]');if(r&&r.getBoundingClientRect().top>innerHeight*.6)r.scrollIntoView({behavior:quieto?'auto':'smooth',block:'start'})}})});
 document.querySelectorAll('.ea-volver').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();g.scrollIntoView({behavior:quieto?'auto':'smooth',block:'center'});var b=g.querySelector('[aria-pressed="true"]');if(b)b.focus({preventScroll:true})})});
 if(!pon(location.hash.slice(1)))pon(bs[0].dataset.p);addEventListener('hashchange',function(){pon(location.hash.slice(1))});})();'''
-pagina('empieza-aqui.html', 'Empieza aquí', 'Por dónde empezar en Fuerza Basada en Evidencia según tu caso: nunca has entrenado, entrenas sin plan, tomas medicación, tienes más de 60 años, te duele algo o vuelves de un parón.',
+pagina('empieza-aqui.html', 'Empieza aquí', 'Por dónde empezar según tu caso: nunca has entrenado, entrenas sin plan, tomas medicación, tienes más de 60 años, te duele algo o vuelves de un parón.',
        'Empieza aquí.', 'Dime cuál se parece más a ti y te señalo qué mirar primero. Son tres o cuatro pasos, en orden.', f'''
 <section><div class="in">
   <div class="empieza sube"><div><h2>¿Cuál se parece más a ti?</h2><p>Elige uno. Puedes cambiar cuando quieras.</p></div>
@@ -175,31 +175,31 @@ pagina('profesionales.html', 'Para profesionales sanitarios', 'Para médicos, en
 MITO_VER = {'f': 'Falso', 'a': 'A medias', 'n': 'No demostrado'}
 MITO_T = [('', 'Todos'), ('entreno', 'Entrenamiento'), ('nutri', 'Nutrición'), ('salud', 'Salud'), ('mayores', 'Mayores')]
 MITOS = [
-    ('estirar', 'entreno salud', 'Estirar antes de entrenar evita lesiones.', 'f', '', 'Metaanálisis',
-     'Un metaanálisis de 25 ensayos con más de 26 000 participantes no encontró que estirar previniera lesiones. Lo que sí las redujo fue el entrenamiento de fuerza: a menos de un tercio. Estirar puede servirte para ganar movilidad, no como seguro contra lesiones.',
+    ('estirar', 'entreno salud', 'Estirar antes de entrenar evita lesiones', 'f', '', 'Metaanálisis',
+     'Un metaanálisis de 25 ensayos con más de 26.000 participantes no encontró que estirar previniera lesiones. Lo que sí las redujo fue el entrenamiento de fuerza: a menos de un tercio. Estirar puede servirte para ganar movilidad, no como seguro contra lesiones.',
      'Lauersen JB, Bertelsen DM, Andersen LB. Br J Sports Med. 2014;48:871-7.', ('volumen-semanal.html', 'Organiza tus series de fuerza')),
-    ('proteina-rinon', 'nutri salud', 'Comer mucha proteína daña el riñón.', 'f', 'Falso en personas sanas', 'Metaanálisis',
+    ('proteina-rinon', 'nutri salud', 'Comer mucha proteína daña el riñón', 'f', 'Falso en personas sanas', 'Metaanálisis',
      'En adultos sin enfermedad renal, las dietas altas en proteína (por ejemplo, 1,5 g por kilo al día o más) no cambiaron la función del riñón de forma distinta a las dietas normales. Si tienes enfermedad renal crónica es otra cosa: ahí la cantidad la decide tu nefrólogo.',
      'Devries MC, Sithamparapillai A, Brimble KS, et al. J Nutr. 2018;148:1760-75.', (CALC, 'Calcula tu proteína diaria')),
-    ('fallo', 'entreno', 'Si no llegas al fallo, no creces.', 'a', '', 'Metaanálisis y ensayo',
+    ('fallo', 'entreno', 'Si no llegas al fallo, no creces', 'a', '', 'Metaanálisis y ensayo',
      'Entrenar cerca del fallo ayuda a ganar músculo, pero llegar al fallo en cada serie añade poco: en el metaanálisis la ventaja fue trivial. En un ensayo de 8 semanas con personas entrenadas, terminar las series a una o dos repeticiones del fallo dio el mismo crecimiento del cuádriceps que llegar al fallo, con menos fatiga en cada sesión.',
      'Refalo MC, et al. Sports Med. 2023;53:649-65. Refalo MC, et al. J Sports Sci. 2024;42:85-101.', ('calculadora-1rm.html', 'Calcula tus cargas')),
-    ('sesenta', 'mayores', 'A partir de los 60 ya no se gana músculo.', 'f', '', 'Metaanálisis',
-     'En 49 estudios con 1328 personas de 50 años o más, el entrenamiento de fuerza sumó de media 1,1 kg de masa magra. Los de más edad ganaron algo menos y los programas con más volumen, algo más: razón para empezar cuanto antes, no para no empezar.',
+    ('sesenta', 'mayores', 'A partir de los 60 ya no se gana músculo', 'f', '', 'Metaanálisis',
+     'En 49 estudios con 1.328 personas de 50 años o más, el entrenamiento de fuerza sumó de media 1,1 kg de masa magra. Los de más edad ganaron algo menos y los programas con más volumen, algo más: razón para empezar cuanto antes, no para no empezar.',
      'Peterson MD, Sen A, Gordon PM. Med Sci Sports Exerc. 2011;43:249-58.', ('test-sppb.html', 'Mide tu punto de partida')),
-    ('ayunas', 'nutri', 'El cardio en ayunas quema más grasa.', 'n', '', 'Ensayo',
+    ('ayunas', 'nutri', 'El cardio en ayunas quema más grasa', 'n', '', 'Ensayo',
      'En un ensayo con 20 mujeres jóvenes a dieta, que hicieron una hora de cardio tres días por semana durante 4 semanas, la pérdida de grasa fue la misma en ayunas que después de comer. Es un estudio pequeño y corto: si te sienta mejor entrenar en ayunas, hazlo, pero no esperes quemar más grasa por ello.',
      'Schoenfeld BJ, Aragon AA, Wilborn CD, et al. J Int Soc Sports Nutr. 2014;11:54.', ('guias.html', 'Guías para perder grasa')),
-    ('creatina', 'nutri salud', 'La creatina es un esteroide y daña el riñón.', 'f', '', 'Revisión de expertos',
+    ('creatina', 'nutri salud', 'La creatina es un esteroide y daña el riñón', 'f', '', 'Revisión de expertos',
      'La creatina no es un esteroide anabolizante: es una sustancia que fabrica tu cuerpo y que está en la carne y el pescado. Una revisión de expertos concluyó que, a las dosis habituales (3-5 g al día), no daña el riñón en personas sanas, y que no hay pruebas de que haga caer el pelo. Si tienes enfermedad renal, consúltalo antes.',
      'Antonio J, Candow DG, Forbes SC, et al. J Int Soc Sports Nutr. 2021;18:13.', ('suplementos.html', 'Suplementos con y sin evidencia')),
-    ('mujeres', 'entreno', 'Si levantas pesas siendo mujer, te pones enorme.', 'f', '', 'Metaanálisis',
+    ('mujeres', 'entreno', 'Si levantas pesas siendo mujer, te pones enorme', 'f', '', 'Metaanálisis',
      'Mujeres y hombres ganan músculo en proporción parecida a lo que ya tenían. Como ellas parten de menos masa muscular, en kilos ganan algo menos. Y en fuerza relativa del tren superior, ellas mejoraron incluso más.',
      'Roberts BM, Nuckols G, Krieger JW. J Strength Cond Res. 2020;34:1448-60. Refalo MC, Nuckols G, Galpin AJ, et al. PeerJ. 2025;13:e19042.', ('programas.html', 'Entrena con un plan')),
-    ('artrosis', 'salud mayores', 'Con artrosis de rodilla, mejor no cargar la articulación.', 'f', '', 'Guía clínica',
+    ('artrosis', 'salud mayores', 'Con artrosis de rodilla, mejor no cargar la articulación', 'f', '', 'Guía clínica',
      'La guía de la OARSI de 2019 pone el ejercicio estructurado, junto con la educación y, si hace falta, perder peso, como tratamiento central de la artrosis de rodilla: recomendado para la mayoría de los pacientes en cualquier momento de la enfermedad. La clave es dosificar la carga, no evitarla.',
      'Bannuru RR, Osani MC, Vaysbrot EE, et al. Osteoarthritis Cartilage. 2019;27:1578-89.', ('semaforo-dolor.html', 'Dosifica con el semáforo del dolor')),
-    ('frecuencia', 'entreno', 'Hay que entrenar cada músculo dos o tres veces por semana.', 'a', '', 'Metaanálisis',
+    ('frecuencia', 'entreno', 'Hay que entrenar cada músculo dos o tres veces por semana', 'a', '', 'Metaanálisis',
      'Con las mismas series a la semana, repartirlas en uno, dos o tres días da un crecimiento muy parecido (revisión de 25 estudios). Entrenar más días ayuda sobre todo porque facilita hacer más series. Elige la frecuencia que puedas sostener.',
      'Schoenfeld BJ, Grgic J, Krieger J. J Sports Sci. 2019;37:1286-95.', ('volumen-semanal.html', 'Cuenta tus series por músculo')),
 ]
@@ -237,10 +237,10 @@ document.querySelectorAll('.mito-copia').forEach(function(b){b.addEventListener(
 function hash(){var h=decodeURIComponent(location.hash.slice(1)),d=h&&document.getElementById(h);if(d&&d.classList.contains('mito')){if(d.hidden){f.querySelector('button').click()}abre(d,false);foco(d)}}
 addEventListener('hashchange',hash);addEventListener('beforeprint',function(){ms.forEach(function(m){m.querySelector('details').open=true})});
 hash();prog();cuenta();})();'''
-pagina('mitos.html', 'Mitos y evidencia', 'Nueve mitos de gimnasio y de consulta contrastados con revisiones, ensayos y guías clínicas: estiramientos, proteína y riñón, fallo, edad, ayunas, creatina, mujeres, artrosis y frecuencia.',
+pagina('mitos.html', 'Mitos y evidencia', 'Nueve mitos de gimnasio y de consulta, contrastados con estudios: estirar, proteína y riñón, fallo, edad, ayunas, creatina, mujeres, artrosis y frecuencia.',
        'Mitos y evidencia.', f'{len(MITOS)} ideas que se repiten en el gimnasio y en la consulta, contrastadas con revisiones, ensayos y guías clínicas. Toca cada una para ver qué dicen los estudios.', f'''
 <section><div class="in">
-  <ul class="mitos-cif sube"><li class="v-f"><b>{MITO_NV["f"]}</b>falsos</li><li class="v-a"><b>{MITO_NV["a"]}</b>a medias</li><li class="v-n"><b>{MITO_NV["n"]}</b>sin demostrar</li><li class="v-r"><b>{MITO_REFS}</b>referencias citadas</li></ul>
+  <ul class="mitos-cif sube"><li class="v-f"><b>{MITO_NV["f"]}</b>falsos</li><li class="v-a"><b>{MITO_NV["a"]}</b>a medias</li><li class="v-n"><b>{MITO_NV["n"]}</b>{"no demostrado" if MITO_NV["n"] == 1 else "no demostrados"}</li><li class="v-r"><b>{MITO_REFS}</b>referencias citadas</li></ul>
   <nav class="mitos-indice sube" aria-label="Los mitos"><b>Ir a</b>{"".join(f'<a href="#{m[0]}"><i>{k:02d}</i>{MITO_CORTO[m[0]]}</a>' for k, m in enumerate(MITOS, 1))}</nav>
   <div class="empieza sube"><div><h2>Filtra por tema</h2><p id="mitos-n" role="status">{len(MITOS)} mitos</p>
     <div class="mitos-prog"><span>Has leído <b id="mitos-l">0</b> de {len(MITOS)}</span><i aria-hidden="true"><b id="mitos-pb"></b></i><button type="button" id="mitos-reset" class="mitos-reset">Empezar de cero</button></div></div>
@@ -264,21 +264,22 @@ pagina('mitos.html', 'Mitos y evidencia', 'Nueve mitos de gimnasio y de consulta
 # 5. En los medios: solo con enlaces reales que Pelayo ha aprobado (21/11/2026). Los títulos de los dos podcasts los dio Pelayo
 #    (YouTube no se puede leer desde aquí); los de prensa y SEMI son los publicados (el de AS, comprobado con la captura que mandó Pelayo el 21/11/2026).
 MEDIO_ACC = {'Prensa': ('libro', 'Leer la noticia'), 'Podcast': ('micro', 'Ver la entrevista'), 'Formación': ('fonendo', 'Ver la minipíldora')}
-MEDIO_T = [('', 'Todo'), ('Prensa', 'Prensa'), ('Podcast', 'Podcasts'), ('Formación', 'Formación')]
+MEDIO_T = [('', 'Todo'), ('Prensa', 'Prensa'), ('Podcast', 'Pódcast'), ('Formación', 'Formación')]
+MEDIO_VER = {'Podcast': 'Pódcast'}  # lo que se ve en la tarjeta (el tipo interno sigue siendo 'Podcast')
 MEDIOS_JS = r'''(function(){var f=document.getElementById('medios-f');if(!f)return;var ms=[].slice.call(document.querySelectorAll('.medio')),n=document.getElementById('medios-n');
 f.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;f.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',x===b)});var t=b.dataset.t,k=0;ms.forEach(function(m){var v=!t||m.dataset.t===t;if(v&&m.hidden){m.classList.remove('medio-entra');void m.offsetWidth;m.classList.add('medio-entra')}m.hidden=!v;if(v)k++});if(n)n.textContent=k+(k===1?' aparici\u00f3n':' apariciones')});})();'''
 MEDIO_K = {'Prensa': 'pr', 'Podcast': 'po', 'Formación': 'fo'}
 def _dominio(u): return _up.urlparse(u).netloc.replace('www.', '')
 def medio_html(m, tp, t, u, fch):
     i, acc = MEDIO_ACC[tp]
-    return (f'<a class="medio sube k-{MEDIO_K[tp]}" data-t="{tp}" href="{u}" target="_blank" rel="noopener"><span class="medio-cab">{sec_ic(i)}<span class="mito-tipo">{tp}</span>{f"<span class=\"medio-fecha\">{fch}</span>" if fch else ""}</span>'
+    return (f'<a class="medio sube k-{MEDIO_K[tp]}" data-t="{tp}" href="{u}" target="_blank" rel="noopener"><span class="medio-cab">{sec_ic(i)}<span class="mito-tipo">{MEDIO_VER.get(tp, tp)}</span>{f"<span class=\"medio-fecha\">{fch}</span>" if fch else ""}</span>'
             f'<b>{t}</b><span class="medio-de">{m}<small>{_dominio(u)}</small></span><span class="medio-acc">{acc}<span class="oculto"> (se abre en una pestaña nueva)</span></span></a>')
 if len(MEDIOS) >= 2:
     _nt = {k: sum(1 for x in MEDIOS if x[1] == k) for k in MEDIO_ACC}
-    pagina('medios.html', 'En los medios', 'Prensa, podcasts y formación con Pelayo Fernández Cidón, médico internista y entrenador: AS, Vozpópuli, Libertad Digital, podcasts y minipíldoras de la SEMI.',
+    pagina('medios.html', 'En los medios', 'Prensa, pódcast y formación con Pelayo Fernández Cidón, médico internista y entrenador: AS, Vozpópuli, Libertad Digital, pódcast y minipíldoras de la SEMI.',
            'En los medios.', 'Noticias, entrevistas y formación en las que he participado, con el enlace a cada una.', f'''
 <section><div class="in">
-  <div class="empieza sube"><div><h2 id="medios-n" aria-live="polite">{len(MEDIOS)} apariciones</h2><ul class="medios-cif"><li><b>{_nt["Prensa"]}</b>en prensa</li><li><b>{_nt["Podcast"]}</b>podcasts</li><li><b>{_nt["Formación"]}</b>de formación</li></ul></div>
+  <div class="empieza sube"><div><h2 id="medios-n" aria-live="polite">{len(MEDIOS)} apariciones</h2><ul class="medios-cif"><li><b>{_nt["Prensa"]}</b>en prensa</li><li><b>{_nt["Podcast"]}</b>pódcast</li><li><b>{_nt["Formación"]}</b>de formación</li></ul></div>
     <div class="fases claras" id="medios-f" role="group" aria-label="Filtrar por tipo">{"".join(f'<button type="button" data-t="{v}" aria-pressed="{"true" if not v else "false"}">{t}<em>{len(MEDIOS) if not v else _nt[v]}</em></button>' for v, t in MEDIO_T)}</div></div>
   <div class="medios" id="lista">{"".join(medio_html(*x) for x in MEDIOS)}</div>
 </div></section>
@@ -300,4 +301,4 @@ _parchea('guias.html', '<div class="calc sube" style="margin-top:3rem">', '<p cl
 _parchea('quien-soy.html', f'<a class="caja sube" href="{YT}" target="_blank" rel="noopener">', '<a class="caja sube" href="videos.html">')
 _parchea('pauta-activa.html', f'{_PM[2]}</p>', f'{_PM[2]} <a href="profesionales.html">Más para profesionales</a></p>')
 if len(MEDIOS) >= 2:
-    _parchea('quien-soy.html', '<p>Vídeos sobre fuerza, nutrición y salud.</p></a>\n  </div>', '<p>Vídeos sobre fuerza, nutrición y salud.</p></a>\n  </div><p class="sec-enl sube"><b>También he salido en</b><a href="medios.html">Prensa, podcasts y formación</a></p>')
+    _parchea('quien-soy.html', '<p>Vídeos sobre fuerza, nutrición y salud.</p></a>\n  </div>', '<p>Vídeos sobre fuerza, nutrición y salud.</p></a>\n  </div><p class="sec-enl sube"><b>También he salido en</b><a href="medios.html">Prensa, pódcast y formación</a></p>')

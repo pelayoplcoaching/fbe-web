@@ -19,12 +19,14 @@ TEMAS = [
          vid=['Mayores', 'Fuerza', 'Mitos'], cta=_PP),
     dict(id='medicacion', t='Entrenar con medicación o una enfermedad crónica', corto='Medicación y enfermedad', ea='medicacion',
          sub='Antes de pensar en la intensidad, mira qué cambia tu medicación durante el ejercicio. Todo lo de la web para entrenar con un tratamiento o una enfermedad crónica.',
+         desc='Antes de pensar en la intensidad, mira qué cambia tu medicación durante el ejercicio. Todo para entrenar con un tratamiento o una enfermedad crónica.',
          herr=['revision-medica.html', 'tension.html', 'zonas-pulso.html', 'actividad-oms.html', 'suplementos.html', 'cafeina.html'], pa=True,
          mitos=['proteina-rinon', 'creatina', 'artrosis'], glos=['betabloqueantes', 'cribado', 'borg', 'habla', 'pulso-max', 'karvonen'], guias=[5, 0],
          bol=['farmac', 'receto', 'paciente', 'diabetes', 'hospital', 'analitica', 'marcador', 'colesterol', 'lipo', 'corazon', 'tension', 'presion', 'enfermedad', 'rinon'],
          vid=['Colesterol', 'Cardio', 'Suplementos'], cta=_PP, extra=('profesionales.html', 'Si eres sanitario', 'Pauta Activa en consulta, herramientas con su fuente y recursos para tus pacientes.')),
     dict(id='dolor', t='Entrenar con dolor', corto='Dolor y molestias', ea='dolor',
          sub='Molestia no siempre significa parar. Lo importante es saber dosificar. Las herramientas, los mitos y las lecturas de la web para entrenar cuando algo duele.',
+         desc='Lo importante es saber dosificar. Las herramientas, los mitos y las lecturas de la web para entrenar si algo duele.',
          herr=['semaforo-dolor.html', 'revision-medica.html', 'paron.html', 'volumen-semanal.html'],
          mitos=['artrosis', 'estirar', 'fallo'], glos=['control-dolor', 'tendinopatia', 'sobrecarga', 'descarga', 'rpe', 'rir'], guias=[],
          bol=['dolor', 'doler', 'duele', 'lesion', 'rodilla', 'tendon', 'tendin', 'hombro', 'molestia'],
@@ -36,7 +38,7 @@ TEMAS = [
          mitos=['proteina-rinon', 'creatina', 'ayunas'], glos=['proteina', 'creatina', 'cafeina', 'ais', 'deficit', 'superavit', 'recomposicion'], guias=[1, 3, 4, 6, 8],
          bol=[], bol_t=['nutri', 'suple'], vid=['Proteína', 'Creatina', 'Suplementos', 'Alcohol', 'Perder grasa'], cta=_PROG),
     dict(id='poco-tiempo', t='Fuerza con poco tiempo', corto='Poco tiempo', ea=None,
-         pasos=[('guias.html#g2', 'libro', 'Una rutina de 45 minutos o menos', 'Base de dos días por semana, ampliable a tres o cinco.'), _paso_h('paron.html'), _paso_h('volumen-semanal.html'), _PROG],
+         pasos=[('guias.html#g2', 'libro', 'Una rutina de 45 minutos o menos', 'Base de dos días por semana, ampliable a 3-5.'), _paso_h('paron.html'), _paso_h('volumen-semanal.html'), _PROG],
          sub='Cuando hay poco tiempo, lo que cuenta es lo mínimo que funciona. Rutinas cortas, la dosis mínima para no perder lo ganado y cómo encajarlo en tu semana.',
          herr=['paron.html', 'volumen-semanal.html', 'actividad-oms.html', 'calculadora-1rm.html', 'temporizador.html', 'semana-activa.html'],
          mitos=['frecuencia', 'fallo'], glos=['dosis-minima', 'frecuencia', 'volumen', 'serie-trabajo', 'rir', 'desentrenamiento'], guias=[2, 0],
@@ -132,7 +134,7 @@ def _tm_pagina(x):
     ld = '<script type="application/ld+json">' + json.dumps({'@context': 'https://schema.org', '@type': 'CollectionPage', 'name': x['t'], 'url': WEB + arch, 'inLanguage': 'es', 'description': x['sub'],
         'hasPart': [{'@type': 'WebPage', 'url': WEB + u} for u in x['herr']] + [{'@type': 'WebPage', 'url': f'{WEB}mitos.html#{i}'} for i in x['mitos']]}, ensure_ascii=False) + '</script>'
     SEC_SIG[arch] = (('empieza-aqui.html', 'Empieza aquí'), (f'tema-{TEMAS[(TEMAS.index(x) + 1) % len(TEMAS)]["id"]}.html', TEMAS[(TEMAS.index(x) + 1) % len(TEMAS)]['corto']))
-    pagina(arch, x['t'], x['sub'], x['t'] + '.', x['sub'], cuerpo, cta='<div class="cta"><a class="btn claro" href="#empieza">Por dónde empezar</a><a class="enl" href="#herramientas">Ver las herramientas</a></div>',
+    pagina(arch, x['t'], x.get('desc', x['sub']), x['t'] + '.', x['sub'], cuerpo, cta='<div class="cta"><a class="btn claro" href="#empieza">Por dónde empezar</a><a class="enl" href="#herramientas">Ver las herramientas</a></div>',
            cierre_t=('¿Lo vemos juntos?', 'Cuéntame tu caso en el formulario. Te respondo yo.'), extra=ld)
 for _x in TEMAS: _tm_pagina(_x)
 SEC_PAGS += TEMAS_PAGS

@@ -1,4 +1,6 @@
 import re, json, os, shutil
+TARIFA = {'performance': 300, 'elite': 600, 'eliteplus': 1000}   # euros por trimestre, IVA incluido (tarifas del 01/09/2026 al 31/08/2027)
+DESDE = min(TARIFA.values())
 src = open('landing5.py', encoding='utf-8').read()
 src = src[:src.rindex("open('web-fbe-equipo.html'")]
 exec(src)
@@ -77,7 +79,7 @@ cam('Sin compromiso: primero hablamos y vemos si encaja.', 'Trabajo con un grupo
 i0 = h.index('<ol>\n    <li class="sube"><h3>Me escribes</h3>'); i1 = h.index('</ol>', i0) + 5
 h = h[:i0] + '''<ol class="cuatro">
     <li class="sube"><h3>Rellenas el formulario</h3><p>Qué buscas, cómo entrenas ahora y de cuánto tiempo dispones.</p></li>
-    <li class="sube"><h3>Videollamada gratuita</h3><p>Treinta minutos para ver tu punto de partida, tu historial y si te puedo ayudar.</p></li>
+    <li class="sube"><h3>Videollamada gratuita</h3><p>Veinte minutos para ver tu punto de partida, tu historial y si te puedo ayudar.</p></li>
     <li class="sube"><h3>Tu plan, a medida</h3><p>Entrenamiento y nutrición pensados para tu horario, tu material y tu salud.</p></li>
     <li class="sube"><h3>Empiezas, y yo sigo ahí</h3><p>Activas la app y ya tienes tu primera semana. Seguimiento, respuesta y ajustes.</p></li>
   </ol>''' + h[i1:]
@@ -87,10 +89,10 @@ cam('<section class="pasos" id="como">', '''<section class="sin-arriba"><div cla
 cam('De escribirme a tu primera sesión, tres pasos.', 'De escribirme a tu primera sesión, cuatro pasos.')
 viejo = 'Sí. Hay atletas que solo llevan entrenamiento, otros solo nutrición y otros las dos cosas. La app enseña únicamente lo que tengas contratado.'
 assert h.count(viejo) == 2
-h = h.replace(viejo, 'El entrenamiento se puede contratar solo. La nutrición por separado es poco habitual: casi siempre va junto al entrenamiento, que es donde más rinde.')
+h = h.replace(viejo, 'El entrenamiento se puede contratar solo. La nutrición por separado es poco habitual: casi siempre va junto al entrenamiento, que es donde más rinde. Puedes consultarlo e individualizamos según tu caso.')
 cam('Llevo más de quince años entrenando fuerza y desde 2020 dirijo FBE, Fuerza Basada en Evidencia.</p>', 'Tengo un experto universitario en entrenamiento de fuerza y un máster en nutrición clínica. Llevo más de quince años entrenando y desde 2020 dirijo FBE, Fuerza Basada en Evidencia.</p>\n      <p><a href="quien-soy.html">Mi historia, entera</a></p>')
-cam('<li><b>Te escribo yo</b>Con lo que te propondría y lo que cuesta.</li>', '<li><b>Hacemos una videollamada</b>Treinta minutos, gratis, para ver tu caso.</li>')
-cam('<small>Orientativo, para adultos sanos que entrenan fuerza. Si tienes enfermedad renal u otra patología, consulta antes con tu médico.</small></div>', f'<small>Orientativo y para riñones sanos. Con enfermedad renal, diabetes de años o dudas, consúltalo antes con una analítica. <a href="{CALC}">Abre la calculadora completa</a>, con edad y reparto por comidas.</small></div>')
+cam('<li><b>Te escribo yo</b>Con lo que te propondría y lo que cuesta.</li>', '<li><b>Hacemos una videollamada</b>Veinte minutos, gratis, para ver tu caso.</li>')
+cam('<small>Orientativo, para adultos sanos que entrenan fuerza. Si tienes enfermedad renal u otra patología, consulta antes con tu médico.</small></div>', f'<small>Orientativo y para riñones sanos. Con enfermedad renal, diabetes de años o dudas, consúltalo antes con tu médico, con una analítica. <a href="{CALC}">Abre la calculadora completa</a>, con edad y reparto por comidas.</small></div>')
 cam('<p>Mueve el peso y mira el rango que se usa como referencia al entrenar fuerza: de 1,6 a 2,2 g por kilo y día.</p>', '<p>Elige tu fase, mueve el peso y mira tu rango diario.</p>')
 cam('<div><label for="peso">', '<div><div class="fases" role="group" aria-label="Fase"><button type="button" data-a="1.4" data-b="1.6" aria-pressed="false">Mantenimiento</button><button type="button" data-a="1.6" data-b="2.2" aria-pressed="true">Volumen</button><button type="button" data-a="1.8" data-b="2.4" aria-pressed="false">Definición</button></div><label for="peso">')
 h += '''<script>(function(){var D=document,p=D.getElementById('peso'),A=1.6,B=2.2;if(!p)return;function r(v){return Math.round(v/5)*5}function pinta(){var k=+p.value,a=r(k*A),b=r(k*B);D.getElementById('peso-o').textContent=k+' kg';D.getElementById('prot').textContent=a+'–'+b+' g';D.getElementById('toma').textContent=r(a/4)+'–'+r(b/4)+' g'}

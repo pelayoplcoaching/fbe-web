@@ -101,7 +101,7 @@ var p=new URLSearchParams(location.search),ps=parseInt(p.get('s'),10);pon();if(p
 pinta();window.fbeTmp={estado:function(){return{est:est,fase:fase,queda:queda,ronda:ronda,series:series}}};
 })();'''
 tool_pagina('temporizador.html', 'Temporizador de descansos e intervalos',
-    'Temporizador para el gimnasio: descanso entre series o intervalos de trabajo y descanso, con pantalla siempre encendida, sonido y vibración. Funciona sin conexión.',
+    'Temporizador para el gimnasio: descanso entre series o intervalos, con pantalla siempre encendida, sonido y vibración. Funciona sin conexión.',
     'El descanso, contado por ti',
     'Un temporizador grande para el gimnasio: descanso entre series o intervalos por rondas. Con aviso de sonido y vibración, y sin que se apague la pantalla.',
     TMP_FORM, TMP_RES,
@@ -174,7 +174,7 @@ $('s-copiar').addEventListener('click',function(){copiar(this,copia)});window.fb
 tipo();pinta();
 })();'''
 tool_pagina('semana-activa.html', 'Mi semana activa',
-    'Apunta tu actividad de la semana y mira con dos anillos si llegas al mínimo de la OMS: 150 minutos moderados (el vigoroso cuenta doble) y fuerza dos días. Con racha y tus últimas doce semanas.',
+    'Apunta tu semana y mira con dos anillos si llegas al mínimo de la OMS: 150 minutos moderados (el vigoroso cuenta doble) y fuerza dos días. Con racha.',
     'Tu semana, en dos anillos',
     'Apunta lo que haces cada día y mira de un vistazo si llegas al mínimo de la OMS: aeróbico y fuerza. Con tu racha de semanas cumplidas.',
     SEM_FORM, SEM_RES,
@@ -223,7 +223,7 @@ $('p-copiar').addEventListener('click',function(){copiar(this,copia)});window.fb
 document.querySelector('.tool-form').addEventListener('input',pinta);pinta();
 })();'''
 tool_pagina('pasos.html', 'Pasos al día: cuántos necesitas',
-    'Cuántos pasos al día necesitas según tu edad, con el metaanálisis de 15 cohortes: de 6.000 a 8.000 con 60 años o más y de 8.000 a 10.000 con menos de 60. Y mide a qué ritmo andas.',
+    'Cuántos pasos al día necesitas según tu edad: de 6.000 a 8.000 con 60 años o más y de 8.000 a 10.000 con menos de 60. Y mide a qué ritmo andas.',
     '¿Cuántos pasos necesitas de verdad?',
     'No son 10.000 para todo el mundo. Mira la franja que corresponde a tu edad según el mayor estudio sobre pasos y mortalidad, y comprueba si andas a ritmo de actividad moderada.',
     PAS_FORM, PAS_RES,
@@ -299,7 +299,7 @@ if(new Date().getHours()>=14){var n=document.querySelector('input[name="x-mom"][
 pinta();
 })();'''
 tool_pagina('tension.html', 'Tensión en casa: tu semana de tomas',
-    'Apunta tus tomas de tensión en casa como pide la guía europea (ESC 2024): mañana y tarde-noche, dos tomas, de 3 a 7 días. Calcula tu media, la compara con los umbrales y prepara la hoja para tu médico.',
+    'Apunta tu tensión en casa como pide la guía europea (ESC 2024): mañana y tarde-noche, dos tomas, de 3 a 7 días. Con tu media y la hoja para tu médico.',
     'Tu tensión, la de mañana por la mañana',
     'La tensión que cuenta es la de reposo, día tras día. Apunta tus tomas como pide la guía europea, mira tu media y llévasela a tu médico.',
     TEN_FORM, TEN_RES,
@@ -346,7 +346,7 @@ $('e-cero').addEventListener('click',function(){clearInterval(tic);est='listo';n
 $('e-copiar').addEventListener('click',function(){copiar(this,copia)});window.fbeCopia=function(){return copia};
 })();'''
 tool_pagina('equilibrio.html', 'Equilibrio a una pierna: la prueba de los 10 segundos',
-    'La prueba de equilibrio de 10 segundos a una pierna, con cronómetro. En un estudio con 1.702 personas de 51 a 75 años, no completarla se asoció a más riesgo de muerte en los 7 años siguientes.',
+    'Prueba de equilibrio de 10 segundos a una pierna, con cronómetro. En 1.702 personas de 51 a 75 años, no completarla se asoció a peor pronóstico.',
     '¿Aguantas 10 segundos a una pierna?',
     'Una prueba de diez segundos, sin material. En un estudio con 1.702 personas de 51 a 75 años, una de cada cinco no la completó, y eso se asoció a peor pronóstico.',
     EQ_FORM, EQ_RES,

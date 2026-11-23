@@ -672,3 +672,6 @@ html.vt-tema .tabs, html.vt-tema .tab-luz { view-transition-name: none !importan
 .cab .logo span { display: block; position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0; }
 .cab .in > .btn, .cab .in > button, .cab .in > .logo { flex: none; }
 .cab .in > .btn { white-space: nowrap; }
+
+/* Formulario Pedir plaza (23/11/2026): icono de la opcion YouTube en «¿Como me has conocido?» */
+.chips-f label[data-i="video"] { --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='6' width='18' height='12' rx='3.5'/%3E%3Cpath d='M10.5 9.5v5l4.3-2.5z'/%3E%3C/svg%3E"); }

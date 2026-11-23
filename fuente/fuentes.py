@@ -93,7 +93,7 @@ _parchea('herramientas.html', '<a href="glosario.html">Glosario</a></p>', '<a hr
 _h = open(f'{SAL}/profesionales.html', encoding='utf-8').read()
 _a = '</div>\n</div></section>\n<section id="pacientes">'
 assert _a in _h, 'profesionales: no encuentro el final de «Herramientas con la fuente al pie»'
-_h = _h.replace(_a, f'</div>\n  <p class="sec-enl sube"><b>Todas juntas</b><a href="fuentes.html">Las {len(FUENTES)} fuentes de la web, comprobadas en PubMed</a></p>\n</div></section>\n<section id="pacientes">', 1)
+_h = _h.replace(_a, f'</div>\n  <p class="sec-enl sube"><b>Todas juntas</b><a href="fuentes.html">Las {len(FUENTES)} fuentes de la web, comprobadas una a una</a></p>\n</div></section>\n<section id="pacientes">', 1)
 open(f'{SAL}/profesionales.html', 'w', encoding='utf-8').write(_h)
 import sys as _sys
 for _s in _FU_SIN: print('AVISO fuentes: cita sin ficha en fuentes.json ->', _s, file=_sys.stderr)

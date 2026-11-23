@@ -156,7 +156,7 @@ open(f'{SAL}/newsletter.html', 'w', encoding='utf-8').write(_p[:_j] + f'\n  <p c
 
 # ---------------------------------------------------------------------------------------------
 # Mis resultados
-INSTALA = '<div class="instala sube" hidden><div>' + (ilus('web-instala', 'instala-img') or sec_ic('carpeta')) + '<p><b>Llévate las herramientas en el móvil.</b> Instálala como una app: funcionan también sin cobertura.</p></div><button type="button" class="btn peq instala-b">Instalar</button><p class="instala-ios" hidden>En iPhone: botón <b>Compartir</b> y después <b>Añadir a pantalla de inicio</b>.</p></div>'
+INSTALA = '<div class="instala sube" hidden><div>' + (ilus('web-instala', 'instala-img') or sec_ic('carpeta')) + '<p><b>Llévate las herramientas en el móvil.</b> Instala la web como una app: funcionan también sin cobertura.</p></div><button type="button" class="btn peq instala-b">Instalar</button><p class="instala-ios" hidden>En iPhone: botón <b>Compartir</b> y después <b>Añadir a pantalla de inicio</b>.</p></div>'
 MR_JS = r'''(function(){var copiar=window.copiar||function(b,t){var s=b.querySelector('span'),o=s.textContent;function ok(){b.classList.add('hecho');s.textContent='Copiado';setTimeout(function(){b.classList.remove('hecho');s.textContent=o},1600)}if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(ok,function(){})};
 var K='fbe-resultados',L=document.getElementById('mr-lista'),V=document.getElementById('mr-vacio'),B=document.getElementById('mr-bots'),av=document.getElementById('mr-aviso'),des=null,tN=0;
 function ent(v){return v&&v.h?v:{titulo:v&&v.titulo,h:v&&v.texto?[{t:v.t,texto:v.texto}]:[]}}
@@ -192,7 +192,7 @@ document.getElementById('mr-imp-f').addEventListener('change',function(){var f=t
 addEventListener('storage',function(e){if(e.key===K)pinta()});
 pinta();})();'''
 _MR_H = ''.join(f'<a class="herr-mini" href="{u}">{ilus(f"herr-{sl}", "herr-mini-img")}<b>{t}</b><span>{d}</span></a>' for u, sl, i, t, d in HERR_MAS)
-pagina('mis-resultados.html', 'Mis resultados', 'Tus resultados de las calculadoras de Fuerza Basada en Evidencia, juntos en una hoja para imprimir o enseñar a tu médico o entrenador. Se guardan solo en tu navegador.',
+pagina('mis-resultados.html', 'Mis resultados', 'Tus resultados de las calculadoras, juntos en una hoja para imprimir o enseñar a tu médico o entrenador. Se guardan solo en tu navegador.',
        'Mis resultados.', 'Lo que guardas en las calculadoras, junto en una hoja para imprimir o enseñar a tu médico o a tu entrenador.', f'''
 <section><div class="in">
   <div class="empieza sube mr-caja"><div><h2 id="mr-n" aria-live="polite">Aún no has guardado nada</h2><p class="mr-priv">{ico("candado")}Se guarda solo en este navegador: no sale de tu dispositivo ni me llega a mí.</p></div>
@@ -200,7 +200,7 @@ pagina('mis-resultados.html', 'Mis resultados', 'Tus resultados de las calculado
   <div class="mr-copia sube"><p><b>Copia de seguridad.</b> Tus resultados viven en este navegador. Descárgalos en un archivo para guardarlos o pasarlos a otro dispositivo.</p><div><button type="button" class="copiar-t" id="mr-exp"><span>Descargar copia</span></button><label class="copiar-t mr-rec"><span>Recuperar copia</span><input type="file" id="mr-imp-f" accept="application/json,.json" class="oculto"></label></div></div>
   <p class="vol-aviso" id="mr-aviso" role="status"></p>
   <div class="mr-lista" id="mr-lista"></div>
-  <div class="mr-vacio" id="mr-vacio">{ilus('mr-vacio', 'mr-vacio-img')}<p>Usa cualquier calculadora y pulsa <b>Guardar en Mis resultados</b>, junto a «Copiar». Aparecerá aquí con la fecha. Si repites una prueba, se guardan las anteriores (hasta 12 por herramienta) para que veas tu evolución.</p><div class="herr-mas-rej">{_MR_H}</div></div>
+  <div class="mr-vacio" id="mr-vacio">{ilus('mr-vacio', 'mr-vacio-img')}<p>Usa cualquier calculadora y pulsa «Guardar en Mis resultados», junto a «Copiar». Aparecerá aquí con la fecha. Si repites una prueba, se guardan las anteriores (hasta 12 por herramienta) para que veas tu evolución.</p><div class="herr-mas-rej">{_MR_H}</div></div>
   {INSTALA}
 </div></section>
 <script>{MR_JS}</script>''', padre=('herramientas.html', 'Herramientas'))

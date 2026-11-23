@@ -63,7 +63,7 @@ SILLA_FORM = f'''
   <li>Una silla firme sin brazos, de unos 43 cm de alto, apoyada contra la pared.</li>
   <li>Sentado en el centro, la espalda recta, los pies apoyados en el suelo y los brazos cruzados sobre el pecho.</li>
   <li>Al «ya», levántate del todo y vuelve a sentarte, tantas veces como puedas en 30 segundos.</li>
-  <li>Cuenta cada vez que te pones de pie del todo. Si al acabar el tiempo estás más de medio camino arriba, cuenta.</li>
+  <li>Cuenta cada vez que te pones de pie del todo. Si al acabar el tiempo ya has subido más de la mitad, cuenta.</li>
   <li>Si hacen falta los brazos para levantarse, se para: el resultado es 0.</li>
 </ol><p class="tool-aviso">Mejor con alguien al lado. Si aparece mareo, dolor en el pecho o falta de aire, para. No es para quien no pueda levantarse sin ayuda.</p></details>
 <div class="crono-t" id="s-crono">
@@ -539,7 +539,7 @@ document.querySelector('.tool-form').addEventListener('input',pinta);document.qu
 })();'''
 
 tool_pagina('zonas-pulso.html', 'Zonas de pulso y esfuerzo',
-    'Calcula tu pulso máximo con la fórmula de Tanaka y tus zonas de entrenamiento según el ACSM, con o sin pulso en reposo. Si tomas medicación que cambia el pulso, te dice cómo guiarte sin él.',
+    'Tu pulso máximo con la fórmula de Tanaka y tus zonas de entrenamiento según el ACSM. Si tomas medicación que cambia el pulso, te dice cómo guiarte sin él.',
     'Tus zonas de pulso, bien calculadas',
     'Tu pulso máximo con la fórmula de Tanaka y tus zonas de entrenamiento con los tramos del Colegio Americano de Medicina del Deporte. Si tomas medicación que cambia el pulso, te digo cómo guiarte sin él.',
     PUL_FORM, PUL_RES,
@@ -612,7 +612,7 @@ document.querySelector('.tool-form').addEventListener('input',pinta);document.qu
 })();'''
 
 tool_pagina('semaforo-dolor.html', 'Semáforo del dolor al entrenar',
-    '¿Puedo entrenar con este dolor? Un semáforo basado en el modelo de control del dolor de Thomeé y Silbernagel: dolor durante, después y a la mañana siguiente, con diario para ver la tendencia.',
+    '¿Puedo entrenar con este dolor? Un semáforo basado en el modelo de Thomeé y Silbernagel: dolor durante, después y a la mañana siguiente, con diario.',
     '¿Puedo entrenar con este dolor?',
     'Un semáforo basado en el modelo de control del dolor que se usa en tendinopatías y dolores por sobrecarga: apuntas el dolor durante, después y a la mañana siguiente, y te dice si seguir, mantener o bajar la carga.',
     DOL_FORM, DOL_RES,
@@ -694,7 +694,7 @@ document.querySelector('.tool-form').addEventListener('input',pinta);document.qu
 })();'''
 
 tool_pagina('test-sppb.html', 'Test SPPB: equilibrio, marcha y fuerza',
-    'Test SPPB (Short Physical Performance Battery) con cronómetro: equilibrio, marcha de 4 metros y levantarse de la silla. Puntuación de 0 a 12, qué significa y nivel de los programas Vivifrail.',
+    'Test SPPB con cronómetro: equilibrio, marcha de 4 metros y levantarse de la silla. Puntuación de 0 a 12, qué significa y nivel de los programas Vivifrail.',
     'La fuerza de tus padres, en 10 minutos',
     'El test SPPB que usamos los médicos para medir el equilibrio, la marcha y la fuerza de piernas en personas mayores. Hazlo con ellos: con cronómetro, puntuación de 0 a 12 y qué significa.',
     SPPB_FORM, SPPB_RES,
@@ -762,7 +762,7 @@ document.querySelector('.tool-form').addEventListener('input',pinta);document.qu
 })();'''
 
 tool_pagina('paron.html', '¿Cuánto pierdo si paro de entrenar?',
-    '¿Cuánta fuerza y forma pierdes si paras de entrenar unas semanas? Y lo mínimo para mantener lo ganado, según el metaanálisis de Bosquet y la revisión de Spiering.',
+    '¿Cuánta fuerza y forma pierdes si paras unas semanas? Y lo mínimo para mantener lo ganado, según el metaanálisis de Bosquet y la revisión de Spiering.',
     '¿Cuánto pierdo si paro de entrenar?',
     'Vacaciones, Navidad, una lesión o una época de mucho trabajo: dime cuántas semanas vas a parar y te digo qué se pierde, qué no, y lo mínimo para mantener lo ganado.',
     PAR_FORM, PAR_RES,
@@ -872,7 +872,7 @@ lista();ficha();
 })();'''.replace('__SUP__', json.dumps([list(s) for s in SUP], ensure_ascii=False)).replace('__G__', json.dumps(SUP_G, ensure_ascii=False))
 
 tool_pagina('suplementos.html', 'Suplementos con evidencia',
-    'Busca un suplemento y mira en qué grupo de evidencia lo pone el Instituto Australiano del Deporte (AIS), la dosis del consenso del Comité Olímpico Internacional calculada para tu peso y qué vigilar.',
+    'Busca un suplemento y mira su grupo de evidencia según el Instituto Australiano del Deporte, la dosis del consenso del COI para tu peso y qué vigilar.',
     'Suplementos: cuáles tienen evidencia',
     'Busca un suplemento y mira en qué grupo lo pone el Instituto Australiano del Deporte, la dosis del Comité Olímpico Internacional calculada para tu peso y qué vigilar.',
     SUP_FORM, SUP_RES,

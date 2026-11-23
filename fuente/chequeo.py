@@ -122,7 +122,7 @@ _chq_cuerpo = f'''
 </div></section>
 <script>{CHQ_JS}</script>'''
 pagina('chequeo.html', 'Chequeo de 10 minutos',
-       'Cuatro pruebas cortas, en orden: si conviene pasar antes por el médico, cuánto te mueves, la fuerza de tus piernas y tu grasa abdominal. Al final, un resumen por áreas con el siguiente paso.',
+       'Cuatro pruebas cortas: si conviene pasar antes por el médico, cuánto te mueves, la fuerza de tus piernas y tu grasa abdominal. Al final, un resumen.',
        'Chequeo de 10 minutos',
        'Cuatro pruebas cortas, en orden: si conviene pasar antes por el médico, cuánto te mueves, la fuerza de tus piernas y tu grasa abdominal. Al final tienes un resumen por áreas con el siguiente paso de cada una. Todo se queda en tu navegador.',
        _chq_cuerpo, padre=('herramientas.html', 'Herramientas'))

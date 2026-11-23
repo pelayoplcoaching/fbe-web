@@ -30,7 +30,7 @@ SEC_SIG['evidencia.html'] = (('quien-soy.html', 'Quién soy'), ('fuentes.html', 
 pagina('evidencia.html', 'Cómo trabajo la evidencia', 'Qué fuentes usa la web de Fuerza Basada en Evidencia, cómo se comprueba cada cifra y qué no es esta web.',
        'Cómo trabajo la evidencia.', 'Qué fuentes uso, cómo compruebo cada cifra y qué no es esta web. Para que sepas de dónde sale lo que lees y lo que calculas aquí.', f'''
 <section><div class="in dos">
-  <div class="sube"><div class="entrada"><h2>Quién está detrás</h2><p>Esta web es mía. Soy Pelayo Fernández Cidón, médico especialista en Medicina Interna en el {HOSPITAL} (Madrid) y entrenador.</p></div>
+  <div class="sube"><div class="entrada"><h2>Quién está detrás</h2><p>Esta web es mía. Soy Pelayo Fernández Cidón, médico especialista en medicina interna en el {HOSPITAL} (Madrid) y prescriptor de ejercicio físico.</p></div>
     <ul class="marcas"><li>Especialista en Medicina Interna</li><li>Experto universitario en entrenamiento de fuerza</li><li>Máster en nutrición clínica</li><li>Más de 15 años entrenando fuerza</li></ul>
     <p class="sec-enl"><b>Más sobre mí</b><a href="quien-soy.html">Quién soy</a><a href="medios.html">En los medios</a></p></div>
   <aside class="ev-foto sube">{ilus("foto-pelayo", "ev-retrato") if os.path.exists(_FOTO) else ""}</aside>
@@ -73,7 +73,7 @@ SEC_PAGS += ['evidencia.html']
 _ix = json.load(open(f'{SAL}/buscar.json', encoding='utf-8'))
 _ix.append({'t': 'Cómo trabajo la evidencia', 'u': 'evidencia.html', 'd': 'Qué fuentes uso, cómo compruebo cada cifra y qué no es esta web.', 'k': 'evidencia metodo fuentes politica editorial quien escribe', 'y': 'Página'})
 open(f'{SAL}/buscar.json', 'w', encoding='utf-8').write(json.dumps(_ix, ensure_ascii=False, separators=(',', ':')))
-_parchea('quien-soy.html', '<a href="medios.html">Prensa, podcasts y formación</a></p>', '<a href="medios.html">Prensa, podcasts y formación</a><b>Mi método</b><a href="evidencia.html">Cómo trabajo la evidencia</a></p>')
+_parchea('quien-soy.html', '<a href="medios.html">Prensa, pódcast y formación</a></p>', '<a href="medios.html">Prensa, pódcast y formación</a><b>Mi método</b><a href="evidencia.html">Cómo trabajo la evidencia</a></p>')
 _parchea('fuentes.html', '<p class="sec-enl sube"><b>Sigue por aquí</b>', '<p class="sec-enl sube"><b>Sigue por aquí</b><a href="evidencia.html">Cómo trabajo la evidencia</a>')
 
 # ---- 2. Firma en las páginas de salud ----

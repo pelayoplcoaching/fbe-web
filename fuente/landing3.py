@@ -32,7 +32,7 @@ faq = [('¿Necesito ir a un gimnasio?', 'No es obligatorio. Programo para gimnas
  ('¿Tengo que descargar algo?', 'No hace falta ir a ninguna tienda de aplicaciones. La app se abre desde el navegador del móvil y se añade a la pantalla de inicio en dos toques; funciona en iPhone y en Android.'),
  ('Tomo medicación o tengo una lesión. ¿Puedo entrenar?', 'En la mayoría de los casos sí, y adaptarlo es parte del trabajo. Lo vemos en la valoración inicial. La asesoría no sustituye a tu médico ni a tu tratamiento.'),
  ('¿Qué pasa con mis fotos y mis datos de salud?', 'Solo se guardan con tu permiso, solo los vemos tú y yo, y puedes descargar todo lo tuyo desde la propia app.'),
- ('¿Cuánto cuesta?', 'Depende de si quieres entrenamiento, nutrición o las dos cosas. Te lo detallo al responder a tu formulario, sin compromiso.')]
+ ('¿Cuánto cuesta?', f'Depende de si quieres entrenamiento, nutrición o las dos cosas. Desde {DESDE} € al trimestre. Te lo detallo al responder a tu formulario, sin compromiso.')]
 def marca(v): return {'si': f'<span class="v si">{ico("si")}<b>Sí</b></span>', 'no': f'<span class="v no">{ico("no")}<b>No</b></span>', 'medio': f'<span class="v me">{ico("medio")}<b>A medias</b></span>'}[v]
 def anillo(pct, color, txt, sub): 
     c = 2 * 3.1416 * 34
@@ -56,7 +56,7 @@ html = f'''<meta name="claude:viewport-fit-sides" content="cover">
   <div class="txt">
     <p class="sobre"><i></i>Asesoría online de fuerza y nutrición</p>
     <h1><span>Tu plan.</span><span>Tu comida.</span><span>Tu coach.</span></h1>
-    <p class="sub">Te lleva un médico internista que también entrena. Cada semana sabes qué toca, lo apuntas en el móvil y yo lo reviso y lo ajusto.</p>
+    <p class="sub">Soy médico internista y también entreno. Cada semana sabes qué toca, lo apuntas en el móvil y yo lo reviso y lo ajusto.</p>
     <div class="cta"><a class="btn claro" href="{CONTACTO}">Pedir plaza</a><a class="enl" href="#semana">Ver la app por dentro</a></div>
     <p class="nota-cta">Sin compromiso: primero hablamos y vemos si encaja.</p>
   </div>
@@ -100,8 +100,8 @@ html = f'''<meta name="claude:viewport-fit-sides" content="cover">
     <div class="nav-marco"><div class="nav-barra"><i></i><i></i><i></i><span>Revisión semanal · vista del coach</span></div><img loading="lazy" src="{img('coach')}" width="1600" height="1000" alt="Panel del coach: revisión semanal con las sesiones, molestias y check-in de cada atleta (datos de ejemplo)"></div>
     <div class="hilo" role="img" aria-label="Ejemplo de conversación entre un atleta y su coach">
       <div class="b tu"><small>Tú</small>Hoy el press militar me ha molestado en el hombro. ¿Lo quito?</div>
-      <div class="b co"><small>Tu coach</small>No lo quites: cámbialo por press con mancuernas sentado y baja un punto de esfuerzo. Te lo dejo ya puesto en la sesión del jueves.</div>
-      <div class="b tu"><small>Tú</small>Perfecto. Te mando vídeo de la sentadilla.</div>
+      <div class="b co"><small>Pelayo</small>Lo he visto en tu sesión: un 2 sobre 10. Con eso no hace falta parar. Para la próxima sesión lo ajustamos con un punto menos de esfuerzo y el rango de recorrido que no te genere molestias, y avanzamos desde ahí.</div>
+      <div class="b tu"><small>Tú</small>Perfecto. Te mando vídeo de la sentadilla para que la revises.</div>
       <p class="nota">Conversación de ejemplo</p>
     </div>
   </div>
@@ -116,9 +116,9 @@ html = f'''<meta name="claude:viewport-fit-sides" content="cover">
 </ul></div></section>
 
 <section><div class="in">
-  <div class="entrada centro sube"><h2>Los detalles que hacen que sigas</h2><p>Lo que usarás cada semana, sin saltar entre cinco aplicaciones.</p></div>
+  <div class="entrada centro sube"><h2>Los detalles que hacen que sigas</h2><p>Lo que usarás cada semana, sin saltar entre cinco aplicaciones</p></div>
   <div class="bento">
-    <div class="caja g2 sube"><h3>Tu día, de un vistazo</h3><p>Constancia, carga, comida y sueño en anillos que se llenan.</p><div class="ans">{anillo(.66, '#7C6AFD', '2/3', 'Constancia')}{anillo(.9, '#2E9E6B', '118%', 'Carga')}{anillo(.55, '#D99A2B', '6:35 h', 'Sueño')}</div></div>
+    <div class="caja g2 sube"><h3>Tu día, de un vistazo</h3><p>Constancia, carga, comida y sueño en anillos que se llenan.</p><div class="ans">{anillo(.66, '#7C6AFD', '2/3', 'Constancia')}{anillo(.9, '#2E9E6B', '118 %', 'Carga')}{anillo(.55, '#D99A2B', '6:35 h', 'Sueño')}</div></div>
     <div class="caja oscura sube"><h3>El descanso arranca solo</h3><p>Marcas la serie y cuenta atrás.</p><div class="crono" aria-hidden="true"><svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="34" class="f"/><circle cx="40" cy="40" r="34" class="a"/></svg><strong>1:55</strong></div></div>
     <div class="caja sube"><h3>Progreso a la vista</h3><p>Tonelaje, fuerza y racha.</p><div class="barras" aria-hidden="true"><i style="--h:38%"></i><i style="--h:52%"></i><i style="--h:47%"></i><i style="--h:66%"></i><i style="--h:74%"></i><i style="--h:92%"></i></div></div>
     <div class="caja sube"><i class="ic">{ico('cambio')}</i><h3>Alternativas al momento</h3><p>Máquina ocupada, casa o viaje: la app te da el cambio.</p></div>
@@ -165,7 +165,7 @@ html = f'''<meta name="claude:viewport-fit-sides" content="cover">
 <section id="quien"><div class="in">
   <div class="ficha sube">
     <div class="retrato" aria-hidden="true">PF</div>
-    <div><h2>Pelayo Fernández Cidón</h2><p class="rol">Médico internista y entrenador</p>
+    <div><h2>Pelayo Fernández Cidón</h2><p class="rol">Médico internista y prescriptor de ejercicio físico</p>
       <p>Soy médico especialista en medicina interna en el Hospital Universitario La Paz (Madrid). Llevo más de quince años entrenando fuerza y desde 2020 dirijo FBE, Fuerza Basada en Evidencia.</p>
       <blockquote>Programo con lo que dice la evidencia y con lo que cabe en tu semana. Si algo no está demostrado, te lo digo.</blockquote>
       <ul class="sellos"><li>Medicina interna</li><li>Fuerza e hipertrofia</li><li>Nutrición</li><li>Basado en evidencia</li></ul></div>

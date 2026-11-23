@@ -45,7 +45,7 @@ $('a-copiar').addEventListener('click',function(){copiar(this,copia)});window.fb
 document.querySelector('.tool-form').addEventListener('input',pinta);document.querySelector('.tool-form').addEventListener('change',pinta);pinta();
 })();'''
 tool_pagina('actividad-oms.html', '¿Llegas a lo mínimo de la OMS?',
-    'Comprueba si tu semana cumple las recomendaciones de actividad física de la OMS: 150 a 300 minutos de actividad moderada, fuerza dos días y, a partir de los 65, equilibrio tres días.',
+    'Comprueba si tu semana cumple lo que recomienda la OMS: 150 a 300 minutos de actividad moderada, fuerza dos días y, desde los 65, equilibrio tres días.',
     '¿Llegas a lo mínimo de la OMS?',
     'Apunta lo que te mueves en una semana normal y mira si llegas a lo que recomienda la Organización Mundial de la Salud: actividad aeróbica, fuerza y, a partir de los 65, equilibrio.',
     OMS_FORM, OMS_RES,
@@ -87,7 +87,7 @@ $('w-copiar').addEventListener('click',function(){copiar(this,copia)});window.fb
 document.querySelector('.tool-form').addEventListener('input',pinta);document.querySelector('.tool-form').addEventListener('change',pinta);pinta();
 })();'''
 tool_pagina('cintura-altura.html', 'Cintura y altura: tu grasa abdominal',
-    'Calcula tu índice cintura/altura y mira en qué rango de grasa abdominal estás según la guía de NICE: saludable de 0,4 a 0,49, aumentada de 0,5 a 0,59 y alta desde 0,6.',
+    'Calcula tu índice cintura/altura y mira tu rango de grasa abdominal según NICE: saludable de 0,4 a 0,49, aumentada de 0,5 a 0,59 y alta desde 0,6.',
     'Tu cintura, frente a tu altura',
     'Una cinta métrica dice más que la báscula sobre la grasa que rodea tus órganos. Divide tu cintura entre tu altura y mira en qué rango estás según la guía clínica de NICE.',
     CIN_FORM, CIN_RES,
@@ -130,13 +130,13 @@ $('g-copiar').addEventListener('click',function(){copiar(this,copia)});window.fb
 document.querySelector('.tool-form').addEventListener('input',pinta);document.querySelector('.tool-form').addEventListener('change',pinta);pinta();
 })();'''
 tool_pagina('prension.html', 'Fuerza de prensión con dinamómetro',
-    'Compara tu fuerza de prensión con el punto de corte del consenso europeo de sarcopenia (EWGSOP2): menos de 27 kg en hombres y de 16 kg en mujeres. Con el protocolo de medida paso a paso.',
+    'Compara tu fuerza de prensión con el punto de corte del consenso europeo de sarcopenia (EWGSOP2): menos de 27 kg en hombres y de 16 kg en mujeres.',
     'Tu fuerza de prensión',
     'La fuerza con la que aprietas la mano es una de las medidas de fuerza más usadas en medicina. Apunta tus intentos con un dinamómetro y compáralos con el punto de corte del consenso europeo de sarcopenia.',
     PRE_FORM, PRE_RES,
     '''<p>El consenso europeo de sarcopenia (<b>EWGSOP2</b>) usa la fuerza de prensión como primer paso: por debajo de <b>27 kg en hombres</b> y de <b>16 kg en mujeres</b>, la fuerza es baja y la sarcopenia se considera probable. Después se confirma midiendo la masa muscular y se valora su gravedad con pruebas como la velocidad de la marcha o el <a href="test-sppb.html">SPPB</a>.</p>
-<p>La forma de medir sigue el <b>protocolo de Southampton</b>: sentado en una silla con brazos, antebrazos apoyados, codo a unos 90 grados, tres intentos con cada mano y se queda el mejor.</p>
-<p>Si no tienes dinamómetro, el <a href="test-silla.html">test de la silla</a> también mide la fuerza de piernas en casa.</p>''',
+<p>La forma de medir sigue el <b>protocolo de Southampton</b>: sentado en una silla con brazos, antebrazos apoyados, codo a unos 90 grados, tres intentos con cada mano y cuenta el mejor.</p>
+<p>Si no tienes dinamómetro, el <a href="test-silla.html">test de la silla</a> mide la fuerza de piernas en casa.</p>''',
     ['Cruz-Jentoft AJ y cols. Sarcopenia: revised European consensus on definition and diagnosis (EWGSOP2). Age Ageing. 2019;48(1):16-31 (puntos de corte de 27 y 16 kg).',
      'Roberts HC y cols. A review of the measurement of grip strength in clinical and epidemiological studies: towards a standardised approach. Age Ageing. 2011;40(4):423-9 (protocolo de Southampton).'],
     PRE_JS, slug='prension', tira=('Sentado, codo a 90 grados', 'Tres intentos por mano', 'Cuenta el mejor'))
@@ -174,7 +174,7 @@ $('k-copiar').addEventListener('click',function(){copiar(this,copia)});window.fb
 document.querySelector('.tool-form').addEventListener('input',pinta);document.querySelector('.tool-form').addEventListener('change',pinta);pinta();
 })();'''
 tool_pagina('calorias.html', 'Calorías de mantenimiento',
-    'Estima cuántas calorías gastas al día para mantener tu peso con la fórmula de Mifflin-St Jeor y los niveles de actividad de la FAO y la OMS. Una estimación con su margen de error.',
+    'Estima las calorías que gastas al día para mantener tu peso con la fórmula de Mifflin-St Jeor y los niveles de actividad de la FAO y la OMS.',
     'Tus calorías para mantener el peso',
     'Una estimación de lo que gastas al día con la fórmula más fiable para adultos (Mifflin-St Jeor) y tu nivel de actividad. Sirve de punto de partida, no de número exacto.',
     CAL_FORM, CAL_RES,

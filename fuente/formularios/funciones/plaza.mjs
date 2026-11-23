@@ -18,7 +18,7 @@ const WEBS = {
 
 // Opciones exactas de las columnas de Notion
 const OBJETIVOS = ['Hipertrofia', 'Fuerza', 'Pérdida de grasa corporal', 'Recomposición Corporal', 'Salud general', 'Prevención de lesiones/Rehabilitación'];
-const CONOCIDO = ['Instagram', 'Referido', 'Web', 'Otro'];
+const CONOCIDO = ['Instagram', 'Referido', 'YouTube', 'Web', 'Otro'];  // en la web, «Referido» se muestra como «Recomendación»
 const COL_NOTA = 'Muchas gracias por llegar hasta el final! Algo que añadir o algo más que tenga que saber?';
 const NUEVO = '🆕 Nuevo (formulario enviado)';
 
@@ -80,11 +80,21 @@ export default async (req) => {
   if (!clave) { console.error('Falta la variable NOTION_TOKEN'); return ir('pedir-plaza.html?error=2'); }
 
   try {
-    const r = await fetch('https://api.notion.com/v1/pages', {
+    let r = await fetch('https://api.notion.com/v1/pages', {
       method: 'POST',
       headers: { Authorization: `Bearer ${clave}`, 'Notion-Version': '2022-06-28', 'Content-Type': 'application/json' },
       body: JSON.stringify({ parent: { database_id: BASE_NOTION }, properties: propiedades(f) }),
     });
+    if (!r.ok && r.status === 400 && f.conocido) {
+      // Si Notion no acepta la opcion de «¿Cómo me has conocido?» (por ejemplo, una nueva como YouTube), se guarda igual: va a la nota
+      console.error('Notion respondio 400 con la opcion', f.conocido, (await r.text()).slice(0, 300));
+      const g = { ...f, conocido: null, nota: `${f.nota ? f.nota + '\n\n' : ''}Cómo me conoció: ${f.conocido}`.slice(0, 1990) };
+      r = await fetch('https://api.notion.com/v1/pages', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${clave}`, 'Notion-Version': '2022-06-28', 'Content-Type': 'application/json' },
+        body: JSON.stringify({ parent: { database_id: BASE_NOTION }, properties: propiedades(g) }),
+      });
+    }
     if (!r.ok) { console.error('Notion respondio', r.status, (await r.text()).slice(0, 500)); return ir('pedir-plaza.html?error=2'); }
   } catch (e) {
     console.error('No se pudo hablar con Notion', e);

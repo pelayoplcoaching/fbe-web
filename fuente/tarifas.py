@@ -53,10 +53,10 @@ _tf_cuerpo = f'''
   <p class="sube" style="text-align:center;margin-top:1.5rem"><a href="programas.html#lado">Comparar los tres programas</a></p>
 </div></section>
 <section class="hoja"><div class="in"><div class="entrada sube"><h2>Cómo se empieza</h2></div>
-  <ol class="tf-pasos sube"><li><b>Rellenas el formulario</b><span>Me cuentas tu caso y qué programa te interesa.</span></li><li><b>Hablamos 30 minutos</b><span>Una videollamada gratuita para ver tu punto de partida.</span></li><li><b>Preparo tu plan</b><span>Si encaja, lo tienes en la app y empezamos.</span></li></ol>
+  <ol class="tf-pasos sube"><li><b>Rellenas el formulario</b><span>Me cuentas tu caso y qué programa te interesa.</span></li><li><b>Hablamos 20 minutos</b><span>Una videollamada gratuita para ver tu punto de partida.</span></li><li><b>Preparo tu plan</b><span>Si encaja, lo tienes en la app y empezamos.</span></li></ol>
 </div></section>
 <section><div class="in"><div class="calc sube"><div><h3>¿Solo quieres un plan, sin seguimiento?</h3><p>La Puesta a punto es una consulta y un plan de 12 semanas, con lectura de tu analítica. <b>{TF_PP} €, pago único, IVA incluido.</b></p></div><div><a class="btn claro" href="puesta-a-punto.html">Ver la Puesta a punto</a></div></div></div></section>{TF_JS}'''
-_tf_cta = BTN + datos(('3', 'programas'), (f'{DESDE} €', 'al trimestre, el más sencillo'), ('30 min', 'de videollamada inicial, gratis'))
+_tf_cta = BTN + datos(('3', 'programas'), (f'{DESDE} €', 'al trimestre, el más sencillo'), ('20 min', 'de videollamada inicial, gratis'))
 open(f'{SAL}/tarifas.html', 'w', encoding='utf-8').write(f'''{cabeza('tarifas.html', 'Tarifas', 'Tarifas de los programas de Fuerza Basada en Evidencia.', '<meta name="robots" content="noindex">')}
 {cabecera('programas.html')}
 <header class="hero mini t-tarifas" id="inicio">{ANILLOS}{ilus("web-tarifas") or f'<div class="marca-agua">{LOBO}</div>'}<div class="in"><div class="txt"><span class="miga"><a href="index.html">Inicio</a> / <a href="programas.html">Programas</a> / Tarifas</span><h1>Programas y tarifas.</h1><p class="sub">Tres programas, todos con revisión semanal. Precios con el IVA incluido, vigentes {TF_VIG}.</p>{_tf_cta}</div></div></header>

@@ -45,7 +45,7 @@ def _ap_tema(u, t):
     i = ilus('web-' + u[:-5], 'ap-tema-img')
     return f'<a class="ap-tema" href="{u}">{i}<b>{t}</b></a>'
 SEC_SIG['aprende.html'] = (('index.html', 'Inicio'), ('herramientas.html', 'Herramientas'))
-pagina('aprende.html', 'Aprende', 'Todo lo que hay para aprender en Fuerza Basada en Evidencia: rutas para empezar, vídeos con capítulos, mitos con su estudio, glosario, recetas, guías y el boletín, ordenado por temas.',
+pagina('aprende.html', 'Aprende', 'Todo para aprender en Fuerza Basada en Evidencia: rutas para empezar, vídeos, mitos con su estudio, glosario, recetas, guías y boletín, por temas.',
        'Aprende, a tu ritmo.', 'Rutas para empezar, vídeos, mitos con su estudio, glosario, recetas y el boletín. Todo lo de aprender, en una pantalla.', f'''
 <section><div class="in"><div class="entrada sube"><h2>¿Por dónde empiezo?</h2><p>Elige tu caso y te marco los pasos.</p></div>
   <div class="ap-rutas sube">{"".join(f'<a class="ap-ruta" href="empieza-aqui.html#{p}" data-p="{p}" data-n="{len(xs)}">{ilus("ea-" + p, "ap-ruta-img") or f"<i class=\"ea-bi\">{ico(EA_ICO[p])}</i>"}<b>{t}</b><span>{len(xs)} pasos</span><em class="ap-ruta-b" aria-hidden="true"></em></a>' for p, t, _, xs in EA_PERF)}</div>
@@ -112,7 +112,7 @@ _LOG_OK = _todas(*[f'logro-{i}' for i in _LOG_IDS])
 if _LOG_OK:
     for _li in _LOG_IDS: ilus(f'logro-{_li}')
 SEC_SIG['mi-panel.html'] = (('herramientas.html', 'Herramientas'), ('aprende.html', 'Aprende'))
-pagina('mi-panel.html', 'Mi panel', 'Tu inicio personal en Fuerza Basada en Evidencia: sigue donde lo dejaste, tu semana, tus resultados, tus favoritos y tus datos. Todo guardado solo en tu dispositivo.',
+pagina('mi-panel.html', 'Mi panel', 'Tu inicio personal en Fuerza Basada en Evidencia: sigue donde lo dejaste, tu semana, tus resultados y tus favoritos. Guardado solo en tu dispositivo.',
        'Tu panel.', 'Lo tuyo, en un sitio: dónde lo dejaste, tu semana, tus resultados y tus favoritos. Se guarda solo en este dispositivo.', f'''
 <section class="pn-s"><div class="in">
   <div class="pn-hola sube"><div class="pn-cielo{" con-foto" if _CIELO_OK else ""}" id="pn-cielo" data-h="dia">{_CIELO}<i class="pn-astro" aria-hidden="true"></i><p class="pn-saludo" id="pn-saludo">Hola</p><h2 class="pn-h">¿Qué toca hoy?</h2><p class="pn-hoy" id="pn-hoy"></p></div>
@@ -218,7 +218,7 @@ pagina('ayuda.html', 'Cómo usar la app', 'Cómo instalar Fuerza Basada en Evide
   <li><b>Lo demás:</b> las páginas que ya has abierto se quedan guardadas y se pueden releer sin red.</li></ul>
 </div></section>
 <section id="datos"><div class="in"><div class="entrada sube"><h2>Tus datos son tuyos</h2><p>Resultados, favoritos, Mis datos, tu semana, tus tomas de tensión: todo se guarda solo en el navegador de este dispositivo.</p></div>
-  <ul class="ay-lista sube"><li><b>No se envía nada.</b> Las herramientas calculan en tu dispositivo y la web no usa analítica.</li>
+  <ul class="ay-lista sube"><li><b>No se envía nada.</b> Las herramientas calculan en tu dispositivo y la web no usa analítica de visitas.</li>
   <li><b>Solo sale lo que tú mandas:</b> el formulario de «Pedir plaza» y el alta en el boletín. Y si pulsas un vídeo, lo sirve YouTube.</li>
   <li><b>Si borras los datos del navegador</b> o cambias de móvil, lo guardado no viaja contigo. Para eso está la copia.</li></ul>
   <div class="ay-copia sube"><h3>Copia de seguridad</h3><p id="ay-n"></p>
@@ -229,7 +229,7 @@ pagina('ayuda.html', 'Cómo usar la app', 'Cómo instalar Fuerza Basada en Evide
   <ul class="ay-lista sube"><li><b>Buscar:</b> la lupa de arriba, o las teclas <kbd>Ctrl</kbd> + <kbd>K</kbd> o <kbd>/</kbd>. Busca páginas, herramientas, mitos, vídeos, recetas y términos.</li>
   <li><b>Acciones rápidas:</b> en el buscador, escribe «oscuro», «texto» o «guardar» y hazlo desde ahí.</li>
   <li><b>Favoritos:</b> la estrella de cada página, vídeo, mito o receta. Los tienes en <a href="mi-panel.html#pn-fav">Mi panel</a>.</li>
-  <li><b>Ajustes de lectura:</b> el botón «Aa»: tamaño del texto, contraste alto, sin animaciones y escuchar la página.</li>
+  <li><b>Ajustes de lectura:</b> el botón «Aa» (tamaño del texto, contraste alto, sin animaciones y escuchar la página).</li>
   <li><b>Novedades:</b> en <a href="novedades.html">Novedades</a>, o con el <a href="feed.xml">canal RSS</a>.</li></ul>
 </div></section>
 <script>{AY_JS}</script>''', cta='<div class="cta"><a class="btn claro" href="mi-panel.html">Abrir Mi panel</a><a class="enl" href="#datos">Tus datos</a></div>')
