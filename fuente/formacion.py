@@ -4,7 +4,7 @@
 # Solo lo que tiene que ver con la salud o el entrenamiento. Fuera a proposito: datos personales del CV, comunicaciones a
 # congresos sobre infecciosas, el voluntariado, el TFG, cursos cortos (2 h), lo que esta pendiente (Comision de Nutricion)
 # el curso de RCP para atletas y los estudios en marcha (ecografia nutricional, programa de ejercicio en miopatias):
-# Pelayo pidio el 23/11/2026 que no salgan. Tampoco el articulo de 2022 (trombosis y COVID-19, J Ultrasound Med): no es relevante ahora.
+# Pelayo pidio el 23/11/2026 que no salgan. Tampoco la docencia de ecografia clinica ni el articulo de 2022 (trombosis y COVID-19, J Ultrasound Med): no es relevante ahora.
 # Se ejecuta despues de app_pags.py (usa los iconos fonendo y birrete) y antes de datos.py (que usa FORM_LD).
 import html as _html_f
 
@@ -13,7 +13,7 @@ TRAY = [
         ('2016', 'Grado en Medicina', 'Universidad de Oviedo'),
         ('Colegiado', f'Médico colegiado n.º {COLEGIADO}', COLEGIO),
         ('2017-2022', 'Residencia (MIR) en Medicina Interna', 'Hospital Universitario La Paz, Madrid'),
-        ('Desde 2022', 'Médico adjunto de Medicina Interna', 'Planta de hospitalización del Hospital Carlos III y consulta externa (Hospital Universitario La Paz), con guardias en urgencias y en planta'),
+        ('Desde 2022', 'Médico adjunto de Medicina Interna', 'Planta de hospitalización y consultas externas. Guardias en planta de hospitalización y en el servicio de urgencias. Actividad en el Hospital Universitario La Paz-Carlos III-Cantoblanco'),
     ]),
     ('pesa', 'Entrenamiento de fuerza', [
         ('2022', 'Experto universitario en prescripción, metodología y bases del entrenamiento de fuerza', 'Universidad Tecnológica de México · 450 horas'),
@@ -27,7 +27,6 @@ TRAY = [
     ]),
     ('birrete', 'Docencia', [
         ('Actual', 'Colaborador docente de la Facultad de Medicina', 'Universidad Autónoma de Madrid'),
-        ('Actual', 'Docente y referente de ecografía clínica', 'Hospital Carlos III'),
     ]),
 ]
 # Otra formacion clinica: aparte y plegada (Pelayo, 23/11/2026: no es lo relevante para FBE ahora)

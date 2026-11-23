@@ -18,7 +18,7 @@ _PER = {'@type': 'Person', '@id': WEB + 'quien-soy.html#pelayo', 'name': 'Pelayo
         'hasCredential': [{'@type': 'EducationalOccupationalCredential', 'name': n, **({'recognizedBy': {'@type': 'CollegeOrUniversity', 'name': o}} if o else {})} for n, o in FORM_LD]
                          + [{'@type': 'EducationalOccupationalCredential', 'credentialCategory': 'Colegiación', 'name': f'Médico colegiado n.º {COLEGIADO}', 'identifier': COLEGIADO, 'recognizedBy': {'@type': 'Organization', 'name': COLEGIO}}],
         'alumniOf': [{'@type': 'CollegeOrUniversity', 'name': 'Universidad de Oviedo'}],
-        'knowsAbout': ['Medicina interna', 'Entrenamiento de fuerza', 'Nutrición clínica', 'Ejercicio y medicación', 'Ecografía clínica'], 'sameAs': [u for _, u in REDES]}
+        'knowsAbout': ['Medicina interna', 'Entrenamiento de fuerza', 'Nutrición clínica', 'Ejercicio y medicación'], 'sameAs': [u for _, u in REDES]}
 _p = open(f'{SAL}/quien-soy.html', encoding='utf-8').read()
 assert LDP in _p, 'quien-soy: no encuentro la Person de antes'
 _p = _p.replace(LDP, _ld({'@context': 'https://schema.org', '@type': 'ProfilePage', 'url': WEB + 'quien-soy.html', 'inLanguage': 'es', 'mainEntity': _PER}), 1)
