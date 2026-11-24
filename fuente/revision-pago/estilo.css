@@ -32,7 +32,12 @@ body,.ml-site,.ml-landing-page{background:var(--papel)!important}
 .fbe-ic-check{--m:var(--i-check)}.fbe-ic-candado{--m:var(--i-candado)}.fbe-ic-correo{--m:var(--i-correo)}.fbe-ic-lupa{--m:var(--i-lupa)}.fbe-ic-ficha{--m:var(--i-ficha)}.fbe-ic-grafico{--m:var(--i-grafico)}.fbe-ic-reloj{--m:var(--i-reloj)}.fbe-ic-libro{--m:var(--i-libro)}.fbe-ic-enlace{--m:var(--i-enlace)}.fbe-ic-calendario{--m:var(--i-calendario)}.fbe-ic-ajustes{--m:var(--i-ajustes)}
 
 /* ---------- 13-18. Cabecera (marca y lomo de revista) ---------- */
-.ml-desktop-layout:has(#fbe-top) .group\/card,.ml-desktop-layout:has(#fbe-top) .ml-column{background:transparent!important;border:0!important;padding:0!important;box-shadow:none!important}
+/* La cabecera va en la columna izquierda de la portada (MailerLite no guarda bloques en secciones nuevas), pero ocupa todo el ancho */
+.ml-landing-page>.ml-section-wrapper>div,#R5cV8xZ0tN2yH3uG>div{max-width:1160px!important;padding-left:20px!important;padding-right:20px!important}
+#Hero-with-menu>div{position:relative!important;padding-top:132px!important}
+#Hero-with-menu :is(.ml-desktop-layout,.group\/card,.list-group,.list-group-item,.list-group-item>div,.ml-code-html){position:static!important;transform:none!important}
+.fbe-top{position:absolute;left:20px;right:20px;top:0;height:112px}
+@media (max-width:520px){#Hero-with-menu>div{padding-top:160px!important}.fbe-top{height:138px}}
 .fbe-top .fbe-barra{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:16px 0}
 .fbe-top .fbe-marca{display:inline-flex;align-items:center;gap:10px;text-decoration:none!important;color:var(--tinta)!important;font:700 15px/1.2 var(--sans)}
 .fbe-top .fbe-marca img{width:38px;height:38px;border-radius:50%;background:#fff;border:1px solid var(--linea);padding:3px}
@@ -44,6 +49,7 @@ body,.ml-site,.ml-landing-page{background:var(--papel)!important}
 .fbe-top .fbe-mast span:last-child{color:var(--morado)}
 
 /* ---------- 19-30. Portada ---------- */
+#Hero-with-menu{outline:0!important}
 #Hero-with-menu .group\/card{background:transparent!important;border:0!important;padding:0!important;border-radius:0!important;box-shadow:none!important}
 @media (min-width:960px){#Hero-with-menu .ml-desktop-layout:has(.ml-btn-grid)>.grid{grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr)!important;column-gap:56px!important;align-items:center!important}}
 .fbe-hero{padding:6px 0 4px}
@@ -234,6 +240,7 @@ body,.ml-site,.ml-landing-page{background:var(--papel)!important}
 .fbe-cuerpo .fbe-faq details p{padding:0 0 18px;max-width:46em;font-size:16px;line-height:1.6}
 
 /* ---------- 101-112. Condiciones de la suscripcion (acordeon de MailerLite, con NIF y direccion) ---------- */
+#Testimonio-Header .list-group-item:has(.ml-content-heading){margin-top:88px!important}
 #Testimonio-Header .ml-content-heading{font:700 clamp(29px,4.2vw,44px)/1.1 var(--serif)!important;letter-spacing:-.012em!important;color:var(--tinta)!important;text-align:left!important}
 #Testimonio-Header .list-group-item:has(.ml-content-heading)::before{content:"Lo legal, en claro";display:inline-flex;align-items:center;margin-bottom:12px;font:800 12px/1.3 var(--sans);letter-spacing:.17em;text-transform:uppercase;color:var(--morado);padding-left:16px;background:radial-gradient(circle at 3.5px 50%,var(--morado) 3.5px,transparent 4px)}
 #Testimonio-Header .list-group-item:has(.ml-content-heading)::after{content:"Lo mismo que aceptas al suscribirte, explicado sin letra pequeña.";display:block;margin-top:12px;font:18px/1.55 var(--sans);color:var(--gris)}
@@ -256,7 +263,6 @@ body,.ml-site,.ml-landing-page{background:var(--papel)!important}
 
 /* ---------- 113-124. Pie de MailerLite (gestionar la suscripcion, privacidad y redes) ---------- */
 #R5cV8xZ0tN2yH3uG{position:relative;background:radial-gradient(640px 320px at 90% 0%,rgba(167,139,212,.22),transparent 60%),linear-gradient(170deg,#2A1D3D,var(--noche) 70%)!important;color:#EDE6F7!important;margin-top:96px;border-radius:36px 36px 0 0}
-#R5cV8xZ0tN2yH3uG>div{max-width:1120px!important;padding-left:20px!important;padding-right:20px!important}
 #R5cV8xZ0tN2yH3uG .ml-column,#R5cV8xZ0tN2yH3uG .group\/card{background:transparent!important;border:0!important;box-shadow:none!important}
 #R5cV8xZ0tN2yH3uG :is(.ml-content-heading,h1,h2,h3,h4){font-family:var(--serif)!important;color:#fff!important}
 #R5cV8xZ0tN2yH3uG :is(.ml-p,p,span,li){font-family:var(--sans)!important;color:#D9CFEA!important}

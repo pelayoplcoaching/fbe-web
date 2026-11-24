@@ -32,7 +32,8 @@ TOP = f"""<style>{CSS}</style>
 <div class="fbe-mast"><span>Revisión de evidencia FBE</span><span>Un número al mes · el último viernes</span><span>0,99&nbsp;€ al mes</span></div>
 </div>"""
 
-HERO = f"""<div id="fbe-hero" class="fbe fbe-hero">
+HERO = f"""<style>.fbe-hero{{min-width:0}}</style>
+<div id="fbe-hero" class="fbe fbe-hero">
 <p class="fbe-kick">Para curiosos y profesionales</p>
 <h1 class="fbe-h1">Seis estudios del mes <em>y qué cambian en el gimnasio y en la&nbsp;consulta.</em></h1>
 <p class="fbe-lead">Leídos por un internista y resumidos en fichas de un minuto: qué hicieron, qué encontraron, cuánto fiarse y qué&nbsp;cambia.</p>
@@ -200,9 +201,8 @@ PIE_ML = """<div id="R5cV8xZ0tN2yH3uG" style="background-color:#E6D5FD"><div cla
 MOCK = f"""<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Maqueta</title>
 <style>*,*::before,*::after{{box-sizing:border-box}}body{{margin:0;font-family:Inter,Arial,sans-serif}}h1,h2,h3,h4,p{{margin:0}}.hidden{{display:none}}.grid{{display:grid}}.flex{{display:flex}}.flex-col{{flex-direction:column}}.max-w-6xl{{max-width:72rem}}.mx-auto{{margin-left:auto;margin-right:auto}}.px-4{{padding-left:1rem;padding-right:1rem}}@media(min-width:768px){{.max-w-6xl{{padding-left:2rem!important;padding-right:2rem!important}}}}.gap-12{{gap:3rem}}.gap-8{{gap:2rem}}.gap-x-16{{column-gap:4rem}}.border{{border-style:solid;border-width:1px}}.relative{{position:relative}}.w-full{{width:100%}}.ml-section-wrapper{{padding:48px 0}}.aspect-square{{aspect-ratio:1/1}}.object-cover{{object-fit:cover}}.items-center{{align-items:center}}.text-center{{text-align:center}}.mb-12{{margin-bottom:3rem}}.space-y-8>*+*{{margin-top:2rem}}.list-group-item{{padding:8px 0}}.collapse{{position:relative;display:grid;overflow:hidden}}.collapse>input{{position:absolute;opacity:0}}.collapse-title{{position:relative;padding:1rem}}.collapse-content{{display:none;padding:0 1rem 1rem}}.collapse>input:checked~.collapse-content{{display:block}}.collapse-arrow>.collapse-title::after{{position:absolute;content:"";width:.5rem;height:.5rem;right:1.4rem;top:1.9rem;transform:rotate(45deg);border-right:2px solid;border-bottom:2px solid}}.divide-y>*+*{{border-top:1px solid #ccc}}@media(max-width:767px){{.ml-mobile-cols-1{{grid-template-columns:1fr!important}}}}.ml-site h1,.ml-site h2,.ml-site h3,.ml-site h4{{font-family:Inter,Arial;color:#391853}}.ml-site p{{margin-bottom:.5em}}</style></head>
 <body><main class="ml-site"><div class="ml-landing-page">
-{seccion("Hero-with-menu", fila([[TOP]], cards=False) + fila([[HERO], [CAB, PRODUCTO, PIE]]))}
-{seccion("SeccionCuerpo", fila([[CUERPO]], cards=False))}
-{seccion("Testimonio-Header", fila([["", '<h2 class="ml-content-heading">Condiciones de la suscripción</h2>']], cards=False), "#EEEEEE")}
+{seccion("Hero-with-menu", fila([[TOP, HERO], [CAB, PRODUCTO, PIE]]))}
+{seccion("Testimonio-Header", fila([[CUERPO, "", '<h2 class="ml-content-heading">Condiciones de la suscripción</h2>']], cards=False), "#EEEEEE")}
 {seccion("One-column", fila([['<div class="flex w-full justify-center"><div class="w-full divide-y">' + ACORDEON + '</div></div>']], cards=False), "#EEEEEE")}
 </div>{PIE_ML}</main></body></html>"""
 open("salida/mock.html", "w", encoding="utf-8").write(MOCK)
