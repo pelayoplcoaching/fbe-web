@@ -271,6 +271,7 @@ body,.ml-site,.ml-landing-page{background:var(--papel)!important}
 
 /* ---------- 113-124. Pie de MailerLite (gestionar la suscripcion, privacidad y redes) ---------- */
 :is(#R5cV8xZ0tN2yH3uGqPwE,.ml-site>div[id]:not([class])){position:relative;background:radial-gradient(640px 320px at 90% 0%,rgba(167,139,212,.22),transparent 60%),linear-gradient(170deg,#2A1D3D,var(--noche) 70%)!important;color:#EDE6F7!important;margin-top:96px;border-radius:36px 36px 0 0}
+:is(#R5cV8xZ0tN2yH3uGqPwE,.ml-site>div[id]:not([class]))>div>div{padding-top:60px!important;padding-bottom:44px!important}
 :is(#R5cV8xZ0tN2yH3uGqPwE,.ml-site>div[id]:not([class])) .ml-column,:is(#R5cV8xZ0tN2yH3uGqPwE,.ml-site>div[id]:not([class])) .group\/card{background:transparent!important;border:0!important;box-shadow:none!important}
 :is(#R5cV8xZ0tN2yH3uGqPwE,.ml-site>div[id]:not([class])) :is(.ml-content-heading,h1,h2,h3,h4){font-family:var(--serif)!important;color:#fff!important}
 :is(#R5cV8xZ0tN2yH3uGqPwE,.ml-site>div[id]:not([class])) :is(.ml-p,p,span,li){font-family:var(--sans)!important;color:#D9CFEA!important}
