@@ -110,9 +110,13 @@ body,.ml-site,.ml-landing-page{background:var(--papel)!important}
 .fbe-pie .fbe-ya a{font-weight:700}
 
 /* ---------- 51-58. Cuerpo: contenedor y cifras ---------- */
-.ml-section-wrapper:has(#fbe-cuerpo) .group\/card,.ml-section-wrapper:has(#fbe-cuerpo) .ml-column{background:transparent!important;border:0!important;padding:0!important;box-shadow:none!important}
+.ml-section-wrapper:has(.fbe-cuerpo) .group\/card,.ml-section-wrapper:has(.fbe-cuerpo) .ml-column{background:transparent!important;border:0!important;padding:0!important;box-shadow:none!important}
 .fbe-cuerpo .fbe-sec{padding-top:88px}
-.fbe-cuerpo .fbe-sec:first-child{padding-top:40px}
+#fbe-cuerpo-1 .fbe-sec:first-child{padding-top:40px}
+.ml-section-wrapper:has(.fbe-cuerpo) .list-group{gap:0!important}
+.ml-section-wrapper:has(.fbe-cuerpo) .list-group-item:has(.fbe-cuerpo){padding:0!important;margin:0!important}
+/* la barra fija del movil se pega a toda la columna del cuerpo, no solo a su trozo */
+.list-group-item:has(.fbe-barra-movil),.list-group-item:has(.fbe-barra-movil)>div,.list-group-item:has(.fbe-barra-movil) .ml-code-html,.fbe-cuerpo:has(>.fbe-barra-movil){display:contents!important}
 .fbe-cuerpo .fbe-sec-cab{max-width:44em;margin-bottom:28px}
 .fbe-cuerpo .fbe-sec-cab>p:not(.fbe-kick){margin-top:12px;font-size:18px;color:var(--gris)}
 .fbe-cuerpo .fbe-cifras{display:grid;grid-template-columns:repeat(2,1fr);border-top:1px solid var(--linea);border-bottom:1px solid var(--linea)}

@@ -25,8 +25,11 @@ def css_min(c):
 
 
 CSS = css_min(open("estilo.css", encoding="utf-8").read())
+CSS_URL = WEB + "/revision/pago.css"
+open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "revision", "pago.css"), "w", encoding="utf-8").write(CSS + "\n")
+LIMITE = 4500  # bytes por bloque: MailerLite descarta sin avisar lo que pasa de unos 5.000 caracteres
 
-TOP = f"""<style>{CSS}</style>
+TOP = f"""<style>@import url({CSS_URL});body,.ml-site,.ml-landing-page,.ml-landing-page .ml-section-wrapper{{background:#F2EFE9!important}}</style>
 <div id="fbe-top" class="fbe fbe-top">
 <div class="fbe-barra"><a class="fbe-marca" href="{WEB}/"><img src="{WEB}/favicon.svg" width="38" height="38" alt=""><span>Fuerza Basada en Evidencia</span></a><a class="fbe-top-cta" href="#suscribirse">Suscribirme · <b>0,99&nbsp;€</b></a></div>
 <div class="fbe-mast"><span>Revisión de evidencia FBE</span><span>Un número al mes · el último viernes</span><span>0,99&nbsp;€ al mes</span></div>
@@ -159,10 +162,30 @@ CUERPO = f"""<div id="fbe-cuerpo" class="fbe fbe-cuerpo">
 <div class="fbe-barra-movil"><a class="fbe-btn" href="#suscribirse">Suscribirme · 0,99&nbsp;€ al mes</a></div>
 </div>"""
 
-BLOQUES = {"top": TOP, "hero": HERO, "cab": CAB, "pie": PIE, "cuerpo": CUERPO}
+def trocea(html):
+    interior = html[html.index(">") + 1:html.rindex("</div>")].strip()
+    partes = re.split(r"\n(?=<section |<div class=\"fbe-barra-movil)", interior)
+    trozos, actual = [], ""
+    for parte in partes:
+        if actual and len((actual + "\n" + parte).encode("utf-8")) > LIMITE - 80:
+            trozos.append(actual); actual = parte
+        else:
+            actual = (actual + "\n" + parte) if actual else parte
+    trozos.append(actual)
+    return [f'<div id="fbe-cuerpo-{i}" class="fbe fbe-cuerpo">\n{t}\n</div>' for i, t in enumerate(trozos, 1)]
+
+
+TROZOS = trocea(CUERPO)
+BLOQUES = {"top": TOP, "hero": HERO, "cab": CAB, "pie": PIE}
+BLOQUES.update({f"cuerpo-{i}": t for i, t in enumerate(TROZOS, 1)})
+for f in os.listdir("salida"):
+    if f.startswith("cuerpo"):
+        os.remove(os.path.join("salida", f))
 for k, v in BLOQUES.items():
     open(f"salida/{k}.html", "w", encoding="utf-8").write(v)
-    print(k, len(v.encode("utf-8")), "bytes")
+    n = len(v.encode("utf-8"))
+    print(k, n, "bytes", "<- DEMASIADO LARGO" if n > LIMITE else "")
+print("css", len(CSS.encode("utf-8")), "bytes en revision/pago.css")
 
 # ---- Maqueta local con la misma estructura que MailerLite (para capturas antes de pegarlo) ----
 def seccion(sid, filas, fondo="#fff"):
@@ -202,7 +225,7 @@ MOCK = f"""<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta name
 <style>*,*::before,*::after{{box-sizing:border-box}}body{{margin:0;font-family:Inter,Arial,sans-serif}}h1,h2,h3,h4,p{{margin:0}}.hidden{{display:none}}.grid{{display:grid}}.flex{{display:flex}}.flex-col{{flex-direction:column}}.max-w-6xl{{max-width:72rem}}.mx-auto{{margin-left:auto;margin-right:auto}}.px-4{{padding-left:1rem;padding-right:1rem}}@media(min-width:768px){{.max-w-6xl{{padding-left:2rem!important;padding-right:2rem!important}}}}.gap-12{{gap:3rem}}.gap-8{{gap:2rem}}.gap-x-16{{column-gap:4rem}}.border{{border-style:solid;border-width:1px}}.relative{{position:relative}}.w-full{{width:100%}}.ml-section-wrapper{{padding:48px 0}}.aspect-square{{aspect-ratio:1/1}}.object-cover{{object-fit:cover}}.items-center{{align-items:center}}.text-center{{text-align:center}}.mb-12{{margin-bottom:3rem}}.space-y-8>*+*{{margin-top:2rem}}.list-group-item{{padding:8px 0}}.collapse{{position:relative;display:grid;overflow:hidden}}.collapse>input{{position:absolute;opacity:0}}.collapse-title{{position:relative;padding:1rem}}.collapse-content{{display:none;padding:0 1rem 1rem}}.collapse>input:checked~.collapse-content{{display:block}}.collapse-arrow>.collapse-title::after{{position:absolute;content:"";width:.5rem;height:.5rem;right:1.4rem;top:1.9rem;transform:rotate(45deg);border-right:2px solid;border-bottom:2px solid}}.divide-y>*+*{{border-top:1px solid #ccc}}@media(max-width:767px){{.ml-mobile-cols-1{{grid-template-columns:1fr!important}}}}.ml-site h1,.ml-site h2,.ml-site h3,.ml-site h4{{font-family:Inter,Arial;color:#391853}}.ml-site p{{margin-bottom:.5em}}</style></head>
 <body><main class="ml-site"><div class="ml-landing-page">
 {seccion("Hero-with-menu", fila([[TOP, HERO], [CAB, PRODUCTO, PIE]]))}
-{seccion("Testimonio-Header", fila([[CUERPO, "", '<h2 class="ml-content-heading">Condiciones de la suscripción</h2>']], cards=False), "#EEEEEE")}
+{seccion("Testimonio-Header", fila([TROZOS + ["", '<h2 class="ml-content-heading">Condiciones de la suscripción</h2>']], cards=False), "#EEEEEE")}
 {seccion("One-column", fila([['<div class="flex w-full justify-center"><div class="w-full divide-y">' + ACORDEON + '</div></div>']], cards=False), "#EEEEEE")}
 </div>{PIE_ML}</main></body></html>"""
 open("salida/mock.html", "w", encoding="utf-8").write(MOCK)
