@@ -326,6 +326,11 @@ open(f'{SAL}/gracias.html', 'w', encoding='utf-8').write(f"""{cabeza('gracias.ht
 # Direcciones de la web vieja de MailerLite que cambian de nombre: paginas que redirigen al momento (/programas y /puesta-a-punto ya coinciden)
 for _vieja, _nueva in [('faq', 'dudas.html'), ('newsletter-semanal', 'newsletter.html'), ('programas-copy', 'guias.html'), ('quien_soy', 'quien-soy.html')]:
     open(f'{SAL}/{_vieja}.html', 'w', encoding='utf-8').write(f'<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="robots" content="noindex"><title>Fuerza Basada en Evidencia</title><link rel="canonical" href="{WEB}{_nueva}"><meta http-equiv="refresh" content="0; url={_nueva}"><script>location.replace("{_nueva}" + location.search + location.hash)</script></head><body><p><a href="{_nueva}">Esta página ha cambiado de sitio. Sigue aquí.</a></p></body></html>')
+# Direcciones cortas para los QR y para decir en los vídeos (24/11/2026): /nivel y /dosdias llevan a su landing con la marca de origen (utm) para el contador de visitas.
+CORTAS = {'nivel': ('guia-fuerza-segun-nivel/', 'fuerza-segun-nivel'), 'dosdias': ('guia-dos-dias/', 'dos-dias')}
+for _c, (_dest, _camp) in CORTAS.items():
+    _u = f'{_dest}?utm_source=youtube&amp;utm_medium=qr&amp;utm_campaign={_camp}'
+    open(f'{SAL}/{_c}.html', 'w', encoding='utf-8').write(f'<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="robots" content="noindex"><title>Fuerza Basada en Evidencia</title><link rel="canonical" href="{WEB}{_dest}"><meta http-equiv="refresh" content="0; url={_u}"><script>location.replace("{_u.replace("&amp;", "&")}")</script></head><body><p><a href="{_u}">Ir a la guía</a></p></body></html>')
 # Gracias del boletin: a esta pagina redirige el formulario de MailerLite «Boletín · Newsletter (web)». Siempre noindex y fuera del sitemap.
 open(f'{SAL}/gracias-boletin.html', 'w', encoding='utf-8').write(f"""{cabeza('gracias-boletin.html', 'Ya estás dentro', 'Gracias por apuntarte al boletín de Fuerza Basada en Evidencia.', '<meta name="robots" content="noindex">')}
 {cabecera()}
