@@ -584,7 +584,20 @@ print({f: os.path.getsize(f'{SAL}/{f}') // 1024 for f in sorted(os.listdir(SAL))
 # Letra Archivo servida desde la propia web (sin Google Fonts)
 shutil.copy('ext/archivo.woff2', f'{SAL}/img/archivo.woff2')
 import glob, re as _re
-_FF = '<link rel="preload" href="img/archivo.woff2" as="font" type="font/woff2" crossorigin><style>@font-face{font-family:"Archivo";src:url(img/archivo.woff2) format("woff2");font-weight:400 800;font-stretch:75% 125%;font-display:swap}</style>'
+# Letra de reserva ajustada (24/11/2026): mientras llega Archivo se usa Arial (o Liberation Sans, igual de ancha) o, en Android, Roboto,
+# agrandada o achicada para que ocupe lo mismo que Archivo y el texto no salte al cambiar. Medidas con fontTools sobre el texto de la web:
+# cuerpo (peso 400, anchura 100), negrita (700, 100), texto ancho (600, 118) y titulares (760, 120).
+def _fb(fam, reg, neg, medidas):
+    out = ''
+    for (pesos, anchos), (src, (sa, asc, des)) in zip([('100 600', '50% 110%'), ('601 1000', '50% 110%'), ('100 600', '111% 200%'), ('601 1000', '111% 200%')],
+                                                      [(reg, medidas[0]), (neg, medidas[1]), (reg, medidas[2]), (neg, medidas[3])]):
+        out += f'@font-face{{font-family:"{fam}";src:{src};font-weight:{pesos};font-stretch:{anchos};size-adjust:{sa}%;ascent-override:{asc}%;descent-override:{des}%;line-gap-override:0%}}'
+    return out
+_FB = (_fb('Archivo fb', 'local("Arial"),local("ArialMT"),local("Liberation Sans"),local("LiberationSans")', 'local("Arial Bold"),local("Arial-BoldMT"),local("Liberation Sans Bold"),local("LiberationSans-Bold")',
+           [(98.1, 89.5, 21.4), (98.2, 89.4, 21.4), (122.6, 71.6, 17.1), (121.9, 72, 17.2)]) +
+       _fb('Archivo fb2', 'local("Roboto"),local("Roboto-Regular")', 'local("Roboto Bold"),local("Roboto-Bold")',
+           [(99.0, 88.7, 21.2), (104.4, 84.1, 20.1), (123.8, 70.9, 17.0), (129.5, 67.8, 16.2)]))
+_FF = '<link rel="preload" href="img/archivo.woff2" as="font" type="font/woff2" crossorigin><style>@font-face{font-family:"Archivo";src:url(img/archivo.woff2) format("woff2");font-weight:400 800;font-stretch:75% 125%;font-display:swap}' + _FB + '</style>'
 for _f in glob.glob(f'{SAL}/*.html'):
     _t = open(_f, encoding='utf-8').read()
     _n = _re.sub(r'(<link rel="preconnect" href="https://fonts\.gstatic\.com" crossorigin>)?<link rel="stylesheet" href="https://fonts\.googleapis\.com/css2\?family=Archivo[^"]*">', _FF, _t)
@@ -712,6 +725,8 @@ _c2 = _re.sub(r'\s*\n\s*', ' ', _c2)
 _c2 = _re.sub(r'\s*([{};])\s*', r'\1', _c2)
 _c2 = _c2.replace(';}', '}')
 _c2 = _re.sub(r'([{;][\w-]+):\s+', r'\1:', _c2)
+# la letra de reserva ajustada va detras de Archivo en todas las pilas de letra (ver _FB)
+_c2 = _re.sub(r'Archivo,\s*(?!"Archivo fb)', 'Archivo,"Archivo fb","Archivo fb2",', _c2)
 open(f'{SAL}/fbe.css', 'w', encoding='utf-8').write(_c2)
 # Versión en la dirección de la hoja de estilos y del guion (22/11/2026): el service worker guarda fbe.css y fbe.js y los
 # sirve de la caché; sin esto, quien ya tenía la web guardada veía la página nueva con el estilo viejo hasta recargar.
