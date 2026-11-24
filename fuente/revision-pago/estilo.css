@@ -281,7 +281,8 @@ body,.ml-site,.ml-landing-page{background:var(--papel)!important}
 :is(#R5cV8xZ0tN2yH3uGqPwE,.ml-site>div[id]:not([class])) .ml-btn:hover{background:var(--lila)!important;transform:translateY(-1px)}
 :is(#R5cV8xZ0tN2yH3uGqPwE,.ml-site>div[id]:not([class])) .ml-btn :is(p,span){color:var(--profundo)!important}
 :is(#R5cV8xZ0tN2yH3uGqPwE,.ml-site>div[id]:not([class])) hr,:is(#R5cV8xZ0tN2yH3uGqPwE,.ml-site>div[id]:not([class])) [class*="border"]{border-color:rgba(230,213,253,.18)!important}
-:is(#R5cV8xZ0tN2yH3uGqPwE,.ml-site>div[id]:not([class])) img{filter:none}
+:is(#R5cV8xZ0tN2yH3uGqPwE,.ml-site>div[id]:not([class])) a img{filter:invert(1);border-radius:6px;transition:transform .15s ease,opacity .15s ease}
+:is(#R5cV8xZ0tN2yH3uGqPwE,.ml-site>div[id]:not([class])) a:hover img{transform:translateY(-2px)}
 :is(#R5cV8xZ0tN2yH3uGqPwE,.ml-site>div[id]:not([class])) :is(svg,svg *){fill:currentColor}
 :is(#R5cV8xZ0tN2yH3uGqPwE,.ml-site>div[id]:not([class])) a:has(svg),:is(#R5cV8xZ0tN2yH3uGqPwE,.ml-site>div[id]:not([class])) a:has(img){color:#fff!important;opacity:.85;transition:opacity .15s ease}
 :is(#R5cV8xZ0tN2yH3uGqPwE,.ml-site>div[id]:not([class])) a:has(svg):hover,:is(#R5cV8xZ0tN2yH3uGqPwE,.ml-site>div[id]:not([class])) a:has(img):hover{opacity:1}
