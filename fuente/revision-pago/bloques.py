@@ -102,7 +102,7 @@ CUERPO = f"""<div id="fbe-cuerpo" class="fbe fbe-cuerpo">
 <figure class="fbe-capturas fbe-sube"><img class="fbe-cap-ficha" src="{IMG}/ficha.webp" width="760" height="1381" loading="lazy" alt="Captura de la ficha 01 del número 0: tirzepatida y fuerza, con su ficha técnica y la cifra de 1,1 kg menos de masa magra perdida"><img class="fbe-cap-efecto" src="{IMG}/efecto.webp" width="720" height="618" loading="lazy" alt="Captura de un gráfico del efecto: 3,1 puntos de mejora, con un intervalo de 1,7 a 4,5 y el umbral clínico en 3"><figcaption>Ficha 01 y gráfico del efecto de la ficha 02, del número 0</figcaption></figure></div>
 </section>
 <section class="fbe-sec">
-<div class="fbe-sec-cab fbe-sube"><p class="fbe-kick">Un número de ejemplo</p><h2 class="fbe-h2">El número 0, en un minuto</h2><p>Seis estudios: cuatro ensayos aleatorizados y dos metaanálisis.</p></div>
+<div class="fbe-sec-cab fbe-sube"><p class="fbe-kick">Un número de ejemplo</p><h2 class="fbe-h2">El número <span class="fbe-num">0</span>, en un minuto</h2><p>Seis estudios: cuatro ensayos aleatorizados y dos metaanálisis.</p></div>
 <ol class="fbe-n0">{N0_HTML}</ol>
 <blockquote class="fbe-cita fbe-sube"><p>Este número tiene un hilo: el ejercicio empieza a tratarse como parte del tratamiento, no como un consejo al final de la consulta.</p><p class="fbe-cita-pie">Del número 0</p></blockquote>
 </section>
