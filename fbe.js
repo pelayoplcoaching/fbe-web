@@ -156,6 +156,18 @@
   });
   document.addEventListener('click', function (e) { gs.forEach(function (g) { if (!g.contains(e.target)) cierra(g); }); });
 })();
+/* Saltos a un ancla (#dudas, #como...): antes de desplazarse, pinta todas las secciones diferidas (content-visibility),
+   para que el destino no se mueva mientras se van pintando las de en medio (24/11/2026) */
+(function () {
+  var R = document.documentElement;
+  function todo() { if (!R.classList.contains('cv-todo')) { R.classList.add('cv-todo'); void R.offsetHeight; } }
+  if (location.hash && location.hash.length > 1) todo();
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href*="#"]');
+    if (a && a.hash && a.hash.length > 1 && a.pathname === location.pathname) todo();
+  }, true);
+  addEventListener('hashchange', todo);
+})();
 
 /* app.js (22/11/2026): la web como app. Historial, favoritos, Mis datos, logros, avisos, acciones rapidas y modo instalada.
    Todo se guarda en este dispositivo (localStorage fbe-visto, fbe-favoritos, fbe-perfil, fbe-logros, fbe-vistas). */

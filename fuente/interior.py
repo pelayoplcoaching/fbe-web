@@ -454,7 +454,9 @@ if os.environ.get('FBE_CORREO'):
 <h2>Cuánto tiempo los conservamos</h2>
 <p>Al tratarse de un servicio prestado por un médico, la documentación clínica (analíticas, historial y prescripción) se conserva durante un mínimo de 5 años desde la finalización del servicio, conforme a la Ley 41/2002 de autonomía del paciente. Los datos de facturación se conservan durante los plazos exigidos por la normativa fiscal. El resto de datos se eliminan cuando dejan de ser necesarios o cuando lo solicitas.</p>
 <h2>Con quién compartimos tus datos</h2>
-<p>No compartimos tus datos con terceros con fines comerciales. Trabajamos únicamente con proveedores tecnológicos que actúan como encargados del tratamiento y cumplen el RGPD (como MailerLite para email, GitHub para alojar esta web, Netlify para recibir el formulario de contacto, Notion para gestionar las solicitudes, Calendly para reservas y Stripe para pagos). Algunos de estos proveedores pueden alojar datos fuera del Espacio Económico Europeo; en esos casos, el tratamiento se ampara en garantías adecuadas como las cláusulas contractuales tipo aprobadas por la Comisión Europea.</p>
+<p>No compartimos tus datos con terceros con fines comerciales. Trabajamos únicamente con proveedores tecnológicos que actúan como encargados del tratamiento y cumplen el RGPD (como MailerLite para email, GitHub para alojar esta web, Netlify para recibir el formulario de contacto, Notion para gestionar las solicitudes, Calendly para reservas, Stripe para pagos y Umami para contar visitas). Algunos de estos proveedores pueden alojar datos fuera del Espacio Económico Europeo; en esos casos, el tratamiento se ampara en garantías adecuadas como las cláusulas contractuales tipo aprobadas por la Comisión Europea.</p>
+<h2>Estadísticas de visitas</h2>
+<p>Para saber cuántas personas visitan cada página y desde dónde llegan, esta web usa Umami, un contador de visitas que no usa cookies ni guarda nada en tu dispositivo. No recoge tu nombre ni tu email, no guarda tu dirección IP (solo la usa para saber el país) y no te sigue de una web a otra. Cuenta las páginas vistas, la web desde la que llegas, el tipo de dispositivo y de navegador, el país y algunos clics, como los de «Pedir plaza». Si tu navegador pide no ser rastreado, no cuenta tu visita. Lo que escribes en las calculadoras no se envía nunca: se queda en tu navegador.</p>
 <h2>Tus derechos</h2>
 <p>Puedes ejercer en cualquier momento tus derechos de acceso, rectificación, supresión, oposición, limitación del tratamiento y portabilidad, así como retirar tu consentimiento, escribiendo a {CM}. También tienes derecho a presentar una reclamación ante la Agencia Española de Protección de Datos (<a href="https://www.aepd.es">aepd.es</a>) si consideras que el tratamiento no se ajusta a la normativa.</p>
 <h2>Seguridad</h2>
@@ -561,6 +563,7 @@ exec(open('evolucion.py', encoding='utf-8').read())  # «Mi evolución» (gráfi
 exec(open('extras2.py', encoding='utf-8').read())  # test de mitos, plan semanal con calendario, datos estructurados e imagen para compartir de cada página (21/11/2026)
 exec(open('datos.py', encoding='utf-8').read())  # datos para buscadores que faltaban: organización, perfil, mitos (ClaimReview), herramientas y recetas (21/11/2026, noche)
 exec(open('app.py', encoding='utf-8').read())  # la web como app (2): pestañas, vídeos enlazados, «Esta semana», rutas con progreso, acciones del buscador, manifiesto y service worker (22/11/2026)
+exec(open('articulos.py', encoding='utf-8').read())  # boletines como artículos de la web (24/11/2026)
 open(f'{SAL}/sitemap.xml', 'w', encoding='utf-8').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join(f'  <url><loc>{WEB}{u}</loc></url>\n' for u in [''] + [u for u, _ in PAGS] + ['pauta-activa.html', 'test-silla.html', 'calculadora-1rm.html', 'volumen-semanal.html', 'cafeina.html', 'revision-medica.html', 'zonas-pulso.html', 'semaforo-dolor.html', 'test-sppb.html', 'paron.html', 'suplementos.html'] + SEC_PAGS + (['privacidad.html'] if os.environ.get('FBE_CORREO') else [])) + '</urlset>\n')
 open(f'{SAL}/robots.txt', 'w', encoding='utf-8').write(f'User-agent: *\nAllow: /\nSitemap: {WEB}sitemap.xml\n')
 p = open(f'{SAL}/index.html', encoding='utf-8').read()
@@ -609,6 +612,22 @@ for _f in glob.glob(f'{SAL}/*.html'):
     _t = open(_f, encoding='utf-8').read()
     if 'speculationrules' not in _t and '</head>' in _t:
         open(_f, 'w', encoding='utf-8').write(_t.replace('</head>', _PRE + '</head>', 1))
+# Contador de visitas sin cookies (Umami Cloud, 24/11/2026; Website ID que dio Pelayo). Solo cuenta en el dominio
+# (data-domains: las pruebas en local no cuentan) y respeta «no rastrear». Clics que cuenta: Pedir plaza (con la pagina
+# desde la que se pulsa), comprar la Puesta a punto y apuntarse al boletin. No va en las paginas de desvio.
+UMAMI = '<script defer src="https://cloud.umami.is/script.js" data-website-id="afbc92fb-0c36-4ef4-aff9-def6810b8f79" data-domains="fuerzabasadaenevidencia.com" data-do-not-track="true"></script>'
+_SIN_UMAMI = {'faq.html', 'newsletter-semanal.html', 'programas-copy.html', 'quien_soy.html'} | {f'{c}.html' for c in CORTAS}
+for _f in glob.glob(f'{SAL}/*.html'):
+    _b = os.path.basename(_f)
+    if _b in _SIN_UMAMI or _b.startswith('google'): continue
+    _t = open(_f, encoding='utf-8').read()
+    if 'cloud.umami.is' in _t or '</head>' not in _t: continue
+    _p = _b[:-5]
+    _n = _t.replace('</head>', UMAMI + '</head>', 1)
+    _n = _re.sub(r'<a href="pedir-plaza\.html"(?![^>]*data-umami-event)', f'<a href="pedir-plaza.html" data-umami-event="Pedir plaza" data-umami-event-desde="{_p}"', _n)
+    _n = _re.sub(r'<a href="(https://buy\.stripe\.com/[^"]*)"(?![^>]*data-umami-event)', r'<a href="\1" data-umami-event="Comprar Puesta a punto"', _n)
+    _n = _re.sub(r'<a href="newsletter\.html#alta"(?![^>]*data-umami-event)', f'<a href="newsletter.html#alta" data-umami-event="Quiero el boletín" data-umami-event-desde="{_p}"', _n)
+    open(_f, 'w', encoding='utf-8').write(_n)
 # Enlace a la propia pagina marcado como actual (pie y menu), para que se vea donde estas
 for _f in glob.glob(f'{SAL}/*.html'):
     _b = os.path.basename(_f)
@@ -647,6 +666,17 @@ def _zonas(t, portada):
         t = _re.sub(r'(<div class="tel atras"[^>]*>(?:(?!<img).)*?<img)\b(?![^>]*loading=)', r'\1 loading="lazy"', t, count=1, flags=_re.S)
     if portada:  # paneles de la galeria de la app: el papel de panel va en un envoltorio, no en la imagen
         t = _re.sub(r'<img ([^>]*?)id="p(\d+)" role="tabpanel" aria-labelledby="t\2" (hidden )?([^>]*)>', lambda m: f'<div id="p{m.group(2)}" role="tabpanel" aria-labelledby="t{m.group(2)}" tabindex="0"{" hidden" if m.group(3) else ""}><img {m.group(1)}{m.group(4)}></div>', t)
+    if portada:  # secciones de la portada bajo el pliegue: se pintan al acercarse (content-visibility), menos trabajo al cargar (24/11/2026)
+        _o, _d, _k, _u = [], 0, 0, 0
+        for _m in _re.finditer(r'<(/?)section\b([^>]*)>', t):
+            _o.append(t[_u:_m.start()]); _u = _m.end(); _a = _m.group(2)
+            if _m.group(1): _d -= 1; _o.append(_m.group(0)); continue
+            if _d == 0:
+                if _k >= 2 and 'lenta' not in _a and 'cierre' not in _a:
+                    _a = _re.sub(r'class="', 'class="lenta ', _a, count=1) if 'class="' in _a else _a + ' class="lenta"'
+                _k += 1
+            _d += 1; _o.append(f'<section{_a}>')
+        _o.append(t[_u:]); t = ''.join(_o)
     if portada and '<main' not in t:
         k = t.find('<div class="franja">'); f = t.find('<footer')
         if 0 < k < f: t = t[:k] + '<main id="contenido">' + t[k:f] + '</main>\n' + t[f:]

@@ -119,6 +119,11 @@ _ES = [('esperar-semana1', 'la técnica por delante.</p></li>'), ('esperar-mes1'
 if all(os.path.exists(f'web-img/{n}.webp') for n, _ in _ES):
     for n, fin in _ES:
         cam(fin, fin.replace('</p></li>', '</p>' + _img_w(n, 'espera-img') + '</li>'))
+# Bloque W14 (24/11/2026): imagen de cada receta del carrusel «Del recetario, a tu día» (solo si están las diez)
+_RC = json.load(open('ext/recetas.json', encoding='utf-8'))
+if all(os.path.exists(f"web-img/receta-{r['libro']['codigo'].replace('.', '-')}.webp") for r in _RC):
+    for r in _RC:
+        cam(f'<article class="rc" data-p="{r["proteina_g"]}" data-k="{r["kcal"]}"><small>', f'<article class="rc con-img" data-p="{r["proteina_g"]}" data-k="{r["kcal"]}">' + _img_w(f"receta-{r['libro']['codigo'].replace('.', '-')}", 'rc-img', r['nombre']) + '<small>')
 cam('<title>Web FBE Equipo</title>', '<title>Sitio FBE</title>')
 h += '<script>' + open('luz.js', encoding='utf-8').read() + '\n' + open('app.js', encoding='utf-8').read() + '</script>'
 cam('</style>\n<script>document.documentElement', open('sitio.css', encoding='utf-8').read() + open('futuro.css', encoding='utf-8').read() + open('app.css', encoding='utf-8').read() + open('bella.css', encoding='utf-8').read() + '</style>\n<script>document.documentElement')

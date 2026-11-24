@@ -218,7 +218,7 @@ pagina('ayuda.html', 'Cómo usar la app', 'Cómo instalar Fuerza Basada en Evide
   <li><b>Lo demás:</b> las páginas que ya has abierto se quedan guardadas y se pueden releer sin red.</li></ul>
 </div></section>
 <section id="datos"><div class="in"><div class="entrada sube"><h2>Tus datos son tuyos</h2><p>Resultados, favoritos, Mis datos, tu semana, tus tomas de tensión: todo se guarda solo en el navegador de este dispositivo.</p></div>
-  <ul class="ay-lista sube"><li><b>No se envía nada.</b> Las herramientas calculan en tu dispositivo y la web no usa analítica de visitas.</li>
+  <ul class="ay-lista sube"><li><b>No se envía nada de lo que escribes.</b> Las herramientas calculan en tu dispositivo. La web solo cuenta visitas, sin cookies ni datos que te identifiquen (lo explico en <a href="privacidad.html#estadisticas-de-visitas">Privacidad</a>).</li>
   <li><b>Solo sale lo que tú mandas:</b> el formulario de «Pedir plaza» y el alta en el boletín. Y si pulsas un vídeo, lo sirve YouTube.</li>
   <li><b>Si borras los datos del navegador</b> o cambias de móvil, lo guardado no viaja contigo. Para eso está la copia.</li></ul>
   <div class="ay-copia sube"><h3>Copia de seguridad</h3><p id="ay-n"></p>

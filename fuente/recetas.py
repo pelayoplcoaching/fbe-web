@@ -13,12 +13,16 @@ def _rec_k(t): return _norm(t).replace(' ', '-')
 def _rec_taper(b):
     m = re.match(r'S[ií]\s*\((.*)\)', b or '')
     return m.group(1) if m else ('' if (b or 'No').startswith('No') else b)
+# Imagen de cada receta (bloque W14, 24/11/2026): web-img/receta-<código con guiones>.webp; solo sale si están las diez.
+def _rec_n(r): return 'receta-' + r['libro']['codigo'].replace('.', '-')
+REC_IMG_OK = _todas(*[_rec_n(r) for r in REC])
 def _rec_tarj(r):
     L = r['libro']; tp = _rec_taper(L.get('batch')); ks = [_rec_k(e) for e in r['etiquetas']] + (['taper'] if tp else [])
     pk = r['proteina_g'] / r['kcal'] * 100
     et = ''.join(f'<li>{e}</li>' for e in r['etiquetas'])
     x = f'<span>{fmt_es(pk, 1)} g de proteína por 100 kcal</span><span>{L["dificultad"]}</span>' + (f'<span>Para táper: {tp}</span>' if tp else '')
-    return (f'<article class="rec sube" id="r-{L["codigo"].replace(".", "-")}" data-c="{L["codigo"]}" data-t="{" ".join(ks)}" data-p="{r["proteina_g"]}" data-k="{r["kcal"]}" data-m="{r["minutos"]}">'
+    img = ilus(_rec_n(r), 'rec-img').replace('alt=""', f'alt="{r["nombre"]}"', 1) if REC_IMG_OK else ''
+    return (f'<article class="rec sube{" con-img" if img else ""}" id="r-{L["codigo"].replace(".", "-")}" data-c="{L["codigo"]}" data-t="{" ".join(ks)}" data-p="{r["proteina_g"]}" data-k="{r["kcal"]}" data-m="{r["minutos"]}">{img}'
             f'<p class="rec-cap">{L["capitulo"]} · {L["bloque"]}</p><h3>{r["nombre"]}</h3><p class="rec-d">{L["descripcion"]}</p><ul class="rec-et">{et}</ul>'
             f'<div class="mc"><div><b>{r["kcal"]}</b><span>kcal</span></div><div><b>{round(r["proteina_g"])} g</b><span>proteína</span></div><div><b>{r["minutos"]}</b><span>min</span></div></div>'
             f'<p class="rec-x">{x}</p>' + (f'<p class="rec-tr"><b>Truco</b>{L["nota"]}</p>' if L.get('nota') else '') +

@@ -3,7 +3,7 @@ await servir((process.env.FBE_SAL || '..'), 4196);
 const b = await chromium.launch();
 const pags = ['index', 'quien-soy', 'programas', 'puesta-a-punto', 'guias', 'newsletter', 'dudas', '404'];
 for (const [w, h, pre] of [[1280, 900, 'x'], [390, 800, 'y']]) {
-  const p = await b.newPage({ viewport: { width: w, height: h }, reducedMotion: 'reduce' }); const errs = []; p.on('pageerror', (e) => errs.push(e.message)); p.on('requestfailed', (r) => { if (!/fonts|mlcdn|mailerlite/.test(r.url())) errs.push('falla ' + r.url().slice(-40)); });
+  const p = await b.newPage({ viewport: { width: w, height: h }, reducedMotion: 'reduce' }); const errs = []; p.on('pageerror', (e) => errs.push(e.message)); p.on('requestfailed', (r) => { if (!/fonts|mlcdn|mailerlite|umami\.is/.test(r.url())) errs.push('falla ' + r.url().slice(-40)); });
   for (const n of pags) {
     await p.goto(`http://localhost:4196/${n}.html`); await p.waitForTimeout(700);
     const H = await p.evaluate(() => document.documentElement.scrollHeight);

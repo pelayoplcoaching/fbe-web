@@ -11,7 +11,7 @@ for (const f of [...herr, 'mitos.html', 'glosario.html']) {
   if (i < 0) { ok(false, f + ': sin bloque del boletín'); continue; }
   const seg = h.slice(i, h.indexOf('</section>', i));
   const ls = [...seg.matchAll(/<li><a class="bol-cta-a" href="([^"]+)"/g)].map(m => m[1]);
-  const bien = seg.includes('href="newsletter.html#alta"') && ls.length === 3 && ls.every(u => bol.includes(u)) && seg.includes('Te das de baja cuando quieras.');
+  const bien = seg.includes('href="newsletter.html#alta"') && ls.length === 3 && ls.every(u => bol.includes(u) || (/^boletin-[a-z0-9-]+\.html$/.test(u) && fs.existsSync(RAIZ + '/' + u))) && seg.includes('Te das de baja cuando quieras.');
   if (!bien) ok(false, f + ': bloque incompleto (' + ls.length + ' envíos)');
   if (herr.includes(f) && h.indexOf('bol-cta-s') > h.indexOf('¿Y si además quieres un plan hecho por un médico?')) ok(false, f + ': el boletín debería ir antes de la Puesta a punto');
 }

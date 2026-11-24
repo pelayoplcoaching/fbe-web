@@ -731,3 +731,60 @@ html.contraste .tray-g, html.contraste .coleg { box-shadow: none; background: va
 .correo .leer { margin: .9rem 0 0; }
 .correo .leer a { font-weight: 650; color: var(--acento); text-underline-offset: .2em; }
 .correo .leer a::after { content: " \2197"; }
+
+/* ===== RECETAS CON IMAGEN (bloque W14, 24/11/2026): la imagen de cada receta arriba de su tarjeta,
+   a sangre hasta el borde, en la pagina Recetas (.rec) y en el carrusel de la portada (.rc) ===== */
+.rec-img, .rc-img { display: block; max-width: none; height: auto; aspect-ratio: 16 / 9; object-fit: cover; background: var(--noche); }
+.rec-img { width: calc(100% + 2.3rem); margin: -1.15rem -1.15rem .35rem; border-radius: calc(1.3rem - 1px) calc(1.3rem - 1px) 0 0; }
+.rc-img { width: calc(100% + 2.4rem); margin: -1.2rem -1.2rem .3rem; border-radius: calc(1.4rem - 2px) calc(1.4rem - 2px) 0 0; }
+.rc.con-img { grid-template-rows: auto auto auto 1fr auto auto; }
+.rec.con-img .rec-cap { padding-right: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .rec-img, .rc-img { transition: filter .3s ease; }
+  .rec:hover .rec-img, .rc:hover .rc-img { filter: saturate(1.12) brightness(1.04); }
+}
+html.quieto .rec-img, html.quieto .rc-img { transition: none; }
+@media print { .rec-img, .rc-img { display: none; } }
+
+/* ===== ARTICULOS DEL BOLETIN (24/11/2026): boletin-<slug>.html, el texto del boletin como articulo ===== */
+.art-in { display: grid; grid-template-columns: minmax(0, 44rem) minmax(0, 18rem); gap: clamp(1.5rem, 4vw, 3.5rem); align-items: start; justify-content: center; }
+.art { font-size: 1.1rem; line-height: 1.7; }
+.art p { margin: 0; }
+.art h2 { margin: 1.6rem 0 0; }
+.art a { color: var(--acento); text-underline-offset: .18em; }
+.art-cita { margin: .6rem 0; padding: 1.1rem 1.3rem; border-left: 3px solid var(--marca); border-radius: 0 1rem 1rem 0; background: color-mix(in srgb, var(--marca) 9%, var(--sup)); }
+.art-cita p { margin: 0; color: var(--tinta); font-weight: 650; font-size: 1.12rem; line-height: 1.5; font-stretch: 112%; }
+.art-lista { margin: 0; padding: 0; list-style: none; counter-reset: al; display: grid; gap: 1rem; }
+.art-lista li { counter-increment: al; position: relative; padding: 1rem 1.1rem 1rem 3.4rem; border: 1px solid var(--linea); border-radius: 1rem; background: var(--sup); color: var(--tinta-2); }
+.art-lista li::before { content: counter(al); position: absolute; left: 1rem; top: 1rem; width: 1.7rem; height: 1.7rem; border-radius: 50%; display: grid; place-items: center; font: 700 .85rem/1 var(--mono); color: #fff; background: var(--marca); }
+.art-orig { margin-top: 1rem !important; padding-top: 1rem; border-top: 1px solid var(--linea); font-size: .9rem; color: var(--tinta-2); }
+.art-lado { position: sticky; top: 5.5rem; display: grid; gap: 1rem; }
+.art-vid { display: grid; grid-template-columns: auto 1fr; gap: .8rem; align-items: center; padding: .9rem 1rem; border: 1px solid var(--linea); border-radius: 1rem; background: var(--sup); color: var(--tinta); text-decoration: none; }
+.art-vid small { display: block; font: 600 .72rem/1.3 var(--mono); letter-spacing: .04em; color: var(--tinta-2); margin-bottom: .2rem; }
+.art-vid b { font-size: .95rem; line-height: 1.3; }
+.art-vid-i { width: 2.6rem; height: 2.6rem; border-radius: 50%; display: grid; place-items: center; background: var(--marca); color: #fff; }
+.art-vid-i svg { width: 1.1rem; height: 1.1rem; fill: currentColor; }
+.art-rel { padding: 1rem 1.1rem; border: 1px solid var(--linea); border-radius: 1rem; background: var(--sup); }
+.art-rel-t { margin: 0 0 .5rem; font: 700 .75rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--acento); }
+.art-rel ul { margin: 0; padding: 0; list-style: none; display: grid; gap: .45rem; }
+.art-rel a { color: var(--tinta); font-weight: 600; font-size: .95rem; text-decoration: none; }
+.art-rel a:hover { color: var(--acento); text-decoration: underline; }
+.art-mas { margin: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .art-vid { transition: border-color .2s, transform .2s; }
+  .art-vid:hover { border-color: var(--marca); transform: translateY(-2px); }
+}
+html.quieto .art-vid { transition: none; transform: none; }
+@media (max-width: 900px) {
+  .art-in { grid-template-columns: minmax(0, 1fr); }
+  .art-lado { position: static; }
+}
+@media print { .art-lado { display: none; } .art-in { display: block; } }
+/* Articulos: puntos y subtitulos */
+.art .art-puntos { margin: 0; padding: 0; list-style: none; display: grid; gap: .45rem; }
+.art .art-puntos li { position: relative; padding-left: 1.4rem; color: var(--tinta-2); }
+.art .art-puntos li::before { content: ""; position: absolute; left: .2rem; top: .62em; width: .5rem; height: .5rem; border-radius: 2px; background: var(--marca); transform: rotate(45deg); }
+.art h3 { margin: 1.6rem 0 .2rem; font-size: 1.15rem; color: var(--tinta); }
+[data-theme="dark"] .art .art-puntos li::before { background: var(--marca-clara); }
+/* Al saltar a un ancla se pintan todas las secciones diferidas (luz.js), para que el destino no se mueva */
+html.cv-todo section.lenta { content-visibility: visible; }

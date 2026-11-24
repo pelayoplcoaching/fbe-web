@@ -10,7 +10,7 @@ for (const f of con) {
   const h = fs.readFileSync(RAIZ + '/' + f, 'utf8'); const fi = h.match(/<p class="firma">[\s\S]*?<\/p>/)[0];
   const t = fi.match(/<time datetime="(\d{4}-\d{2}-\d{2})"/);
   const ld = [...h.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(m => JSON.parse(m[1]));
-  const wp = ld.find(x => x['@type'] === 'WebPage');
+  const wp = ld.find(x => x['@type'] === 'WebPage' || x['@type'] === 'BlogPosting');  // los artículos del boletín llevan BlogPosting
   const bien = t && wp && wp.dateModified === t[1] && wp.author && wp.author.name === 'Pelayo Fernández Cidón' && fi.includes('href="quien-soy.html"') && !/revisado por/i.test(fi);
   if (!bien) ok(false, f + ': firma o datos de autor incompletos');
   if (fi.includes('firma-c')) { const a = fi.match(/class="firma-c" href="(#[^"]+)"/)[1]; if (!h.includes(`id="${a.slice(1)}"`)) ok(false, `${f}: «Fuentes comprobadas» apunta a ${a}, que no existe`); }

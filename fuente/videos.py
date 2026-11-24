@@ -68,7 +68,10 @@ def vid_caps(v):
     return out
 def vid_guia(i):
     e = _VXJ.get(i, {})
-    return [f'https://{e["g"]}.fuerzabasadaenevidencia.com/', e.get('gt', 'La guía del vídeo')] if e.get('g') else None
+    if not e.get('g'): return None
+    # g = subdominio antiguo de la guía (https://<g>.fuerzabasadaenevidencia.com/) o, en las guías nuevas, su dirección completa o relativa
+    g = e['g']; u = g if g.startswith('http') or '/' in g else f'https://{g}.fuerzabasadaenevidencia.com/'
+    return [u, e.get('gt', 'La guía del vídeo')]
 VID_X = {v['id']: {k: x for k, x in (('c', vid_caps(v)), ('g', vid_guia(v['id'])), ('r', [list(r) for r in vid_rel(v['id'])])) if x} for v in VIDS}
 _V0 = VIDS[0]
 _VH = sum(vid_seg(v['d']) for v in VIDS)
