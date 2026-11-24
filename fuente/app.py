@@ -10,7 +10,7 @@ import json as _jp, glob as _gp, re as _rp, hashlib as _hp, os as _op, shutil as
 
 # ---------------------------------------------------------------------------------------------
 # 1. Pestañas
-TAB_VENTA = {'index.html', 'programas.html', 'puesta-a-punto.html', 'quien-soy.html', 'pedir-plaza.html', 'gracias.html', 'gracias-plaza.html', 'gracias-boletin.html', 'pauta-activa.html', 'tarifas.html'}
+TAB_VENTA = {'index.html', 'programas.html', 'puesta-a-punto.html', 'quien-soy.html', 'pedir-plaza.html', 'gracias.html', 'gracias-plaza.html', 'gracias-boletin.html', 'pauta-activa.html', 'tarifas.html', 'esencial.html'}
 _T_HERR = {u for u, *_ in HERR_MAS} | {'herramientas.html', 'chequeo.html', 'mis-resultados.html', 'pauta-activa.html'}
 _T_APR = {u for u, *_ in APRENDE} | {u for u, _ in TEMAS_MENU} | {'aprende.html', 'fuentes.html', 'evidencia.html', 'novedades.html', 'medios.html', 'dudas.html'}
 def _tab_de(arch):

@@ -56,7 +56,7 @@ const ATRIB = [...new Set([...css.matchAll(/\[([a-z][a-z-]*)\s*[\]=~^$*|]/g)].ma
 const DINP = fs.existsSync(DIN) ? JSON.parse(fs.readFileSync(DIN, 'utf8')) : {};
 const dir = path.join(RAIZ, 'css'); fs.rmSync(dir, { recursive: true, force: true }); fs.mkdirSync(dir);
 const RE = /href="fbe\.css(\?v=[0-9a-f]+)?"/;
-const pags = fs.readdirSync(RAIZ).filter(f => f.endsWith('.html') && !NO_PAGINA.has(f) && !/^google/.test(f));
+const pags = fs.readdirSync(RAIZ).filter(f => f.endsWith('.html') && !NO_PAGINA.has(f) && !/^google/.test(f) && !fs.readFileSync(path.join(RAIZ, f), 'utf8').includes('http-equiv="refresh"'));
 const deCada = {}; let antes = 0, despues = 0, n = 0;
 for (const f of pags) {
   const ruta = path.join(RAIZ, f); const html = fs.readFileSync(ruta, 'utf8');

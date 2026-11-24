@@ -81,7 +81,7 @@ for _f in glob.glob(f'{SAL}/*.html'):
 # Imagen para compartir propia de cada pagina (WhatsApp, redes): og/<pagina>.jpg con su titulo. La lista la usa og.mjs.
 os.makedirs(f'{SAL}/og', exist_ok=True)
 _OG = []
-for _b in dict.fromkeys([u for u, _ in PAGS] + ['pauta-activa.html'] + [u for u, *_ in HERR_MAS] + SEC_PAGS):
+for _b in dict.fromkeys([u for u, _ in PAGS] + ['pauta-activa.html', 'esencial.html'] + [u for u, *_ in HERR_MAS] + SEC_PAGS):
     _p = f'{SAL}/{_b}'
     if not os.path.exists(_p): continue
     _t = open(_p, encoding='utf-8').read()

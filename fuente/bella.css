@@ -788,3 +788,52 @@ html.quieto .art-vid { transition: none; transform: none; }
 [data-theme="dark"] .art .art-puntos li::before { background: var(--marca-clara); }
 /* Al saltar a un ancla se pintan todas las secciones diferidas (luz.js), para que el destino no se mueva */
 html.cv-todo section.lenta { content-visibility: visible; }
+
+/* ===== FBE ESENCIAL (24/11/2026): esencial.html, oculta hasta el 3/1/2027 ===== */
+/* Los dos moviles de la galeria (tambien en Pauta Activa): sin estirar el primero (salia una franja oscura debajo) */
+.pa-moviles { align-items: flex-start; }
+.es-planes { max-width: 54rem; margin-inline: auto; grid-template-columns: repeat(auto-fit, minmax(16.5rem, 1fr)); align-items: stretch; }
+.es-plan .es-b { align-self: flex-start; }
+.es-plan ul { align-content: start; }
+#precios .tf-barra, #precios .tf-nota { max-width: 54rem; margin-inline: auto; }
+.es-plan .es-b[aria-disabled="true"] { opacity: .55; cursor: default; box-shadow: none; }
+.es-plan .es-b[aria-disabled="true"]::after { display: none; }
+.es-plan .tf-mas > span:first-child { color: var(--tinta-2); }
+.es-nota { margin: 1rem 0 0; font-family: var(--mono); font-size: .76rem; letter-spacing: .04em; color: var(--tinta-2); }
+.es-frenos { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1rem; counter-reset: esf; }
+.es-frenos li { counter-increment: esf; position: relative; padding: 1.25rem 1.3rem 1.25rem 1.45rem; border-radius: 1.2rem; border: 1px solid var(--linea); background: var(--sup); display: grid; gap: .35rem; align-content: start; overflow: hidden; }
+.es-frenos li::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(var(--marca), color-mix(in srgb, var(--marca) 25%, transparent)); }
+.es-frenos li::after { content: "F" counter(esf); position: absolute; right: 1rem; top: .9rem; font-family: var(--mono); font-size: .72rem; letter-spacing: .08em; color: var(--acento); }
+.es-frenos b { font-stretch: 116%; font-weight: 740; font-size: 1.06rem; padding-right: 2rem; }
+.es-frenos span { color: var(--tinta-2); font-size: .96rem; }
+.es-garantia { display: flex; gap: .9rem; align-items: flex-start; max-width: 54rem; margin: 1.4rem auto 0; padding: 1rem 1.2rem; border-radius: 1.1rem; border: 1px solid color-mix(in srgb, var(--oro) 45%, var(--linea)); background: color-mix(in srgb, var(--oro) 10%, var(--sup)); }
+.es-garantia > i { flex: none; width: 2.3rem; height: 2.3rem; border-radius: 50%; display: grid; place-items: center; background: var(--oro); color: var(--noche); }
+.es-garantia > i svg { width: 1.15rem; height: 1.15rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.es-garantia b { display: block; font-weight: 740; }
+.es-garantia span { color: var(--tinta-2); }
+.es-cerrado { max-width: 54rem; margin: 0 auto 1.2rem; padding: 1.2rem 1.3rem; border-radius: 1.2rem; border: 1px solid var(--linea); background: var(--sup); display: flex; flex-wrap: wrap; align-items: center; gap: .4rem 1rem; }
+.es-cerrado b { font-weight: 740; }
+.es-cerrado span { color: var(--tinta-2); flex: 1 1 14rem; }
+#precios[data-estado="cerrado"] .es-b, #precios[data-estado="cerrado"] .tf-per { display: none; }
+.es-no { list-style: none; margin: 0 auto; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1rem; max-width: 62rem; }
+.es-no li { display: grid; grid-template-columns: auto 1fr; gap: .15rem .8rem; align-items: start; padding: 1.1rem 1.2rem; border-radius: 1.1rem; border: 1px dashed var(--linea); background: color-mix(in srgb, var(--sup) 70%, transparent); }
+.es-no li > i { grid-row: span 2; width: 2rem; height: 2rem; border-radius: 50%; display: grid; place-items: center; background: color-mix(in srgb, var(--tinta) 8%, transparent); color: var(--tinta-2); }
+.es-no li > i svg { width: 1rem; height: 1rem; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; }
+.es-no b { font-weight: 720; }
+.es-no span { color: var(--tinta-2); font-size: .95rem; }
+.es-fechas { list-style: none; margin: 0; padding: 0; display: grid; }
+.es-fechas li { position: relative; padding: 0 0 1.5rem 2.1rem; display: grid; gap: .15rem; }
+.es-fechas li::before { content: ""; position: absolute; left: .3rem; top: .3rem; width: .75rem; height: .75rem; border-radius: 50%; background: var(--marca); box-shadow: 0 0 0 4px color-mix(in srgb, var(--marca) 18%, transparent); }
+.es-fechas li::after { content: ""; position: absolute; left: .64rem; top: 1.35rem; bottom: .15rem; width: 2px; background: var(--linea); }
+.es-fechas li:last-child { padding-bottom: 0; }
+.es-fechas li:last-child::after { display: none; }
+.es-fechas .es-cuando { font-family: var(--mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--acento); }
+.es-fechas b { font-stretch: 112%; font-weight: 740; font-size: 1.08rem; }
+.es-fechas li > span:last-child { color: var(--tinta-2); }
+[data-theme="dark"] .es-frenos li::before { background: linear-gradient(var(--marca-clara), color-mix(in srgb, var(--marca-clara) 25%, transparent)); }
+[data-theme="dark"] .es-fechas li::before { background: var(--marca-clara); box-shadow: 0 0 0 4px color-mix(in srgb, var(--marca-clara) 22%, transparent); }
+[data-theme="dark"] .es-garantia { background: color-mix(in srgb, var(--oro) 12%, var(--sup)); }
+[data-theme="dark"] .es-no li > i { background: color-mix(in srgb, var(--tinta) 12%, transparent); }
+.contraste .es-no li, .contraste .es-frenos li { border-style: solid; border-color: var(--tinta-2); }
+@media (max-width: 560px) { .es-garantia { padding: .9rem 1rem; } .es-frenos li { padding-right: 1.1rem; } }
+@media print { #es-per, .es-b, .es-cerrado { display: none !important; } }

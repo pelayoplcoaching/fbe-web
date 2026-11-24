@@ -3,7 +3,7 @@ import segno, io, os
 from fontTools.ttLib import TTFont
 from PIL import Image, ImageDraw, ImageFont
 NOCHE, MARCA = '#140B3A', '#593EDE'
-CORTAS = {'nivel': 'Guía gratuita · ¿Cuánta fuerza deberías tener?', 'dosdias': 'Guía gratuita · Dos días de gimnasio'}
+CORTAS = {'nivel': 'Guía gratuita · ¿Cuánta fuerza deberías tener?', 'dosdias': 'Guía gratuita · Dos días de gimnasio', 'semanas': 'Guía gratuita · Cómo empezar: las primeras 4 semanas'}
 if not os.path.exists('/tmp/archivo.ttf'):
     f = TTFont('../ext/archivo.woff2'); f.flavor = None; f.save('/tmp/archivo.ttf')
 def letra(tam, peso):

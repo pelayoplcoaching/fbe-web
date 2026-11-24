@@ -326,8 +326,8 @@ open(f'{SAL}/gracias.html', 'w', encoding='utf-8').write(f"""{cabeza('gracias.ht
 # Direcciones de la web vieja de MailerLite que cambian de nombre: paginas que redirigen al momento (/programas y /puesta-a-punto ya coinciden)
 for _vieja, _nueva in [('faq', 'dudas.html'), ('newsletter-semanal', 'newsletter.html'), ('programas-copy', 'guias.html'), ('quien_soy', 'quien-soy.html')]:
     open(f'{SAL}/{_vieja}.html', 'w', encoding='utf-8').write(f'<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="robots" content="noindex"><title>Fuerza Basada en Evidencia</title><link rel="canonical" href="{WEB}{_nueva}"><meta http-equiv="refresh" content="0; url={_nueva}"><script>location.replace("{_nueva}" + location.search + location.hash)</script></head><body><p><a href="{_nueva}">Esta página ha cambiado de sitio. Sigue aquí.</a></p></body></html>')
-# Direcciones cortas para los QR y para decir en los vídeos (24/11/2026): /nivel y /dosdias llevan a su landing con la marca de origen (utm) para el contador de visitas.
-CORTAS = {'nivel': ('guia-fuerza-segun-nivel/', 'fuerza-segun-nivel'), 'dosdias': ('guia-dos-dias/', 'dos-dias')}
+# Direcciones cortas para los QR y para decir en los vídeos (24/11/2026): /nivel, /dosdias y /semanas (vídeo del 3/1/2027) llevan a su landing con la marca de origen (utm) para el contador de visitas.
+CORTAS = {'nivel': ('guia-fuerza-segun-nivel/', 'fuerza-segun-nivel'), 'dosdias': ('guia-dos-dias/', 'dos-dias'), 'semanas': ('guia-primeras-semanas/', 'primeras-semanas')}
 for _c, (_dest, _camp) in CORTAS.items():
     _u = f'{_dest}?utm_source=youtube&amp;utm_medium=qr&amp;utm_campaign={_camp}'
     open(f'{SAL}/{_c}.html', 'w', encoding='utf-8').write(f'<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="robots" content="noindex"><title>Fuerza Basada en Evidencia</title><link rel="canonical" href="{WEB}{_dest}"><meta http-equiv="refresh" content="0; url={_u}"><script>location.replace("{_u.replace("&amp;", "&")}")</script></head><body><p><a href="{_u}">Ir a la guía</a></p></body></html>')
@@ -548,6 +548,7 @@ pagina('pauta-activa.html', 'Pauta Activa', 'Pauta Activa · Medicación y Ejerc
 exec(open('herramientas.py', encoding='utf-8').read())  # cinco calculadoras de Herramientas (21/11/2026)
 exec(open('secciones.py', encoding='utf-8').read())  # Empieza aquí, Vídeos, Para profesionales y Mitos y evidencia (21/11/2026)
 exec(open('tarifas.py', encoding='utf-8').read())  # tarifas.html: precios de los tres programas; sin enlazar, noindex y fuera del sitemap (23/11/2026)
+exec(open('esencial.py', encoding='utf-8').read())  # esencial.html: FBE Esencial; oculta hasta el 3/1/2027 (sin enlazar, noindex, fuera del sitemap y del buscador) (24/11/2026)
 exec(open('app_pags.py', encoding='utf-8').read())  # la web como app (1): Aprende, Mi panel, Novedades y RSS, Ayuda y Sin conexión (22/11/2026)
 exec(open('formacion.py', encoding='utf-8').read())  # «Trayectoria y formación» en Quién soy, del CV y del carnet de colegiado (23/11/2026)
 exec(open('extras.py', encoding='utf-8').read())  # Glosario, archivo del boletín, Mis resultados, buscador y web instalable (21/11/2026)

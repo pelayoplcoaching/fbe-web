@@ -1,0 +1,119 @@
+# ===== esencial.html (24/11/2026): FBE Esencial, la app sin seguimiento personal =====
+# Planes en los docs del proyecto «claude/por-tu-cuenta-plan.md» y «claude/esencial-lanzamiento-enero.md».
+# OCULTA hasta el vídeo del 3/1/2027: no se enlaza desde ninguna página de la web (solo desde la guía «Primeras semanas»,
+# cuyo bloque se enseña a partir del 3/1), lleva noindex y queda fuera del sitemap, del buscador y de la caché sin conexión.
+# Cifras: decisiones de Pelayo del 24/11/2026 (normal 19,99 y 29,99 € al mes, 199 y 299 € al año; fundador 14,99 y 19,99 € al
+# mes y 149 y 199 € al año, mientras siga suscrito; 20 plazas; garantía de 14 días; directo mensual). No cambiarlas sin que él lo diga.
+# Enlaces de pago: ESEN_PAGO, vacíos hasta crear los productos en Stripe con su visto bueno. Sin enlace, el botón sale
+# desactivado («Muy pronto»). Pasada la fecha de cierre (o con ESEN_LLENO = True) la página enseña «plazas cerradas».
+# Vista previa del estado cerrado: esencial.html?esencial=cerrado.
+# Capturas: las de la app de los atletas (w3/) hasta tener las de la cuenta de demostración: si existen
+# web-img/esencial-hoy.webp y web-img/esencial-progreso.webp (702 x 1519), entran solas.
+# Plan B (si la app no llega al 31/12): ESEN_INICIO = date(2027, 1, 25) y ESEN_CIERRE = date(2027, 1, 24), y cambiar a mano
+# las fechas del bloque de la guía (guia-primeras-semanas/index.html, gracias.html y extra.js).
+import datetime as _dt, shutil as _sh
+from PIL import Image as _Img
+ESEN_INICIO = _dt.date(2027, 1, 11)      # lunes de la semana 1: empiezan todos
+ESEN_CIERRE = _dt.date(2027, 1, 10)      # domingo: último día para reservar (o antes, si se llenan)
+ESEN_PLAZAS = 20
+ESEN_LLENO = False                       # True si se llenan antes del cierre
+ESEN_PAGO = {('ent', 'm'): '', ('ent', 'a'): '', ('nut', 'm'): '', ('nut', 'a'): ''}
+_ES_DIAS = ['lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo']
+_ES_MES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre']
+def _es_f(d, dia=True): return (f'{_ES_DIAS[d.weekday()]} ' if dia else '') + f'{d.day} de {_ES_MES[d.month - 1]}'
+def _es_eur(x): return (f'{x:.2f}'.replace('.', ',') if x != int(x) else str(int(x))) + ' €'
+_ES_S4 = (ESEN_INICIO + _dt.timedelta(days=21), ESEN_INICIO + _dt.timedelta(days=27))
+_ES_S4T = (f'del {_ES_S4[0].day} al {_es_f(_ES_S4[1], False)}' if _ES_S4[0].month == _ES_S4[1].month
+           else f'del {_es_f(_ES_S4[0], False)} al {_es_f(_ES_S4[1], False)}')
+_ES_ABRE = f'{ESEN_INICIO.day} {_ES_MES[ESEN_INICIO.month - 1][:3]}'
+# nivel: clave, nombre, para quién, fundador al mes, fundador al año, normal al mes, normal al año, lo que lleva
+ESEN_NIV = [
+    ('ent', 'Entrenamiento', 'Tu plan de fuerza, que avanza solo semana a semana.', 14.99, 149, 19.99, 199,
+     ['Plantilla según tu objetivo, tus días, tu material y tu nivel', 'Cada semana, la siguiente, con mis reglas de progresión y los cuatro frenos',
+      'Tu progreso y tus récords, sacados de lo que apuntas', 'Comunidad, guías de Aprende y recetario para consultar', 'Un directo al mes para resolver dudas']),
+    ('nut', 'Entrenamiento y nutrición', 'Lo mismo, con tu plan de nutrición y tu menú en la misma app.', 19.99, 199, 29.99, 299,
+     ['Todo lo de Entrenamiento', 'Plan de nutrición con ajuste cada semana', 'Menú semanal con las recetas del recetario']),
+]
+
+def _es_cap(slot, w3, alt):
+    # Captura de la cuenta de demostración (web-img/<slot>.webp) si existe; si no, la de la app de los atletas (w3/),
+    # recortada a la columna de la app (las de w3 son de 702 px de ancho con márgenes a los lados) con forma de móvil.
+    # Sale siempre como img/<slot>.webp: la usa también el bloque de la guía «Primeras semanas» (img/esencial-hoy.webp).
+    if os.path.exists(f'web-img/{slot}.webp'):
+        _sh.copy(f'web-img/{slot}.webp', f'{SAL}/img/{slot}.webp'); w, h = _Img.open(f'web-img/{slot}.webp').size
+    else:
+        im = _Img.open(f'w3/{w3}.webp').convert('RGB'); x0, x1 = 134, 568; im = im.crop((x0, 0, x1, round((x1 - x0) * 1519 / 702)))
+        im.save(f'{SAL}/img/{slot}.webp', 'WEBP', quality=88, method=6); w, h = im.size
+    return f'<figure class="pa-tel"><img class="pa-cap" src="img/{slot}.webp" width="{w}" height="{h}" alt="{alt}" loading="lazy" decoding="async"></figure>'
+_ES_HOY = _es_cap('esencial-hoy', 'portada', 'La app en el móvil: la sesión de hoy, con el calentamiento y los ejercicios que tocan')
+_ES_PROG = _es_cap('esencial-progreso', 'fuerza', 'La app en el móvil: tu progreso de fuerza, con la gráfica de cada ejercicio y tus récords')
+
+def _es_plan(n):
+    k, nom, para, fm, fa, nm, na, items = n
+    hm, ha = ESEN_PAGO[(k, 'm')], ESEN_PAGO[(k, 'a')]
+    b = (f'<a class="btn peq es-b" href="{hm}" data-umami-event="Reservar FBE Esencial" data-umami-event-nivel="{k}" data-umami-event-pago="mensual">Reservar plaza</a>'
+         if hm else '<a class="btn peq es-b" role="link" aria-disabled="true">Muy pronto</a>')
+    return (f'<article class="plan tf es-plan n{1 if k == "ent" else 2} sube" id="{"entrenamiento" if k == "ent" else "nutricion"}" data-nivel="{k}" data-m="{_es_eur(fm)}" data-a="{_es_eur(fa)}" '
+            f'data-mn="{_es_eur(nm)}" data-an="{_es_eur(na)}" data-hm="{hm}" data-ha="{ha}"><h3>{nom}</h3><p class="tf-para">{para}</p>'
+            f'<p class="tf-eur"><b class="es-v">{_es_eur(fm)}</b><small class="es-u">al mes</small></p>'
+            f'<p class="tf-mas"><span>Precio normal: <span class="es-n">{_es_eur(nm)} al mes</span></span><span>IVA incluido</span></p>'
+            f'<ul>{"".join(f"<li>{x}</li>" for x in items)}</ul>{b}</article>')
+
+ES_JS = '''<script>(function(){var D=document,g=D.getElementById('es-per'),s=D.getElementById('precios');if(!g||!s)return;
+var CIERRA=new Date(s.getAttribute('data-cierra')).getTime(),q=location.search.match(/[?&]esencial=([a-z]+)/);
+function pinta(p){[].forEach.call(g.querySelectorAll('button'),function(b){b.setAttribute('aria-pressed',b.getAttribute('data-p')===p?'true':'false')});
+[].forEach.call(s.querySelectorAll('.es-plan'),function(c){var d=c.dataset,b=c.querySelector('.es-b'),h=d['h'+p],u=p==='m'?'al mes':'al año';
+c.querySelector('.es-v').textContent=d[p];c.querySelector('.es-u').textContent=u;c.querySelector('.es-n').textContent=d[p+'n']+' '+u;
+if(h){b.setAttribute('href',h);b.removeAttribute('aria-disabled');b.removeAttribute('role');b.textContent='Reservar plaza';b.setAttribute('data-umami-event','Reservar FBE Esencial');b.setAttribute('data-umami-event-nivel',d.nivel);b.setAttribute('data-umami-event-pago',p==='m'?'mensual':'anual')}
+else{b.removeAttribute('href');b.setAttribute('role','link');b.setAttribute('aria-disabled','true');b.textContent='Muy pronto';b.removeAttribute('data-umami-event')}})}
+g.addEventListener('click',function(e){var b=e.target.closest('button');if(b)pinta(b.getAttribute('data-p'))});
+if(q?q[1]==='cerrado':(s.getAttribute('data-lleno')==='1'||Date.now()>CIERRA)){s.setAttribute('data-estado','cerrado');var c=D.getElementById('es-cerrado');if(c)c.hidden=false}})();</script>'''
+
+_es_cierra = f'{ESEN_CIERRE.isoformat()}T23:59:59+01:00'
+_es_cuerpo = f'''
+<section id="como"><div class="in"><div class="entrada sube"><h2>Cómo funciona</h2><p>Cuatro pasos. Desde ahí, cada semana la prepara la app.</p></div>
+  <ol class="tf-pasos sube"><li><b>Reservas tu plaza</b><span>Eliges nivel y si pagas al mes o al año. Tu suscripción empieza a contar el {_es_f(ESEN_INICIO)}, aunque reserves antes.</span></li><li><b>Rellenas el cuestionario</b><span>Tu objetivo, tus días, tu material y unas preguntas de salud. Si en ellas sale que conviene consultar, no empiezas sin el visto bueno de tu médico o una <a href="puesta-a-punto.html">Puesta a punto</a> conmigo.</span></li><li><b>Empiezas el {_es_f(ESEN_INICIO)}</b><span>Si no entrenas, con las cuatro semanas de la guía <a href="guia-primeras-semanas/">«Cómo empezar»</a>. Si ya entrenas, con la plantilla de tu nivel.</span></li><li><b>Cada semana, la siguiente</b><span>Apuntas kilos y repeticiones y, con eso, la app te prepara la semana siguiente con mis reglas de progresión.</span></li></ol>
+</div></section>
+<section class="hoja pa-movil-s es-app"><div class="in">
+  <div class="sube"><div class="entrada" style="text-align:left;margin-inline:0"><h2>Lo que ves en la app</h2><p>Qué toca hoy, con cada ejercicio, y al acabar, tu progreso: sale solo de lo que apuntas en cada sesión, sin rellenar nada aparte.</p></div>
+    <p class="es-nota">Capturas de la app con la que trabajo con mis atletas.</p></div>
+  <div class="pa-moviles sube">{_ES_HOY}{_ES_PROG}</div>
+</div></section>
+<section id="frenos"><div class="in"><div class="entrada sube"><h2>Como no reviso yo tu semana, la app lleva cuatro frenos</h2><p>Son reglas solo para FBE Esencial, para que la progresión sea prudente cuando nadie la mira.</p></div>
+  <ol class="es-frenos sube"><li><b>Parte de lo que hiciste</b><span>Si un día mueves menos peso del previsto, la semana siguiente parte de lo que hiciste, no de lo previsto.</span></li><li><b>Pregunta si ve una errata</b><span>Si un dato parece mal apuntado, te pregunta antes de preparar la semana. Si lo confirmas, se usa.</span></li><li><b>No sube a costa de repeticiones</b><span>Si al subir el peso fueras a quedarte por debajo de tu mínimo de repeticiones, no lo sube: antes suma repeticiones.</span></li><li><b>Baja si te atascas</b><span>Si dos semanas seguidas te quedas por debajo de tu rango, baja un escalón el peso para volver a él.</span></li></ol>
+</div></section>
+<section class="hoja" id="precios" data-cierra="{_es_cierra}"{' data-lleno="1"' if ESEN_LLENO else ''}><div class="in">
+  <div class="tf-barra sube"><div><h2>Precio de fundador</h2><p>Lo mantienes mientras sigas suscrito. Si te das de baja y vuelves, pagas el normal.</p></div>
+    <div class="tf-per" id="es-per" role="group" aria-label="Forma de pago"><button type="button" data-p="m" aria-pressed="true">Mensual</button><button type="button" data-p="a" aria-pressed="false">Anual<small>2 meses gratis</small></button></div></div>
+  <div class="es-cerrado sube" id="es-cerrado" hidden><b>Las plazas de esta tanda están cerradas.</b><span>Aviso en el boletín cuando abra la siguiente.</span><a class="btn peq" href="newsletter.html#alta">Apuntarme al boletín</a></div>
+  <div class="planes es-planes">{"".join(_es_plan(n) for n in ESEN_NIV)}</div>
+  <div class="es-garantia sube"><i>{ico("medalla")}</i><div><b>Garantía de 14 días</b><span>Si en los primeros 14 días no te convence, te devuelvo el dinero entero.</span></div></div>
+  <p class="tf-nota sube" style="text-align:center">Todos los precios llevan el IVA incluido. {ESEN_PLAZAS} plazas, hasta el {_es_f(ESEN_CIERRE)} o hasta que se llenen. Para mayores de 18 años que vivan en España o en otro país de la UE.</p>
+</div></section>
+<section id="no-lleva"><div class="in"><div class="entrada sube"><h2>Lo que no lleva</h2><p>Para que sepas desde el principio qué es y qué no es.</p></div>
+  <ul class="es-no sube"><li><i>{ico("no")}</i><b>Chat conmigo</b><span>No hay mensajes uno a uno.</span></li><li><i>{ico("no")}</i><b>Revisión semanal</b><span>Nadie mira tu semana antes de que llegue: la prepara la app.</span></li><li><i>{ico("no")}</i><b>Ajustes a medida</b><span>No cambio ejercicios ni pautas para tu caso concreto.</span></li></ul>
+  <div class="calc sube" style="margin-top:2rem"><div><h3>¿Prefieres que lo revise yo cada semana?</h3><p>Eso son los programas con seguimiento: plan a medida, revisión semanal y contacto conmigo por la app. <b>Desde {DESDE} € al trimestre.</b></p></div><div><a class="btn claro" href="programas.html">Ver los programas</a></div></div>
+</div></section>
+<section class="hoja" id="fechas"><div class="in dos">
+  <div class="entrada sube" style="text-align:left;margin-inline:0"><h2>Las fechas</h2><p>Empezamos todos a la vez, para poder resolver dudas juntos.</p></div>
+  <ol class="es-fechas sube"><li><span class="es-cuando">Hasta el {_es_f(ESEN_CIERRE)}</span><b>Reservas</b><span>O hasta que se llenen las {ESEN_PLAZAS} plazas.</span></li><li><span class="es-cuando">{_es_f(ESEN_INICIO).capitalize()}</span><b>Semana 1</b><span>Todos empezamos el mismo día.</span></li><li><span class="es-cuando">Semana 4 · {_ES_S4T}</span><b>Directo</b><span>Repasamos tus marcas y cómo sigue desde la quinta semana.</span></li><li><span class="es-cuando">Cada mes</span><b>Directo de dudas</b><span>Una vez al mes, para los dos niveles.</span></li></ol>
+</div></section>
+<section><div class="in"><div class="encaje sube" style="margin:0">
+  <div><h3>Es para ti si…</h3><ul><li>Empiezas de cero o vuelves tras mucho tiempo: las cuatro primeras semanas son las de la guía</li><li>Ya entrenas y quieres que tu plan avance sin pensarlo cada semana</li><li>Tienes 18 años o más y vives en España o en otro país de la UE</li></ul></div>
+  <div class="no"><h3>No es para ti si…</h3><ul><li>Quieres que alguien revise tu técnica o tu semana: para eso están los <a href="programas.html">programas</a></li><li>Necesitas que alguien supervise tus sesiones por una enfermedad o una lesión</li><li>Ya entrenas conmigo: ya tienes la app y mi seguimiento</li></ul></div>
+</div></div></section>
+<section class="hoja" id="preguntas"><div class="in"><div class="entrada sube"><h2>Preguntas</h2></div>
+  <div class="faq sube"><details><summary>¿Necesito experiencia?</summary><p>No. Si empiezas de cero o vuelves tras mucho tiempo, las cuatro primeras semanas son las de la guía «Cómo empezar», en la app. Si ya entrenas, empiezas con la plantilla de tu nivel.</p></details><details><summary>¿Cuántos días a la semana?</summary><p>Si empiezas de cero, dos: las cuatro semanas de la guía y, desde la quinta, una plantilla de dos días. Si ya entrenas, los que pongas en el cuestionario.</p></details><details><summary>¿Qué material necesito?</summary><p>La plantilla se elige con el material que pongas en el cuestionario. Las cuatro semanas de la guía son de gimnasio, y cada ejercicio trae su alternativa.</p></details><details><summary>¿Hablo contigo?</summary><p>No hay chat conmigo ni reviso tu semana: eso lo llevan los <a href="programas.html">programas con seguimiento</a>. Sí hay un directo al mes para resolver dudas y la comunidad de la app.</p></details><details><summary>¿Y si tengo una enfermedad o tomo medicación?</summary><p>Antes de empezar contestas unas preguntas de salud. Si sale que conviene consultar, no empiezas sin el visto bueno de tu médico o una <a href="puesta-a-punto.html">Puesta a punto</a> conmigo. Si quieres saberlo ya, tienes la herramienta <a href="revision-medica.html">¿Necesito revisión médica antes de entrenar?</a></p></details><details><summary>¿Y si me duele algo?</summary><p>La app no valora el dolor. Si con el esfuerzo notas dolor u opresión en el pecho, falta de aire que no cuadra con lo que estás haciendo, mareos o palpitaciones, para y habla con tu médico. Para las molestias al entrenar tienes el <a href="semaforo-dolor.html">semáforo del dolor</a>.</p></details><details><summary>¿Es lo mismo que la guía gratis?</summary><p>La guía son las cuatro semanas en papel. En la app, además, apuntas kilos y repeticiones, guarda tus marcas en la cuarta semana y, desde la quinta, te prepara cada semana la siguiente.</p></details><details><summary>¿Puedo darme de baja?</summary><p>Sí, cuando quieras, desde el enlace de tu suscripción. Si vuelves más adelante, pagas el precio normal.</p></details><details><summary>¿Y si se llenan las plazas?</summary><p>Aviso en el <a href="newsletter.html#alta">boletín</a> cuando abra la siguiente tanda.</p></details></div>
+</div></section>
+{ES_JS}'''
+_es_cta = (f'<div class="cta"><a class="btn claro" href="#precios">Ver precios</a><a class="enl" href="#como">Cómo funciona</a></div>'
+           + datos((_es_eur(ESEN_NIV[0][3]), 'al mes, precio de fundador'), (str(ESEN_PLAZAS), 'plazas'), (_ES_ABRE, 'empezamos todos')))
+FIJO_ES = f'<a class="arriba" id="arriba" href="#contenido" aria-label="Volver arriba">{ico("sube")}</a>\n<div class="fijo" id="fijo"><a class="sec" href="#como">Cómo funciona</a><a class="btn claro" href="#precios">Ver precios</a></div>'
+open(f'{SAL}/esencial.html', 'w', encoding='utf-8').write(f'''{cabeza('esencial.html', 'FBE Esencial', 'La app de Fuerza Basada en Evidencia sin seguimiento personal: tu plan de fuerza, preparado cada semana con las reglas de progresión de Pelayo. Plazas de fundador.', '<meta name="robots" content="noindex">')}
+{cabecera()}
+<header class="hero mini t-esencial foto" id="inicio">{ANILLOS}<div class="in"><div class="txt"><span class="miga"><a href="index.html">Inicio</a> / FBE Esencial</span><h1>Entrena por tu cuenta, con mis reglas de progresión.</h1><p class="sub">FBE Esencial es la app con la que trabajo con mis atletas, sin seguimiento personal: te dice qué toca cada día, apuntas lo que haces y cada semana te prepara la siguiente. Plazas de fundador para empezar todos el {_es_f(ESEN_INICIO)}.</p>{_es_cta}</div><div class="pa-hero">{_ES_HOY.replace(' loading="lazy"', ' fetchpriority="high"')}</div></div></header>
+<main id="contenido">{_es_cuerpo}</main>
+<section class="cierre">{ANILLOS}<div class="marca-agua">{LOBO}</div><div class="in sube"><h2>¿Empezamos el {_es_f(ESEN_INICIO, False)}?</h2><p>Plazas de fundador hasta el {_es_f(ESEN_CIERRE)}, o hasta que se llenen.</p><a class="btn claro" href="#precios">Ver precios</a></div></section>
+{PIE}
+{FIJO_ES}
+<script src="fbe.js"></script></body></html>''')

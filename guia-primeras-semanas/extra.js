@@ -48,3 +48,18 @@
   },{threshold:.6});
   [].forEach.call(d.querySelectorAll('[data-n]'),function(el){cuenta.observe(el);});
 })();
+
+// Bloque 'Y en la semana 5?' (FBE Esencial, 24/11/2026): del 3 al 10/1/2027 ensena el enlace; despues, 'plazas cerradas'.
+// Vista previa: ?esencial=abierto o ?esencial=cerrado. Si se llenan antes, poner data-lleno="1" en el bloque.
+(function(){
+  var q=location.search.match(/[?&]esencial=(abierto|cerrado)/);
+  [].forEach.call(document.querySelectorAll('.fbe-esen[data-abre]'),function(b){
+    var t=Date.now(),abre=new Date(b.getAttribute('data-abre')).getTime(),cierra=new Date(b.getAttribute('data-cierra')).getTime();
+    var est=q?q[1]:(t<abre?'':(t>cierra||b.getAttribute('data-lleno')==='1'?'cerrado':'abierto'));
+    if(!est)return;
+    var a=b.querySelector('.fbe-esen__abierto'),c=b.querySelector('.fbe-esen__cerrado');
+    if(a)a.hidden=est!=='abierto';
+    if(c)c.hidden=est!=='cerrado';
+    b.hidden=false;
+  });
+})();
