@@ -12,6 +12,7 @@ node fuente/pruebas/todas.mjs          # además: desbordes, tarjetas y accesibi
 - `calculadoras-1*.mjs`, `calculadoras-2.mjs`, `calculadoras-3.mjs`, `diez-mejoras.mjs`: cálculos e interacción de las herramientas.
 - `extras.mjs`, `mitos.mjs`, `resaltado.mjs`, `secciones.mjs`: buscador, glosario, archivo, Mis resultados, sin conexión, mitos y secciones nuevas.
 - `enlaces.mjs`: enlaces internos, anclas, imágenes y sitemap.
+- `esencial.mjs`: FBE Esencial. La función de reserva (`formularios/funciones/esencial.mjs`) con Stripe simulado: ventanas, plazas, pago y comprobación; y los estados de `esencial.html` (pronto, abierto, casi, lleno, cerrado, error) y la página de gracias.
 - `desbordes.mjs`: nada se sale de la pantalla (1280 y 390 px, claro y oscuro). Acepta páginas sueltas: `node desbordes.mjs glosario mitos`.
 - `cajas.mjs`: ningún texto se sale de su tarjeta (1280, 1100 y 390 px).
 - `accesibilidad.mjs`: axe-core (WCAG 2.2 AA). Necesita `npm i` en esta carpeta. Falla si hay errores graves.

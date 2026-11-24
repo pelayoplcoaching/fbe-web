@@ -7,7 +7,7 @@
   var PAG = location.pathname.split('/').pop() || 'index.html'; if (PAG.indexOf('.') < 0) PAG += '.html';
   var APP = (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true;
   if (APP) R.classList.add('es-app');
-  var SIN = /^(index|mi-panel|404|gracias|gracias-plaza|gracias-boletin|pedir-plaza|privacidad|sin-conexion)\.html$/;
+  var SIN = /^(index|mi-panel|404|gracias|gracias-plaza|gracias-boletin|esencial-gracias|pedir-plaza|privacidad|sin-conexion)\.html$/;
   var ESTRELLA = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z"/></svg>';
   var h1 = D.querySelector('h1'), TIT = (h1 ? h1.textContent : D.title).replace(/\s+/g, ' ').trim();
   var miga = D.querySelector('.hero.mini .miga'), NOM = miga ? miga.textContent.split('/').pop().trim() : TIT;

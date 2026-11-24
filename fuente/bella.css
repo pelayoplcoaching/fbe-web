@@ -837,3 +837,17 @@ html.cv-todo section.lenta { content-visibility: visible; }
 .contraste .es-no li, .contraste .es-frenos li { border-style: solid; border-color: var(--tinta-2); }
 @media (max-width: 560px) { .es-garantia { padding: .9rem 1rem; } .es-frenos li { padding-right: 1.1rem; } }
 @media print { #es-per, .es-b, .es-cerrado { display: none !important; } }
+/* Reservas con Stripe (24/11/2026): avisos por estado de #precios, «Hoy no pagas nada» y esencial-gracias.html */
+.es-seguros { max-width: 54rem; margin: 1.4rem auto 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: 1rem; }
+.es-seguros .es-garantia { margin: 0; max-width: none; }
+.es-garantia.es-hoy { border-color: color-mix(in srgb, var(--marca-clara) 55%, var(--linea)); background: color-mix(in srgb, var(--marca-clara) 12%, var(--sup)); }
+.es-garantia.es-hoy > i { background: var(--marca); color: #fff; }
+[data-theme="dark"] .es-garantia.es-hoy { background: color-mix(in srgb, var(--marca-clara) 12%, var(--sup)); }
+[data-theme="dark"] .es-garantia.es-hoy > i { background: var(--marca-clara); color: var(--noche); }
+#precios[data-estado="casi"] .es-b, #precios[data-estado="casi"] .tf-per, #precios[data-estado="lleno"] .es-b, #precios[data-estado="lleno"] .tf-per, #precios[data-estado="lleno-lista"] .es-b, #precios[data-estado="lleno-lista"] .tf-per { display: none; }
+.es-aviso[data-aviso="pronto"] { border-color: color-mix(in srgb, var(--marca-clara) 55%, var(--linea)); }
+.es-aviso[data-aviso="error"] { border-color: color-mix(in srgb, var(--rojo) 50%, var(--linea)); }
+.es-aviso span a { color: var(--acento); }
+.calc + .es-garantia { margin-top: 1.4rem; }
+.contraste .es-aviso, .contraste .es-garantia { border-color: var(--tinta-2); }
+.es-aviso span a, .calc a[href^="mailto:"] { overflow-wrap: anywhere; }
