@@ -554,14 +554,14 @@ tool_pagina('zonas-pulso.html', 'Zonas de pulso y esfuerzo',
 
 # ---------------------------------------------------------------------------------------------
 # 7. Semáforo del dolor (modelo de control del dolor de Thomeé 1997 y Silbernagel 2007; Silbernagel 2020)
-DOL_FLAGS = [('noche', 'Dolor que te despierta por la noche o que no cede en reposo'), ('hinchazon', 'Hinchazón, calor o enrojecimiento en la zona'), ('golpe', 'Empezó con un golpe, una caída o un chasquido'), ('nervio', 'Hormigueo, adormecimiento o pérdida de fuerza'), ('pecho', 'Dolor en el pecho, falta de aire o mareo con el esfuerzo')]
+DOL_FLAGS = [('hueso', 'Duele en un punto del hueso, al saltar a la pata coja o cada vez antes; o en la cadera o la ingle al correr'), ('noche', 'Dolor que te despierta por la noche o que no cede en reposo'), ('hinchazon', 'Hinchazón, calor o enrojecimiento en la zona'), ('golpe', 'Empezó con un golpe, una caída o un chasquido'), ('nervio', 'Hormigueo, adormecimiento o pérdida de fuerza'), ('pecho', 'Dolor en el pecho, falta de aire o mareo con el esfuerzo')]
 DOL_FORM = (f'<div class="tool-campo"><label for="d-zona">Zona (opcional)</label><input id="d-zona" type="text" maxlength="40" autocomplete="off" placeholder="Rodilla derecha, hombro, tendón de Aquiles…"></div>'
     + rango('d-dur', 'Dolor durante el ejercicio') + rango('d-des', 'Dolor al terminar o ese mismo día')
     + seg('d-man', 'A la mañana siguiente', [('igual', 'Como antes de entrenar'), ('peor', 'Más dolor o rigidez'), ('nose', 'Aún no lo sé')], 'nose')
     + seg('d-sem', 'Comparado con la semana pasada', [('igual', 'Igual o mejor'), ('peor', 'Peor'), ('nose', 'No lo sé')], 'nose')
     + '<fieldset class="tool-campo rev-sint d-banderas"><legend>Señales para consultar antes de seguir <em id="d-nflag" hidden></em></legend>'
     + ''.join(f'<label class="caf-check"><input type="checkbox" name="d-flag" value="{v}"><span>{t}</span></label>' for v, t in DOL_FLAGS)
-    + '</fieldset><p class="tool-nota">Sirve para dolores por sobrecarga y tendones, no para golpes ni lesiones recientes. Lo que guardes en el diario se queda en este navegador.</p>')
+    + '</fieldset><p class="tool-nota">Sirve para dolores por sobrecarga y tendones, no para golpes, lesiones recientes ni dolor de hueso. Lo que guardes en el diario se queda en este navegador.</p>')
 DOL_RES = f'''<div class="semaforo" id="d-luces" data-k="v" aria-hidden="true"><i class="l-r"></i><i class="l-a"></i><i class="l-v"></i></div>
 <p class="tool-et">Resultado</p>
 <p class="res-veredicto grande-t" id="d-tit"></p>
@@ -578,6 +578,7 @@ function pinta(){
   out('d-dur');out('d-des');
   var du=+$('d-dur').value,de=+$('d-des').value,m=val('d-man'),s=val('d-sem'),fl=[].map.call(document.querySelectorAll('input[name="d-flag"]:checked'),function(c){return c.value}),res=document.querySelector('.tool-res'),k,tit,txt,li;
   if(fl.indexOf('pecho')>=0){k='r';tit='Para y consulta: no parece un dolor muscular';txt='El dolor en el pecho, la falta de aire o el mareo con el esfuerzo hay que valorarlos antes de seguir entrenando.';li=['Si aparece en reposo, no cede o va con sudor frío, llama al 112.','Si no, pide cita con tu médico antes de volver a entrenar.']}
+  else if(fl.indexOf('hueso')>=0){k='r';tit='Para de correr y consulta: puede ser el hueso';txt='Si duele en un punto del hueso, al saltar a la pata coja o cada vez antes (o en la cadera o la ingle al correr), puede ser una lesión por estrés del hueso. Ahí no vale el límite de 5 sobre 10: en el hueso, la carga no debe doler.';li=['Para de correr y saltar hasta que te valore un médico.','Mientras, lo que no duela: bici o piscina, por ejemplo.','La vuelta, sin dolor durante, después ni al día siguiente: primero más tiempo y, luego, más ritmo.']}
   else if(fl.length){k='r';tit='Consulta antes de seguir';txt='Esa señal no entra en este semáforo: conviene que te valore un médico o un fisioterapeuta antes de seguir cargando la zona.';li=['Mientras tanto, entrena lo que no moleste.']}
   else if(du>5||de>5){k='r';tit='Te has pasado del límite';txt='El modelo admite hasta 5 sobre 10 durante y después del ejercicio, y has llegado a '+Math.max(du,de)+'.';li=['La próxima sesión, baja la carga: menos peso, menos series o menos recorrido, o cambia a una variante que moleste menos.','Parar del todo no suele ser la solución: en las tendinopatías, el reposo completo puede ser contraproducente.','Si sigue sin mejorar, consúltalo con un fisioterapeuta o con tu médico.']}
   else if(m==='peor'||s==='peor'){k='a';tit='Dentro del límite, pero tu cuerpo avisa';txt=(m==='peor'?'A la mañana siguiente, el dolor y la rigidez deberían estar como antes de entrenar. ':'')+(s==='peor'?'Y no deberían ir a más de una semana a otra.':'');li=['Mantén la carga sin subirla, o bájala un poco, hasta que a la mañana siguiente estés como antes de entrenar.','Vuelve a mirarlo después de la próxima sesión.']}
@@ -618,10 +619,13 @@ tool_pagina('semaforo-dolor.html', 'Semáforo del dolor al entrenar',
     DOL_FORM, DOL_RES,
     '''<p>El semáforo sigue el <b>modelo de control del dolor</b> de Thomeé y Silbernagel: se puede seguir entrenando con dolor de hasta 5 sobre 10 durante y después del ejercicio, siempre que a la mañana siguiente se haya ido y que el dolor y la rigidez no vayan a más de una semana a otra.</p>
 <p>En un ensayo con tendinopatía de Aquiles, seguir corriendo y saltando con este modelo no tuvo efectos negativos frente al reposo activo. Y en estos cuadros, el reposo completo puede ser contraproducente: el dolor guía cuánto cargar, no si parar.</p>
-<p>No sirve para golpes, lesiones recientes ni dolores con señales de alarma. Si marcas alguna, consulta antes de seguir.</p>''',
+<p>No sirve para golpes, lesiones recientes ni dolores con señales de alarma. Si marcas alguna, consulta antes de seguir.</p>
+<p>Tampoco para el hueso: el modelo viene de la rodilla y del tendón de Aquiles. Si duele en un punto del hueso, al saltar a la pata coja, cada vez antes, de noche o en reposo, o en la cadera o la ingle al correr, puede ser una lesión por estrés del hueso, y ahí la carga no debe doler. Las del cuello del fémur, la cara anterior de la tibia y el escafoides del pie son las que más se complican.</p>''',
     ['Silbernagel KG, Thomeé R, Eriksson BI, Karlsson J. Continued sports activity, using a pain-monitoring model, during rehabilitation in patients with Achilles tendinopathy: a randomized controlled study. Am J Sports Med. 2007;35(6):897-906.',
      'Thomeé R. A comprehensive treatment approach for patellofemoral pain syndrome in young women. Phys Ther. 1997;77(12):1690-703 (origen del modelo).',
-     'Silbernagel KG, Hanlon S, Sprague A. Current clinical concepts: conservative management of Achilles tendinopathy. J Athl Train. 2020;55(5):438-47.'],
+     'Silbernagel KG, Hanlon S, Sprague A. Current clinical concepts: conservative management of Achilles tendinopathy. J Athl Train. 2020;55(5):438-47.',
+     'Warden SJ, Edwards WB, Willy RW. Optimal load for managing low-risk tibial and metatarsal bone stress injuries in runners: the science behind the clinical reasoning. J Orthop Sports Phys Ther. 2021;51(7):322-30 (en el hueso, la carga no debe dar dolor).',
+     'Hoenig T, Eissele J, Strahl A y cols. Return to sport following low-risk and high-risk bone stress injuries: a systematic review and meta-analysis. Br J Sports Med. 2023;57(7):427-32.'],
     DOL_JS, slug='dolor', tira=('Durante', 'Al terminar', 'A la mañana siguiente'))
 
 # ---------------------------------------------------------------------------------------------

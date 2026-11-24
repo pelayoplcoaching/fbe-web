@@ -729,6 +729,34 @@
    "url_t": "",
    "pat": "McEvoy JW",
    "nota": "Guía europea de cardiología. Comprobada el 22/11/2026: umbrales en casa (tabla 5) y cómo medirse (apartado 5.2.3)."
+  },
+  {
+   "id": "warden2021",
+   "au": "Warden SJ, Edwards WB, Willy RW.",
+   "a": 2021,
+   "ti": "Optimal Load for Managing Low-Risk Tibial and Metatarsal Bone Stress Injuries in Runners: The Science Behind the Clinical Reasoning",
+   "rev": "J Orthop Sports Phys Ther. 2021;51(7):322-330",
+   "t": "rev",
+   "pmid": "33962529",
+   "doi": "10.2519/jospt.2021.9982",
+   "url": "",
+   "url_t": "",
+   "pat": "Warden SJ",
+   "nota": "Comprobada el 24/11/2026: la carga no debe dar síntomas durante, después ni al día siguiente; la vuelta a correr, tras 5 días seguidos sin dolor en la vida diaria."
+  },
+  {
+   "id": "hoenig2023",
+   "au": "Hoenig T, Eissele J, Strahl A y cols.",
+   "a": 2023,
+   "ti": "Return to sport following low-risk and high-risk bone stress injuries: a systematic review and meta-analysis",
+   "rev": "Br J Sports Med. 2023;57(7):427-432",
+   "t": "meta",
+   "pmid": "36720584",
+   "doi": "10.1136/bjsports-2022-106328",
+   "url": "",
+   "url_t": "",
+   "pat": "Hoenig T",
+   "nota": "Comprobada el 24/11/2026: más complicaciones en el cuello del fémur, la cara anterior de la tibia, el escafoides del pie y el quinto metatarsiano."
   }
  ]
 }

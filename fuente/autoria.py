@@ -11,6 +11,7 @@ def fecha_es(iso): a, m, d = iso.split('-'); return f'{int(d)} de {_MESES[int(m)
 FECHAS = {u: '2026-11-21' for u in [u for u, *_ in HERR_MAS] + ['pauta-activa.html', 'mitos.html', 'glosario.html', 'empieza-aqui.html', 'fuentes.html', 'profesionales.html', 'evidencia.html'] + globals().get('TEMAS_PAGS', []) + globals().get('CHQ_PAGS', [])}
 FECHAS.update({u: '2026-11-22' for u in SEC_PAGS_H4})  # herramientas del 22/11/2026
 FECHAS.update({'evidencia.html': '2026-11-23', 'profesionales.html': '2026-11-23'})  # formacion y colegiado del CV
+FECHAS['semaforo-dolor.html'] = '2026-11-24'  # el dolor de hueso, fuera del modelo (revisión del experto de la carrera)
 HOSPITAL = 'Hospital Universitario La Paz / Carlos III / Cantoblanco'  # como lo escribió Pelayo el 21/11/2026
 PERSONA = {'@type': 'Person', 'name': 'Pelayo Fernández Cidón', 'url': WEB + 'quien-soy.html', 'jobTitle': 'Médico especialista en Medicina Interna y entrenador', 'worksFor': {'@type': 'Hospital', 'name': HOSPITAL, 'address': {'@type': 'PostalAddress', 'addressLocality': 'Madrid', 'addressCountry': 'ES'}}}
 
