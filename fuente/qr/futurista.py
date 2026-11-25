@@ -13,6 +13,8 @@ GUIAS = {
     'dosdias': dict(neon=(255, 160, 60), sec=(168, 85, 247), eti='// GUÍA GRATUITA · PDF', tit=['Dos días de gimnasio', 'a la semana:', '¿es suficiente?']),
     'semanas': dict(neon=(184, 120, 245), sec=(216, 197, 241), eti='// GUÍA GRATUITA · PDF', tit=['Cómo empezar:', 'las primeras', '4 semanas']),
     'navidad': dict(neon=(160, 82, 232), sec=(216, 197, 241), eti='// GUÍA GRATUITA · PDF', tit=['El plan mínimo', 'para no perder', 'músculo en Navidad']),
+    # tit_p: líneas de la pantalla, si no caben las de la tarjeta (allí el título va a 88 px junto al QR)
+    'padres': dict(neon=(206, 168, 252), sec=(236, 226, 249), eti='// GUÍA GRATUITA · PDF', tit=['La fuerza de tus padres:', 'una prueba y', 'cuatro ejercicios'], tit_p=['La fuerza de', 'tus padres:', 'una prueba y', 'cuatro ejercicios']),
 }
 
 
@@ -103,10 +105,12 @@ def pantalla(corta, g):
     t.alpha_composite(glow.filter(ImageFilter.GaussianBlur(160)))
     d = ImageDraw.Draw(t)
     x = 140
-    d.text((x, 250), g['eti'], font=f('sm700', 36), fill=g['sec'])
-    d.line([(x, 312), (x + 640, 312)], fill=tuple(int(c * .6 + b * .4) for c, b in zip(g['neon'], BG)), width=2)
-    y = 350
-    for ln in g['tit']:
+    lineas = g.get('tit_p', g['tit'])
+    dy = 0 if len(lineas) <= 3 else -50 * (len(lineas) - 3)  # con más líneas, todo el bloque sube para seguir centrado
+    d.text((x, 250 + dy), g['eti'], font=f('sm700', 36), fill=g['sec'])
+    d.line([(x, 312 + dy), (x + 640, 312 + dy)], fill=tuple(int(c * .6 + b * .4) for c, b in zip(g['neon'], BG)), width=2)
+    y = 350 + dy
+    for ln in lineas:
         d.text((x, y), ln, font=f('sg700', 88), fill=TXT); y += 100
     d.text((x, y + 50), '[ ESCANEA CON LA CÁMARA ]', font=f('sm400', 32), fill=MUT)
     url_partida(d, x, y + 104, corta, f('sm700', 40), g['neon'] + (255,))
