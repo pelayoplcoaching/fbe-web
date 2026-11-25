@@ -15,6 +15,7 @@ GUIAS = {
     'navidad': dict(neon=(160, 82, 232), sec=(216, 197, 241), eti='// GUÍA GRATUITA · PDF', tit=['El plan mínimo', 'para no perder', 'músculo en Navidad']),
     # tit_p: líneas de la pantalla, si no caben las de la tarjeta (allí el título va a 88 px junto al QR)
     'padres': dict(neon=(206, 168, 252), sec=(236, 226, 249), eti='// GUÍA GRATUITA · PDF', tit=['La fuerza de tus padres:', 'una prueba y', 'cuatro ejercicios'], tit_p=['La fuerza de', 'tus padres:', 'una prueba y', 'cuatro ejercicios']),
+    'mesames': dict(neon=(146, 72, 228), sec=(216, 197, 241), eti='// GUÍA GRATUITA · PDF', tit=['Un año de fuerza:', 'qué cambia', 'mes a mes']),
 }
 
 
