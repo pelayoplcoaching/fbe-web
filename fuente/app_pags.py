@@ -140,7 +140,8 @@ pagina('mi-panel.html', 'Mi panel', 'Tu inicio personal en Fuerza Basada en Evid
 
 # ---------------------------------------------------------------------------------------------
 # novedades.html y feed.xml
-NOV_WEB = [('2026-11-22', 'Cinco herramientas nuevas: temporizador, Mi semana activa, pasos al día, tensión en casa y equilibrio', 'herramientas.html'),
+NOV_WEB = [('2026-11-25', 'En los medios: entrevista en Telva sobre el VO2 máx y la longevidad', 'medios.html'),
+           ('2026-11-22', 'Cinco herramientas nuevas: temporizador, Mi semana activa, pasos al día, tensión en casa y equilibrio', 'herramientas.html'),
            ('2026-11-22', 'Mi panel, favoritos y Mis datos: la web, como una app', 'mi-panel.html'),
            ('2026-11-22', 'Los vídeos, con capítulos y enlazados con su herramienta', 'videos.html'),
            ('2026-11-21', 'Chequeo de 10 minutos: cuatro pruebas en una pasada', 'chequeo.html'),
