@@ -66,6 +66,19 @@ def vid_caps(v):
         t, _, ti = c.partition(' '); sg = vid_seg(t)
         if sg < vid_seg(v['d']): out.append([sg, t.lstrip('0').replace(':', ':', 1) if not t.startswith('00:') else '0:' + t[3:], ti.rstrip('.')])
     return out
+def vid_hora(v):
+    """uploadDate para Google (fecha, hora y zona): la hora real de publicación (p, leída de YouTube y pasada a Madrid).
+    Si un vídeo nuevo no la tiene, avisa y usa el día a las 17:00 de Madrid (su hora habitual), para que no falte la zona."""
+    if v.get('p'): return v['p']
+    import sys as _s, datetime as _d
+    from zoneinfo import ZoneInfo as _Z
+    print(f'AVISO videos.json: {v["id"]} sin hora de publicación (p); se usa {v["f"]} a las 17:00', file=_s.stderr)
+    return _d.datetime.fromisoformat(v['f'] + 'T17:00:00').replace(tzinfo=_Z('Europe/Madrid')).isoformat()
+def vid_desc(v):
+    """description para Google: el título y, si el vídeo tiene capítulos en YouTube, los seis primeros (sin la introducción)."""
+    caps = [c[2] for c in vid_caps(v) if c[2].strip().lower() not in ('intro', 'introducción', 'introduccion')][:6]
+    d = v['t'].rstrip('.') + '.'
+    return d + (' En el vídeo: ' + '; '.join(caps) + '.' if caps else ' Vídeo de Pelayo Fernández Cidón, médico internista, en Fuerza Basada en Evidencia.')
 def vid_guia(i):
     e = _VXJ.get(i, {})
     if not e.get('g'): return None
@@ -111,7 +124,7 @@ sel.addEventListener('change',function(){o=sel.value;aplica();});
 var t=new URLSearchParams(location.search).get('t');if(t){var b=chips.querySelector('button[data-g="'+t+'"]');if(b)b.click();}
 })();"""
 _VLD = '<script type="application/ld+json">' + _jsv.dumps({'@context': 'https://schema.org', '@type': 'ItemList', 'name': 'Vídeos de Fuerza Basada en Evidencia',
-    'itemListElement': [{'@type': 'ListItem', 'position': n + 1, 'item': {'@type': 'VideoObject', 'name': v['t'], 'uploadDate': v['f'], 'duration': vid_iso(v['d']), 'inLanguage': 'es',
+    'itemListElement': [{'@type': 'ListItem', 'position': n + 1, 'item': {'@type': 'VideoObject', 'name': v['t'], 'description': vid_desc(v), 'uploadDate': vid_hora(v), 'duration': vid_iso(v['d']), 'inLanguage': 'es',
         'thumbnailUrl': vid_mini(v['id'], 'hq'), 'embedUrl': f'https://www.youtube-nocookie.com/embed/{v["id"]}', 'contentUrl': f'https://www.youtube.com/watch?v={v["id"]}'}}
         for n, v in enumerate(VIDS)]}, ensure_ascii=False) + '</script>'
 _CHIPS_V = f'<button type="button" data-g="" aria-pressed="true">Todos <span>{len(VIDS)}</span></button>' + ''.join(

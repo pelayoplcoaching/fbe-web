@@ -63,6 +63,7 @@ const idx = JSON.parse(fs.readFileSync(RAIZ + '/buscar.json', 'utf8')).filter(e 
 ok(idx.length === V.length && idx.every(e => e.u.startsWith('videos.html#v-')), 'los vídeos están en el buscador');
 const ld = await p.$$eval('script[type="application/ld+json"]', ss => ss.map(s => JSON.parse(s.textContent)).find(j => j['@type'] === 'ItemList'));
 ok(ld && ld.itemListElement.length === V.length && ld.itemListElement[0].item['@type'] === 'VideoObject' && /^PT\d+M\d+S$/.test(ld.itemListElement[0].item.duration), 'datos para buscadores: VideoObject de cada vídeo');
+ok(ld && ld.itemListElement.every(x => /^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d[+-]\d\d:\d\d$/.test(x.item.uploadDate) && (x.item.description || '').length > 20), 'datos para buscadores: cada vídeo con fecha, hora y zona, y con descripción (avisos de Search Console del 25/11/2026)');
 ok(errs.length === 0, 'sin errores de JS' + (errs.length ? ': ' + errs.join(' | ') : ''));
 console.log(mal ? 'FALLOS ' + mal : 'todo correcto');
 await b.close(); s.close(); process.exit(mal ? 1 : 0);

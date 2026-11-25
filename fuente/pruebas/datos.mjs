@@ -19,6 +19,8 @@ const html = fs.readFileSync(RAIZ + '/mitos.html', 'utf8'); ok(mi.itemListElemen
 const he = ld('herramientas.html').find(o => o['@type'] === 'CollectionPage');
 ok(he && he.mainEntity.itemListElement.length >= 16 && he.mainEntity.itemListElement.every(x => fs.existsSync(RAIZ + '/' + x.url.split('/').pop())), 'Herramientas: lista de herramientas que existen');
 const re = ld('recetas.html').find(o => o['@type'] === 'ItemList'); ok(re && re.itemListElement.length === 10, 'Recetas: lista de las diez');
+const gu = ld('guias.html').find(o => o['@type'] === 'ItemList');
+ok(gu && gu.itemListElement.every(x => /^https:\/\/fuerzabasadaenevidencia\.com\/img\/guia-[\w-]+\.webp$/.test(x.item.image || '') && fs.existsSync(RAIZ + '/' + x.item.image.replace('https://fuerzabasadaenevidencia.com/', ''))), 'Guías: cada producto con su imagen, que existe (aviso de Search Console del 25/11/2026)');
 const can = fs.readdirSync(RAIZ).filter(f => f.endsWith('.html') && !fs.readFileSync(RAIZ + '/' + f, 'utf8').includes('http-equiv="refresh"')).filter(f => !/<link rel="canonical" href="https:\/\/fuerzabasadaenevidencia\.com\//.test(fs.readFileSync(RAIZ + '/' + f, 'utf8')));
 ok(can.length <= 1, 'canónicos apuntando al dominio final (sin canónico: ' + can.join(', ') + ')');
 console.log(mal ? 'FALLOS ' + mal : 'todo correcto'); process.exit(0);
