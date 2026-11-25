@@ -12,6 +12,7 @@ GUIAS = {
     'nivel': dict(neon=(168, 85, 247), sec=(94, 234, 212), eti='// GUÍA GRATUITA · PDF', tit=['¿Cuánta fuerza', 'deberías tener a los', '40, 50 y 60?']),
     'dosdias': dict(neon=(255, 160, 60), sec=(168, 85, 247), eti='// GUÍA GRATUITA · PDF', tit=['Dos días de gimnasio', 'a la semana:', '¿es suficiente?']),
     'semanas': dict(neon=(184, 120, 245), sec=(216, 197, 241), eti='// GUÍA GRATUITA · PDF', tit=['Cómo empezar:', 'las primeras', '4 semanas']),
+    'navidad': dict(neon=(160, 82, 232), sec=(216, 197, 241), eti='// GUÍA GRATUITA · PDF', tit=['El plan mínimo', 'para no perder', 'músculo en Navidad']),
 }
 
 
