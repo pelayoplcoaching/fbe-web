@@ -36,6 +36,8 @@ def _ext(u): return ' target="_blank" rel="noopener"' if u.startswith('http') el
 MEDIOS = [  # (medio, tipo: 'Prensa' | 'Podcast' | 'Formación', título, url, fecha o '')
     ('Telva', 'Prensa', 'Pelayo Fernández Cidón, médico internista: «El VO2 máx es uno de los mejores indicadores de longevidad y podemos mejorarlo después de los 60 comenzando con caminatas de 20 o 30 minutos»',
      'https://amp.telva.com/bienestar/ejercicio/2026/11/25/6b058b0301a2f14b418b4599.html', '25/11/2026'),
+    ('Gerente.com (Venezuela)', 'Prensa', 'Pelayo Fernández Cidón, médico internista: «El VO2 máx es uno de los mejores indicadores de longevidad y podemos mejorarlo después de los 60 comenzando con caminatas de 20 o 30 minutos»',
+     'https://gerente.com/ve/new-rss/pelayo-fernandez-cidon-medico-internista-el-vo2-max-es-uno-de-los-mejores-indicadores-de-longevidad-y-podemos-mejorarlo-despues-de-los-60-comenzando-con-caminatas-de-20-o-30-minutos/', '25/11/2026'),
     ('AS · Tikitakas', 'Prensa', 'Pelayo Fernández, médico: «Si no bebes alcohol, no empieces. No hay ninguna razón de salud para hacerlo»',
      'https://as.com/tikitakas/salud/pelayo-fernandez-medico-si-no-bebes-alcohol-no-empieces-no-hay-ninguna-razon-de-salud-para-hacerlo-f202611-n/', 'noviembre de 2026'),
     ('Vozpópuli', 'Prensa', 'Pelayo Fernández Cidón, médico: «Hay cuatro pruebas que predicen cómo vas a envejecer y la mayoría de las personas mayores de 40 no las pasa, y esto no sale en las analíticas»',
@@ -279,7 +281,7 @@ def medio_html(m, tp, t, u, fch):
             f'<b>{t}</b><span class="medio-de">{m}<small>{_dominio(u)}</small></span><span class="medio-acc">{acc}<span class="oculto"> (se abre en una pestaña nueva)</span></span></a>')
 if len(MEDIOS) >= 2:
     _nt = {k: sum(1 for x in MEDIOS if x[1] == k) for k in MEDIO_ACC}
-    pagina('medios.html', 'En los medios', 'Prensa, pódcast y formación con Pelayo Fernández Cidón, médico internista y entrenador: Telva, AS, Vozpópuli, Libertad Digital, pódcast y minipíldoras de la SEMI.',
+    pagina('medios.html', 'En los medios', 'Prensa, pódcast y formación con Pelayo Fernández Cidón, médico internista y entrenador: Telva, Gerente.com, AS, Vozpópuli, Libertad Digital, pódcast y minipíldoras de la SEMI.',
            'En los medios.', 'Noticias, entrevistas y formación en las que he participado, con el enlace a cada una.', f'''
 <section><div class="in">
   <div class="empieza sube"><div><h2 id="medios-n" aria-live="polite">{len(MEDIOS)} apariciones</h2><ul class="medios-cif"><li><b>{_nt["Prensa"]}</b>en prensa</li><li><b>{_nt["Podcast"]}</b>pódcast</li><li><b>{_nt["Formación"]}</b>de formación</li></ul></div>
