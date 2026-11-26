@@ -36,7 +36,7 @@ def _ext(u): return ' target="_blank" rel="noopener"' if u.startswith('http') el
 MEDIOS = [  # (medio, tipo: 'Prensa' | 'Podcast' | 'Formación', título, url, fecha o '')
     ('Telva', 'Prensa', 'Pelayo Fernández Cidón, médico internista: «El VO2 máx es uno de los mejores indicadores de longevidad y podemos mejorarlo después de los 60 comenzando con caminatas de 20 o 30 minutos»',
      'https://amp.telva.com/bienestar/ejercicio/2026/11/25/6b058b0301a2f14b418b4599.html', '25/11/2026'),
-    ('Gerente.com (Venezuela)', 'Prensa', 'Pelayo Fernández Cidón, médico internista: «El VO2 máx es uno de los mejores indicadores de longevidad y podemos mejorarlo después de los 60 comenzando con caminatas de 20 o 30 minutos»',
+    ('Gerente.com (Venezuela)', 'Prensa', 'Empezar con caminatas de 20 o 30 minutos para mejorar el VO2 máx después de los 60: la entrevista de Telva, también en Venezuela',
      'https://gerente.com/ve/new-rss/pelayo-fernandez-cidon-medico-internista-el-vo2-max-es-uno-de-los-mejores-indicadores-de-longevidad-y-podemos-mejorarlo-despues-de-los-60-comenzando-con-caminatas-de-20-o-30-minutos/', '25/11/2026'),
     ('AS · Tikitakas', 'Prensa', 'Pelayo Fernández, médico: «Si no bebes alcohol, no empieces. No hay ninguna razón de salud para hacerlo»',
      'https://as.com/tikitakas/salud/pelayo-fernandez-medico-si-no-bebes-alcohol-no-empieces-no-hay-ninguna-razon-de-salud-para-hacerlo-f202611-n/', 'noviembre de 2026'),
